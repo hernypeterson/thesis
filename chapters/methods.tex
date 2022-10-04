@@ -3,14 +3,20 @@
 The \ac{MRO}
 \section{Definition of Scope}
 \subsection{Lava Flow Mapping}
-The global \ac{CTX} mosaic was used to identify lava flows near the summit of \ac{OM}. Flows were outlined and mapped as polygons in ArcGIS Pro. Polygons extended only over areas where flow edges are clearly visible, since the direction of flow at each location is the key information to be derived. The ``Polygon to Centerline'' tool was used to derive linear flow paths from the polygonal flow outlines.
+The global \ac{CTX} mosaic was used to identify lava flows near the summit of \ac{OM}. Where possible, lobate flows were outlined and mapped as polygons in ArcGIS Pro. From these polygonal features, flow centerlines were created. Channels were mapped as lines where flow margins were not visible. The ``Polygon to Centerline'' tool was used to derive linear flow paths from the polygonal flow outlines.
+\begin{figure}
+    \begin{center}
+    \includegraphics[width=\textwidth]{polygon-centerline.pdf}
+    \caption{A lobate flow is first identified by relatively clear boundaries at each margin (above). The flow is then mapped as a polygon (outlined in black) and centerline (white)} 
+    \end{center}
+\end{figure}
 \subsection{Point Grid}
 The ``Generate Tesselation'' tool was used to construct a grid of squares (polygon features) with area (FIX) \qty{.36}{\km\squared} over the extent of the lava flows. Of those squares whose centers lie within a flow polygon, a point feature was created using the ``Polygon to Point'' tool. The overall effect of this procedure is to generate a square grid of points that spans the entire area covered by the mapped lava flows. To each of these points will be assigned several varaibles representing various descriptive parameters of the modern and paleo surface.
 \section{Surface Parameters}
 I run the ``Surface Parameters'' tool on the \qty{200}{\m} DEM surface twice, once to produce a slope raster (in degrees) and once to produce an aspect raster (also in degrees, measured clockwise from due north). In both cases, I used a quadratic local surface type with a neighborhood radius of \qty{2}{\km}. I then used the ``Add Surface Informaton'' tool to assign these values to each feature in the point grid.
 \section{Paleosurface Parameters}
 \subsection{Paleoaspect}
-The ``Near'' tool was used to assign the angle from the nearest flow path to each grid point. This angle is perpendicular to the paleoaspect (downhill direction) recorded by the flow. Thus, \ang{90} is added to the ``Near Angle'', and the result is stored modulo \ang{360} to avoid counting extra rotations in the final aspect direction. Since points in the grid appear on both sides of the centerline, the stored angle may be parallel or anti-parallel to the actual direction of flow. Based on visual inspection of flow morphologies, I assumed that all flows were oriented such that the paleosurface sloped downhill away from the caldera, not toward it. Thus, I used the ``Near'' tool again to determine the angle from the caldera to each grid point. If the difference between this angle and the stored aspect angle (absolute value) exceeded \ang{180}, I recalculated the aspect value by adding 180 (again modulo \ang{360}).
+To assign paleoaspect, I first found the angle from each point to the nearest flow centerline or channel. This angle is perpendicular ``Near'' tool was used to assign the angle from the nearest flow path to each grid point. This angle is perpendicular to the paleoaspect (downhill direction) recorded by the flow. Thus, \ang{90} is added to the ``Near Angle'', and the result is stored modulo \ang{360} to avoid counting extra rotations in the final aspect direction. Since points in the grid appear on both sides of the centerline, the stored angle may be parallel or anti-parallel to the actual direction of flow. Based on visual inspection of flow morphologies, I assumed that all flows were oriented such that the paleosurface sloped downhill away from the caldera, not toward it. Thus, I used the ``Near'' tool again to determine the angle from the caldera to each grid point. If the difference between this angle and the stored aspect angle (absolute value) exceeded \ang{180}, I recalculated the aspect value by adding 180 (again modulo \ang{360}).
 
 \subsection{Paleoslope}\label{paleoslope}
 
@@ -23,9 +29,12 @@ The ``Near'' tool was used to assign the angle from the nearest flow path to eac
         \draw[dotted] (0,0) -- (0,\figsize);
         \draw (.8,0) arc (0:30:.8);
         \draw (0,.8) arc (90:120:.8);
-        \path +(104:1.1) node {$\delta$};
+        \draw (120:.4) arc (120:180:.4);
+        \draw (120:.45) arc (120:180:.45);
+        \path +(100:1.7) node[rotate=90] {\textit{colatitude}};
         \path +(10:1.3) node {\textit{slope}};
-        \draw (210:.3) -- ++(120:.3) -- ++(30:.3);
+        \path +(170:1.3) node {\textit{latitude}};
+        \draw (120:.3) -- ++(30:.3) -- ++(300:.3);
     \end{tikzpicture}
     \caption{ArcGIS Pro calculates the slope of a tilted \ac{DEM} surface, which is equal to the colatitude of the normal vector (complement of latitude). This angle is also known as ``dip.''}
 \end{SCfigure}
@@ -37,41 +46,75 @@ For the paleosurface, only the aspect is known. Instead of a unique point on the
 
 To achieve this optimization and find the nearest intersection point, the sphere surface is converted to a gnomonic projection: one in which all great circles are mapped to straight lines in the cartesian plane. Then, we find the line perpendicular to the paleoaspect line which contains the modern surface point. The radial distance of this intersection point from the origin is reprojected onto a spherical colatitude, which is equivalent to the surface slope.
 
-The equations take the following form. First, the line corresponding to the paleoaspect direction:
+\def\projectfigsize{5}
+\begin{SCfigure}
+    \begin{tikzpicture}
+        \draw (45:\projectfigsize) arc (45:90:\projectfigsize);
+        \draw (0,\projectfigsize) -- (\projectfigsize,\projectfigsize);
+        \filldraw (0,0) circle (.1);
+        \filldraw (2,5) circle (.1);
+        \foreach \x in {0,0.5,...,\projectfigsize}
+            \draw[dotted] (0,0) -- (\x,\projectfigsize);
+        \draw (0,0) -- (0,\projectfigsize); 
+        \draw (0,0) -- (2,\projectfigsize);
+        \draw (90:.8) arc (90:68.19:.8);
+        \path +(80:1.3) node {$s$};
+        \path +(2,5.3) node {$r=\tan s$};
+    \end{tikzpicture}
+    \caption{The gnomonic projection is used to transform aspect (longtitude of normal vector) and slope (colatitude of normal vector) into cartesian coordinates $x$ and $y$ such that great-circles are preserved as straight lines. In the transformation to polar coordinates $r$ and $\theta$, longitude is preserved ($a\to\theta$) while colatitude is distorted ($\tan s\to r$)}
+\end{SCfigure}
+
+The equations take the following form. First, the line\footnote{This line is really a ray from the origin, because any negative values of $r$ for a given $\theta$ in polar coordinates will correspond to a negative slope, which would have been captured by a positive slope for the opposite aspect. This case will be handled later.} corresponding to the paleoaspect direction in polar coordinates:
+
+\begin{equation}
+    \theta=a'.
+\end{equation}
+
+In cartesian coordinates:
 
 \begin{equation}
     y=x\cot a'. \label{line}
 \end{equation}
 
-The point corresponding to the modern surface has the formula
+The point corresponding to the modern surface in polar coordinates:
+
+\begin{equation}
+    [r,\theta] = [\tan s, a].
+\end{equation}
+
+In cartesian coordinates:
+
 \begin{equation}
     [x,y]=[\tan s\sin a,\tan s\cos a].\label{point}
 \end{equation}
 
-The closest path from the point to the line is perpendicular to the line. It has point-slope form: 
+Recall that we are looking for the shortest path between the longitudinal line on the sphere (reflecting paleoaspect with unknown paleoslope) and the point (reflecting known moderns slope and aspect). The gnomonic projection was used because great-circle (shortest distance) paths on a sphere are projected as straight lines. Therefore, we need to find the shortest path between the cartesian line and the cartesian point. The point where this path intersects the line will then place a constraint on paleoslope; i.e., it answers the question ``which paleoslope ($s'$) yields the points [$s',a'$] given a known $a'$ which is closest to [$s,a$].'' The closest path from the point to the line is perpendicular to the line. Perpendicular to slope $\cot a'$ is slope $-\tan s'$. The full point-slope form of the line is:
 \begin{equation}
-    y-\tan s \cos a=-\tan a'(x-\tan s\sin a)
+    y-\tan s \cos a=-\tan a'(x-\tan s\sin a).\label{perp}
 \end{equation}
-
-Substituting from~\ref{line} to find the $x$-coordinate of the intersection point: 
+We are looking for the intersection point of these two lines, the point that satisfies both~\ref{line} and~\ref{perp}. Substituting from~\ref{line} to find the $x$-coordinate of the intersection point: 
 \begin{gather}
     x\cot a'-\tan s \cos a=-\tan a'(x-\tan s\sin a)\nonumber\\
-    \boxed{x=\frac{\tan s(\cos a+\tan a'\sin a)}{\cot a' + \tan a'}}
+    x=\frac{\tan s(\cos a+\tan a'\sin a)}{\cot a' + \tan a'}\label{x}
 \end{gather}
-And from~\ref{line}, the $y-$coordinate:
+Since the math module in python does not include cotangent, I used the following exact formula in ArcGIS, which is equivalent to~\ref{x}:
 \begin{equation}
-    \boxed{y=x\cot a'}
+    x=\sin(2a')\tan s(\cos a+\tan a'\sin a)/2
 \end{equation}
-Reprojecting back onto the sphere, the calculated colatitude (paleoslope):
+And from~\ref{line}, the $y-$coordinate of the intersection point:
+\begin{equation}
+    y=x\cot a'
+\end{equation}
+The polar coordinate $r$ is given by $\sqrt{x^2+y^2}$; which is reprojected back onto the sphere, giving the paleoslope:
 \begin{equation}
     s'=\arctan\sqrt{x^2+y^2}
 \end{equation}
 
 \section{Surface \& Paleosurface Comparison}
 \subsection{Deflection}
-Before proceeding, we should check that the deflection (defined as the difference between aspect and paleoaspect) does not have a magnitude greater than \ang{90}. If it does, then this calculation has produced a nearest uphill slope, rather than downhill slope, which is clearly not the desired behavior. Therefore, at this stage any grid points with such deflections have their paleoslopes redefined to zero. Alternatively, a minimum slope required for lava flow can also be set here.
+Before proceeding, we should check that the deflection (defined $A-A'$) does not have a magnitude greater than \ang{90}. If it does, then this calculation has produced a nearest uphill slope, rather than downhill slope, which is clearly not the desired behavior. Therefore, at this stage any grid points with such deflections have their paleoslopes redefined to zero. Alternatively, a minimum slope required for lava flow can also be set here.
 \subsection{Deformation}
-From~\ref{paleoslope} we have generated two points on a spherical surface, each corresponding to a unit vector normal to a unique surface. The angular distance between these vectors defines the attribute ``DEFORM'' for each grid point. The formula is:
+From~\ref{paleoslope} we have generated two points on a spherical surface, each corresponding to a unit vector normal to a unique surface. The angular distance between these vectors (also, the angle between the two planes) defines the attribute ``DEFORM'' for each grid point. The formula\footnote{The trigonometric functions cos and sin are swapped for $s$ and $s'$ because these are colatitudes, not latitudes and the most common formula assumes.} is:
 \begin{equation}
     \arccos\left[\cos s \cos s' + \sin s \sin s' \cos(a - a')\right] 
 \end{equation}

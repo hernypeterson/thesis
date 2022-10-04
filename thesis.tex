@@ -1,5 +1,5 @@
 % Document Style
-\documentclass[oneside,12pt]{book}
+\documentclass[12pt,oneside]{book}
 \usepackage{geometry}
 \usepackage[Bjornstrup]{fncychap}
 \ChTitleVar{\Huge}
@@ -41,6 +41,12 @@
 \usepackage{adjustbox}
 \usepackage{multirow}
 
+%References
+\usepackage[backend=biber,
+style=apa,
+citestyle=authoryear]{biblatex}
+\addbibresource{chapters/sources.bib}
+
 % Title Page
 \author{\href{mailto:hgpa2018@mymail.pomona.edu}{Henry Peterson}}
 \title{Constraining the History of Regional Deformation at the Summit of Olympus Mons}
@@ -64,5 +70,5 @@
 % \input{chapters/conclusions}
 
 \backmatter
-\chapter{References}
+\printbibliography
 \end{document}

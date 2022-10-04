@@ -11,11 +11,13 @@
 \usepackage[table,xcdraw,dvipsnames]{xcolor}
 \usepackage[colorlinks=true,allcolors=black]{hyperref}
 \usepackage[nottoc]{tocbibind}
+
+% Math
 \usepackage{amsmath}
 
 % Font
-\usepackage{libertine}
-\usepackage[libertine]{newtxmath}
+\usepackage{libertine} % text
+\usepackage[libertine]{newtxmath} % math
 
 % Typography
 \usepackage{microtype}
@@ -49,26 +51,27 @@ citestyle=authoryear]{biblatex}
 
 % Title Page
 \author{\href{mailto:hgpa2018@mymail.pomona.edu}{Henry Peterson}}
-\title{Constraining the History of Regional Deformation at the Summit of Olympus Mons}
+\title{Constraining Magma Reservoir Characteristics Beneath the Summit of Olympus Mons on Mars}
 
 \begin{document}
 
-\frontmatter
+\frontmatter%
 \maketitle
 \tableofcontents
 % \input{chapters/abstract}
 \chapter{Abbreviations}
 \printacronyms[pages={display=all,seq/use=false},heading=none]
-%\listoffigures
+\listoffigures
 %\listoftables
 
-\mainmatter
-% \input{chapters/intro}
+\mainmatter%
+\input{chapters/intro}
 \input{chapters/methods.tex}
 % \input{chapters/results}
 % \input{chapters/discussion}
 % \input{chapters/conclusions}
 
-\backmatter
-\printbibliography
+\backmatter%
+\chapter{References}
+\printbibliography[heading=none]
 \end{document}

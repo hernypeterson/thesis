@@ -1,13 +1,13 @@
 \chapter{Methods}
 \section{Selection and Preparation of Published Data}
-The \ac{CTX} aboard the \ac{MRO} satellite has captured greyscale swaths at roughly \qty{6}{\m} resolution over the vast majority of the Martian Surface. These swatch have been stiched together into a mosaic covering the entire Martian surface~\cite{Dickson2018AGB}.
+The \ac{CTX} aboard the \ac{MRO} satellite has captured visible greyscale swaths at roughly \qty{6}{\m} resolution over the vast majority of the Martian Surface. These have been stiched together into a mosaic covering the entire Martian surface~\cite{Dickson2018AGB}. This product (hereafter, ``\ac{CTX} mosaic'') will be used to visually identify and map lava flows, flow margins, contacts, and flow channels.
 \section{Definition of Scope}
 \subsection{Lava Flow Mapping}
 The global \ac{CTX} mosaic was used to identify lava flows near the summit of \ac{OM}. Where possible, lobate flows were outlined and mapped as polygons in ArcGIS Pro. From these polygonal features, flow centerlines were created. Channels were mapped as lines where flow margins were not visible. The ``Polygon to Centerline'' tool was used to derive linear flow paths from the polygonal flow outlines.
 \begin{figure}
     \begin{center}
     \includegraphics[width=\textwidth]{polygon-centerline.pdf}
-    \caption{A lobate flow is first identified by relatively clear boundaries at each margin (above). The flow is then mapped as a polygon (outlined in black) and centerline (white)} 
+    \caption[Flow polygon and centerline mapping]{A lobate flow is first identified by relatively clear boundaries at each margin (above). The flow is then mapped as a polygon (outlined in black) and centerline (white).} 
     \end{center}
 \end{figure}
 \subsection{Point Grid}
@@ -36,7 +36,7 @@ To assign paleoaspect, I first found the angle from each point to the nearest fl
         \path +(170:1.3) node {\textit{latitude}};
         \draw (120:.3) -- ++(30:.3) -- ++(300:.3);
     \end{tikzpicture}
-    \caption{ArcGIS Pro calculates the slope of a tilted \ac{DEM} surface, which is equal to the colatitude of the normal vector (complement of latitude). This angle is also known as ``dip.''}
+    \caption[Equivalence of slope and colatitude]{ArcGIS Pro calculates the slope of a tilted \ac{DEM} surface, which is equal to the colatitude of the normal vector (complement of latitude). This angle is also known as ``dip.''}
 \end{SCfigure}
 It is not possible to assign a paleoslope directly from the lava flows like we can with the paleoaspect. Instead, I chose to place a constraint on the paleoslope by assuming the minimum possible surface attitude change between flow emplacement and the modern surface. Equivalently, since each surface attitude is equivalent to a unique unit normal vector, I sought to minimize the angular distance between the normal vectors corresponding to the modern and paleosurfaces. From the previous steps, we have a grid of point features, each with attributes including ``SLOPE'' (S), ``ASPECT'' (A), and ``PALEO\_ASPECT'' (A$'$). Note that these values are stored in degrees; corresponding lowercase letters are equivalent values converted into radians for trigonometric calculations.
 
@@ -61,7 +61,7 @@ To achieve this optimization and find the nearest intersection point, the sphere
         \path +(80:1.3) node {$s$};
         \path +(2,5.3) node {$r=\tan s$};
     \end{tikzpicture}
-    \caption{The gnomonic projection is used to transform aspect (longtitude of normal vector) and slope (colatitude of normal vector) into cartesian coordinates $x$ and $y$ such that great-circles are preserved as straight lines. In the transformation to polar coordinates $r$ and $\theta$, longitude is preserved ($a\to\theta$) while colatitude is distorted ($\tan s\to r$)}
+    \caption[Gnomonic projection]{The gnomonic projection is used to transform aspect (longtitude of normal vector) and slope (colatitude of normal vector) into cartesian coordinates $x$ and $y$ such that great-circles are preserved as straight lines. A cross-section along a single line of longtitude is displayed here. In the transformation to polar coordinates $r$ and $\theta$, longitude is preserved ($a\to\theta$) while colatitude is distorted ($\tan s\to r$)}
 \end{SCfigure}
 
 The equations take the following form. First, the line\footnote{This line is really a ray from the origin, because any negative values of $r$ for a given $\theta$ in polar coordinates will correspond to a negative slope, which would have been captured by a positive slope for the opposite aspect. This case will be handled later.} corresponding to the paleoaspect direction in polar coordinates:
@@ -88,7 +88,7 @@ In cartesian coordinates:
     [x,y]=[\tan s\sin a,\tan s\cos a].\label{point}
 \end{equation}
 
-Recall that we are looking for the shortest path between the longitudinal line on the sphere (reflecting paleoaspect with unknown paleoslope) and the point (reflecting known moderns slope and aspect). The gnomonic projection was used because great-circle (shortest distance) paths on a sphere are projected as straight lines. Therefore, we need to find the shortest path between the cartesian line and the cartesian point. The point where this path intersects the line will then place a constraint on paleoslope; i.e., it answers the question ``which paleoslope ($s'$) yields the points [$s',a'$] given a known $a'$ which is closest to [$s,a$].'' The closest path from the point to the line is perpendicular to the line. Perpendicular to slope $\cot a'$ is slope $-\tan s'$. The full point-slope form of the line is:
+Recall that we are looking for the shortest path between the longitudinal line on the sphere (reflecting paleoaspect with unknown paleoslope) and the point (reflecting known moderns slope and aspect). The gnomonic projection was used because great-circle (shortest distance) paths on a sphere are projected as straight lines. Therefore, we need to find the shortest path between the cartesian line and the cartesian point. The point where this path intersects the line will then place a constraint on paleoslope; i.e., it answers the question ``which paleoslope ($s'$) yields the points [$s',a'$] given a known $a'$ which is closest to [$s,a$].'' The closest path from the point to the line is perpendicular to the line. Perpendicular to slope $m=\cot a'$ is slope $m=-\tan a'$. The full point-slope form of the line is:
 \begin{equation}
     y-\tan s \cos a=-\tan a'(x-\tan s\sin a).\label{perp}
 \end{equation}
@@ -109,8 +109,7 @@ The polar coordinate $r$ is given by $\sqrt{x^2+y^2}$; which is reprojected back
 \begin{equation}
     s'=\arctan\sqrt{x^2+y^2}
 \end{equation}
-
-\section{Surface \& Paleosurface Comparison}
+The final result of this sequence of calculations is to identify the paleoslope which, having been deformed to give the modern surface, would have required the least possible angular change in attitude.
 \subsection{Deflection}
 Before proceeding, we should check that the deflection (defined $A-A'$) does not have a magnitude greater than \ang{90}. If it does, then this calculation has produced a nearest uphill slope, rather than downhill slope, which is clearly not the desired behavior. Therefore, at this stage any grid points with such deflections have their paleoslopes redefined to zero. Alternatively, a minimum slope required for lava flow can also be set here.
 \subsection{Deformation}

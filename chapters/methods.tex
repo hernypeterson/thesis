@@ -113,7 +113,7 @@ The final result of this sequence of calculations is to identify the paleoslope 
 \subsection{Deflection}
 Before proceeding, we should check that the deflection (defined $A-A'$) does not have a magnitude greater than \ang{90}. If it does, then this calculation has produced a nearest uphill slope, rather than downhill slope, which is clearly not the desired behavior. Therefore, at this stage any grid points with such deflections have their paleoslopes redefined to zero. Alternatively, a minimum slope required for lava flow can also be set here.
 \subsection{Deformation}
-From~\ref{paleoslope} we have generated two points on a spherical surface, each corresponding to a unit vector normal to a unique surface. The angular distance between these vectors (also, the angle between the two planes) defines the attribute ``DEFORM'' for each grid point. The formula\footnote{The trigonometric functions cos and sin are swapped for $s$ and $s'$ because these are colatitudes, not latitudes and the most common formula assumes.} is:
+From~\ref{paleoslope} we have generated two points on a spherical surface, each corresponding to a unit vector normal to a unique surface. The angular distance between these vectors (also, the angle between the two planes) defines the attribute ``DEFORM'' for each grid point. The formula\footnote{The trigonometric functions cos and sin are swapped for $s$ and $s'$ because these are colatitudes, not latitudes as the most common formula assumes.} is:
 \begin{equation}
     \arccos\left[\cos s \cos s' + \sin s \sin s' \cos(a - a')\right] 
 \end{equation}

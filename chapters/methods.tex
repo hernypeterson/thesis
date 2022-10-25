@@ -1,8 +1,7 @@
 \chapter{Methods}
 \section{Selection and Preparation of Published Data}
 The \ac{CTX} aboard the \ac{MRO} satellite has captured visible greyscale swaths at roughly \qty{6}{\m} resolution over the vast majority of the Martian Surface. These have been stiched together into a mosaic covering the entire Martian surface.~\cite{Dickson2018AGB} This product (hereafter, ``\ac{CTX} mosaic'') will be used to visually identify and map lava flows, flow margins, contacts, and flow channels.
-\section{Definition of Scope}
-\subsection{Lava Flow Mapping}
+\section{Lava Flow Mapping}
 The global \ac{CTX} mosaic was used to identify lava flows near the summit of \ac{OM}. Where possible, lobate flows were outlined and mapped as polygons in ArcGIS Pro. From these polygonal features, flow centerlines were created. Channels were mapped as lines where flow margins were not visible. The ``Polygon to Centerline'' tool was used to derive linear flow paths from the polygonal flow outlines.
 \begin{figure}
     \begin{center}
@@ -10,7 +9,7 @@ The global \ac{CTX} mosaic was used to identify lava flows near the summit of \a
     \caption[Flow polygon and centerline mapping]{A lobate flow is first identified by relatively clear boundaries at each margin (above). The flow is then mapped as a polygon (outlined in black) and centerline (white).} 
     \end{center}
 \end{figure}
-\subsection{Point Grid}
+\section{Point Grid}
 The ``Generate Tesselation'' tool was used to construct a grid of squares (polygon features) with area (FIX) \qty{.36}{\km\squared} over the extent of the lava flows. Of those squares whose centers lie within a flow polygon, a point feature was created using the ``Polygon to Point'' tool. The overall effect of this procedure is to generate a square grid of points that spans the entire area covered by the mapped lava flows. To each of these points will be assigned several varaibles representing various descriptive parameters of the modern and paleo surface.
 \section{Surface Parameters}
 I run the ``Surface Parameters'' tool on the \qty{200}{\m} DEM surface twice, once to produce a slope raster (in degrees) and once to produce an aspect raster (also in degrees, measured clockwise from due north). In both cases, I used a quadratic local surface type with a neighborhood radius of \qty{2}{\km}. I then used the ``Add Surface Informaton'' tool to assign these values to each feature in the point grid.

@@ -2,7 +2,7 @@
 \documentclass[12pt,oneside]{book}
 \usepackage{geometry}
 \usepackage[Bjornstrup]{fncychap}
-\ChTitleVar{\Huge}
+\ChTitleVar{\huge}
 
 % Encoding
 \usepackage[T1]{fontenc}
@@ -12,66 +12,64 @@
 \usepackage[colorlinks=true,allcolors=black]{hyperref}
 \usepackage[nottoc]{tocbibind}
 
-% Math
+% Technical
 \usepackage{amsmath}
-
-% Font
-\usepackage{libertine} % text
-\usepackage[libertine]{newtxmath} % math
+\usepackage[separate-uncertainty=true]{siunitx}
+\DeclareSIUnit\Ma{Ma}
 
 % Typography
+\usepackage{newtxtext} % text
+\usepackage{newtxmath} % math
 \usepackage{microtype}
-\usepackage{parskip}
+% \usepackage{parskip}
+\usepackage{setspace}
+\doublespacing
 
-%Abbreviations & Symbols
+% Abbreviations
 \usepackage{acro}
 \acsetup{make-links=true}
 \input{abbrev}
 
-%Units
-\usepackage[separate-uncertainty=true]{siunitx}
-\DeclareSIUnit\Ma{Ma}
-
-%Figures & Tables
+% Figures & Tables
 \usepackage{sidecap}
 \usepackage{wrapfig}
 \usepackage{graphicx}
 \graphicspath{{figures/}}
 \usepackage{tikz}
-\tikzstyle{block} = [rectangle, rounded corners, minimum width=3cm, minimum height=1 cm, text centered, draw=black, fill=white]
+\tikzstyle{block} = [rectangle, rounded corners, minimum width=3cm, minimum height=1 cm, text centered, draw=black]
 \tikzstyle{arrow} =[thick,-latex,>=stealth]
 \usepackage{adjustbox}
 \usepackage{multirow}
 
-%References
-%\usepackage[backend=biber, style=apa, citestyle=authoryear]{biblatex}
-%\addbibresource{chapters/sources.bib}
+% References
+\usepackage[backend=biber, style=apa]{biblatex}
+\renewcommand{\newunitpunct}{\addcomma\space}
+\addbibresource{chapters/sources.bib}
 
 % Title Page
 \author{\href{mailto:hgpa2018@mymail.pomona.edu}{Henry Peterson}}
-\title{Constraining Magma Reservoir Characteristics Beneath the Summit of Olympus Mons on Mars}
+\title{Lava Flow Constraints on 3D Deformation at the Summit of Olympus Mons on Mars}
 
 \begin{document}
 
 \frontmatter%
 \maketitle
 \tableofcontents
-%\input{chapters/abstract}
+\input{chapters/abstract}
 \chapter{Abbreviations}
 \printacronyms[pages={display=all,seq/use=false},heading=none]
 \listoffigures
-%\listoftables
+% \listoftables
 
 \mainmatter%
 \input{chapters/intro}
-% \input{chapters/methods.tex}
-% \input{chapters/results}
-% \input{chapters/discussion}
-% \input{chapters/conclusions}
+\input{chapters/methods.tex}
+\input{chapters/results}
+\input{chapters/discussion}
+\input{chapters/conclusions}
 
 \backmatter%
-\bibliographystyle{plain}
-\bibliography{chapters/sources}
+\printbibliography
 \appendix
 \input{chapters/arcgis.tex}
 \end{document}

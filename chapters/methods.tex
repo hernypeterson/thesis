@@ -1,6 +1,8 @@
 \chapter{Methods}
-\section{Selection and Preparation of Published Data}
-The \ac{CTX} aboard the \ac{MRO} satellite has captured visible greyscale swaths at roughly \qty{6}{\m} resolution over the vast majority of the Martian Surface. These have been stiched together into a mosaic covering the entire Martian surface.~\cite{Dickson2018AGB} This product (hereafter, ``\ac{CTX} mosaic'') will be used to visually identify and map lava flows, flow margins, contacts, and flow channels.
+\section{Selection and Preparation of Published Data Sources}
+The \ac{CTX}\footnote{An instrument aboard the \ac{MRO} spacecraft launched in 2005 by \ac{NASA}.} captures \qty{\sim30}{\km} swaths across the entire martian surface in visible greyscale at \qty{\sim6}{\m} resolution. \textcite{Dickson2018AGB} blended these swaths to produce a raster mosaic product (hereafter, ``\ac{CTX} mosaic'') which is used to visually identify lava flows and flow channels.
+
+\ac{MOLA}\footnote{An instrument aboard the now-retired \ac{MGS} spacecraft launched in 1996 by \ac{NASA}.} returned topography data with horizontal resolution of \qtyproduct{300 x 1000}{\m} at the equator (better at high latitudes) and elevation uncertainty of \qty{\sim3}{\m}. To improve spatial resolution, additional elevation data from \ac{HRSC}\footnote{An instrument aboard the \ac{MEX} spacecraft launched in 2003 by the \ac{ESA}} was blended to product a \ac{DEM} with \qty{200}{\m} pixel resolution. Each pixel's vertical uncertainty is \qty{\sim1}{\m}, with an additional global uncertainty of \qty{\sim1.8}{\m} in the martian areoid (martian equivalent of Earth's geoid). In this project, the areoid uncertainty is not a concern because only one region (the summit of \ac{OM}) is considered.
 \section{Lava Flow Mapping}
 The global \ac{CTX} mosaic was used to identify lava flows near the summit of \ac{OM}. Where possible, lobate flows were outlined and mapped as polygons in ArcGIS Pro. From these polygonal features, flow centerlines were created. Channels were mapped as lines where flow margins were not visible. The ``Polygon to Centerline'' tool was used to derive linear flow paths from the polygonal flow outlines.
 \begin{figure}
@@ -117,5 +119,3 @@ From~\ref{paleoslope} we have generated two points on a spherical surface, each 
     \arccos\left[\cos s \cos s' + \sin s \sin s' \cos(a - a')\right] 
 \end{equation}
 converted into degrees for comparison with other attributes.
-\subsection{Elevation Change}
-\subsection{Volumetric Inflation}

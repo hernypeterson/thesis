@@ -11,6 +11,7 @@
 \usepackage[table,xcdraw,dvipsnames]{xcolor}
 \usepackage[colorlinks=true,allcolors=black]{hyperref}
 \usepackage[nottoc]{tocbibind}
+\usepackage{paralist} % inline lists
 
 % Technical
 \usepackage{amsmath}
@@ -22,8 +23,9 @@
 \usepackage{newtxmath} % math
 \usepackage{microtype}
 % \usepackage{parskip}
-\usepackage{setspace}
-\doublespacing
+%\usepackage{setspace}
+%\doublespacing
+\linespread{1.5}
 
 % Abbreviations
 \usepackage{acro}
@@ -66,7 +68,7 @@
 \input{chapters/methods.tex}
 \input{chapters/results}
 \input{chapters/discussion}
-\input{chapters/conclusions}
+% \input{chapters/conclusions}
 
 \backmatter%
 \printbibliography

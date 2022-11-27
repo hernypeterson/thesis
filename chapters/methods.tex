@@ -1,21 +1,65 @@
 \chapter{Methods}
-\section{Selection and Preparation of Published Data Sources}
-The \ac{CTX}\footnote{An instrument aboard the \ac{MRO} spacecraft launched in 2005 by \ac{NASA}.} captures \qty{\sim30}{\km} swaths across the entire martian surface in visible greyscale at \qty{\sim6}{\m} resolution. \textcite{Dickson2018AGB} blended these swaths to produce a raster mosaic product (hereafter, ``\ac{CTX} mosaic'') which is used to visually identify lava flows and flow channels.
+\section{Overview}
+Goal (a) of this project is to constrain the degree and character of 3D surface deformation recorded at the summit of \ac{OM} to the greatest spatial extent possible. 3D deformation is a characterization of net change; thus, initial and final surface attitude conditions are necessary. Attitude is completely defined by two angles; strike and dip are most widely used in geology. In this inquiry, dip direction will be used instead of strike because the lava flows naturally point in the dip direction of the surface upon which they are emplaced. No assumptions are made \textit{a priori} about large-scale spatial patterns in 3D deformation; therefore, independent calculations will be made at all locations where sufficient information is available.
 
-\ac{MOLA}\footnote{An instrument aboard the now-retired \ac{MGS} spacecraft launched in 1996 by \ac{NASA}.} returned topography data with horizontal resolution of \qtyproduct{300 x 1000}{\m} at the equator (better at high latitudes) and elevation uncertainty of \qty{\sim3}{\m}. To improve spatial resolution, additional elevation data from \ac{HRSC}\footnote{An instrument aboard the \ac{MEX} spacecraft launched in 2003 by the \ac{ESA}} was blended to product a \ac{DEM} with \qty{200}{\m} pixel resolution. Each pixel's vertical uncertainty is \qty{\sim1}{\m}, with an additional global uncertainty of \qty{\sim1.8}{\m} in the martian areoid (martian equivalent of Earth's geoid). In this project, the areoid uncertainty is not a concern because only one region (the summit of \ac{OM}) is considered.
-\section{Lava Flow Mapping}
-The global \ac{CTX} mosaic was used to identify lava flows near the summit of \ac{OM}. Where possible, lobate flows were outlined and mapped as polygons in ArcGIS Pro. From these polygonal features, flow centerlines were created. Channels were mapped as lines where flow margins were not visible. The ``Polygon to Centerline'' tool was used to derive linear flow paths from the polygonal flow outlines.
+Goal (b) of the project is to estimate magma reservoir inflation conditions (location, depth, size of reservoir, degree of inflation) consistent with observed 3D deformation at the surface. This process will entail running a series of numerical models simulating various possible combinations of magma reservoir conditions, analyzing the resultant surface deformation associated with each, and identifying the best match with the observed and calculated surface parameters.
+
+While the technical definitions of these surface parameters will be presented later in Section~\ref{paleosurface}, it is worth noting here that 3D deformation discussed previously is a scalar term: in particular, the angular distance between the two normal vectors corresponding to each of the initial and final surfaces. This parameter plays two key roles in this project.
+
+First, relevant to goal (a), it builds on the qualitative observations of \textcite{mouginis-mark_late-stage_2019} and extends the quantitative horizontal description of flow misalignment in \textcite{chadwick_late_2015} by accounting for vertical deformation immediately as a central component of the map-derived data collection.\footnote{Vertical deformation is accounted for in the geophysical modeling stage of \textcite{chadwick_late_2015}.} In other words, constraints on 3D deformation may be computed directly from the \ac{DEM} and mapped lava flows \& channels, prior to running numerical models. This strategy gives first-order insights by mapping regions where especially high magnitudes of 3D deformation are required to explain observed surface features. 
+
+However, the 3D deformation parameter cannot simply be calculated for each point because insufficient attitude information is available for the paleosurface upon which lava flows and channels were originally emplaced. Recall that 3D deformation is the angular distance between the two normal vectors defining each of the initial and final surfaces. Each normal vector (equivalently, each surface attitude) requires two variables: dip and dip direction. Both of these are available for the modern (final) surface \ac{DEM}; however, only dip direction of the paleosurface can be inferred directly from the direction of lava flows. Rather than attempting to estimate paleoslope (dip) from lava flow morphology, this parameter is \textit{constrained.} Specifically, the paleo-dip assigned to each point answers the question: \textit{given modern dip, modern dip direction, and paleo-dip direction, what paleo-dip minimizes 3D deformation?} Through the simplifying assumption of minimum 3D deformation, two variable constraints (paleo-dip \& 3D deformation) can be obtained for the price of one, so to speak.
+
+Second, relevant to goal (b), the previous discussion has shown how an assumption regarding of 3D deformation yields an estimate of paleo-dip which is independent of lava flow morphology (and can thus be compared with estimates derived from such methods). This is important because the numerical models used to test magma reservoir inflation events require construction of a paleo-edifice which no longer exists, and whose geometry must thus be inferred. Therefore, estimates of paleo-dip in addition to measurements of paleo-dip direction will guide first attempts at constructing this paleo-edifice.
+
+To summarize, the 3D deformation strategy is to \begin{inparaenum}[a)]
+    \item identify suitable point locations across the summit,
+    \item collect attitude information for the modern surface at each point,
+    \item infer paleoattitude information based on lava flows or channels at each point, and
+    \item constrain total 3D deformation based on initial and final surface attitudes at each point. In this final step, an estimate of paleo-dip is produced as a additional useful result.
+\end{inparaenum}
+The following sections describe the details of each of these steps.
+
+\section{Selection and Preparation of Published Data}
+The \ac{CTX}\footnote{aboard the \ac{MRO} spacecraft launched in 2005 by \ac{NASA}.} captures \qty{\sim30}{\km} swaths across the entire martian surface in visible greyscale at \qty{\sim6}{\m} resolution. \textcite{Dickson2018AGB} blended these swaths to produce a raster mosaic product (hereafter, ``\ac{CTX} mosaic'') which is used here to visually identify lava flows and flow channels. In other words, this is the source from which paleo-dip direction is estimated across the summit region.
+
+\ac{MOLA}\footnote{aboard the now-retired \ac{MGS} spacecraft launched in 1996 by \ac{NASA}.} returned topography data with horizontal resolution of \qtyproduct{300 x 1000}{\m} at the equator (better at high latitudes) and elevation uncertainty of \qty{\sim3}{\m}. To improve spatial resolution, additional elevation data from \ac{HRSC}\footnote{aboard the \ac{MEX} spacecraft launched in 2003 by \ac{ESA}} was blended to product a \ac{DEM} with \qty{200}{\m} pixel resolution. Each pixel's vertical uncertainty is \qty{\sim1}{\m}, with an additional global uncertainty of \qty{\sim1.8}{\m} in the martian areoid (martian equivalent of Earth's geoid). In this project, the global areoid uncertainty is not a concern because only one region (the summit of \ac{OM}) is considered.
+
+These two data sources were registered in an equal-area sinusoidal Mars projection in ArcGIS Pro. The study area is defined by a square \qtyproduct{200 x 200}{\km} centered at the centroid of the \qty{19}{\km} contour.\footnote{This is the highest integer \unit{km} which is roughly circular and completely encloses the caldera complex, implying that it largely records the conical shape of the shield edifice without influence from subsequent caldera collapse or reservoir inflation.} See Figure~\ref{study-area}.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=\textwidth]{study-area.pdf}
+\caption[Summit of \acl{OM}]{Study area at the summit of \acl{OM} in ArcGIS Pro. Sinusoidal Martian Projection. Contours are in km. Square is \qtyproduct{200 x 200}{\km}, centered at the midpoint of the \qty{19}{\km} contour.}
+\label{study-area}
+\end{center}
+\end{figure}
+
+\section{Mapping \& Sampling Site Selection}
+The \ac{CTX} mosaic was used to identify lava flows near the summit of \ac{OM}. Where possible, lobate flows were outlined and mapped as polygons. Flow centerlines were derived from these polygons. See Figure~\ref{polygon-centerline}. Channels were mapped as lines where flow margins were not visible. Some channels were discontinuous; these features were inferred to be regions where channels formed lava tubes which have subsequently collapsed to form a chain of skylights. See Figure~\ref{channel}.
+
+\begin{figure}
+\begin{center}
+    \includegraphics[width=\textwidth]{polygon-centerline.pdf}
+    \caption[Centerline from lobate flow polygon.]{A lobate flow is first identified by relatively clear boundaries at each margin (above). The flow is then mapped as a polygon (outlined in black) and centerline (white).}
+    \label{polygon-centerline}
+\end{center}
+\end{figure}
+
 \begin{figure}
     \begin{center}
-    \includegraphics[width=\textwidth]{polygon-centerline.pdf}
-    \caption[Flow polygon and centerline mapping]{A lobate flow is first identified by relatively clear boundaries at each margin (above). The flow is then mapped as a polygon (outlined in black) and centerline (white).} 
-    \end{center}
+        \includegraphics[width=\textwidth]{polygon-centerline.pdf} % replace
+        \caption[Replace.]{REPLACE: A channel is mapped as a linear feature, including regions of discontinuity which are inferred to be a chain of collapsed skylights over lava tubes.}
+        \label{channel}
+\end{center}
 \end{figure}
+
+
 \section{Point Grid}
 The ``Generate Tesselation'' tool was used to construct a grid of squares (polygon features) with area (FIX) \qty{.36}{\km\squared} over the extent of the lava flows. Of those squares whose centers lie within a flow polygon, a point feature was created using the ``Polygon to Point'' tool. The overall effect of this procedure is to generate a square grid of points that spans the entire area covered by the mapped lava flows. To each of these points will be assigned several varaibles representing various descriptive parameters of the modern and paleo surface.
-\section{Surface Parameters}
+\section{Modern Surface (Final) Parameters}
 I run the ``Surface Parameters'' tool on the \qty{200}{\m} DEM surface twice, once to produce a slope raster (in degrees) and once to produce an aspect raster (also in degrees, measured clockwise from due north). In both cases, I used a quadratic local surface type with a neighborhood radius of \qty{2}{\km}. I then used the ``Add Surface Informaton'' tool to assign these values to each feature in the point grid.
-\section{Paleosurface Parameters}
+\section{Paleosurface (Initial) Parameters}\label{paleosurface}
 \subsection{Paleoaspect}
 To assign paleoaspect, I first found the angle from each point to the nearest flow centerline or channel. This angle is perpendicular ``Near'' tool was used to assign the angle from the nearest flow path to each grid point. This angle is perpendicular to the paleoaspect (downhill direction) recorded by the flow. Thus, \ang{90} is added to the ``Near Angle'', and the result is stored modulo \ang{360} to avoid counting extra rotations in the final aspect direction. Since points in the grid appear on both sides of the centerline, the stored angle may be parallel or anti-parallel to the actual direction of flow. Based on visual inspection of flow morphologies, I assumed that all flows were oriented such that the paleosurface sloped downhill away from the caldera, not toward it. Thus, I used the ``Near'' tool again to determine the angle from the caldera to each grid point. If the difference between this angle and the stored aspect angle (absolute value) exceeded \ang{180}, I recalculated the aspect value by adding 180 (again modulo \ang{360}).
 
@@ -33,11 +77,11 @@ To assign paleoaspect, I first found the angle from each point to the nearest fl
         \draw (120:.4) arc (120:180:.4);
         \draw (120:.45) arc (120:180:.45);
         \path +(100:1.7) node[rotate=90] {\textit{colatitude}};
-        \path +(10:1.3) node {\textit{slope}};
+        \path +(10:1.3) node {\textit{dip}};
         \path +(170:1.3) node {\textit{latitude}};
         \draw (120:.3) -- ++(30:.3) -- ++(300:.3);
     \end{tikzpicture}
-    \caption[Equivalence of slope and colatitude]{ArcGIS Pro calculates the slope of a tilted \ac{DEM} surface, which is equal to the colatitude of the normal vector (complement of latitude). This angle is also known as ``dip.''}
+    \caption[Equivalence of slope and colatitude]{The dip of a tilted surface is equal to the colatitude (complement of latitude) of the vector normal to that surface.}
 \end{SCfigure}
 It is not possible to assign a paleoslope directly from the lava flows like we can with the paleoaspect. Instead, I chose to place a constraint on the paleoslope by assuming the minimum possible surface attitude change between flow emplacement and the modern surface. Equivalently, since each surface attitude is equivalent to a unique unit normal vector, I sought to minimize the angular distance between the normal vectors corresponding to the modern and paleosurfaces. From the previous steps, we have a grid of point features, each with attributes including ``SLOPE'' (S), ``ASPECT'' (A), and ``PALEO\_ASPECT'' (A$'$). Note that these values are stored in degrees; corresponding lowercase letters are equivalent values converted into radians for trigonometric calculations.
 
@@ -48,7 +92,8 @@ For the paleosurface, only the aspect is known. Instead of a unique point on the
 To achieve this optimization and find the nearest intersection point, the sphere surface is converted to a gnomonic projection: one in which all great circles are mapped to straight lines in the cartesian plane. Then, we find the line perpendicular to the paleoaspect line which contains the modern surface point. The radial distance of this intersection point from the origin is reprojected onto a spherical colatitude, which is equivalent to the surface slope.
 
 \def\projectfigsize{5}
-\begin{SCfigure}
+\begin{figure}
+    \begin{center}
     \begin{tikzpicture}
         \draw (45:\projectfigsize) arc (45:90:\projectfigsize);
         \draw (0,\projectfigsize) -- (\projectfigsize,\projectfigsize);
@@ -62,8 +107,10 @@ To achieve this optimization and find the nearest intersection point, the sphere
         \path +(80:1.3) node {$s$};
         \path +(2,5.3) node {$r=\tan s$};
     \end{tikzpicture}
-    \caption[Gnomonic projection]{The gnomonic projection is used to transform aspect (longtitude of normal vector) and slope (colatitude of normal vector) into cartesian coordinates $x$ and $y$ such that great-circles are preserved as straight lines. A cross-section along a single line of longtitude is displayed here. In the transformation to polar coordinates $r$ and $\theta$, longitude is preserved ($a\to\theta$) while colatitude is distorted ($\tan s\to r$)}
-\end{SCfigure}
+    \includegraphics[width=0.5\textwidth]{Gnomonic.png}
+    \caption[Gnomonic projection]{The gnomonic projection maps dip direction (longtitude of normal vector) and dip (colatitude of normal vector) into polar coordinates $r$ and $\theta$. Left: A cross-section along a single line of longtitude is displayed. Right: Great-circles are mapped to straight lines.}
+    \end{center}
+\end{figure}
 
 The equations take the following form. First, the line\footnote{This line is really a ray from the origin, because any negative values of $r$ for a given $\theta$ in polar coordinates will correspond to a negative slope, which would have been captured by a positive slope for the opposite aspect. This case will be handled later.} corresponding to the paleoaspect direction in polar coordinates:
 

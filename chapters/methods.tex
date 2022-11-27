@@ -35,35 +35,35 @@ These two data sources were registered in an equal-area sinusoidal Mars projecti
 \end{center}
 \end{figure}
 
-\section{Mapping \& Sampling Site Selection}
+\section{Mapping \& Sampling Site Selection}\label{mapping}
 The \ac{CTX} mosaic was used to identify lava flows near the summit of \ac{OM}. Where possible, lobate flows were outlined and mapped as polygons. Flow centerlines were derived from these polygons. See Figure~\ref{polygon-centerline}. Channels were mapped as lines where flow margins were not visible. Some channels were discontinuous; these features were inferred to be regions where channels formed lava tubes which have subsequently collapsed to form a chain of skylights. See Figure~\ref{channel}.
 
 \begin{figure}
 \begin{center}
     \includegraphics[width=\textwidth]{polygon-centerline.pdf}
     \caption[Centerline from lobate flow polygon.]{A lobate flow is first identified by relatively clear boundaries at each margin (above). The flow is then mapped as a polygon (outlined in black) and centerline (white).}
-    \label{polygon-centerline}
+\label{polygon-centerline}
 \end{center}
 \end{figure}
 
 \begin{figure}
-    \begin{center}
-        \includegraphics[width=\textwidth]{polygon-centerline.pdf} % replace
-        \caption[Replace.]{REPLACE: A channel is mapped as a linear feature, including regions of discontinuity which are inferred to be a chain of collapsed skylights over lava tubes.}
-        \label{channel}
+\begin{center}
+    \includegraphics[width=\textwidth]{polygon-centerline.pdf} % replace
+    \caption[Replace.]{REPLACE: A channel is mapped as a linear feature, including regions of discontinuity which are inferred to be a chain of collapsed skylights over lava tubes.}
+\label{channel}
 \end{center}
 \end{figure}
 
+In both cases, lava features are ultimately mapped as lines\footnote{Lines can have more than one vertex, i.e., they can be curved.} (rather than polygons) in ArcGIS Pro. While the \ac{DEM} covers the entire summit region, it is only along these lines that information about the paleosurface can be inferred. Therefore, points along these lines are selected as sampling locations where attitude measurements and calculations will take place. Points are produced at evenly spaced intervals of \qty{5}{\km} along each line. No points are assigned to linear features of less than this length to ensure that flows and channels are long enough to record large-scale topography rather than local variation.
 
-\section{Point Grid}
-The ``Generate Tesselation'' tool was used to construct a grid of squares (polygon features) with area (FIX) \qty{.36}{\km\squared} over the extent of the lava flows. Of those squares whose centers lie within a flow polygon, a point feature was created using the ``Polygon to Point'' tool. The overall effect of this procedure is to generate a square grid of points that spans the entire area covered by the mapped lava flows. To each of these points will be assigned several varaibles representing various descriptive parameters of the modern and paleo surface.
 \section{Modern Surface (Final) Parameters}
-I run the ``Surface Parameters'' tool on the \qty{200}{\m} DEM surface twice, once to produce a slope raster (in degrees) and once to produce an aspect raster (also in degrees, measured clockwise from due north). In both cases, I used a quadratic local surface type with a neighborhood radius of \qty{2}{\km}. I then used the ``Add Surface Informaton'' tool to assign these values to each feature in the point grid.
-\section{Paleosurface (Initial) Parameters}\label{paleosurface}
-\subsection{Paleoaspect}
-To assign paleoaspect, I first found the angle from each point to the nearest flow centerline or channel. This angle is perpendicular ``Near'' tool was used to assign the angle from the nearest flow path to each grid point. This angle is perpendicular to the paleoaspect (downhill direction) recorded by the flow. Thus, \ang{90} is added to the ``Near Angle'', and the result is stored modulo \ang{360} to avoid counting extra rotations in the final aspect direction. Since points in the grid appear on both sides of the centerline, the stored angle may be parallel or anti-parallel to the actual direction of flow. Based on visual inspection of flow morphologies, I assumed that all flows were oriented such that the paleosurface sloped downhill away from the caldera, not toward it. Thus, I used the ``Near'' tool again to determine the angle from the caldera to each grid point. If the difference between this angle and the stored aspect angle (absolute value) exceeded \ang{180}, I recalculated the aspect value by adding 180 (again modulo \ang{360}).
+The ``Surface Parameters'' tool was used in ArcGIS Pro to compute average dip $\theta$ and dip direction $\varphi$ across the entire study area. In both cases, a new raster is produced at the same spatial resolution and coverage as the original \ac{DEM}. To avoid capturing local topographic anomalies, these values are averaged\footnote{Technically, a quadratic surface is interpolated over the neighborhood region and dip and dip direction are computed at the center of this surface.} over a circular ``neighborhood'' with radius \qty{2}{\km}. To each sampling location identified in Section~\ref{mapping} is assigned dip $\theta$ and dip direction $\varphi$ based on the value of the corresponding raster at that location.
 
-\subsection{Paleoslope}\label{paleoslope}
+\section{Paleosurface (Initial) Parameters}\label{paleosurface}
+\subsection{Paleo-Dip Direction}
+Paleo-dip direction $\theta'$ is assigned to each point directly from the linear lava feature from which the point was sampled. Therefore, it is important to ensure that each feature is oriented with the correct sense, i.e., pointing downhill rather than uphill. Longer features with noticeable large-scale bends are broken into multiple pieces which are approximately straight. (Goal aspect ratio?) Then, the primary dip direction is calculated for each feature and assigned to all points sampled within it.
+
+\subsection{Paleo-Dip}\label{paleo-dip}
 
 \def\figsize{3}
 \begin{SCfigure}
@@ -83,13 +83,16 @@ To assign paleoaspect, I first found the angle from each point to the nearest fl
     \end{tikzpicture}
     \caption[Equivalence of slope and colatitude]{The dip of a tilted surface is equal to the colatitude (complement of latitude) of the vector normal to that surface.}
 \end{SCfigure}
-It is not possible to assign a paleoslope directly from the lava flows like we can with the paleoaspect. Instead, I chose to place a constraint on the paleoslope by assuming the minimum possible surface attitude change between flow emplacement and the modern surface. Equivalently, since each surface attitude is equivalent to a unique unit normal vector, I sought to minimize the angular distance between the normal vectors corresponding to the modern and paleosurfaces. From the previous steps, we have a grid of point features, each with attributes including ``SLOPE'' (S), ``ASPECT'' (A), and ``PALEO\_ASPECT'' (A$'$). Note that these values are stored in degrees; corresponding lowercase letters are equivalent values converted into radians for trigonometric calculations.
 
-The basic strategy for solving this optimization problem is as follows. First, the slope and aspect of the modern surface are plotted on the surface of a unit sphere as a colatitude and longitude, respectively. This point on the sphere corresponds to the unit vector normal to the surface. Note that the sine of a colatitude is equal to the cosine of a latitude, and vice versa; this substitution will be used in the following equations.
+It is not possible to assign a paleo-dip $\varphi'$ directly from the lava flows as it is with paleo-dip direction $\theta'$. However, in the following discussion it will become clear that calculated 3D deformation $D$ depends on all four variables: $\theta,\varphi,\theta',\varphi'$ which completely define each of the initial and final surface attitudes. However, this calculation can be reframed as an optimization problem to obtain constraints on $D$ and $\varphi'$ simultaneously.
 
-For the paleosurface, only the aspect is known. Instead of a unique point on the sphere, we have a line of longitude. To minimize the angular distance between the two surfaces, we are thus looking for the shortest great circle arc between the modern surface point and the paleosurface line.
+The strategy for solving this problem is as follows. First, each surface attitude is interpreted as a unit normal vector expressed in 3D polar coordinates. Since all normal vectors are of unit length, surfaces are interpreted as points on the surface of a sphere, which will prove to be a useful model. The dip of a surface is equal to the colatitude of its normal vector; the dip direction of a surface is equal to the longitude of its normal vector. Since both dip and dip direction are known for the modern (final) surface at each point, the surface attitude is represented by a point on the imaginary unit sphere. Since only dip direction is known of the paleosurface of lava flow/channel emplacement, the range of possible surfaces is represented by an entire line of longitude on the unit sphere. In light of this model, 3D deformation $D$ between two surface attitudes is defined as the (great-circle) distance between their respective point representations on the unit sphere.
 
-To achieve this optimization and find the nearest intersection point, the sphere surface is converted to a gnomonic projection: one in which all great circles are mapped to straight lines in the cartesian plane. Then, we find the line perpendicular to the paleoaspect line which contains the modern surface point. The radial distance of this intersection point from the origin is reprojected onto a spherical colatitude, which is equivalent to the surface slope.
+Some point withing the line of longitude representing the family of possible paleo-dip values represents the true dip, dip-direction pair at the time of flow emplacement. Which point along this line minimizes the angular distance between the (paleosurface) line and the (modern surface) point? In other words, what paleo-dip $\varphi'$ minimizes total 3D deformation $D$?
+
+This problem is trivial in 2D cartesian coordinates, so the following section outlines the mathematical procedure used to convert the spherical polar case into a planar cartesian analog that retains the key properties of the problem. In particular, the spherical surface should be projected onto a plane such that shortest-paths are preserved; great circle arcs should map to straight lines.
+
+The gnomonic projection has this property. See Figure~\ref{gnomonic}.
 
 \def\projectfigsize{5}
 \begin{figure}
@@ -108,35 +111,30 @@ To achieve this optimization and find the nearest intersection point, the sphere
         \path +(2,5.3) node {$r=\tan s$};
     \end{tikzpicture}
     \includegraphics[width=0.5\textwidth]{Gnomonic.png}
-    \caption[Gnomonic projection]{The gnomonic projection maps dip direction (longtitude of normal vector) and dip (colatitude of normal vector) into polar coordinates $r$ and $\theta$. Left: A cross-section along a single line of longtitude is displayed. Right: Great-circles are mapped to straight lines.}
+    \caption[Gnomonic projection]{The gnomonic projection maps dip direction (longtitude of normal vector) and dip (colatitude of normal vector) into polar coordinates $r$ and $\theta$. Left: A cross-section along a single line of longtitude is displayed. Right: Great-circles are mapped to straight lines.~\parencite{marozols_gnomonic_2022}}
+    \label{gnomonic}
     \end{center}
 \end{figure}
 
-The equations take the following form. First, the line\footnote{This line is really a ray from the origin, because any negative values of $r$ for a given $\theta$ in polar coordinates will correspond to a negative slope, which would have been captured by a positive slope for the opposite aspect. This case will be handled later.} corresponding to the paleoaspect direction in polar coordinates:
+The procedure to solve for $\varphi'$ follow. First, note that the gnomonic projection does not affect longitude $\theta$, so the same variable symbol is used in 3D and 2D polar coordinates. Thus the line\footnote{This line is really a ray from the origin, because any negative values of $r$ for a given $\theta$ in polar coordinates will correspond to a negative slope, which would have been captured by a positive slope for the opposite aspect. This case will be handled later.} of longitude corresponding to the paleo-dip direction does not change when projected into 2D polar coordinates $(\theta'=\theta')$. In 2D cartesian coordinates, this line has the form:
 
 \begin{equation}
-    \theta=a'.
-\end{equation}
-
-In cartesian coordinates:
-
-\begin{equation}
-    y=x\cot a'.\label{line}
+    y=x\cot \theta'.\label{line}
 \end{equation}
 
 The point corresponding to the modern surface in polar coordinates:
 
 \begin{equation}
-    [r,\theta] = [\tan s, a].
+    [r,\theta] = [\tan \varphi, \theta].
 \end{equation}
 
 In cartesian coordinates:
 
 \begin{equation}
-    [x,y]=[\tan s\sin a,\tan s\cos a].\label{point}
+    [x,y]=[\tan\varphi\sin\theta,\tan\varphi\cos\theta].\label{point}
 \end{equation}
 
-Recall that we are looking for the shortest path between the longitudinal line on the sphere (reflecting paleoaspect with unknown paleoslope) and the point (reflecting known moderns slope and aspect). The gnomonic projection was used because great-circle (shortest distance) paths on a sphere are projected as straight lines. Therefore, we need to find the shortest path between the cartesian line and the cartesian point. The point where this path intersects the line will then place a constraint on paleoslope; i.e., it answers the question ``which paleoslope ($s'$) yields the points [$s',a'$] given a known $a'$ which is closest to [$s,a$].'' The closest path from the point to the line is perpendicular to the line. Perpendicular to slope $m=\cot a'$ is slope $m=-\tan a'$. The full point-slope form of the line is:
+Recall that the goal is to identify the shortest path (minimum 3D deformation $D$) between the longitudinal line on the sphere (reflecting paleoaspect with unknown paleoslope) and the point (reflecting known moderns slope and aspect). The gnomonic projection was used because great-circle (shortest distance) paths on a sphere are projected as straight lines. Therefore, we need to find the shortest path between the cartesian line and the cartesian point. The point where this path intersects the line will then place a constraint on paleoslope; i.e., it answers the question ``which paleoslope ($s'$) yields the points [$s',a'$] given a known $a'$ which is closest to [$s,a$].'' The closest path from the point to the line is perpendicular to the line. Perpendicular to slope $m=\cot a'$ is slope $m=-\tan a'$. The full point-slope form of the line is:
 \begin{equation}
     y-\tan s \cos a=-\tan a'(x-\tan s\sin a).\label{perp}
 \end{equation}
@@ -161,7 +159,7 @@ The final result of this sequence of calculations is to identify the paleoslope 
 \subsection{Deflection}
 Before proceeding, we should check that the deflection (defined $A-A'$) does not have a magnitude greater than \ang{90}. If it does, then this calculation has produced a nearest uphill slope, rather than downhill slope, which is clearly not the desired behavior. Therefore, at this stage any grid points with such deflections have their paleoslopes redefined to zero. Alternatively, a minimum slope required for lava flow can also be set here.
 \subsection{Deformation}
-From~\ref{paleoslope} we have generated two points on a spherical surface, each corresponding to a unit vector normal to a unique surface. The angular distance between these vectors (also, the angle between the two planes) defines the attribute ``DEFORM'' for each grid point. The formula\footnote{The trigonometric functions cos and sin are swapped for $s$ and $s'$ because these are colatitudes, not latitudes as the most common formula assumes.} is:
+From~\ref{paleo-dip} we have generated two points on a spherical surface, each corresponding to a unit vector normal to a unique surface. The angular distance between these vectors (also, the angle between the two planes) defines the attribute ``DEFORM'' for each grid point. The formula\footnote{The trigonometric functions cos and sin are swapped for $s$ and $s'$ because these are colatitudes, not latitudes as the most common formula assumes.} is:
 \begin{equation}
     \arccos\left[\cos s \cos s' + \sin s \sin s' \cos(a - a')\right] 
 \end{equation}

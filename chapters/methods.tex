@@ -107,8 +107,8 @@ The gnomonic projection has this property. See Figure~\ref{gnomonic}.
         \draw (0,0) -- (0,\projectfigsize); 
         \draw (0,0) -- (2,\projectfigsize);
         \draw (90:.8) arc (90:68.19:.8);
-        \path +(80:1.3) node {$s$};
-        \path +(2,5.3) node {$r=\tan s$};
+        \path +(80:1.3) node {$\varphi$};
+        \path +(2,5.3) node {$r=\tan \varphi$};
     \end{tikzpicture}
     \includegraphics[width=0.5\textwidth]{Gnomonic.png}
     \caption[Gnomonic projection]{The gnomonic projection maps dip direction (longtitude of normal vector) and dip (colatitude of normal vector) into polar coordinates $r$ and $\theta$. Left: A cross-section along a single line of longtitude is displayed. Right: Great-circles are mapped to straight lines.~\parencite{marozols_gnomonic_2022}}
@@ -134,33 +134,33 @@ In cartesian coordinates:
     [x,y]=[\tan\varphi\sin\theta,\tan\varphi\cos\theta].\label{point}
 \end{equation}
 
-Recall that the goal is to identify the shortest path (minimum 3D deformation $D$) between the longitudinal line on the sphere (reflecting paleoaspect with unknown paleoslope) and the point (reflecting known moderns slope and aspect). The gnomonic projection was used because great-circle (shortest distance) paths on a sphere are projected as straight lines. Therefore, we need to find the shortest path between the cartesian line and the cartesian point. The point where this path intersects the line will then place a constraint on paleoslope; i.e., it answers the question ``which paleoslope ($s'$) yields the points [$s',a'$] given a known $a'$ which is closest to [$s,a$].'' The closest path from the point to the line is perpendicular to the line. Perpendicular to slope $m=\cot a'$ is slope $m=-\tan a'$. The full point-slope form of the line is:
+The shortest path (minimum 3D deformation $D$) between the line and the point is perpendicular to the line with slope $m=\cot \theta'$, i.e., it has slope $m=-\tan \theta'$. The point-slope form of the perpendicular line is:
 \begin{equation}
-    y-\tan s \cos a=-\tan a'(x-\tan s\sin a).\label{perp}
+    y-\underbrace{\tan\varphi\cos\theta}_{y_1}=\underbrace{-\tan \theta'}_{m}(x-\underbrace{\tan\varphi\sin\theta}_{x_1}).\label{perp}
 \end{equation}
-We are looking for the intersection point of these two lines, the point that satisfies both~\ref{line} and~\ref{perp}. Substituting from~\ref{line} to find the $x$-coordinate of the intersection point: 
+The intersection point satisfies both~\ref{line} and~\ref{perp}. Substituting from~\ref{line} to find the $x$-coordinate of the intersection point: 
 \begin{gather}
-    x\cot a'-\tan s \cos a=-\tan a'(x-\tan s\sin a)\nonumber\\
+    [x\cot \theta']-\tan\varphi\cos\theta=-\tan \theta'(x-\tan\varphi\sin\theta)\nonumber\\
     x=\frac{\tan s(\cos a+\tan a'\sin a)}{\cot a' + \tan a'}\label{x}
 \end{gather}
-Since the math module in python does not include cotangent, I used the following exact formula in ArcGIS, which is equivalent to~\ref{x}:
+From there, the $y-$coordinate of the intersection point is found by substituting $x$ back into \eqref{line}. The 2D polar coordinate $r$ is given by $\sqrt{x^2+y^2}$ which is reprojected back onto the sphere (inverse of original gnomonic projection), giving the paleo-dip as desired:
 \begin{equation}
-    x=\sin(2a')\tan s(\cos a+\tan a'\sin a)/2
+    \varphi'=\arctan\sqrt{x^2+y^2}
 \end{equation}
-And from~\ref{line}, the $y-$coordinate of the intersection point:
+\subsection{Horizontal Deformation}
+Before proceeding, we should check that the horizontal deformation  $D_h \equiv |\theta-\theta'|$ does not exceed \ang{90}. If it does, then the previous calculation has produced the nearest uphill slope, rather than the nearest downhill slope, which is clearly not desired. Therefore, any points with such horizontal deformations have their paleo-dip directions redefined to zero. Recall that horizontal deformation is the variable observed by \textcite{chadwick_late_2015,mouginis-mark_late-stage_2019}.
+\subsection{3D Deformation}
+The angular distance between two normal vectors (equivalently, the dihedral angle between the two surface planes) defines the 3D deformation for each point. The formula\footnote{The trigonometric functions cos and sin are swapped for $\varphi$ and $\varphi'$ because these are colatitudes, not latitudes.} is:
 \begin{equation}
-    y=x\cot a'
+    \arccos\left[\cos\varphi \cos\varphi' + \sin\varphi \sin\varphi' \cos(\theta - \theta')\right].
 \end{equation}
-The polar coordinate $r$ is given by $\sqrt{x^2+y^2}$; which is reprojected back onto the sphere, giving the paleoslope:
-\begin{equation}
-    s'=\arctan\sqrt{x^2+y^2}
-\end{equation}
-The final result of this sequence of calculations is to identify the paleoslope which, having been deformed to give the modern surface, would have required the least possible angular change in attitude.
-\subsection{Deflection}
-Before proceeding, we should check that the deflection (defined $A-A'$) does not have a magnitude greater than \ang{90}. If it does, then this calculation has produced a nearest uphill slope, rather than downhill slope, which is clearly not the desired behavior. Therefore, at this stage any grid points with such deflections have their paleoslopes redefined to zero. Alternatively, a minimum slope required for lava flow can also be set here.
-\subsection{Deformation}
-From~\ref{paleo-dip} we have generated two points on a spherical surface, each corresponding to a unit vector normal to a unique surface. The angular distance between these vectors (also, the angle between the two planes) defines the attribute ``DEFORM'' for each grid point. The formula\footnote{The trigonometric functions cos and sin are swapped for $s$ and $s'$ because these are colatitudes, not latitudes as the most common formula assumes.} is:
-\begin{equation}
-    \arccos\left[\cos s \cos s' + \sin s \sin s' \cos(a - a')\right] 
-\end{equation}
-converted into degrees for comparison with other attributes.
+Recall that this is a minimum constraint, since the paleo-dip used to calculate this value was itself derived using the assumption that $D$ was minimized.
+\section{Time Permitting: Crater Dating Lava Flows}
+\section{Time Permitting: Flow Morphology Constraints on Paleo-Dip}
+\subsection{Flow Morphology Assumptions}
+\section{Time Permitting: Axisymmetric Models of Reservoir Inflation}
+\subsection{Construction of Proto-Edifice}
+\subsection{Independent Variables Tested}
+\section{Time Permitting: 3D Models of Reservoir Inflation}
+\subsection{Construction of Proto-Edifice}
+\subsection{Independent Variables Tested}

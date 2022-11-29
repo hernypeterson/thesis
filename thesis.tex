@@ -33,6 +33,7 @@
 \input{abbrev}
 
 % Figures & Tables
+\usepackage[all]{hypcap} % internal figure references
 \usepackage{sidecap}
 \usepackage{wrapfig}
 \usepackage{graphicx}
@@ -57,7 +58,7 @@
 \frontmatter%
 \maketitle
 \tableofcontents
-\input{chapters/abstract}
+% \input{chapters/abstract}
 \chapter{List of Abbreviations}
 \printacronyms[pages={display=all,seq/use=false},heading=none]
 \listoffigures
@@ -72,6 +73,6 @@
 
 \backmatter%
 \printbibliography
-\appendix
-\input{chapters/arcgis.tex}
+% \appendix
+% \input{chapters/arcgis.tex}
 \end{document}

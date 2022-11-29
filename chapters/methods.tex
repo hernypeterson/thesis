@@ -1,6 +1,15 @@
 \chapter{Methods}
+
+\begin{figure}
+    \begin{center}
+    \includegraphics[width=\textwidth]{study-area.pdf}
+    \caption[Summit of \acl{OM}]{Study area at the summit of \acl{OM} in ArcGIS Pro. Sinusoidal Martian Projection. Contours are in km. Square is \qtyproduct{200 x 200}{\km}, centered at the midpoint of the \qty{19}{\km} contour.}
+    \label{study-area}
+    \end{center}
+    \end{figure}
+
 \section{Overview}
-Goal (a) of this project is to constrain the degree and character of 3D surface deformation recorded at the summit of \ac{OM} to the greatest spatial extent possible. 3D deformation is a characterization of net change; thus, initial and final surface attitude conditions are necessary. Attitude is completely defined by two angles; strike and dip are most widely used in geology. In this inquiry, dip direction will be used instead of strike because the lava flows naturally point in the dip direction of the surface upon which they are emplaced. No assumptions are made \textit{a priori} about large-scale spatial patterns in 3D deformation; therefore, independent calculations will be made at all locations where sufficient information is available.
+Goal (a) of this project is to constrain the degree and character of 3D surface deformation recorded at the summit of \ac{OM} to the greatest spatial extent possible. See Figure~\ref{study-area} for the spatial extent of the study area. 3D deformation is a characterization of net change; thus, initial and final surface attitude conditions are necessary. Attitude is completely defined by two angles; strike and dip are most widely used in geology. In this inquiry, dip direction will be used instead of strike because the lava flows naturally point in the dip direction of the surface upon which they are emplaced. No assumptions are made \textit{a priori} about large-scale spatial patterns in 3D deformation; therefore, independent calculations will be made at all locations where sufficient information is available.
 
 Goal (b) of the project is to estimate magma reservoir inflation conditions (location, depth, size of reservoir, degree of inflation) consistent with observed 3D deformation at the surface. This process will entail running a series of numerical models simulating various possible combinations of magma reservoir conditions, analyzing the resultant surface deformation associated with each, and identifying the best match with the observed and calculated surface parameters.
 
@@ -20,41 +29,41 @@ To summarize, the 3D deformation strategy is to \begin{inparaenum}[a)]
 \end{inparaenum}
 The following sections describe the details of each of these steps.
 
-\section{Selection and Preparation of Published Data}
+\section{Preparation of Published Data}
 The \ac{CTX}\footnote{aboard the \ac{MRO} spacecraft launched in 2005 by \ac{NASA}.} captures \qty{\sim30}{\km} swaths across the entire martian surface in visible greyscale at \qty{\sim6}{\m} resolution. \textcite{Dickson2018AGB} blended these swaths to produce a raster mosaic product (hereafter, ``\ac{CTX} mosaic'') which is used here to visually identify lava flows and flow channels. In other words, this is the source from which paleo-dip direction is estimated across the summit region.
 
-\ac{MOLA}\footnote{aboard the now-retired \ac{MGS} spacecraft launched in 1996 by \ac{NASA}.} returned topography data with horizontal resolution of \qtyproduct{300 x 1000}{\m} at the equator (better at high latitudes) and elevation uncertainty of \qty{\sim3}{\m}. To improve spatial resolution, additional elevation data from \ac{HRSC}\footnote{aboard the \ac{MEX} spacecraft launched in 2003 by \ac{ESA}} was blended to product a \ac{DEM} with \qty{200}{\m} pixel resolution. Each pixel's vertical uncertainty is \qty{\sim1}{\m}, with an additional global uncertainty of \qty{\sim1.8}{\m} in the martian areoid (martian equivalent of Earth's geoid). In this project, the global areoid uncertainty is not a concern because only one region (the summit of \ac{OM}) is considered.
+\ac{MOLA}\footnote{aboard the now-retired \ac{MGS} spacecraft launched in 1996 by \ac{NASA}.} returned topography data with horizontal resolution of \qtyproduct{300 x 1000}{\m} at the equator (better at high latitudes) and elevation uncertainty of \qty{\sim3}{\m}. To improve spatial resolution, additional elevation data from the \ac{HRSC}\footnote{aboard the \ac{MEX} spacecraft launched in 2003 by \ac{ESA}} was blended to product a \ac{DEM} with \qty{200}{\m} pixel resolution. Each pixel's vertical uncertainty is \qty{\sim1}{\m}, with an additional global uncertainty of \qty{\sim1.8}{\m} in the martian areoid (martian equivalent of Earth's geoid). In this project, the global areoid uncertainty is not a concern because only one region (the summit of \ac{OM}) is considered.
 
 These two data sources were registered in an equal-area sinusoidal Mars projection in ArcGIS Pro. The study area is defined by a square \qtyproduct{200 x 200}{\km} centered at the centroid of the \qty{19}{\km} contour.\footnote{This is the highest integer \unit{km} which is roughly circular and completely encloses the caldera complex, implying that it largely records the conical shape of the shield edifice without influence from subsequent caldera collapse or reservoir inflation.} See Figure~\ref{study-area}.
 
-\begin{figure}
-\begin{center}
-\includegraphics[width=\textwidth]{study-area.pdf}
-\caption[Summit of \acl{OM}]{Study area at the summit of \acl{OM} in ArcGIS Pro. Sinusoidal Martian Projection. Contours are in km. Square is \qtyproduct{200 x 200}{\km}, centered at the midpoint of the \qty{19}{\km} contour.}
-\label{study-area}
-\end{center}
-\end{figure}
-
 \section{Mapping \& Sampling Site Selection}\label{mapping}
-The \ac{CTX} mosaic was used to identify lava flows near the summit of \ac{OM}. Where possible, lobate flows were outlined and mapped as polygons. Flow centerlines were derived from these polygons. See Figure~\ref{polygon-centerline}. Channels were mapped as lines where flow margins were not visible. Some channels were discontinuous; these features were inferred to be regions where channels formed lava tubes which have subsequently collapsed to form a chain of skylights. See Figure~\ref{channel}.
+The \ac{CTX} mosaic was used to identify lava flows near the summit of \ac{OM}. Where possible, lobate flows were outlined and mapped as polygons. Flow centerlines were derived from these polygons. See Figure~\ref{flow}. Channels were mapped as lines where flow margins were not visible. Some channels were discontinuous; these features were inferred to be regions where channels formed lava tubes which have subsequently collapsed to form a chain of skylights. See Figure~\ref{channel}.
 
 \begin{figure}
 \begin{center}
-    \includegraphics[width=\textwidth]{polygon-centerline.pdf}
+    \includegraphics[width=\textwidth]{flow.pdf}
     \caption[Centerline from lobate flow polygon.]{A lobate flow is first identified by relatively clear boundaries at each margin (above). The flow is then mapped as a polygon (outlined in black) and centerline (white).}
-\label{polygon-centerline}
+\label{flow}
 \end{center}
 \end{figure}
 
 \begin{figure}
 \begin{center}
-    \includegraphics[width=\textwidth]{polygon-centerline.pdf} % replace
-    \caption[Replace.]{REPLACE: A channel is mapped as a linear feature, including regions of discontinuity which are inferred to be a chain of collapsed skylights over lava tubes.}
+    \includegraphics[width=\textwidth]{channel.pdf} % replace
+    \caption[Replace.]{REPLACE:\@A channel is mapped as a linear feature, including regions of discontinuity which are inferred to be a chain of collapsed skylights over lava tubes.}
 \label{channel}
 \end{center}
 \end{figure}
 
-In both cases, lava features are ultimately mapped as lines\footnote{Lines can have more than one vertex, i.e., they can be curved.} (rather than polygons) in ArcGIS Pro. While the \ac{DEM} covers the entire summit region, it is only along these lines that information about the paleosurface can be inferred. Therefore, points along these lines are selected as sampling locations where attitude measurements and calculations will take place. Points are produced at evenly spaced intervals of \qty{5}{\km} along each line. No points are assigned to linear features of less than this length to ensure that flows and channels are long enough to record large-scale topography rather than local variation.
+\begin{figure}
+    \begin{center}
+        \includegraphics[width=\textwidth]{sampling.pdf} % replace
+        \caption[Rerwite.]{rewrite: Sampling Procedure.}
+\label{sampling}
+\end{center}
+\end{figure}
+
+In both cases, lava features are ultimately mapped as lines\footnote{Lines can have more than one vertex, i.e., they can be curved.} (rather than polygons) in ArcGIS Pro. While the \ac{DEM} covers the entire summit region, it is only along these lines that information about the paleosurface can be inferred. Therefore, points along these lines are selected as sampling locations where attitude measurements and calculations will take place. Points are produced at evenly spaced intervals of \qty{5}{\km} along each flow centerline and \qty{3}{\km} along each channel. No points are assigned to linear features of less than this length to ensure that flows and channels are long enough to record large-scale topography rather than local variation.
 
 \section{Modern Surface (Final) Parameters}
 The ``Surface Parameters'' tool was used in ArcGIS Pro to compute average dip $\theta$ and dip direction $\varphi$ across the entire study area. In both cases, a new raster is produced at the same spatial resolution and coverage as the original \ac{DEM}. To avoid capturing local topographic anomalies, these values are averaged\footnote{Technically, a quadratic surface is interpolated over the neighborhood region and dip and dip direction are computed at the center of this surface.} over a circular ``neighborhood'' with radius \qty{2}{\km}. To each sampling location identified in Section~\ref{mapping} is assigned dip $\theta$ and dip direction $\varphi$ based on the value of the corresponding raster at that location.

@@ -1,36 +1,40 @@
 \chapter{Introduction}
 
-\ac{OM} is the largest volcano in the solar system (or anywhere else known to sicence), with a diameter of roughly \qty{600}{\km} and a summit over \qty{20}{\km}.~\parencite{plescia_morphometric_2004}. See Figure~\ref{om}. The impetus for this project comes from the striking observation that numerous lava flows around the summit caldera of \ac{OM} appear to be flowing uphill~\autocite{mouginis-mark_late-stage_2019}. See Figure~\ref{uphill-flows}. Similar observations have been made in the basin surrounding the main edifice, although these azimuthal deflections are on the order of just \ang{15}~\autocite{chadwick_late_2015}. While these observations of aspect ``deflection'' may be the visible anomaly that prompts the research, they do not reflect the best way of quantifying the underlying surface deformation they record.
+\ac{OM} is the largest volcano in the solar system (or anywhere else known to sicence), with a diameter of roughly \qty{600}{\km} and a summit over \qty{20}{\km}~\parencite{plescia_morphometric_2004}. See Figure~\ref{om}. The striking observation which catalyzed the current inquiry is that numerous lava flows around its summit caldera appear to flow uphill~\parencite{mouginis-mark_late-stage_2019}. See Figure~\ref{uphill-flows}. Similar observations have been made in the flexural basin surrounding the main edifice, although these horiontal misalignments between flow direction and regional dip direction are up to \ang{\sim15}~\parencite{chadwick_late_2015}, rather than the \ang{\sim180} deflections observed at the summit. In both cases, however, these discrepancies suggest a history of surface deformation that occured \textit{after} the lava flows were emplaced in what was once a downhill direction. The aim of the current projct is to quantify this surface deformation and describe the underlying processes responsible.
 
 \begin{figure}
-\begin{center}
-        \includegraphics[width=\textwidth]{om.pdf}
-        \caption[\acl{OM}]{The \ac{OM} edifice is over \qty{500}{\km} in diameter and its summit on the southern flank is more than \qty{20}{\km} high. It features a nested caldera complex more than \qty{50}{\km} in diameter and \qty{\sim2}{\km} deep. Main map is a hillshade (shaded relief) derived from \acs{MOLA} elevation data; inset of entire martian surface is raw \acs{MOLA} elevation (See Figure~\ref{mars} for planetary elevation range.) Contours are in km.}
-        \label{om}
-\end{center}
+{\centering
+    \includegraphics[width=\textwidth]{om.pdf}
+    \caption[\acl{OM}]{The \ac{OM} edifice is \qty{\sim600}{\km} in diameter and its summit on the southern flank is more than \qty{20}{\km} high. It features a nested caldera complex more than \qty{50}{\km} in diameter and \qty{\sim2}{\km} deep. Main map is a hillshade (shaded relief) derived from \acs{MOLA} elevation data; inset of entire martian surface is raw \acs{MOLA} elevation (See Figure~\ref{mars} for planetary elevation range.) Contours in \unit{\km}.}
+\label{om}
+}
 \end{figure}
 
 \begin{figure}
-\begin{center}
+{\centering
     \includegraphics[width=\textwidth]{uphill-flows.pdf}
-    \caption[Uphill Lava Flows]{Several lava flows (white) in the southern flank region appear to flow uphill toward the modern summit. \acs{CTX} mosaic basemap. Contours are in m. After Figure 3 in \textcite{mouginis-mark_late-stage_2019}.}
-    \label{uphill-flows}
-\end{center}
+    \caption[Uphill lava flows]{Several lava flows (white) in the southern flank region appear to flow uphill toward the modern summit. \acs{CTX} mosaic basemap. Contours in \unit{\m}. After Figure 3 in \textcite{mouginis-mark_late-stage_2019}.}
+\label{uphill-flows}
+}
 \end{figure}
 
-\section{Motivation}
-The study of \ac{OM} contributes to a more comprehensive understanding of magma reservoirs than could be achieved with a solely Earth-based inquiry. Compared to Earth, the unique challenges of studying martian volcanoes are obvious: the inability to make in-situ measurements and the lack of evidence for ongoing eruptive activity stand out. However, there are important advantages as well. Most notably, surface deformation signatures are well preserved in the martian environment over hundreds of millions of years, especially at high elevations where weathering and erosion are far less active. This allows for a more comprehensive picture of edifice deformation than is commonly available on Earth, where such edifices are rare and often poorly preserved. Additionally, the unique martian conditions that yield the largest volcanoes in the solar system broaden our perspective of how volcanism works in general. Finally, previous work investigating \ac{OM} and nearby Tharsis Montes has already yielded clear evidence for surface deformation. Specifically, numerous lava flows (which generally move straight downhill during eruptions) are misaligned with the local topographic downhill direction measured by the \ac{MOLA}. This finding suggests subsequent deformation, most likely because of reservoir activity at summit of \ac{OM}. The current project’s role is to provide a quantitative link between observed surface deformation and inferred reservoir activity.
+\section{Challenges \& Assumptions}
+Volcanic processes implicated by inferred surface deformation include combination of a) caldera collapse (i.e., magmatic discharge) and b) subsequent reservoir inflation (i.e., magmatic recharge). Untangling the superposition of these competing factors is challenging in itself, although preliminary inspection of the study region (Figure~\ref{study-area}) indicates that these effects may be localized to a) the immediate circumferential region and b) the southern flank, respectively. Additionally, \textit{independent}\footnote{That is, in addition to observed deformation.} stratigraphic constraints on lava flow emplacement relative to the timeline of deformation are unavailable---while crater-dating can be done on lava flows and caldera floors, the timing of reservoir inflation does not leave a temporal record observable from spacecraft. Therefore, certain simplifying assumptions are necessary to make progress with this inquiry. The first
 
-\section{Research Objectives}
-The following question will guide this research project: what combination of magma reservoir characteristics (e.g., geometry, depth) and magma injection event parameters best accounts for both \begin{enumerate}
-    \item observed lava flow orientations
-    \item modern summit topography
-\end{enumerate} My hypothesis is that significant pressurization of a shallow, relatively small-footprint magma reservoir centered near the modern summit will best explain the observed discrepancy between the observed surface and the older deflected lava flows. To test this hypothesis, I will \begin{enumerate}
-    \item map long lava flows near the surface
-    \item constrain their deflection from the modern topographic surface, i.e.\ the extent to which they are not flowing ‘downhill’
-    \item use crater dating to estimate relative flow ages to constrain a timeline of deformation
-    \item run numerical models of the volcano and summit reservoir to assess the conditions needed to generate observed topographic deflections.
+\section{Research Questions \& Hypotheses}
+
+The following questions will inform the the research project:  \begin{enumerate}
+    \item can a consideration of 3D geometry in the mapping stage yield additional insight into surface deformation beyond that available from horizontal ``deflection'' of lava flows and channels?
+    \item what patterns of regional surface deformation are implied by lava flow and channel misalignment across the summit of \ac{OM}?
+    \item what combination of volcanic processes, including caldera collapse and/or reservoir inflation, best account for the reconstructed history deformation?
+\end{enumerate} 
+
+My hypotheses follow, with a trend toward increasing speculation for the later-stage research questions:\begin{enumerate}
+    \item early consideration of 3D geometry will prevent the bias toward relatively flat surfaces, which will yield different regions of interest than would a purely horizontal deflection-based approach;
+    \item based on preliminary inspection of the study area topography, (Figure~\ref{study-area}) lava flow and channel deflection will reveal concentrated deformation at the southern flank, with minimal change elsewhere;
+    \item significant pressurization of a relatively shallow, broad reservoir ($\gtrsim$ caldera complex) will prove most consistent with reconstructed history of surface deformation. Effects from caldera collapse will be highly localized, if observable at all.\footnote{In fact, the lava flow alignment method may not be the most effective approach for characterizing this deformation at all due to limited spatial coverage.}
 \end{enumerate}
+
 \section{Literature Review}
 \subsection{Geologic Overview of Martian Volcanism}
 The volcanic history of Mars differs from that of the Earth in many ways. On Earth, dominant volcanic systems include mid-ocean ridges, island \& continental arcs, hotspot chains, and \acp{LIP}. Ridges and arcs have no clear analogues on Mars; hotspots and \acp{LIP} share many similaries with martian features but reflect differing thermal, mechanical, and chemical properties.
@@ -42,12 +46,14 @@ Next, the Hesperian period lasted between 3.7 to 3.1? Ga. End of late heavy bomb
 Finally, the Amazonian period is ongoing today from 3.1? Ga. It has been characterized by reduced volcanism localized in the major provinces, limited fluvial activity, and slow sedimentary processes.
 
 \begin{figure}
-    \begin{center}
+{\centering
         \includegraphics[width=\textwidth]{mars.pdf}
-        \caption[Martian topography]{\ac{MOLA}-derived global topography of Mars. Elevation in m. Horizontal scale distances computed at equator.}
-    \end{center}
-    \label{mars}
+        \caption[Martian topography]{\ac{MOLA}-derived global topography of Mars. Elevation in \unit{\m}. Horizontal scale distances computed at equator.}
+\label{mars}
+}
 \end{figure}
 
-\subsection{The Lava Flow Alignment Method}
-Regardless of their locations, flow orientations are identified primarily by distinct lobate ``toes'' and nearby parallel flow margins (reword). In many cases, source vents and nearby margins have been obscured by additional flows or caldera collape. Additionally, there are several central lava channels whose corresponding margins are not discernable. Some of these channels are continuous, while some are interpolated between linear sequences of cavities that resemble lava tube collapse skylights.
+\section{Planetary Volcanism Perspective}
+The study of \ac{OM} contributes to a more comprehensive understanding of magma reservoirs than could be achieved with a solely Earth-based inquiry. Compared to Earth, the unique challenges of studying martian volcanoes are obvious: the inability to make in-situ measurements and the lack of evidence for ongoing eruptive activity stand out. However, there are important advantages as well. Most notably, surface deformation signatures are well preserved in the martian environment over hundreds of millions of years, especially at high elevations where weathering and erosion are far less active. This allows for a more comprehensive picture of edifice deformation than is commonly available on Earth, where such edifices are rare and often poorly preserved. Additionally, the unique martian conditions that yield the largest volcanoes in the solar system broaden our perspective of how volcanism works in general. Finally, previous work investigating \ac{OM} and nearby Tharsis Montes has already yielded clear evidence for surface deformation. Specifically, numerous lava flows (which generally move straight downhill during eruptions) are misaligned with the local topographic downhill direction measured by the \ac{MOLA}. This finding suggests subsequent deformation, most likely because of reservoir activity at summit of \ac{OM}. The current project’s role is to provide a quantitative link between observed surface deformation and inferred volcanic activity.
+
+\section{Relevance for Terrestrial Hazards}

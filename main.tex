@@ -27,13 +27,13 @@
 \usepackage{libertine} % text
 \usepackage[libertine]{newtxmath} % math
 \usepackage{microtype} % mmmmm microtype 
-% \usepackage{parskip}
-\linespread{1.4}
+\linespread{1.4} % spacing
 
 % Abbreviations
 \usepackage{acro}
 \acsetup{make-links=true}
 \input{aux/abbrev}
+\input{aux/symbol}
 
 % Figures & Tables
 \usepackage[all]{hypcap} % internal figure references
@@ -46,9 +46,11 @@
 \tikzstyle{arrow} =[thick,-latex,>=stealth]
 \usepackage{adjustbox}
 \usepackage{multirow}
-
-% Italic Captions
-\usepackage[format=plain, labelfont={bf,it}, textfont=it]{caption}
+\usepackage[format=plain, labelfont={bf,it}, textfont=it]{caption} % captions
+\usepackage{chngcntr} % continuous numbering
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+\counterwithout{equation}{chapter}
 
 % References
 \usepackage[backend=biber,style=apa]{biblatex}
@@ -66,7 +68,9 @@
 \tableofcontents
 % \input{chapters/abstract}
 \chapter{List of Abbreviations}
-\printacronyms[pages={display=all,seq/use=false},heading=none]
+\printacronyms[pages={display=all,seq/use=false},heading=none,exclude=sym]
+\chapter{List of Symbols}
+\printacronyms[pages={display=all,seq/use=false},heading=none,include=sym]
 \listoffigures
 % \listoftables
 

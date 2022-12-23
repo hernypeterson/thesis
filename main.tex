@@ -1,0 +1,84 @@
+% Document Style
+\documentclass[11pt,oneside]{book}
+\usepackage{geometry}
+\usepackage[Bjornstrup]{fncychap}
+\ChTitleVar{\huge}
+
+% Encoding
+\usepackage[T1]{fontenc}
+
+% General
+\usepackage[table,xcdraw,dvipsnames]{xcolor}
+\usepackage[colorlinks=true,allcolors=black]{hyperref}
+\usepackage[nottoc]{tocbibind}
+
+% Lists, etc.
+\usepackage{paralist} % inline lists
+\usepackage{enumitem}
+\setlist[itemize]{noitemsep,nolistsep}
+\setlist[enumerate]{noitemsep,nolistsep}
+
+% Technical
+\usepackage{amsmath}
+\usepackage[separate-uncertainty=true]{siunitx}
+\DeclareSIUnit\Ma{Ma}
+
+% Typography
+\usepackage{libertine} % text
+\usepackage[libertine]{newtxmath} % math
+\usepackage{microtype} % mmmmm microtype 
+% \usepackage{parskip}
+\linespread{1.4}
+
+% Abbreviations
+\usepackage{acro}
+\acsetup{make-links=true}
+\input{aux/abbrev}
+
+% Figures & Tables
+\usepackage[all]{hypcap} % internal figure references
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{tikz}
+\tikzstyle{block} = [rectangle, rounded corners, minimum width=3cm, minimum height=1 cm, text centered, draw=black]
+\tikzstyle{arrow} =[thick,-latex,>=stealth]
+\usepackage{adjustbox}
+\usepackage{multirow}
+
+% Italic Captions
+\usepackage[format=plain, labelfont={bf,it}, textfont=it]{caption}
+
+% References
+\usepackage[backend=biber,style=apa]{biblatex}
+\renewcommand{\newunitpunct}{\addcomma\space}
+\addbibresource{aux/references.bib}
+
+% Title Page
+\author{\href{mailto:hgpa2018@mymail.pomona.edu}{Henry Peterson}}
+\title{Lava Flow Constraints on 3D Deformation at the Summit of Olympus Mons on Mars}
+
+\begin{document}
+
+\frontmatter%
+\maketitle
+\tableofcontents
+% \input{chapters/abstract}
+\chapter{List of Abbreviations}
+\printacronyms[pages={display=all,seq/use=false},heading=none]
+\listoffigures
+% \listoftables
+
+\mainmatter%
+\input{chapters/intro}
+\input{chapters/methods}
+\input{chapters/results}
+\input{chapters/discussion}
+% \input{chapters/conclusions}
+
+\backmatter%
+\printbibliography
+% \appendix
+% \input{chapters/arcgis.tex}
+\end{document}

@@ -1,18 +1,18 @@
-% Document Style
-\documentclass[11pt,oneside]{book}
-\usepackage{geometry}
-\usepackage[Bjornstrup]{fncychap}
-\ChTitleVar{\huge}
+% Document Structure
+\documentclass[12pt,oneside]{book}
+\usepackage{geometry} % 1 in. margins
+%\usepackage[Bjornstrup]{fncychap}
+%\ChTitleVar{\huge}
+\usepackage[colorlinks=true,allcolors=black]{hyperref}
+\usepackage[nottoc]{tocbibind} % manually add ToC entries
 
 % Encoding
 \usepackage[T1]{fontenc}
 
 % General
 \usepackage[table,xcdraw,dvipsnames]{xcolor}
-\usepackage[colorlinks=true,allcolors=black]{hyperref}
-\usepackage[nottoc]{tocbibind}
 
-% Lists, etc.
+% Lists
 \usepackage{paralist} % inline lists
 \usepackage{enumitem}
 \setlist[itemize]{noitemsep,nolistsep}
@@ -21,7 +21,6 @@
 % Technical
 \usepackage{amsmath}
 \usepackage[separate-uncertainty=true]{siunitx}
-\DeclareSIUnit\Ma{Ma}
 
 % Typography
 \usepackage{libertine} % text
@@ -46,7 +45,7 @@
 \tikzstyle{arrow} =[thick,-latex,>=stealth]
 \usepackage{adjustbox}
 \usepackage{multirow}
-\usepackage[format=plain, labelfont={bf,it}, textfont=it]{caption} % captions
+\usepackage[format=plain, labelfont={bf}, textfont=it]{caption} % captions
 \usepackage{chngcntr} % continuous numbering
 \counterwithout{figure}{chapter}
 \counterwithout{table}{chapter}
@@ -65,12 +64,18 @@
 
 \frontmatter%
 \maketitle
-\tableofcontents
+
+\input{chapters/acknowledgements.tex}
 % \input{chapters/abstract}
+
+\tableofcontents
+
 \chapter{List of Abbreviations}
-\printacronyms[pages={display=all,seq/use=false},heading=none,exclude=sym]
+\printacronyms[pages={display=all,seq/use=false},heading=none,exclude={sym,math}]
+
 \chapter{List of Symbols}
-\printacronyms[pages={display=all,seq/use=false},heading=none,include=sym]
+\printacronyms[pages={display=all,seq/use=false},heading=none,include=sym,exclude=math]
+
 \listoffigures
 % \listoftables
 
@@ -82,7 +87,10 @@
 % \input{chapters/conclusions}
 
 \backmatter%
-\printbibliography
-% \appendix
-% \input{chapters/arcgis.tex}
+\printbibliography%
+\appendix
+
+\input{chapters/derivation.tex}
+
+\input{chapters/arcgis.tex}
 \end{document}

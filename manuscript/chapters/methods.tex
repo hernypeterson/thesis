@@ -65,17 +65,55 @@ The \ac{CTX} mosaic was used to identify lava flows near the summit of \ac{OM}. 
 
 In both cases, lava features are ultimately mapped as lines\footnote{Lines can have more than one vertex, i.e., they can be curved.} (rather than polygons) in ArcGIS Pro. While the \ac{DEM} covers the entire summit region, it is only along these lines that information about the paleosurface can be inferred. Therefore, points along these lines are selected as sampling locations where attitude measurements and calculations will take place. Points are produced at evenly spaced intervals of \qty{5}{\km} along each flow centerline and \qty{3}{\km} along each channel. No points are assigned to linear features of less than this length to ensure that flows and channels are long enough to record large-scale topography rather than local variation.
 
-\section{Modern Surface (Final) Parameters}
+\section{Constraining 3D Deformation}
+\subsection{Surface Attitude Data Collection}
 The ``Surface Parameters'' tool was used in ArcGIS Pro to compute average \acf{sl} and \acf{az} across the entire study area. In both cases, a new raster is produced at the same spatial resolution and coverage as the original \ac{DEM}. To avoid capturing local topographic anomalies, these values are averaged\footnote{Technically, a quadratic surface is interpolated over the neighborhood region and dip and dip direction are computed at the center of this surface.} over a circular ``neighborhood'' with radius \qty{2}{\km}. To each sampling location identified in Section~\ref{mapping} is assigned \acf{sl} and \acf{az} based on the value of the corresponding raster at that location.
 
-\section{Paleosurface (Initial) Parameters}\label{paleosurface}
-\subsection{Paleo-Dip Direction}
+\subsection{Constraining Paleo-slope}
+Consider a point on the surface of a unit sphere. It is uniquely described by three spherical coordinates $(\acs{spherical-radial},\acs{spherical-azimuth},\acs{spherical-zenith})$. Since the sphere is of unit radius, $\acs{spherical-radial}=1$. Therefore, it is sufficient to define a point $\acs{point}\equiv(\acs{spherical-azimuth}_p,\acs{spherical-zenith}_p)$.
+
+Now consider a line of constant \acs{spherical-azimuth} on the unit sphere. It passes through the zenith (pole) of the sphere and is analogous to a line of longitude on the Earth. This line can be defined $\acs{line}\equiv(\acs{spherical-azimuth}_\ell)$. \emph{Which point \acs{closest-point} on \acs{line} is closest to \acs{point}?}
+
+\begin{figure}
+    \input{figures/constraint.tex}
+    \caption[Constraint]{Constraint}
+    \label{constraint}
+\end{figure}
+
 \Acf{paz} is assigned to each point directly from the linear lava feature from which the point was sampled. Therefore, it is important to ensure that each feature is oriented with the correct sense, i.e., pointing downhill rather than uphill. Longer features with noticeable large-scale bends are broken into multiple pieces which are approximately straight. Then, the primary dip direction is calculated for each feature and assigned to all points sampled within it.
 
-\section{Time Permitting: Crater Dating Lava Flows}
-\section{Time Permitting: Flow Morphology Constraints on Paleo-Dip}
-\subsection{Flow Morphology Assumptions}
-\section{Axisymmetric Models of Reservoir Inflation}
+The \ac{central-angle} subtended between two points on a unit sphere at the sphere's center is:
+\begin{equation}
+    \ac{central-angle}=\arccos\left[\cos\ac{spherical-zenith}_1\cos\ac{spherical-zenith}_2+\sin\ac{spherical-zenith}_1\sin\ac{spherical-zenith}_2\cos\left(\acs{spherical-azimuth}_2-\acs{spherical-azimuth}_1\right)\right].\label{gcd}
+\end{equation}
+Given $\ac{spherical-azimuth}_p$, $\ac{spherical-zenith}_p$, and $\ac{spherical-azimuth}_q$, which value of $\ac{spherical-zenith}_q$ minimizes \ac{central-angle}? This optimization problem can be solved by setting:
+\begin{equation}
+    \frac{\partial}{\partial \ac{spherical-zenith}_q}\arccos\left[\cos\ac{spherical-zenith}_q\cos\ac{spherical-zenith}_p+\sin\ac{spherical-zenith}_q\sin\ac{spherical-zenith}_p\cos\left(\acs{spherical-azimuth}_p-\acs{spherical-azimuth}_q\right)\right]=0.
+\end{equation}
+Collecting constant terms allows for the following simplification:
+\begin{equation}
+    \frac{\partial}{\partial \ac{spherical-zenith}_q}\arccos\left[a\cos\ac{spherical-zenith}_q+b\sin\ac{spherical-zenith}_q\right]=0,
+\end{equation}
+where $a=\cos\ac{spherical-zenith}_p$ and $b=\sin\ac{spherical-zenith}_p\cos\left(\acs{spherical-azimuth}_p-\acs{spherical-azimuth}_q\right)$. Differentiating using the chain rule gives:
+\begin{equation}
+    \frac{-1}{\sqrt{1-{\left(a\cos\ac{spherical-zenith}_q+b\sin\ac{spherical-zenith}_q\right)}^2}}\cdot\left(-a\sin\ac{spherical-zenith}_q+b\cos\ac{spherical-zenith}_q\right)=0.
+\end{equation}
+Clearly, the first term cannot be equal to $0$. Therefore:
+\begin{gather}
+    -a\sin\ac{spherical-zenith}_q+b\cos\ac{spherical-zenith}_q=0,\nonumber\\
+    b\cos\ac{spherical-zenith}_q=a\sin\ac{spherical-zenith}_q,\nonumber\\
+    b/a=\tan\ac{spherical-zenith}_q,\nonumber\\
+    \ac{spherical-zenith}_q=\arctan(b/a).
+\end{gather}
+Substituting the constant terms back in:
+\begin{gather}
+    \ac{spherical-zenith}_q=\arctan\left[\frac{\sin\ac{spherical-zenith}_p\cos\left(\acs{spherical-azimuth}_p-\acs{spherical-azimuth}_q\right)}{\cos\ac{spherical-zenith}_p}\right],\nonumber\\
+    \ac{spherical-zenith}_q=\arctan\left[\tan\ac{spherical-zenith}_p\cos\left(\acs{spherical-azimuth}_p-\acs{spherical-azimuth}_q\right)\right].
+\end{gather}
+
+\section{Crater Dating Lava Flows}
+
+\section{Axisymmetric Model of Reservoir Inflation}
 The \ac{n} is constructed for each surface in cartesian coordinates as follows:
 \begin{equation}
     \acs{n} = \begin{bmatrix}
@@ -98,8 +136,5 @@ The explicit terms of \acs{R} are derived from the axis-angle form of the 3D rot
     \acs{d} = \acs{n}' \times \acs{n}.
 \end{equation}
 
-\subsection{Construction of Proto-Edifice}
-\subsection{Independent Variables Tested}
-\section{Time Permitting: 3D Models of Reservoir Inflation}
 \subsection{Construction of Proto-Edifice}
 \subsection{Independent Variables Tested}

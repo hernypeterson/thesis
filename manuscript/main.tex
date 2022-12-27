@@ -3,9 +3,15 @@
 \usepackage{geometry} % 1 in. margins
 %\usepackage[Bjornstrup]{fncychap}
 %\ChTitleVar{\huge}
+
 \usepackage{hyperref}
-\hypersetup{pdfborder = {0 0 0}}
+\usepackage[all]{hypcap} % internal figure references
+\hypersetup{pdfborder = {0 0 0}} % no box around links
 \usepackage[nottoc]{tocbibind} % manually add ToC entries
+\usepackage{chngcntr} % continuous numbering for...
+\counterwithout{figure}{chapter} % figures,
+\counterwithout{table}{chapter} % tables, and
+\counterwithout{equation}{chapter} % equations.
 
 % Encoding
 \usepackage[T1]{fontenc}
@@ -36,21 +42,38 @@
 \input{aux/symbol}
 
 % Figures & Tables
-\usepackage[all]{hypcap} % internal figure references
 \usepackage{sidecap}
 \usepackage{wrapfig}
+
+% Graphics
 \usepackage{graphicx}
 \graphicspath{{figures/}}
+
 \usepackage{tikz}
-\usepackage{tikz-3dplot}
 \tikzstyle{arrow} = [thick, -stealth]
+
+\usepackage{tikz-3dplot}
+% figure view angle ({zenith}{azimuth})
+\pgfmathsetmacro{\viewze}{65}
+\pgfmathsetmacro{\viewaz}{105}
+\tdplotsetmaincoords{\viewze}{\viewaz}
+
+% define lengths
+\pgfmathsetmacro{\radius}{1.3}
+\pgfmathsetmacro{\axislength}{1.4}
+
+% define angles for p
+\pgfmathsetmacro{\az}{40}
+\pgfmathsetmacro{\ze}{37}
+
+% define angles for p' (no ' in pgf macros!)
+\pgfmathsetmacro{\azi}{330}
+\pgfmathsetmacro{\zen}{14.4523587} % calculated
+\pgfmathsetmacro{\cenang}{34.438487775} % calculated
+
 \usepackage{adjustbox}
 \usepackage{multirow}
 \usepackage[format=plain, labelfont={bf}, textfont=it]{caption} % captions
-\usepackage{chngcntr} % continuous numbering
-\counterwithout{figure}{chapter}
-\counterwithout{table}{chapter}
-\counterwithout{equation}{chapter}
 
 % References
 \usepackage[backend=biber,style=apa]{biblatex}

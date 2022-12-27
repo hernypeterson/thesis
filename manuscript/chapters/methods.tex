@@ -3,8 +3,7 @@
 \begin{figure}
 {\centering
     \includegraphics[width=\textwidth]{study-area.pdf}
-    \caption[Study Area: \acl{OM} Summit]{Study area at the summit of \acl{OM} in ArcGIS Pro. Sinusoidal Martian Projection. Contours in \unit{km}. Square is \qtyproduct{200 x 200}{\km}, centered at the midpoint of the \qty{19}{\km} contour.}
-\label{study-area}
+    \caption[Study Area: \acl{OM} Summit]{Study area at the summit of \acl{OM} in ArcGIS Pro. Sinusoidal Martian Projection. Contours in \unit{km}. Square is \qtyproduct{200 x 200}{\km}, centered at the midpoint of the \qty{19}{\km} contour.}\label{study-area}
 }
 \end{figure}
 
@@ -13,7 +12,7 @@ Goal (a) of this project is to constrain the degree and character of 3D surface 
 
 Goal (b) of the project is to estimate magma reservoir inflation conditions (location, depth, size of reservoir, degree of inflation) consistent with observed 3D deformation at the surface. This process will entail running a series of numerical models simulating various possible combinations of magma reservoir conditions, analyzing the resultant surface deformation associated with each, and identifying the best match with the observed and calculated surface parameters.
 
-While the technical definitions of these surface parameters will be presented later in Section~\ref{paleosurface}, it is worth noting here that 3D deformation discussed previously is a scalar term: in particular, the angular distance between the two normal vectors corresponding to each of the initial and final surfaces. This parameter plays two key roles in this project.
+While the technical definitions of these surface parameters will be presented later, it is worth noting here that 3D deformation discussed previously is a scalar term: in particular, the angular distance between the two normal vectors corresponding to each of the initial and final surfaces. This parameter plays two key roles in this project.
 
 First, relevant to goal (a), it builds on the qualitative observations of \textcite{mouginis-mark_late-stage_2019} and extends the quantitative horizontal description of flow misalignment in \textcite{chadwick_late_2015} by accounting for vertical deformation immediately as a central component of the map-derived data collection.\footnote{Vertical deformation is accounted for in the geophysical modeling stage of \textcite{chadwick_late_2015}.} In other words, constraints on 3D deformation may be computed directly from the \ac{DEM} and mapped lava flows \& channels, prior to running numerical models. This strategy gives first-order insights by mapping regions where especially high magnitudes of 3D deformation are required to explain observed surface features. 
 
@@ -21,7 +20,7 @@ However, the 3D deformation parameter cannot simply be calculated for each point
 
 Second, relevant to goal (b), the previous discussion has shown how an assumption regarding of 3D deformation yields an estimate of paleo-dip which is independent of lava flow morphology (and can thus be compared with estimates derived from such methods). This is important because the numerical models used to test magma reservoir inflation events require construction of a paleo-edifice which no longer exists, and whose geometry must thus be inferred. Therefore, estimates of paleo-dip in addition to measurements of paleo-dip direction will guide first attempts at constructing this paleo-edifice.
 
-To summarize, the 3D deformation strategy is to \begin{inparaenum}[a)]
+To summarize, the 3D deformation strategy is to \begin{inparaenum}[a.]
     \item identify suitable point locations across the summit,
     \item collect attitude information for the modern surface at each point,
     \item infer paleoattitude information based on lava flows or channels at each point, and
@@ -42,24 +41,21 @@ The \ac{CTX} mosaic was used to identify lava flows near the summit of \ac{OM}. 
 \begin{figure}
 {\centering
     \includegraphics[width=\textwidth]{flow.pdf}
-    \caption[Mapped lava flow \& centerline]{A lobate flow is identified by relatively clear boundaries at each margin and mapped as a polygon (white) from which a centerline is derived for sampling.}
-\label{flow}
+    \caption[Mapped lava flow \& centerline]{A lobate flow is identified by relatively clear boundaries at each margin and mapped as a polygon (white) from which a centerline is derived for sampling.}\label{flow}
 }
 \end{figure}
 
 \begin{figure}
 {\centering
     \includegraphics[width=\textwidth]{channel.pdf}
-    \caption[Mapped lava channel]{A lava channel is mapped as a linear feature, including regions of discontinuity which are inferred to be collapsed skylight chains over lava tubes.}
-\label{channel}
+    \caption[Mapped lava channel]{A lava channel is mapped as a linear feature, including regions of discontinuity which are inferred to be collapsed skylight chains over lava tubes.}\label{channel}
 }
 \end{figure}
 
 \begin{figure}
 {\centering
         \includegraphics[width=\textwidth]{sampling.pdf}
-        \caption[Sampling site selection]{Each linear feature is assigned an average paleo-dip direction. Points are selected for sampling and calculations at \qty{5}{\km} and \qty{3}{\km} intervals for flows and channels, respectively. Paleo-dip direction is assigned to each point from its corresponding line; modern dip and dip direction is assigned to each point from its unique \ac{DEM} neighborhood.}
-\label{sampling}
+        \caption[Sampling site selection]{Each linear feature is assigned an average paleo-dip direction. Points are selected for sampling and calculations at \qty{5}{\km} and \qty{3}{\km} intervals for flows and channels, respectively. Paleo-dip direction is assigned to each point from its corresponding line; modern dip and dip direction is assigned to each point from its unique \ac{DEM} neighborhood.}\label{sampling}
 }
 \end{figure}
 
@@ -71,16 +67,13 @@ The ``Surface Parameters'' tool was used in ArcGIS Pro to compute average \acf{z
 
 \subsection{Mathematical Representation of Surfaces}
 
+\subsection{Constraining Paleo-slope}
 \begin{figure}
     {\centering
     \input{figures/constraint.tex}
-    \caption[Which \acs{ze'} minimizes \acs{central-angle}?]{Geometric picture of optimization problem. The point \acs{point} corresponding to the observed topographic surface is fully characterized by \ac{az} and \ac{ze}. The line \acs{line} corresponding to the family of possible paleosurfaces is defined only by \ac{az'}. The red \ac{ze'} is constrained by choosing the value that minimizes the blue \acf{central-angle}.}
-    }
-\label{constraint}
+    \caption[Which \acs{ze'} minimizes \acs{central-angle}?]{Geometric picture of optimization method. The point $\acs{point}=(\acs{az},\acs{ze})$ corresponds to the modern topographic surface. The line $\acs{line}=\acs{az'}$ corresponds to the family of possible paleosurfaces with the measured azimuth. The red \ac{ze'} is chosen to minimize the blue \acf{central-angle} subtended by \acs{point} and $\acs{closest-point}=(\acs{az'},\acs{ze'})$, the latter of which corresponds to the estimated paleosurface.}
+    }\label{constraint}
 \end{figure}
-
-\subsection{Constraining Paleo-slope}
-
 The \ac{central-angle} subtended by two points on a sphere is:
 \begin{equation}
     \acs{central-angle}=\arccos\left[\cos\acs{ze}\cos\acs{ze'}+\sin\acs{ze}\sin\acs{ze'}\cos\left(\acs{az'}-\acs{az}\right)\right].\label{gcd}

@@ -67,48 +67,39 @@ In both cases, lava features are ultimately mapped as lines\footnote{Lines can h
 
 \section{Constraining 3D Deformation}
 \subsection{Surface Attitude Data Collection}
-The ``Surface Parameters'' tool was used in ArcGIS Pro to compute average \acf{sl} and \acf{az} across the entire study area. In both cases, a new raster is produced at the same spatial resolution and coverage as the original \ac{DEM}. To avoid capturing local topographic anomalies, these values are averaged\footnote{Technically, a quadratic surface is interpolated over the neighborhood region and dip and dip direction are computed at the center of this surface.} over a circular ``neighborhood'' with radius \qty{2}{\km}. To each sampling location identified in Section~\ref{mapping} is assigned \acf{sl} and \acf{az} based on the value of the corresponding raster at that location.
+The ``Surface Parameters'' tool was used in ArcGIS Pro to compute average \acf{ze} and \acf{az} across the entire study area. In both cases, a new raster is produced at the same spatial resolution and coverage as the original \ac{DEM}. To avoid capturing local topographic anomalies, these values are averaged\footnote{Technically, a quadratic surface is interpolated over the neighborhood region and dip and dip direction are computed at the center of this surface.} over a circular ``neighborhood'' with radius \qty{2}{\km}. To each sampling location identified in Section~\ref{mapping} is assigned \acf{ze} and \acf{az} based on the value of the corresponding raster at that location.
 
-\subsection{Constraining Paleo-slope}
-Consider a point on the surface of a unit sphere. It is uniquely described by three spherical coordinates $(\acs{spherical-radial},\acs{spherical-azimuth},\acs{spherical-zenith})$. Since the sphere is of unit radius, $\acs{spherical-radial}=1$. Therefore, it is sufficient to define a point $\acs{point}\equiv(\acs{spherical-azimuth}_p,\acs{spherical-zenith}_p)$.
-
-Now consider a line of constant \acs{spherical-azimuth} on the unit sphere. It passes through the zenith (pole) of the sphere and is analogous to a line of longitude on the Earth. This line can be defined $\acs{line}\equiv(\acs{spherical-azimuth}_\ell)$. \emph{Which point \acs{closest-point} on \acs{line} is closest to \acs{point}?}
+\subsection{Mathematical Representation of Surfaces}
 
 \begin{figure}
+    {\centering
     \input{figures/constraint.tex}
-    \caption[Constraint]{Constraint}
-    \label{constraint}
+    \caption[Which \acs{ze'} minimizes \acs{central-angle}?]{Geometric picture of optimization problem. The point \acs{point} corresponding to the observed topographic surface is fully characterized by \ac{az} and \ac{ze}. The line \acs{line} corresponding to the family of possible paleosurfaces is defined only by \ac{az'}. The red \ac{ze'} is constrained by choosing the value that minimizes the blue \acf{central-angle}.}
+    }
+\label{constraint}
 \end{figure}
 
-\Acf{paz} is assigned to each point directly from the linear lava feature from which the point was sampled. Therefore, it is important to ensure that each feature is oriented with the correct sense, i.e., pointing downhill rather than uphill. Longer features with noticeable large-scale bends are broken into multiple pieces which are approximately straight. Then, the primary dip direction is calculated for each feature and assigned to all points sampled within it.
+\subsection{Constraining Paleo-slope}
 
-The \ac{central-angle} subtended between two points on a unit sphere at the sphere's center is:
+The \ac{central-angle} subtended by two points on a sphere is:
 \begin{equation}
-    \ac{central-angle}=\arccos\left[\cos\ac{spherical-zenith}_1\cos\ac{spherical-zenith}_2+\sin\ac{spherical-zenith}_1\sin\ac{spherical-zenith}_2\cos\left(\acs{spherical-azimuth}_2-\acs{spherical-azimuth}_1\right)\right].\label{gcd}
+    \acs{central-angle}=\arccos\left[\cos\acs{ze}\cos\acs{ze'}+\sin\acs{ze}\sin\acs{ze'}\cos\left(\acs{az'}-\acs{az}\right)\right].\label{gcd}
 \end{equation}
-Given $\ac{spherical-azimuth}_p$, $\ac{spherical-zenith}_p$, and $\ac{spherical-azimuth}_q$, which value of $\ac{spherical-zenith}_q$ minimizes \ac{central-angle}? This optimization problem can be solved by setting:
+For constant \acs{az}, \acs{ze}, and \acs{az'}, the value of \acs{ze'} which minimizes \acs{central-angle} can be calculated by setting:
 \begin{equation}
-    \frac{\partial}{\partial \ac{spherical-zenith}_q}\arccos\left[\cos\ac{spherical-zenith}_q\cos\ac{spherical-zenith}_p+\sin\ac{spherical-zenith}_q\sin\ac{spherical-zenith}_p\cos\left(\acs{spherical-azimuth}_p-\acs{spherical-azimuth}_q\right)\right]=0.
+    \frac{\partial}{\partial \acs{ze'}}\arccos\left[\cos\acs{ze}\cos\acs{ze'}+\sin\acs{ze}\sin\acs{ze'}\cos\left(\acs{az'}-\acs{az}\right)\right]=0.
 \end{equation}
-Collecting constant terms allows for the following simplification:
+Differentiating using the chain rule,
 \begin{equation}
-    \frac{\partial}{\partial \ac{spherical-zenith}_q}\arccos\left[a\cos\ac{spherical-zenith}_q+b\sin\ac{spherical-zenith}_q\right]=0,
+    \frac{-\left(-\cos\acs{ze}\sin\ac{ze'}+\sin\acs{ze}\cos\ac{ze'}\cos\left(\acs{az'}-\acs{az}\right)\right)}{\sqrt{1-{\left[\cos\acs{ze}\cos\acs{ze'}+\sin\acs{ze}\sin\acs{ze'}\cos\left(\acs{az'}-\acs{az}\right)\right]}^2}}=0.
 \end{equation}
-where $a=\cos\ac{spherical-zenith}_p$ and $b=\sin\ac{spherical-zenith}_p\cos\left(\acs{spherical-azimuth}_p-\acs{spherical-azimuth}_q\right)$. Differentiating using the chain rule gives:
-\begin{equation}
-    \frac{-1}{\sqrt{1-{\left(a\cos\ac{spherical-zenith}_q+b\sin\ac{spherical-zenith}_q\right)}^2}}\cdot\left(-a\sin\ac{spherical-zenith}_q+b\cos\ac{spherical-zenith}_q\right)=0.
-\end{equation}
-Clearly, the first term cannot be equal to $0$. Therefore:
+Solving for \acs{ze'}:
 \begin{gather}
-    -a\sin\ac{spherical-zenith}_q+b\cos\ac{spherical-zenith}_q=0,\nonumber\\
-    b\cos\ac{spherical-zenith}_q=a\sin\ac{spherical-zenith}_q,\nonumber\\
-    b/a=\tan\ac{spherical-zenith}_q,\nonumber\\
-    \ac{spherical-zenith}_q=\arctan(b/a).
-\end{gather}
-Substituting the constant terms back in:
-\begin{gather}
-    \ac{spherical-zenith}_q=\arctan\left[\frac{\sin\ac{spherical-zenith}_p\cos\left(\acs{spherical-azimuth}_p-\acs{spherical-azimuth}_q\right)}{\cos\ac{spherical-zenith}_p}\right],\nonumber\\
-    \ac{spherical-zenith}_q=\arctan\left[\tan\ac{spherical-zenith}_p\cos\left(\acs{spherical-azimuth}_p-\acs{spherical-azimuth}_q\right)\right].
+    -\cos\acs{ze}\sin\ac{ze'}+\sin\acs{ze}\cos\ac{ze'}\cos\left(\acs{az'}-\acs{az}\right)=0,\nonumber\\
+    \sin\acs{ze}\cos\ac{ze'}\cos\left(\acs{az'}-\acs{az}\right)=\cos\acs{ze}\sin\ac{ze'},\nonumber\\
+    \frac{\sin\acs{ze}\cos\left(\acs{az'}-\acs{az}\right)}{\cos\acs{ze}}=\frac{\sin\ac{ze'}}{\cos\ac{ze'}},\nonumber\\
+    \tan\ac{ze}\cos\left(\acs{az'}-\acs{az}\right)=\tan\acs{ze'},\nonumber\\
+    \boxed{\ac{ze'}=\arctan\left[\tan\ac{ze}\cos\left(\acs{az'}-\acs{az}\right)\right].}
 \end{gather}
 
 \section{Crater Dating Lava Flows}
@@ -117,14 +108,14 @@ Substituting the constant terms back in:
 The \ac{n} is constructed for each surface in cartesian coordinates as follows:
 \begin{equation}
     \acs{n} = \begin{bmatrix}
-        \sin\acs{sl}\cos\acs{az}\\
-        \sin\acs{sl}\sin\acs{az}\\
-        \cos\acs{sl}
+        \sin\acs{ze}\cos\acs{az}\\
+        \sin\acs{ze}\sin\acs{az}\\
+        \cos\acs{ze}
     \end{bmatrix}\qquad
     \acs{n}' = \begin{bmatrix}
-        \sin\acs{psl}\cos\acs{paz}\\
-        \sin\acs{psl}\sin\acs{paz}\\
-        \cos\acs{psl}
+        \sin\acs{ze'}\cos\acs{az'}\\
+        \sin\acs{ze'}\sin\acs{az'}\\
+        \cos\acs{ze'}
     \end{bmatrix}
 \end{equation}
 The \ac{d} is used to describe the minimal 3D rotation necessary to deform the paleosurface attitde into the modern surface observed today. Mathematically, a \ac{R} is desired to satisfy

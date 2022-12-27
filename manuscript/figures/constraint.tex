@@ -31,11 +31,11 @@
 \fill (P) circle [radius=0.3pt];
 
 %draw projection on xy plane, and a connecting line
-\draw[very thin] (P) -- (O) -- (Pxy) -- (P) node[anchor = south west] {$p$};
+\draw[very thin] (P) -- (O) -- (Pxy) -- (P) node[anchor = south west] {\acs{point}};
 
 %draw the angle \phi, and label it
 %syntax: \tdplotdrawarc[coordinate frame, draw options]{center point}{r}{angle}{label options}{label}
-\tdplotdrawarc[thick]{(O)}{0.5}{0}{\phivec}{anchor=north}{$\vartheta$}
+\tdplotdrawarc[arrow]{(O)}{0.5}{0}{\phivec}{anchor=north}{\acs{az}}
 
 
 %set the rotated coordinate system so the x'-y' plane lies within the
@@ -44,7 +44,7 @@
 \tdplotsetthetaplanecoords{\phivec}
 
 %draw theta arc and label, using rotated coordinate system
-\tdplotdrawarc[tdplot_rotated_coords,thick]{(0,0,0)}{0.45}{\thetavec}{0}{anchor=west}{$\varphi$}
+\tdplotdrawarc[tdplot_rotated_coords,arrow]{(0,0,0)}{0.45}{0}{\thetavec}{anchor=west}{\acs{ze}}
 
 %de slechte
 %test
@@ -56,25 +56,26 @@
 
 \draw[very thin] (O) -- (Q);
 
-\tdplotdrawarc[tdplot_rotated_coords]{(0,0,0)}{\rvec}{90}{0}{anchor=south east}{$\ell$}
+\tdplotdrawarc[tdplot_rotated_coords, thick]{(0,0,0)}{\rvec}{90}{0}{anchor=south east}{\acs{line}}
 
-\tdplotdrawarc[tdplot_main_coords,dashed]{(0,0,0)}{\rvec}{0}{360}{anchor=south west}{}
+\tdplotdrawarc[tdplot_main_coords,dashed]{(0,0,0)}{\rvec}{105}{375}{anchor=south west}{}
+\tdplotdrawarc[tdplot_main_coords]{(0,0,0)}{\rvec}{-75}{105}{anchor=south west}{}
 
-\tdplotdrawarc[thick]{(O)}{0.4}{0}{330}{anchor=north east}{$\vartheta'$}
+\tdplotdrawarc[arrow]{(O)}{0.4}{0}{330}{anchor=north east}{\acs{az'}}
 
-\tdplotdrawarc[tdplot_rotated_coords,thick,red]{(0,0,0)}{0.45}{0}{14.4523587}{anchor=south}{$\varphi'$}
+\tdplotdrawarc[tdplot_rotated_coords,arrow,red]{(0,0,0)}{0.45}{0}{14.4523587}{anchor=south}{\acs{ze'}}
 
 \tdplotsetcoord{Z}{\rvec}{14.4523587}{330}
 
-\draw[very thin, red] (O) -- (Z);
+\draw[very thin, red] (O) -- (Z) node[anchor = south east] {\acs{closest-point}};
 
 
 
 \tdplotsetrotatedcoords{330}{-75.5476}{0}
 
-\tdplotdrawarc[tdplot_rotated_coords,thick,blue,<-]{(0,0,0)}{\rvec}{0}{34.438487775}{anchor=south west}{$\Delta\sigma$}
-
 \fill[red] (Z) circle [radius=0.3pt];
+
+\tdplotdrawarc[tdplot_rotated_coords,arrow,blue,arrow]{(0,0,0)}{\rvec}{34.438487775}{0}{anchor=south west}{\acs{central-angle}}
 
 
 \end{tikzpicture}

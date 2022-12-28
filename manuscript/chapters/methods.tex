@@ -68,49 +68,52 @@ The ``Surface Parameters'' tool was used in ArcGIS Pro to compute average \acf{z
 \subsection{Mathematical Representation of Surfaces}
 \begin{figure}
     {\centering
-    \input{figures/geometry.tex}
-    \caption[Surface attitudes in spherical coordinates.]{Representation of surface attitudes.}
-    }\label{geometry}
+    \input{figures/geometric-surface.tex}
+    \caption{The attitude of a surface is defined by two angles. In geology, strike and dip are the most common. In this thesis, slope (equivalent to dip) and downhill azimuth (\ang{90} from strike, equal to ``dip direction'') are used. For the mathematical procedures that follow, it will be convenient to describe surfaces by their normal (perpendicular) direction. In particular, unit vectors will be described in spherical coordinates: \acf{az} and \acf{ze}.}
+    }\label{geometric-surface}
 \end{figure}
 \subsection{Constraining Paleo-slope}
+With a suitable representation of topographic surfaces described and a guiding set of assumptions established, the complexity of the goal at hand is reduced considerably. Namely, I calculate the slope of the paleo-surface upon which a lava flow was emplaced such that the net 3D deformation is minimized. A geometric view of the relevant \emph{collected} and \emph{calculated} data is presented in Figures~\ref{geometric-optimize-collected} and~\ref{geometric-optimize-calculated}, respectively. Figure~\ref{geometric-optimize-calculated} also presents a conceptual model of the method by which paleo-slope and net 3D deformation are calculated. In the following discussion, I derive the equation used to carry out this calculation.
 \begin{figure}
     {\centering
-    \input{figures/constraint.tex}
-    \caption[Which \acs{ze'} minimizes \acs{central-angle}?]{Geometric picture of optimization method. The point $\acs{point}=(\acs{az},\acs{ze})$ corresponds to the modern topographic surface. The line $\acs{line}=\acs{az'}$ corresponds to the family of possible paleosurfaces with the measured azimuth. The red \ac{ze'} is chosen to minimize the blue \acf{central-angle} subtended by \acs{point} and $\acs{closest-point}=(\acs{az'},\acs{ze'})$, the latter of which corresponds to the estimated paleosurface.}
-    }\label{constraint}
+    \input{figures/geometric-optimize.tex}
+    \caption{Geometric view of optimization method}
+    }\label{geometric-optimize}
 \end{figure}
 The \ac{central-angle} subtended by two points on a sphere is:
 \begin{equation}
-    \acs{central-angle}=\arccos\left[\cos\acs{ze}\cos\acs{ze'}+\sin\acs{ze}\sin\acs{ze'}\cos\left(\acs{az'}-\acs{az}\right)\right].\label{gcd}
+    \acs{central-angle}=\arccos\left(\cos\acs{ze}\cos\acs{ze'}+\sin\acs{ze}\sin\acs{ze'}\cos\left|\acs{az'}-\acs{az}\right|\right).\label{gcd}
 \end{equation}
 For constant \acs{az}, \acs{ze}, and \acs{az'}, the value of \acs{ze'} which minimizes \acs{central-angle} can be calculated by setting:
 \begin{equation}
-    \frac{\partial}{\partial \acs{ze'}}\arccos\left[\cos\acs{ze}\cos\acs{ze'}+\sin\acs{ze}\sin\acs{ze'}\cos\left(\acs{az'}-\acs{az}\right)\right]=0.
+    \frac{\partial}{\partial \acs{ze'}}\arccos\left(\cos\acs{ze}\cos\acs{ze'}+\sin\acs{ze}\sin\acs{ze'}\cos\left|\acs{az'}-\acs{az}\right|\right)=0.
 \end{equation}
 Differentiating using the chain rule,
 \begin{equation}
-    \frac{-\left(-\cos\acs{ze}\sin\ac{ze'}+\sin\acs{ze}\cos\ac{ze'}\cos\left(\acs{az'}-\acs{az}\right)\right)}{\sqrt{1-{\left[\cos\acs{ze}\cos\acs{ze'}+\sin\acs{ze}\sin\acs{ze'}\cos\left(\acs{az'}-\acs{az}\right)\right]}^2}}=0.
+    \frac{-\left(-\cos\acs{ze}\sin\ac{ze'}+\sin\acs{ze}\cos\ac{ze'}\cos\left|\acs{az'}-\acs{az}\right|\right)}{\sqrt{1-{\left(\cos\acs{ze}\cos\acs{ze'}+\sin\acs{ze}\sin\acs{ze'}\cos\left|\acs{az'}-\acs{az}\right|\right)}^2}}=0.
 \end{equation}
 Solving for \acs{ze'}:
 \begin{gather}
-    -\cos\acs{ze}\sin\ac{ze'}+\sin\acs{ze}\cos\ac{ze'}\cos\left(\acs{az'}-\acs{az}\right)=0,\nonumber\\
-    \sin\acs{ze}\cos\ac{ze'}\cos\left(\acs{az'}-\acs{az}\right)=\cos\acs{ze}\sin\ac{ze'},\nonumber\\
-    \frac{\sin\acs{ze}\cos\left(\acs{az'}-\acs{az}\right)}{\cos\acs{ze}}=\frac{\sin\ac{ze'}}{\cos\ac{ze'}},\nonumber\\
-    \tan\ac{ze}\cos\left(\acs{az'}-\acs{az}\right)=\tan\acs{ze'},\nonumber\\
-    \boxed{\ac{ze'}=\arctan\left[\tan\ac{ze}\cos\left(\acs{az'}-\acs{az}\right)\right].}
+    -\cos\acs{ze}\sin\ac{ze'}+\sin\acs{ze}\cos\ac{ze'}\cos\left|\acs{az'}-\acs{az}\right|=0,\nonumber\\
+    \sin\acs{ze}\cos\ac{ze'}\cos\left|\acs{az'}-\acs{az}\right|=\cos\acs{ze}\sin\ac{ze'},\nonumber\\
+    \frac{\sin\acs{ze}\cos\left|\acs{az'}-\acs{az}\right|}{\cos\acs{ze}}=\frac{\sin\ac{ze'}}{\cos\ac{ze'}},\nonumber\\
+    \tan\ac{ze}\cos\left|\acs{az'}-\acs{az}\right|=\tan\acs{ze'},\nonumber\\
+    \boxed{\ac{ze'}=\arctan\left(\tan\ac{ze}\cos\left|\acs{az'}-\acs{az}\right|\right).}
 \end{gather}
+The calculated value of \acs{ze'} can be substituted back into Equation~\ref{gcd} to calculate \acs{central-angle}.
 
 \section{Crater Dating Lava Flows}
 
 \section{Axisymmetric Model of Reservoir Inflation}
-The \ac{n} is constructed for each surface in cartesian coordinates as follows:
+\subsection{Radial Component of 3D Deformation}
+The normal vectors corresponding to each surface have already been presented. Here, they are expressed in cartesian coordinates as follows:
 \begin{equation}
-    \acs{n} = \begin{bmatrix}
+    \acs{point} = \begin{bmatrix}
         \sin\acs{ze}\cos\acs{az}\\
         \sin\acs{ze}\sin\acs{az}\\
         \cos\acs{ze}
     \end{bmatrix}\qquad
-    \acs{n}' = \begin{bmatrix}
+    \acs{closest-point} = \begin{bmatrix}
         \sin\acs{ze'}\cos\acs{az'}\\
         \sin\acs{ze'}\sin\acs{az'}\\
         \cos\acs{ze'}
@@ -118,11 +121,11 @@ The \ac{n} is constructed for each surface in cartesian coordinates as follows:
 \end{equation}
 The \ac{d} is used to describe the minimal 3D rotation necessary to deform the paleosurface attitde into the modern surface observed today. Mathematically, a \ac{R} is desired to satisfy
 \begin{equation}
-    \acs{R}\acs{n}'=\acs{n}.
+    \acs{R}\acs{closest-point}=\acs{point}.
 \end{equation}
 The explicit terms of \acs{R} are derived from the axis-angle form of the 3D rotation.
 \begin{equation}
-    \acs{d} = \acs{n}' \times \acs{n}.
+    \acs{d} = \acs{closest-point} \times \acs{point}.
 \end{equation}
 
 \subsection{Construction of Proto-Edifice}

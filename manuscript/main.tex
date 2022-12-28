@@ -5,8 +5,8 @@
 %\ChTitleVar{\huge}
 
 \usepackage{hyperref}
-\usepackage[all]{hypcap} % hyperref to figure (not caption)
-\hypersetup{pdfborder = {0 0 0}} % no box around links
+\usepackage[all]{hypcap} % hyperref jump to figure (not caption)
+\hypersetup{pdfborder = {0 0 0}} % no link boxes
 \usepackage[nottoc]{tocbibind} % manually add ToC entries
 \usepackage{chngcntr} % continuous numbering for...
 \counterwithout{figure}{chapter} % figures,
@@ -74,6 +74,7 @@
 \usepackage{adjustbox}
 \usepackage{multirow}
 \usepackage[format=plain, labelfont={bf}, textfont=it]{caption} % captions
+\usepackage{subcaption}
 
 % References
 \usepackage[backend=biber,style=apa]{biblatex}
@@ -87,7 +88,7 @@
 \begin{document}
 
 \frontmatter%
-% \maketitle
+\maketitle
 % \input{chapters/acknowledgements.tex}
 % \input{chapters/abstract}
 
@@ -96,10 +97,10 @@
 \chapter{List of Abbreviations}
 \printacronyms[pages={display=all,seq/use=false},heading=none,exclude={sym,math}]
 
-% \chapter{List of Symbols}
-% \printacronyms[pages={display=all,seq/use=false},heading=none,include=sym]
+\chapter{List of Symbols}
+\printacronyms[pages={display=all,seq/use=false},heading=none,include=sym]
 
-% \listoffigures
+\listoffigures
 % \listoftables
 
 \mainmatter%

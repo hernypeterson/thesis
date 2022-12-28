@@ -5,7 +5,7 @@
 %\ChTitleVar{\huge}
 
 \usepackage{hyperref}
-\usepackage[all]{hypcap} % internal figure references
+\usepackage[all]{hypcap} % hyperref to figure (not caption)
 \hypersetup{pdfborder = {0 0 0}} % no box around links
 \usepackage[nottoc]{tocbibind} % manually add ToC entries
 \usepackage{chngcntr} % continuous numbering for...
@@ -88,8 +88,7 @@
 
 \frontmatter%
 \maketitle
-
-\input{chapters/acknowledgements.tex}
+% \input{chapters/acknowledgements.tex}
 % \input{chapters/abstract}
 
 \tableofcontents
@@ -106,13 +105,13 @@
 \mainmatter%
 \input{chapters/intro}
 \input{chapters/methods}
-\input{chapters/results}
-\input{chapters/discussion}
+% \input{chapters/results}
+% \input{chapters/discussion}
 % \input{chapters/conclusions}
 
 \backmatter%
 \printbibliography%
-\appendix
+% \appendix
 % \input{chapters/derivation.tex}
 % \input{chapters/arcgis.tex}
 \end{document}

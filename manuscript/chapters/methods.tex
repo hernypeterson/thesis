@@ -66,7 +66,12 @@ In both cases, lava features are ultimately mapped as lines\footnote{Lines can h
 The ``Surface Parameters'' tool was used in ArcGIS Pro to compute average \acf{ze} and \acf{az} across the entire study area. In both cases, a new raster is produced at the same spatial resolution and coverage as the original \ac{DEM}. To avoid capturing local topographic anomalies, these values are averaged\footnote{Technically, a quadratic surface is interpolated over the neighborhood region and dip and dip direction are computed at the center of this surface.} over a circular ``neighborhood'' with radius \qty{2}{\km}. To each sampling location identified in Section~\ref{mapping} is assigned \acf{ze} and \acf{az} based on the value of the corresponding raster at that location.
 
 \subsection{Mathematical Representation of Surfaces}
-
+\begin{figure}
+    {\centering
+    \input{figures/geometry.tex}
+    \caption[Surface attitudes in spherical coordinates.]{Representation of surface attitudes.}
+    }\label{geometry}
+\end{figure}
 \subsection{Constraining Paleo-slope}
 \begin{figure}
     {\centering

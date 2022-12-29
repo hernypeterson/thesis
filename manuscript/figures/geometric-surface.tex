@@ -1,4 +1,4 @@
-\begin{tikzpicture}[scale=5,tdplot_main_coords]
+\begin{tikzpicture}[scale=5.3,tdplot_main_coords]
 
 % origin
 \coordinate (O) at (0,0,0);
@@ -6,23 +6,26 @@
 % also defines (Pxy), (Pxz), (Pyz), etc.
 \tdplotsetcoord{P}{\radius}{\ze}{\az}
 
-% grey hemisphere
-% \filldraw[tdplot_screen_coords, color = gray, opacity = 0.1] (0,0) -- (\radius,0) arc (0:180:\radius) -- (0,0);
+% fill flat surface
 \filldraw[color = gray!10!white] (0,0) -- (0:\radius) arc (0:360:\radius) -- (0,0);
 
-
-% \tdplotdrawarc[very thin,dashed]{(O)}{\radius}{\az-90}{\az+50}{}{}
-
-% tilted surface plane
+% define tilted surface
 \tdplotsetrotatedcoords{\az}{\ze}{0}
 
-% tilted surface
+% fill tilted surface
 \filldraw[tdplot_rotated_coords, color = green!40!black, opacity=0.2] (0,0) -- (0:\radius) arc (0:360:\radius) -- (0,0);
 
+% tilted axes
+\draw[tdplot_rotated_coords, color = green!40!black, arrow] (0:-\radius) -- (0:\radius);
+\draw[tdplot_rotated_coords, color = green!40!black, arrow] (90:-\radius) -- (270:\radius);
+
 % horizontal surface (front)
-\filldraw[color = gray!10!white] (\az-90:\radius) arc (\az-90:\az+90:\radius);
+\filldraw[color = gray!10!white, opacity=0.7] (\az-90:\radius) arc (\az-90:\az+90:\radius);
 % horizontal circumference (front)
 \tdplotdrawarc[very thin]{(O)}{\radius}{\az+90}{\az-\viewaz-25}{}{}
+
+% tilted circumference (front)
+\tdplotdrawarc[tdplot_rotated_coords, very thin, color = green!40!black]{(O)}{\radius}{\az+31}{\az-\viewaz-25}{}{}
 
 % az surface
 \tdplotsetthetaplanecoords{\az}
@@ -46,14 +49,4 @@
 \draw[green!40!black, arrow,tdplot_rotated_coords] (0,0,0) -- (\axislength,0,0);
 \draw[green!40!black, arrow,tdplot_rotated_coords] (0,-\axislength,0) -- (0,\axislength,0);
 % \draw[arrow,tdplot_rotated_coords] (0,0,-\axislength) -- (0,0,\axislength) node[anchor=south]{$z$};
-
-% central angle line
-% \tdplotdrawarc[tdplot_rotated_coords,very thick,blue]{(0,0,0)}{\radius}{\cenang}{0}{anchor=south west}{\acs{central-angle}}
-
-% central angle fill
-% \filldraw[tdplot_rotated_coords, color = blue, opacity = 0.15] (\radius,0) arc (0:\cenang:\radius) -- (0,0);
-
-% draw point p
-% \fill (P) circle [radius=0.4pt];
-
 \end{tikzpicture}

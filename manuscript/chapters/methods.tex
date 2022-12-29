@@ -36,21 +36,25 @@ The \ac{CTX}\footnote{aboard the \ac{MRO} spacecraft launched in 2005 by \ac{NAS
 These two data sources were registered in an equal-area sinusoidal Mars projection in ArcGIS Pro. The study area is defined by a square \qtyproduct{200 x 200}{\km} centered at the centroid of the \qty{19}{\km} contour.\footnote{This is the highest integer \unit{km} which is roughly circular and completely encloses the caldera complex, implying that it largely records the conical shape of the shield edifice without influence from subsequent caldera collapse or reservoir inflation.} See Figure~\ref{study-area}.
 
 \section{Mapping \& Sampling Site Selection}\label{mapping}
-The \ac{CTX} mosaic was used to identify lava flows near the summit of \ac{OM}. Where possible, lobate flows were outlined and mapped as polygons. Flow centerlines were derived from these polygons. See Figure~\ref{flow}. Channels were mapped as lines where flow margins were not visible. Some channels were discontinuous; these features were inferred to be regions where channels formed lava tubes which have subsequently collapsed to form a chain of skylights. See Figure~\ref{channel}.
+The \ac{CTX} mosaic was used to identify lava flows near the summit of \ac{OM}. Where possible, lobate flows were outlined and mapped as polygons. Flow centerlines were derived from these polygons, as shown in Figure~\ref{flow}. Channels were mapped as lines where flow margins were not visible. Some channels were discontinuous; these features were inferred to be regions where channels formed lava tubes which have subsequently collapsed to form a chain of skylights. See Figure~\ref{channel}.
 
 \begin{figure}
 {\centering
+\begin{subfigure}{\textwidth}
+    \centering
     \includegraphics[width=\textwidth]{flow.pdf}
     \caption[Mapped lava flow \& centerline]{A lobate flow is identified by relatively clear boundaries at each margin and mapped as a polygon (white) from which a centerline is derived for sampling.}\label{flow}
-}
-\end{figure}
-
-\begin{figure}
-{\centering
+\end{subfigure}
+\begin{subfigure}{\textwidth}
+    \centering
     \includegraphics[width=\textwidth]{channel.pdf}
     \caption[Mapped lava channel]{A lava channel is mapped as a linear feature, including regions of discontinuity which are inferred to be collapsed skylight chains over lava tubes.}\label{channel}
+\end{subfigure}
 }
+\caption{Mapping Linear Features}
+\label{mapping-linear}
 \end{figure}
+
 
 \begin{figure}
 {\centering
@@ -61,26 +65,25 @@ The \ac{CTX} mosaic was used to identify lava flows near the summit of \ac{OM}. 
 
 In both cases, lava features are ultimately mapped as lines\footnote{Lines can have more than one vertex, i.e., they can be curved.} (rather than polygons) in ArcGIS Pro. While the \ac{DEM} covers the entire summit region, it is only along these lines that information about the paleosurface can be inferred. Therefore, points along these lines are selected as sampling locations where attitude measurements and calculations will take place. Points are produced at evenly spaced intervals of \qty{5}{\km} along each flow centerline and \qty{3}{\km} along each channel. No points are assigned to linear features of less than this length to ensure that flows and channels are long enough to record large-scale topography rather than local variation.
 
-\section{Constraining 3D Deformation}
-\subsection{Surface Attitude Data Collection}
-The ``Surface Parameters'' tool was used in ArcGIS Pro to compute average \acf{ze} and \acf{az} across the entire study area. In both cases, a new raster is produced at the same spatial resolution and coverage as the original \ac{DEM}. To avoid capturing local topographic anomalies, these values are averaged\footnote{Technically, a quadratic surface is interpolated over the neighborhood region and dip and dip direction are computed at the center of this surface.} over a circular ``neighborhood'' with radius \qty{2}{\km}. To each sampling location identified in Section~\ref{mapping} is assigned \acf{ze} and \acf{az} based on the value of the corresponding raster at that location.
+\section{Attitude Data Collection}
+The ``Surface Parameters'' tool was used in ArcGIS Pro to compute average \acf{ze} and \acf{az} across the entire study area. In both cases, a new raster is produced at the same spatial resolution and coverage as the original \ac{DEM}. To avoid capturing local topographic anomalies, these values are averaged\footnote{Technically, a quadratic surface is interpolated over the neighborhood region and dip and dip direction are computed at the center of this surface.} over a circular ``neighborhood'' with radius \qty{2}{\km}. To each sampling location identified in Section~\ref{mapping} is assigned \acf{ze} and \acf{az} based on the value of the corresponding raster at that location. Figure~\ref{geometric-optimize-collected} shows a geometric view of the relevant data to be collected.
 
-\subsection{Mathematical Representation of Surfaces}
+\section{Attitude Data Analysis}
+\subsection{Minimum 3D Deformation}\label{3d-deform}
 \begin{figure}
     {\centering
     \input{figures/geometric-surface.tex}
     \caption{The attitude of a surface is defined by two angles. In geology, strike and dip are the most common. In this thesis, slope (equivalent to dip) and downhill azimuth (\ang{90} from strike, equal to ``dip direction'') are used. For the mathematical procedures that follow, it will be convenient to describe surfaces by their normal (perpendicular) direction. In particular, unit vectors will be described in spherical coordinates: \acf{az} and \acf{ze}.}
     }\label{geometric-surface}
 \end{figure}
-\subsection{Constraining Paleo-slope}
-With a suitable representation of topographic surfaces described and a guiding set of assumptions established, the complexity of the goal at hand is reduced considerably. Namely, I calculate the slope of the paleo-surface upon which a lava flow was emplaced such that the net 3D deformation is minimized. A geometric view of the relevant \emph{collected} and \emph{calculated} data is presented in Figures~\ref{geometric-optimize-collected} and~\ref{geometric-optimize-calculated}, respectively. Figure~\ref{geometric-optimize-calculated} also presents a conceptual model of the method by which paleo-slope and net 3D deformation are calculated. In the following discussion, I derive the equation used to carry out this calculation.
+With a suitable representation of topographic surfaces described and a guiding set of assumptions established, the complexity of the goal at hand is reduced considerably. Namely, I calculate the slope of the paleo-surface upon which a lava flow was emplaced such that the net 3D deformation is minimized. Figure~\ref{geometric-optimize-calculated} shows a geometric view of the relevant data to be calculated and a conceptual model of the method used. The computational method is developed below.
 \begin{figure}
-    {\centering
+    \centering
     \input{figures/geometric-optimize.tex}
     \caption{Geometric view of optimization method}
-    }\label{geometric-optimize}
+    \label{geometric-optimize}
 \end{figure}
-The \ac{central-angle} subtended by two points on a sphere is:
+By the spherical law of cosines,\footnote{Equation~\ref{gcd} is also known as the ``great circle distance,'' since $r\acs{central-angle}$ gives the geodesic distance between two points on the surface of sphere with radius $r$.} the \acf{central-angle} between two vectors in spherical coordinates is:
 \begin{equation}
     \acs{central-angle}=\arccos\left(\cos\acs{ze}\cos\acs{ze'}+\sin\acs{ze}\sin\acs{ze'}\cos\left|\acs{az'}-\acs{az}\right|\right).\label{gcd}
 \end{equation}
@@ -95,18 +98,13 @@ Differentiating using the chain rule,
 Solving for \acs{ze'}:
 \begin{gather}
     -\cos\acs{ze}\sin\ac{ze'}+\sin\acs{ze}\cos\ac{ze'}\cos\left|\acs{az'}-\acs{az}\right|=0,\nonumber\\
-    \sin\acs{ze}\cos\ac{ze'}\cos\left|\acs{az'}-\acs{az}\right|=\cos\acs{ze}\sin\ac{ze'},\nonumber\\
     \frac{\sin\acs{ze}\cos\left|\acs{az'}-\acs{az}\right|}{\cos\acs{ze}}=\frac{\sin\ac{ze'}}{\cos\ac{ze'}},\nonumber\\
-    \tan\ac{ze}\cos\left|\acs{az'}-\acs{az}\right|=\tan\acs{ze'},\nonumber\\
     \boxed{\ac{ze'}=\arctan\left(\tan\ac{ze}\cos\left|\acs{az'}-\acs{az}\right|\right).}
 \end{gather}
-The calculated value of \acs{ze'} can be substituted back into Equation~\ref{gcd} to calculate \acs{central-angle}.
+The calculated value of \acs{ze'} can be substituted back into Equation~\ref{gcd} to find \acs{central-angle}.
 
-\section{Crater Dating Lava Flows}
-
-\section{Axisymmetric Model of Reservoir Inflation}
-\subsection{Radial Component of 3D Deformation}
-The normal vectors corresponding to each surface have already been presented. Here, they are expressed in cartesian coordinates as follows:
+\subsection{Radial-Axial Component of 3D Deformation}
+The unit normal vectors \acs{point} and acs{closest-point} have already been presented to justify the preceding mathematical treatment of surface attitude data, although their constituent angles in spherical coordinates have done all the computationally heavy lifting involved in calculating minimum 3D deformation. These vectors will play a more explicit role in the following section, in which I resolve the component of 3D deformation which occurs within the axial-radial plane. Two transformations involving these vectors are required. First, their expression in cartesian coordinates $(x,y,z)$:
 \begin{equation}
     \acs{point} = \begin{bmatrix}
         \sin\acs{ze}\cos\acs{az}\\
@@ -117,16 +115,77 @@ The normal vectors corresponding to each surface have already been presented. He
         \sin\acs{ze'}\cos\acs{az'}\\
         \sin\acs{ze'}\sin\acs{az'}\\
         \cos\acs{ze'}
+    \end{bmatrix}.\label{spherical-to-cartesian}
+\end{equation}
+Second, it is now necessary for the first time to consider the location of the sampled point. In particular, each sampled location is described in 2D polar coordinates $(\acs{R},\acs{THETA})$. The basis used thus far has been implicitly the standard basis:
+\begin{equation}
+    \hat x = \begin{bmatrix}
+        1\\0\\0
+    \end{bmatrix}\quad
+    \hat y = \begin{bmatrix}
+        0\\1\\0
+    \end{bmatrix}\quad
+    \hat z = \begin{bmatrix}
+        0\\0\\1
+    \end{bmatrix}.
+\end{equation}
+Notice, (e.g., in Figure~\ref{geometric-optimize}) only $\hat z$ has been used explicitly as the vertical direction; the actual directions assigned to $\hat x$ and $\hat y$ are not important because any orientation will yield the same value of $|\acs{az}'-\acs{az}|$. It is worth noting here, then, that azimuth angles are calculated throughout this thesis starting with $0$ in the vertical direction and increase clockwise. This means that unlike the typical representation in mathematics, $\hat x$ points up and $\hat y$ points to the right when viewing a map in the standard north-up orientation.
+
+The axisymmetric modeling that follows requires a different choice of basis---one that depends on the location of point where the attitude data are collected and calculated. The zenith vector $\hat z$ is fine, but the horizontal vectors need to describe orientation in a radial or tangential direction, respectively. The following vectors form a basis:
+\begin{equation}
+    \hat r = \begin{bmatrix}
+        \cos\acs{THETA}\\\sin\acs{THETA}\\0
+    \end{bmatrix}\quad
+    \hat t = \begin{bmatrix}
+        -\sin\acs{THETA}\\\cos\acs{THETA}\\0
+    \end{bmatrix}\quad
+    \hat z = \begin{bmatrix}
+        0\\0\\1
+    \end{bmatrix}.
+\end{equation}
+Then a change-of-basis matrix \acs{change-basis} is constructed:
+\begin{equation}
+    \acs{change-basis}=\begin{bmatrix}
+        \cos\acs{THETA} & -\sin\acs{THETA} & 0\\
+        \sin\acs{THETA} & \cos\acs{THETA} & 0\\
+        0 & 0 & 1
+    \end{bmatrix}^{-1}=\begin{bmatrix}
+        \cos\acs{THETA} & \sin\acs{THETA} & 0\\
+        -\sin\acs{THETA} & \cos\acs{THETA} & 0\\
+        0 & 0 & 1
+    \end{bmatrix}.
+\end{equation}
+Thus the normal vectors \acs{point} and \acs{closest-point} can be expressed in radial-tangential form as \acs{change-basis}\acs{point} and \acs{change-basis}\acs{closest-point}, respectively. The component of 3D deformation (as minimized in Section~\ref{3d-deform}) in the radial-axial direction is therefore the angular distance between the projections of \acs{change-basis}\acs{point} and \acs{change-basis}\acs{closest-point} in the $r-z$ plane. We already have $z=\cos\ac{ze}$ from Equation~\ref{spherical-to-cartesian}. For $r$, we need just the first row of \acs{change-basis}:
+\begin{equation}
+    r=
+    \begin{bmatrix}
+        \cos\acs{THETA} & \sin\acs{THETA} & 0
+    \end{bmatrix}\begin{bmatrix}
+        \sin\acs{ze}\cos\acs{az}\\
+        \sin\acs{ze}\sin\acs{az}\\
+        \cos\acs{ze}
     \end{bmatrix}
+    =\sin\acs{ze}\cos\acs{az}\cos\acs{THETA}+\sin\acs{ze}\sin\acs{az}\sin\acs{THETA}.
 \end{equation}
-The \ac{d} is used to describe the minimal 3D rotation necessary to deform the paleosurface attitde into the modern surface observed today. Mathematically, a \ac{R} is desired to satisfy
+Using the cosine of differences identity,
 \begin{equation}
-    \acs{R}\acs{closest-point}=\acs{point}.
+    r=\sin\acs{ze}\cos(\acs{THETA}-\acs{az}).
 \end{equation}
-The explicit terms of \acs{R} are derived from the axis-angle form of the 3D rotation.
+A zenith angle can then be defined by
 \begin{equation}
-    \acs{d} = \acs{closest-point} \times \acs{point}.
+    \phi=\arctan(r/z)=\arctan\left[\tan\acs{ze}\cos(\acs{THETA}-\acs{az})\right].
+\end{equation}
+Likewise,
+\begin{equation}
+    \phi'=\arctan\left[\tan\acs{ze'}\cos(\acs{THETA}-\acs{az'})\right].
+\end{equation}
+Finally, the radial-axial component of deformation is
+\begin{equation}
+    \boxed{\acs{central-angle}_{rz}=\phi-\phi'.}
 \end{equation}
 
-\subsection{Construction of Proto-Edifice}
-\subsection{Independent Variables Tested}
+\section{Axisymmetric Model of Reservoir Inflation}
+\subsection{Proto-Edifice Reconstruction}
+\subsection{Model Parameter Space}
+
+\section{Crater Dating Lava Flows}

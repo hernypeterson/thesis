@@ -1,0 +1,24 @@
+\chapter{Derivation of Central Angle Formula}
+
+The cross product $(\times)$ of two vectors $\acs{point}\times\acs{closest-point}$ in cartesian coordinates is defined:
+\begin{equation}
+    \begin{bmatrix}
+        x\\y\\z
+    \end{bmatrix}
+    \times
+    \begin{bmatrix}
+        x'\\y'\\z'
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        yz'-y'z\\x'z-xz'\\xy'-x'y
+    \end{bmatrix}.
+\end{equation}
+In addition,
+\begin{equation}
+    |\acs{point}\times\acs{closest-point}|=|\acs{point}|\cdot|\acs{closest-point}|\sin\acs{central-angle},
+\end{equation}
+where \acs{central-angle} is the central angle subtended by \acs{point} and \acs{closest-point}. Since these vectors are of unit length,
+\begin{equation}
+    \acs{central-angle}=\arcsin|\acs{point}\times\acs{closest-point}|.
+\end{equation}

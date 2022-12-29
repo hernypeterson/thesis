@@ -51,8 +51,7 @@ The \ac{CTX} mosaic was used to identify lava flows near the summit of \ac{OM}. 
     \caption[Mapped lava channel]{A lava channel is mapped as a linear feature, including regions of discontinuity which are inferred to be collapsed skylight chains over lava tubes.}\label{channel}
 \end{subfigure}
 }
-\caption{Mapping Linear Features}
-\label{mapping-linear}
+\caption{Mapping Linear Features}\label{mapping-linear}
 \end{figure}
 
 
@@ -71,17 +70,15 @@ The ``Surface Parameters'' tool was used in ArcGIS Pro to compute average \acf{z
 \section{Attitude Data Analysis}
 \subsection{Minimum 3D Deformation}\label{3d-deform}
 \begin{figure}
-    {\centering
+    \centering
     \input{figures/geometric-surface.tex}
-    \caption{The attitude of a surface is defined by two angles. In geology, strike and dip are the most common. In this thesis, slope (equivalent to dip) and downhill azimuth (\ang{90} from strike, equal to ``dip direction'') are used. For the mathematical procedures that follow, it will be convenient to describe surfaces by their normal (perpendicular) direction. In particular, unit vectors will be described in spherical coordinates: \acf{az} and \acf{ze}.}
-    }\label{geometric-surface}
+    \caption[\Acl{az}-\acl{ze} representation of surfaces.]{The attitude of a surface is defined by two angles. In geology, strike and dip are the most common. In this thesis, slope (equivalent to dip) and downhill azimuth (\ang{90} from strike, equal to ``dip direction'') are used. For the mathematical procedures that follow, it will be convenient to describe surfaces by their normal (perpendicular) direction. In particular, unit vectors will be described in spherical coordinates: \acf{az} and \acf{ze}.}\label{geometric-surface}
 \end{figure}
 With a suitable representation of topographic surfaces described and a guiding set of assumptions established, the complexity of the goal at hand is reduced considerably. Namely, I calculate the slope of the paleo-surface upon which a lava flow was emplaced such that the net 3D deformation is minimized. Figure~\ref{geometric-optimize-calculated} shows a geometric view of the relevant data to be calculated and a conceptual model of the method used. The computational method is developed below.
 \begin{figure}
     \centering
     \input{figures/geometric-optimize.tex}
-    \caption{Geometric view of optimization method}
-    \label{geometric-optimize}
+    \caption{Geometric view of optimization method}\label{geometric-optimize}
 \end{figure}
 By the spherical law of cosines,\footnote{Equation~\ref{gcd} is also known as the ``great circle distance,'' since $r\acs{central-angle}$ gives the geodesic distance between two points on the surface of sphere with radius $r$.} the \acf{central-angle} between two vectors in spherical coordinates is:
 \begin{equation}
@@ -104,14 +101,14 @@ Solving for \acs{ze'}:
 The calculated value of \acs{ze'} can be substituted back into Equation~\ref{gcd} to find \acs{central-angle}.
 
 \subsection{Radial-Axial Component of 3D Deformation}
-The unit normal vectors \acs{point} and acs{closest-point} have already been presented to justify the preceding mathematical treatment of surface attitude data, although their constituent angles in spherical coordinates have done all the computationally heavy lifting involved in calculating minimum 3D deformation. These vectors will play a more explicit role in the following section, in which I resolve the component of 3D deformation which occurs within the axial-radial plane. Two transformations involving these vectors are required. First, their expression in cartesian coordinates $(x,y,z)$:
+The unit normal vectors \acs{normal} and acs{normal'} have already been presented to justify the preceding mathematical treatment of surface attitude data, although their constituent angles in spherical coordinates have done all the computationally heavy lifting involved in calculating minimum 3D deformation. These vectors will play a more explicit role in the following section, in which I resolve the component of 3D deformation which occurs within the axial-radial plane. Two transformations involving these vectors are required. First, their expression in cartesian coordinates $(x,y,z)$:
 \begin{equation}
-    \acs{point} = \begin{bmatrix}
+    \acs{normal} = \begin{bmatrix}
         \sin\acs{ze}\cos\acs{az}\\
         \sin\acs{ze}\sin\acs{az}\\
         \cos\acs{ze}
     \end{bmatrix}\qquad
-    \acs{closest-point} = \begin{bmatrix}
+    \acs{normal'} = \begin{bmatrix}
         \sin\acs{ze'}\cos\acs{az'}\\
         \sin\acs{ze'}\sin\acs{az'}\\
         \cos\acs{ze'}
@@ -155,7 +152,7 @@ Then a change-of-basis matrix \acs{change-basis} is constructed:
         0 & 0 & 1
     \end{bmatrix}.
 \end{equation}
-Thus the normal vectors \acs{point} and \acs{closest-point} can be expressed in radial-tangential form as \acs{change-basis}\acs{point} and \acs{change-basis}\acs{closest-point}, respectively. The component of 3D deformation (as minimized in Section~\ref{3d-deform}) in the radial-axial direction is therefore the angular distance between the projections of \acs{change-basis}\acs{point} and \acs{change-basis}\acs{closest-point} in the $r-z$ plane. We already have $z=\cos\ac{ze}$ from Equation~\ref{spherical-to-cartesian}. For $r$, we need just the first row of \acs{change-basis}:
+Thus the normal vectors \acs{normal} and \acs{normal'} can be expressed in radial-tangential form as \acs{change-basis}\acs{normal} and \acs{change-basis}\acs{normal'}, respectively. The component of 3D deformation (as minimized in Section~\ref{3d-deform}) in the radial-axial direction is therefore the angular distance between the projections of \acs{change-basis}\acs{normal} and \acs{change-basis}\acs{normal'} in the $r-z$ plane. We already have $z=\cos\ac{ze}$ from Equation~\ref{spherical-to-cartesian}. For $r$, we need just the first row of \acs{change-basis}:
 \begin{equation}
     r=
     \begin{bmatrix}

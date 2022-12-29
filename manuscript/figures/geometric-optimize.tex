@@ -1,6 +1,6 @@
 \begin{subfigure}{\textwidth}
     \centering
-    \begin{tikzpicture}[scale=3.5,tdplot_main_coords]
+    \begin{tikzpicture}[scale=3.4,tdplot_main_coords]
 
         % origin
         \coordinate (O) at (0,0,0);
@@ -28,7 +28,7 @@
         
         % line az surface
         \draw[very thin, dashed] (P) -- (Pxy) -- (O);
-        \draw[arrow] (O) -- (P) node[anchor = south west] {\acs{point}};
+        \draw[arrow] (O) -- (P) node[anchor = south west] {\acs{normal}};
         
         % z-axis
         \draw[arrow] (O) -- (0,0,\axislength) node[anchor=south]{$z$};
@@ -40,11 +40,11 @@
         \tdplotdrawarc[tdplot_rotated_coords]{(O)}{\radius}{0}{\ze}{anchor=west}{\acs{ze}}
         
         \end{tikzpicture}
-    \caption{Geometric view of attitude data \emph{collected} at each point: \acs{az}, \acs{ze}, and \acs{az'}. The vector \acs{point} is defined by \acs{az} and \acs{ze}. The \emph{family} of vectors \acs{line} is defined by \acs{az'}.}\label{geometric-optimize-collected}
+    \caption{Geometric view of attitude data \emph{collected} at each point: \acs{az}, \acs{ze}, and \acs{az'}. The vector \acs{normal} is defined by \acs{az} and \acs{ze}. The \emph{family} of vectors \acs{line} is defined by \acs{az'}.}\label{geometric-optimize-collected}
 \end{subfigure}
 \begin{subfigure}{\textwidth}
     \centering
-    \begin{tikzpicture}[scale=3.5,tdplot_main_coords]
+    \begin{tikzpicture}[scale=3.4,tdplot_main_coords]
 
         % origin
         \coordinate (O) at (0,0,0);
@@ -65,7 +65,7 @@
         \filldraw[tdplot_rotated_coords, color = black, opacity = 0.05] (\radius,0) arc (0:90:\radius) -- (0,0);
         
         % line az' surface
-        \draw[arrow] (O) -- (P') node[anchor = south east] {\acs{closest-point}};
+        \draw[arrow] (O) -- (P') node[anchor = south east] {\acs{normal'}};
         \draw[very thin, dashed] (O) -- (Q);
         \tdplotdrawarc[tdplot_rotated_coords, very thick]{(O)}{\radius}{90}{0}{anchor=south east}{\acs{line}}
         \tdplotdrawarc[tdplot_rotated_coords,very thick,red]{(O)}{\radius}{0}{\zen}{anchor=south}{\acs{ze'}}
@@ -75,7 +75,7 @@
         
         % line az surface
         \draw[very thin, dashed] (P) -- (Pxy) -- (O);
-        \draw[arrow] (O) -- (P) node[anchor = south west] {\acs{point}};
+        \draw[arrow] (O) -- (P) node[anchor = south west] {\acs{normal}};
         
         % z-axis
         \draw[arrow] (O) -- (0,0,\axislength) node[anchor=south]{$z$};
@@ -96,5 +96,5 @@
         \filldraw[tdplot_rotated_coords, color = blue, opacity = 0.15] (\radius,0) arc (0:\cenang:\radius) -- (0,0);
         
         \end{tikzpicture}
-\caption{Geometric view of attitude data \emph{calculated} at each point: \acs{ze'} and \acs{central-angle}. From the family of vectors \acs{line}, the vector \acs{closest-point} with zenith angle \acs{ze'} is chosen to minimize the blue \acf{central-angle} subtended by \acs{point} and \acs{closest-point}.}\label{geometric-optimize-calculated}
+\caption{Geometric view of attitude data \emph{calculated} at each point: \acs{ze'} and \acs{central-angle}. From the family of vectors \acs{line}, the vector \acs{normal'} with zenith angle \acs{ze'} is chosen to minimize the blue \acf{central-angle} subtended by \acs{normal} and \acs{normal'}.}\label{geometric-optimize-calculated}
 \end{subfigure}

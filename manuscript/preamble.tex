@@ -1,0 +1,77 @@
+% Encoding
+\usepackage[T1]{fontenc}
+
+% Lists
+\usepackage{paralist} % inline lists
+\usepackage{enumitem}
+\setlist[itemize]{noitemsep,nolistsep}
+\setlist[enumerate]{noitemsep,nolistsep}
+
+% Technical
+\usepackage{amsmath}
+\usepackage[separate-uncertainty=true]{siunitx}
+
+% Typography
+\usepackage{libertine} % text
+\usepackage[libertine]{newtxmath} % math
+\usepackage{microtype} % mmmmm microtype 
+\linespread{1.4} % spacing
+
+% Abbreviations
+\usepackage{acro}
+\acsetup{make-links=true}
+\input{aux/abbrev}
+\input{aux/symbol}
+
+% Figures & Tables
+\usepackage{sidecap}
+\usepackage{wrapfig}
+
+% Graphics
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+
+\usepackage{tikz}
+\tikzstyle{arrow} = [thick, -stealth]
+
+\usepackage{tikz-3dplot}
+% figure view angle ({zenith}{azimuth})
+\pgfmathsetmacro{\viewze}{65}
+\pgfmathsetmacro{\viewaz}{105}
+\tdplotsetmaincoords{\viewze}{\viewaz}
+
+% define lengths
+\pgfmathsetmacro{\radius}{1.3}
+\pgfmathsetmacro{\axislength}{1.4}
+
+% define angles for p
+\pgfmathsetmacro{\az}{40}
+\pgfmathsetmacro{\ze}{37}
+
+% define angles for p' (no ' in pgf macros!)
+\pgfmathsetmacro{\azi}{330}
+\pgfmathsetmacro{\zen}{14.4523587} % calculated
+
+% optimize cenang
+\pgfmathsetmacro{\cenang}{34.438487775} % calculated
+
+% define radial projection azimuth
+\pgfmathsetmacro{\THETA}{-5}
+
+% ze_project (all calcualted)
+\pgfmathsetmacro{\zeproj}{28.050617947530625}
+\pgfmathsetmacro{\zenproj}{13.147604528101175}
+\pgfmathsetmacro{\zecenang}{25.18532227675052}
+\pgfmathsetmacro{\zencenang}{6.054528988961903}
+
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage[format=plain, labelfont={bf}, textfont=it]{caption} % captions
+\usepackage{subcaption}
+
+% References
+\usepackage[backend=biber,style=apa]{biblatex}
+% \renewcommand{\newunitpunct}{\addcomma\space}
+\addbibresource{aux/references.bib}
+
+\newcommand{\TITLE}{Lava Flow Constraints on 3D Deformation at the Summit of Olympus Mons on Mars}

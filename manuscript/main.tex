@@ -4,9 +4,13 @@
 %\usepackage[Bjornstrup]{fncychap}
 %\ChTitleVar{\huge}
 
+% Paper-specific Settings
 \usepackage[ ]{titlesec}  %
 \titleformat{\chapter}[frame]
 {\normalfont}{\filright\small\enspace\thechapter\enspace}{8pt}{\Large\bfseries\filcenter}
+
+% General
+\usepackage[table,xcdraw,dvipsnames]{xcolor}
 
 
 \usepackage{hyperref}
@@ -18,93 +22,17 @@
 \counterwithout{table}{chapter} % tables,
 \counterwithout{equation}{chapter} % equations.
 
-% Encoding
-\usepackage[T1]{fontenc}
-
-% General
-\usepackage[table,xcdraw,dvipsnames]{xcolor}
-
-% Lists
-\usepackage{paralist} % inline lists
-\usepackage{enumitem}
-\setlist[itemize]{noitemsep,nolistsep}
-\setlist[enumerate]{noitemsep,nolistsep}
-
-% Technical
-\usepackage{amsmath}
-\usepackage[separate-uncertainty=true]{siunitx}
-
-% Typography
-\usepackage{libertine} % text
-\usepackage[libertine]{newtxmath} % math
-\usepackage{microtype} % mmmmm microtype 
-\linespread{1.4} % spacing
-
-% Abbreviations
-\usepackage{acro}
-\acsetup{make-links=true}
-\input{aux/abbrev}
-\input{aux/symbol}
-
-% Figures & Tables
-\usepackage{sidecap}
-\usepackage{wrapfig}
-
-% Graphics
-\usepackage{graphicx}
-\graphicspath{{figures/}}
-
-\usepackage{tikz}
-\tikzstyle{arrow} = [thick, -stealth]
-
-\usepackage{tikz-3dplot}
-% figure view angle ({zenith}{azimuth})
-\pgfmathsetmacro{\viewze}{65}
-\pgfmathsetmacro{\viewaz}{105}
-\tdplotsetmaincoords{\viewze}{\viewaz}
-
-% define lengths
-\pgfmathsetmacro{\radius}{1.3}
-\pgfmathsetmacro{\axislength}{1.4}
-
-% define angles for p
-\pgfmathsetmacro{\az}{40}
-\pgfmathsetmacro{\ze}{37}
-
-% define angles for p' (no ' in pgf macros!)
-\pgfmathsetmacro{\azi}{330}
-\pgfmathsetmacro{\zen}{14.4523587} % calculated
-
-% optimize cenang
-\pgfmathsetmacro{\cenang}{34.438487775} % calculated
-
-% define radial projection azimuth
-\pgfmathsetmacro{\THETA}{-5}
-
-% ze_project (all calcualted)
-\pgfmathsetmacro{\zeproj}{28.050617947530625}
-\pgfmathsetmacro{\zenproj}{13.147604528101175}
-\pgfmathsetmacro{\zecenang}{25.18532227675052}
-\pgfmathsetmacro{\zencenang}{6.054528988961903}
-
-\usepackage{adjustbox}
-\usepackage{multirow}
-\usepackage[format=plain, labelfont={bf}, textfont=it]{caption} % captions
-\usepackage{subcaption}
-
-% References
-\usepackage[backend=biber,style=apa]{biblatex}
-% \renewcommand{\newunitpunct}{\addcomma\space}
-\addbibresource{aux/references.bib}
+\input{preamble.tex}
 
 % Title Page
 \author{\href{mailto:hgpa2018@mymail.pomona.edu}{Henry Peterson}}
-\title{Lava Flow Constraints on 3D Deformation at the Summit of Olympus Mons on Mars}
+\title{\TITLE}
 
 \begin{document}
 
 \frontmatter%
 \maketitle
+% \chapter{Acknowledgements}
 % \input{chapters/acknowledgements.tex}
 % \input{chapters/abstract}
 
@@ -121,6 +49,7 @@ Note: in the PDF version of this manuscript, all internal references to equation
 % \listoftables
 
 \mainmatter%
+\chapter{Introduction}
 \input{chapters/intro}
 \input{chapters/methods}
 % \input{chapters/results}

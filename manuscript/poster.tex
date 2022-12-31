@@ -1,0 +1,55 @@
+\documentclass[
+    a0paper,
+    landscape,
+    ]{baposter}
+
+\input{preamble.tex}
+
+% Title Page
+\author{\href{mailto:hgpa2018@mymail.pomona.edu}{}}
+\title{}
+
+\newcounter{fig}
+\setcounter{fig}{1}
+\newcounter{tab}
+\setcounter{tab}{1}
+
+\begin{document}
+\begin{poster}{columns=4,eyecatcher=true,background=none,linewidth=1pt,textborder=rectangle,borderColor=black,headerheight=0.15 \textheight,headershape=rectangle,headerfont=\large \sf \bf,headerborder=closed,headershade=plain,headerColorOne=white,headerFontColor=black,boxColorOne=white}
+{\includegraphics[height=.75 \headerheight]{om.pdf}}
+{\huge \TITLE}
+{\large \vspace{1cm} Henry Peterson}
+{\includegraphics[height=.75 \headerheight]{om.pdf}}
+
+\begin{posterbox}[
+    name = intro,  % Name for alignment 
+    column = 0, % First column 
+    span = 2, % Vertical span of columns
+    ]{Introduction}
+    {\centering
+    \includegraphics[width=0.4\boxwidth]{figures/om.pdf}\\
+    \includegraphics[width=0.4\boxwidth]{figures/study-area.pdf}
+    }
+\end{posterbox}
+
+\begin{posterbox}[
+    name = methods,  % Name for alignment 
+    column = 1, % First column 
+    span = 2, % Vertical span of columns
+    ]{Methods}
+    {\centering
+    \input{figures/geometric-radial.tex}
+    }
+\end{posterbox}
+
+\begin{posterbox}[
+    name = acknowledgements,  % Name for alignment 
+    column = 1, % First column 
+    span = 3, % Vertical span of columns
+    below = methods
+    ]{Acknowledgements}
+    \input{chapters/acknowledgements.tex}
+\end{posterbox}
+
+\end{poster}
+\end{document}

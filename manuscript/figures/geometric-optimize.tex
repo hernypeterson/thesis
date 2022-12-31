@@ -40,7 +40,7 @@
         \tdplotdrawarc[tdplot_rotated_coords]{(O)}{\radius}{0}{\ze}{anchor=west}{\acs{ze}}
         
         \end{tikzpicture}
-    \caption{Geometric view of attitude data \emph{collected} at each point: \acs{az}, \acs{ze}, and \acs{az'}. The vector \acs{normal} is defined by \acs{az} and \acs{ze}. The \emph{family} of vectors \acs{line} is defined by \acs{az'}.}\label{geometric-optimize-collected}
+    \caption[Attitude data collected]{Geometric view of attitude data \emph{collected} at each point: \acs{az}, \acs{ze}, and \acs{az'}. The vector \acs{normal} is defined by \acs{az} and \acs{ze}. The \emph{family} of vectors \acs{line} is defined by \acs{az'}.}\label{geometric-optimize-collected}
 \end{subfigure}
 \begin{subfigure}{\textwidth}
     \centering
@@ -96,5 +96,5 @@
         \filldraw[tdplot_rotated_coords, color = blue, opacity = 0.15] (\radius,0) arc (0:\cenang:\radius) -- (0,0);
         
         \end{tikzpicture}
-\caption{Geometric view of attitude data \emph{calculated} at each point: \acs{ze'} and \acs{central-angle}. From the family of vectors \acs{line}, the vector \acs{normal'} with zenith angle \acs{ze'} is chosen to minimize the blue \acf{central-angle} subtended by \acs{normal} and \acs{normal'}.}\label{geometric-optimize-calculated}
+\caption[Attitude data calculated]{Geometric view of attitude data \emph{calculated} at each point: \acs{ze'} and \acs{central-angle}. From the family of vectors \acs{line}, the vector \acs{normal'} with zenith angle \acs{ze'} is chosen to minimize the blue \acf{central-angle} subtended by \acs{normal} and \acs{normal'}.}\label{geometric-optimize-calculated}
 \end{subfigure}

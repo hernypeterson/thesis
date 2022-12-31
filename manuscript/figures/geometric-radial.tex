@@ -1,5 +1,5 @@
 
-    \begin{tikzpicture}[scale=10,tdplot_main_coords]
+    \begin{tikzpicture}[scale=8.5,tdplot_main_coords]
 
         % origin
         \coordinate (O) at (0,0,0);
@@ -18,11 +18,11 @@
         \tdplotsetthetaplanecoords{\THETA}
 
         % fill THETA surface
-        \filldraw[tdplot_rotated_coords, color = black, opacity = 0.05] (-50:\radius) arc (-50:50:\radius) -- (0,0.76604444*\radius) -- (0,-0.76604444*\radius);
+        \filldraw[tdplot_rotated_coords, color = black, opacity = 0.05] (-30:\radius) arc (-30:50:\radius) -- (0,0.76604444*\radius) -- (0,-0.5*\radius);
         \filldraw[tdplot_rotated_coords, color = red, opacity = 0.3] (\zenproj:\radius) arc (\zenproj:\zeproj:\radius) -- (0,0);     
 
         % line THETA surface
-        \tdplotdrawarc[arrow, tdplot_rotated_coords, very thick]{(O)}{\radius}{-50}{50}{}{}
+        \tdplotdrawarc[arrow, tdplot_rotated_coords, very thick]{(O)}{\radius}{-30}{50}{}{}
         
         % projected def-radial
         \tdplotdrawarc[arrow, tdplot_rotated_coords,very thick,red]{(O)}{\radius}{\zenproj}{\zeproj}{anchor=north west}{\acs{radial-deform}} 

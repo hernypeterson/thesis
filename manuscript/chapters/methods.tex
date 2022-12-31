@@ -97,16 +97,19 @@ Solving for \acs{ze'}:
 \begin{gather}
     -\cos\acs{ze}\sin\ac{ze'}+\sin\acs{ze}\cos\ac{ze'}\cos\left|\acs{az'}-\acs{az}\right|=0,\nonumber\\
     \frac{\sin\acs{ze}\cos\left|\acs{az'}-\acs{az}\right|}{\cos\acs{ze}}=\frac{\sin\ac{ze'}}{\cos\ac{ze'}},\nonumber\\
-    \boxed{\ac{ze'}=\arctan\left(\tan\ac{ze}\cos\left|\acs{az'}-\acs{az}\right|\right).}
+    \ac{ze'}=\arctan\left(\tan\ac{ze}\cos\left|\acs{az'}-\acs{az}\right|\right).\label{eq:constraint}
 \end{gather}
-The calculated value of \acs{ze'} can be substituted back into Equation~\ref{gcd} to find \acs{central-angle}.
+The calculated value of \acs{ze'} can then be substituted back into Equation~\ref{gcd} to find \acs{central-angle}. However, one adjustment must be made to this formula to account for edge cases. Notice in Equation~\ref{eq:constraint} that when $\cos\left|\acs{az'}-\acs{az}\right|$ is negative, so is \acs{ze'}. If we recall that \acs{ze'} ultimately describes a slope, a negative value does not make sense. In fact, this situation corresponds to an \emph{uphill} slope being a closer match with the observed topography than a downhill one, which occurs when $|\acs{az'}-\acs{az}|>\ang{90}$. In other words, the paleo-downhill direction is closer to the modern \emph{uphill} direction than it is to the downhill. These edge cases are treated by redefining negative \acs{ze'} values to zero. Thus, the equation implemented in this project is:
+\begin{equation}
+    \boxed{\ac{ze'}=\max[0,\arctan\left(\tan\ac{ze}\cos\left|\acs{az'}-\acs{az}\right|\right)].}\label{eq:constraint-robust}
+\end{equation} 
 
 \subsection{Radial Component of 3D Deformation}
 Figure~\ref{geometric-radial} illustrates how to find the component of 3D deformation along the radial-axial plane. It is just the difference of two results calculated by the procedure developed in Section~\ref{3d-deform}:
 \begin{equation}
-    \boxed{\acs{radial-deform}=\arctan\left(\tan\ac{ze}\cos\left|\acs{THETA}-\acs{az}\right|\right)-\arctan\left(\tan\ac{ze'}\cos\left|\acs{THETA}-\acs{az}\right|\right).}
+    \boxed{\acs{radial-deform}=\arctan\left(\tan\ac{ze}\cos\left|\acs{THETA}-\acs{az}\right|\right)-\arctan\left(\tan\ac{ze'}\cos\left|\acs{THETA}-\acs{az'}\right|\right).}
 \end{equation}
-
+Note the correction described by Equation~\eqref{eq:constraint-robust} is not desired here, since the vectors \acs{normal} and \acs{normal'} could just as easily project on either side of the $z-$axis. Also note that the order of the two terms matters, because the sign of the difference is significant. For example, \ang{-5} of radial deformation would represent a ``caving-in'' toward the caldera, while \ang{5} of radial deformation would be more like an outward bulge.
 \begin{figure}
     \centering
     \input{figures/geometric-radial.tex}

@@ -11,7 +11,6 @@
         \tdplotsetcoord{Z}{\radius}{90}{\THETA}
         \tdplotsetcoord{Zend}{\radius}{30}{\THETA}
         
-        
         % horizontal circumference
         \tdplotdrawarc[tdplot_main_coords]{(O)}{0.45*\radius}{0}{360}{}{}
         
@@ -19,29 +18,18 @@
         \tdplotsetthetaplanecoords{\THETA}
 
         % fill THETA surface
-        \filldraw[tdplot_rotated_coords, color = black, opacity = 0.05] (\radius,0) arc (0:50:\radius) -- (0,0.76604444*\radius) -- (0,0);
+        \filldraw[tdplot_rotated_coords, color = black, opacity = 0.05] (-50:\radius) arc (-50:50:\radius) -- (0,0.76604444*\radius) -- (0,-0.76604444*\radius);
         \filldraw[tdplot_rotated_coords, color = red, opacity = 0.3] (\zenproj:\radius) arc (\zenproj:\zeproj:\radius) -- (0,0);     
 
         % line THETA surface
-        \tdplotdrawarc[arrow, tdplot_rotated_coords, very thick]{(O)}{\radius}{0}{50}{}{}
+        \tdplotdrawarc[arrow, tdplot_rotated_coords, very thick]{(O)}{\radius}{-50}{50}{}{}
         
         % projected def-radial
-        \tdplotdrawarc[tdplot_rotated_coords,very thick,red]{(O)}{\radius}{\zenproj}{\zeproj}{anchor=north west}{\acs{radial-deform}}
-
-        % projected ze'
-        % \tdplotdrawarc[tdplot_rotated_coords,very thick]{(O)}{\radius}{0}{\zenproj}{anchor=south}{\acs{ze'}}   
+        \tdplotdrawarc[arrow, tdplot_rotated_coords,very thick,red]{(O)}{\radius}{\zenproj}{\zeproj}{anchor=north west}{\acs{radial-deform}} 
         
         % az' surface
         \tdplotsetthetaplanecoords{\azi}
         
-        % fill az' surface
-        % \filldraw[tdplot_rotated_coords, color = red, opacity = 0.45] (\radius,0) arc (0:\zen:\radius) -- (0,0);
-        % \filldraw[tdplot_rotated_coords, color = black, opacity = 0.05] (\radius,0) arc (0:90:\radius) -- (0,0);
-        
-        % ze' angle label
-        % \draw[arrow] (O) -- (P') node[anchor = south east] {\acs{normal'}};
-        % \draw[very thin, dashed] (O) -- (Q);
-        % \tdplotdrawarc[tdplot_rotated_coords, very thick]{(O)}{\radius}{90}{0}{anchor=south east}{\acs{line}}
         \tdplotdrawarc[tdplot_rotated_coords]{(O)}{\radius}{0}{\zen}{anchor=south}{\acs{ze'}}
 
         \draw[very thin, dashed] (P') -- (P'xy) -- (O);
@@ -84,9 +72,9 @@
         \filldraw[tdplot_rotated_coords, color = blue, opacity = 0.05] (-\zencenang:\radius) arc (-\zencenang:0:\radius) -- (0,0);
 
         % original central angle plane
-        \tdplotsetrotatedcoords{\azi}{-90+\zen}{0}
+        % \tdplotsetrotatedcoords{\azi}{-90+\zen}{0}
         
         % central angle line
-        \tdplotdrawarc[tdplot_rotated_coords, dotted, blue]{(0,0,0)}{\radius}{\cenang}{0}{anchor=south}{\acs{central-angle}}
+        % \tdplotdrawarc[tdplot_rotated_coords, dotted, blue]{(0,0,0)}{\radius}{\cenang}{0}{anchor=south}{\acs{central-angle}}
         
         \end{tikzpicture}

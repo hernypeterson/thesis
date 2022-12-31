@@ -1,8 +1,6 @@
 % Document Structure
 \documentclass[12pt,oneside]{book}
 \usepackage{geometry} % 1 in. margins
-%\usepackage[Bjornstrup]{fncychap}
-%\ChTitleVar{\huge}
 
 % Paper-specific Settings
 \usepackage[ ]{titlesec}  %
@@ -12,10 +10,10 @@
 % General
 \usepackage[table,xcdraw,dvipsnames]{xcolor}
 
-
+% Internal references
 \usepackage{hyperref}
-\usepackage[all]{hypcap} % link to figure (not caption)
 \hypersetup{pdfborder = {0 0 0}} % no link boxes
+\usepackage[all]{hypcap} % link to figure (not caption)
 \usepackage[nottoc]{tocbibind} % manual ToC entries
 \usepackage{chngcntr} % continuous numbering:
 \counterwithout{figure}{chapter} % figures,
@@ -25,8 +23,8 @@
 \input{preamble.tex}
 
 % Title Page
+\title{Lava Flow Constraints on 3D Deformation at the Summit of Olympus Mons on Mars}
 \author{\href{mailto:hgpa2018@mymail.pomona.edu}{Henry Peterson}}
-\title{\TITLE}
 
 \begin{document}
 
@@ -50,7 +48,7 @@ Note: in the PDF version of this manuscript, all internal references to equation
 
 \mainmatter%
 \chapter{Introduction}
-\input{chapters/intro}
+% \input{chapters/intro}
 \input{chapters/methods}
 % \input{chapters/results}
 % \input{chapters/discussion}

@@ -1,4 +1,4 @@
-\chapter{Methods}\label{methods}
+\chapter{Methods}\label{cha:methods}
 
 I first sample paleo- and modern surface attitude data across the summit of \acl{OM} using satellite-derived imagery and topography, respectively. Next, I develop a geometric framework for calculating minimum 3D surface deformation at each sampled location, based on collected attitude data. Next, I determine how much of this deformation must have been toward or away from the center of the edifice for each sampled location. Using these results, I develop a series of axisymmetric numerical models to relate surface deformation to underlying reservoir activity.
 
@@ -7,93 +7,125 @@ The \ac{CTX}\footnote{aboard the \ac{MRO} spacecraft launched in 2005 by \acs{NA
 
 \ac{MOLA}\footnote{aboard the now-retired \ac{MGS} spacecraft launched in 1996 by \acs{NASA}.} returned topography data with horizontal resolution of \qtyproduct{300 x 1000}{\m} at the equator (better at high latitudes) and elevation uncertainty of \qty{\sim3}{\m}~\parencite{smith_mars_2001}. To improve spatial resolution, additional elevation data from the \ac{HRSC}\footnote{aboard the \ac{MEX} spacecraft launched in 2003 by the \ac{ESA}} was blended to product a \ac{DEM} with \qty{200}{\m} pixel resolution. Each pixel's vertical uncertainty is \qty{\sim1}{\m}, with an additional global uncertainty of \qty{\sim1.8}{\m} in the martian areoid (martian equivalent of Earth's geoid). In this project, the global areoid uncertainty is not a concern because only one region (the summit of \ac{OM}) is considered.
 
-These two data sources were registered in an equal-area sinusoidal Mars projection in ArcGIS Pro. The study area is defined by a square \qtyproduct{200 x 200}{\km} centered at the centroid of the \qty{19}{\km} contour,\footnote{This is the highest integer \unit{km} which is roughly circular and completely encloses the caldera complex, implying that it largely records the conical shape of the shield edifice without influence from subsequent caldera collapse or reservoir inflation.} as seen in Figure~\ref{fig:study-area}.
+These two data sources were registered in an equal-area sinusoidal Mars projection in ArcGIS Pro. The study area is defined by a square \qtyproduct{200 x 200}{\km} centered at the centroid of the outermost \qty{19}{\km} contour,\footnote{This is the highest integer \unit{km} which is roughly circular and completely encloses the caldera complex, implying that it largely records the conical shape of the shield edifice without influence from subsequent caldera collapse or reservoir inflation.} as seen in Figure~\ref{fig:study-area}.
 
 \begin{figure}
-    {\centering
-        \includegraphics[width=\textwidth]{study-area.pdf}
-        \caption[Study Area: \acl{OM} Summit]{Study area at the summit of \acl{OM}. Sinusoidal Martian Projection. Contours in \unit{km}. Square is \qtyproduct{200 x 200}{\km}, centered at the midpoint of the outermost \qty{19}{\km} contour.}\label{fig:study-area}
-    }
-\end{figure}
-
-\section{Mapping \& Sampling Site Selection}\label{mapping}
-The \ac{CTX} mosaic was used to identify lava flows near the summit of \ac{OM}. Where possible, lobate flows were outlined and mapped as polygons. Flow centerlines were derived from these polygons, as shown in Figure~\ref{flow}. Channels were mapped as lines where flow margins were not visible. Some channels were discontinuous; these features were inferred to be regions where channels formed lava tubes which have subsequently collapsed to form a chain of skylights. See Figure~\ref{channel}.
-
-\begin{figure}
-{\centering
-\begin{subfigure}{\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{flow.pdf}
-    \caption[Mapped lava flow \& centerline]{A lobate flow is identified by relatively clear boundaries at each margin and mapped as a polygon (white) from which a centerline is derived for sampling.}\label{flow}
-\end{subfigure}
-\begin{subfigure}{\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{channel.pdf}
-    \caption[Mapped lava channel]{A lava channel is mapped as a linear feature, including regions of discontinuity which are inferred to be collapsed skylight chains over lava tubes.}\label{channel}
-\end{subfigure}
-}
-\caption{Mapping Linear Features}\label{mapping-linear}
+    \includegraphics[width=\textwidth]{study-area.pdf}
+    \caption[Study Area: \acl{OM} Summit]{Study area at the summit of \acl{OM} (inset). Sinusoidal Martian Projection. Contours in \unit{km}. Square is \qtyproduct{200 x 200}{\km}, centered at the midpoint of the outermost \qty{19}{\km} contour.}
+    \label{fig:study-area}
 \end{figure}
 
+\section{Mapping \& Sampling Site Selection}\label{sec:mapping}
+The \ac{CTX} mosaic was used to identify lava flows near the summit of \ac{OM}. Where possible, lobate flows were outlined and mapped as polygons. Flow centerlines were derived from these polygons, as shown in Figure~\ref{fig:flow}. Channels were mapped as lines where flow margins were not visible. Some channels were discontinuous; these features were inferred to be regions where channels formed lava tubes which have subsequently collapsed to form a chain of skylights. See Figure~\ref{fig:channel}.
 
 \begin{figure}
-{\centering
-        \includegraphics[width=\textwidth]{sampling.pdf}
-        \caption[Sampling site selection]{Each linear feature is assigned an average paleo-dip direction. Points are selected for sampling and calculations at \qty{5}{\km} and \qty{3}{\km} intervals for flows and channels, respectively. Paleo-dip direction is assigned to each point from its corresponding line; modern dip and dip direction is assigned to each point from its unique \ac{DEM} neighborhood.}\label{sampling}
-}
+    \centering
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{flow.pdf}
+        \caption[Mapped lava flow \& centerline]{A lobate flow is identified by relatively clear boundaries at each margin and mapped as a polygon (white) from which a centerline is derived for sampling.}
+        \label{fig:flow}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{channel.pdf}
+        \caption[Mapped lava channel]{A lava channel is mapped as a linear feature, including regions of discontinuity which are inferred to be collapsed skylight chains over lava tubes.}
+        \label{fig:channel}
+    \end{subfigure}
+    \caption{Mapping Linear Features}
+    \label{fig:mapping-linear}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{sampling.pdf}
+    \caption[Sampling site selection]{Each linear feature is assigned an average paleo-dip direction. Points are selected for sampling and calculations at \qty{5}{\km} and \qty{3}{\km} intervals for flows and channels, respectively. Paleo-dip direction is assigned to each point from its corresponding line; modern dip and dip direction is assigned to each point from its unique \ac{DEM} neighborhood.}
+    \label{fig:sampling}
+\end{figure}
 In both cases, lava features are ultimately mapped as lines\footnote{Lines can have more than one vertex, i.e., they can be curved.} (rather than polygons) in ArcGIS Pro. While the \ac{DEM} covers the entire summit region, it is only along these lines that information about the paleosurface can be inferred. Therefore, points along these lines are selected as sampling locations where attitude measurements and calculations will take place. Points are produced at evenly spaced intervals of \qty{5}{\km} along each flow centerline and \qty{3}{\km} along each channel. No points are assigned to linear features of less than this length to ensure that flows and channels are long enough to record large-scale topography rather than local variation.
 
 \section{Attitude Data Collection \& Representation}
 \begin{figure}
     \centering
     \input{figures/geometric-surface.tex}
-    \caption[\Acl{az}-\acl{ze} representation of surfaces.]{The attitude of a tilted surface (green) is defined relative to a flat surface (grey) by its \acf{az} and \acf{ze}. \acs{az} and \acs{ze} are also  the spherical coordinates of a unique unit vector \acs{normal} which is normal (perpendicular) to the surface. In the subsequent sections, $\acs{normal}=(\acs{az},\acs{ze})$ will always represent the observed attitude at a sampled location, while $\acs{normal'}=(\acs{az'},\acs{ze'})$ will always represent the \emph{inferred} attitude of the same point when the lava flow was emplaced.}\label{geometric-surface}
+    \caption[Surface attitude as a normal vector $\acs{normal}=(\acs{az},\acs{ze})$]{The attitude of a tilted surface (green) is defined relative to a flat surface (grey) by its \acf{az} and \acf{ze}. \acs{az} and \acs{ze} are also the spherical coordinates of a unique unit vector \acs{normal} which is normal (perpendicular) to the surface. In the subsequent sections, $\acs{normal}=(\acs{az},\acs{ze})$ will always represent the observed attitude at a sampled location, while $\acs{normal'}=(\acs{az'},\acs{ze'})$ will always represent the \emph{inferred} attitude of the same point when the lava flow was emplaced.}
+    \label{fig:geometric-surface}
 \end{figure}
-The ``Surface Parameters'' tool was used in ArcGIS Pro to compute average \acf{ze} and \acf{az} across the entire study area. In both cases, a new raster is produced at the same spatial resolution and coverage as the original \ac{DEM}. To avoid capturing local topographic anomalies, these values are averaged\footnote{Technically, a quadratic surface is interpolated over the neighborhood region and dip and dip direction are computed at the center of this surface.} over a circular ``neighborhood'' with radius \qty{2}{\km}. To each sampling location identified in Section~\ref{mapping} is assigned \acf{ze} and \acf{az} based on the value of the corresponding raster at that location. Figure~\ref{geometric-deform-collected} shows a geometric view of the relevant data to be collected.
+The ``Surface Parameters'' tool was used in ArcGIS Pro to compute average \acf{ze} and \acf{az} across the entire study area. In both cases, a new raster is produced at the same spatial resolution and coverage as the original \ac{DEM}. To avoid capturing local topographic anomalies, these values are averaged\footnote{Technically, a quadratic surface is interpolated over the neighborhood region and dip and dip direction are computed at the center of this surface.} over a circular ``neighborhood'' with radius \qty{2}{\km}. To each sampling location identified in Section~\ref{sec:mapping} is assigned \acf{ze} and \acf{az} based on the value of the corresponding raster at that location. Figure~\ref{fig:geometric-deform-collected} shows a geometric view of the relevant data to be collected.
 
 \section{Attitude Data Calculation}
 \subsection{Minimum 3D Deformation}\label{3d-deform}
-Figure~\ref{geometric-deform-calculated} shows a geometric view of the relevant data to be calculated and a conceptual model of the method used.
+Figure~\ref{fig:geometric-deform-calculated} shows what it means to calculate \acs{ze'} such that the \acf{central-angle} between \acs{normal} and \acs{normal'} is minimized. The method for this calculation is presented below.
 \begin{figure}
     \centering
     \input{figures/geometric-deform.tex}
-    \caption{Geometric view of optimization method}\label{geometric-deform}
+    \caption{Geometric view of optimization method}\label{fig:geometric-deform}
 \end{figure}
-By the spherical law of cosines, the \acf{central-angle} between two vectors in spherical coordinates is:
+Beginning with the spherical law of cosines:
 \begin{equation}
-    \acs{central-angle}=\arccos\left(\cos\acs{ze}\cos\acs{ze'}+\sin\acs{ze}\sin\acs{ze'}\cos\left|\acs{az'}-\acs{az}\right|\right).\label{eq:central-angle}
+    \acs{central-angle}
+    =\arccos(\cos\acs{ze}\cos\acs{ze'}
+    +\sin\acs{ze}\sin\acs{ze'}
+    \cos[\acs{az'}-\acs{az}]).
+    \label{eq:central-angle}
 \end{equation}
 For constant \acs{az}, \acs{ze}, and \acs{az'}, the value of \acs{ze'} which minimizes \acs{central-angle} can be calculated by setting:
 \begin{equation}
-    \frac{\partial}{\partial \acs{ze'}}\arccos\left(\cos\acs{ze}\cos\acs{ze'}+\sin\acs{ze}\sin\acs{ze'}\cos\left|\acs{az'}-\acs{az}\right|\right)=0.\label{eq:mimimum}
+    \frac{\partial}{\partial \acs{ze'}}
+    \arccos(\cos\acs{ze}\cos\acs{ze'}
+    +\sin\acs{ze}\sin\acs{ze'}
+    \cos[\acs{az'}-\acs{az}])
+    =0.\label{eq:mimimum}
 \end{equation}
 Differentiating using the chain rule,
 \begin{equation}
-    \frac{-\left(-\cos\acs{ze}\sin\ac{ze'}+\sin\acs{ze}\cos\ac{ze'}\cos\left|\acs{az'}-\acs{az}\right|\right)}{\sqrt{1-{\left(\cos\acs{ze}\cos\acs{ze'}+\sin\acs{ze}\sin\acs{ze'}\cos\left|\acs{az'}-\acs{az}\right|\right)}^2}}=0.\label{eq:derivative}
+    \frac{-(-\cos\acs{ze}\sin\ac{ze'}
+    +\sin\acs{ze}\cos\ac{ze'}
+    \cos[\acs{az'}-\acs{az}])}
+    {\sqrt{1-{(\cos\acs{ze}\cos\acs{ze'}
+    +\sin\acs{ze}\sin\acs{ze'}
+    \cos[\acs{az'}-\acs{az}])}^2}}
+    =0.\label{eq:derivative}
 \end{equation}
-Multiplying through by the denominator\footnote{The denominator in Equation~\eqref{eq:derivative} is zero exactly when \acs{central-angle} is \ang{0} or \ang{180}, that is, when \acs{normal} and \acs{normal'} are equal or antipodal. The $\acs{normal}=\acs{normal'}$ case behaves as desired in Equation~\eqref{eq:robust-ze'} without any special consideration despite the derivation involving division by zero because $\acs{normal}=\acs{normal'}\implies\cos\left|\acs{az'}-\acs{az}\right|=1\implies\acs{ze'}=\arctan(\tan\acs{ze}\cdot1)=\acs{ze}$. And the $\acs{normal}=-\acs{normal'}$ case is unphysical; it implies paleo- and modern slopes of \ang{90}.} and rearranging to solve for \acs{ze'}:
+Multiplying through by the denominator\footnote{The denominator in Equation~\eqref{eq:derivative} is zero exactly when \acs{central-angle} is \ang{0} or \ang{180}, that is, when \acs{normal} and \acs{normal'} are equal or antipodal. The $\acs{normal}=\acs{normal'}$ case behaves as desired in Equation~\eqref{eq:robust-ze'} without any special consideration despite the derivation involving division by zero because $\acs{normal}=\acs{normal'}\implies\cos[\acs{az'}-\acs{az}]=1\implies\acs{ze'}=\arctan(\tan\acs{ze}\cdot1)=\acs{ze}$. And the $\acs{normal}=-\acs{normal'}$ case is unphysical; it implies paleo- and modern slopes of \ang{90}.} and rearranging to solve for \acs{ze'}:
 \begin{gather}
-    -\cos\acs{ze}\sin\ac{ze'}+\sin\acs{ze}\cos\ac{ze'}\cos\left|\acs{az'}-\acs{az}\right|=0,\nonumber\\
-    \frac{\sin\acs{ze}\cos\left|\acs{az'}-\acs{az}\right|}{\cos\acs{ze}}=\frac{\sin\ac{ze'}}{\cos\ac{ze'}},\nonumber\\
-    \ac{ze'}=\arctan\left(\tan\ac{ze}\cos\left|\acs{az'}-\acs{az}\right|\right).\label{eq:ze'}
+    -\cos\acs{ze}\sin\ac{ze'}
+    +\sin\acs{ze}\cos\ac{ze'}
+    \cos[\acs{az'}-\acs{az}]
+    =0,\nonumber\\
+    \frac{\sin\acs{ze}
+    \cos[\acs{az'}-\acs{az}]}
+    {\cos\acs{ze}}
+    =\frac{\sin\ac{ze'}}{\cos\ac{ze'}},\nonumber\\
+    \ac{ze'}
+    =\arctan(\tan\ac{ze}
+    \cos[\acs{az'}-\acs{az}]).
+    \label{eq:ze'}
 \end{gather}
-The calculated value of \acs{ze'} can then be substituted back into Equation~\eqref{eq:central-angle} to find \acs{central-angle}. However, one adjustment must be made to this formula to account for edge cases. Notice in Equation~\eqref{eq:ze'} that when $\cos\left|\acs{az'}-\acs{az}\right|$ is negative, so is \acs{ze'}. If we recall that \acs{ze'} ultimately describes a slope, a negative value does not make sense. In fact, this situation corresponds to an \emph{uphill} slope being a closer match with the observed topography than a downhill one, which occurs when $|\acs{az'}-\acs{az}|>\ang{90}$. These edge cases are treated by redefining negative \acs{ze'} values to zero. Thus, the equation implemented in this project is:
+The calculated value of \acs{ze'} can then be substituted back into Equation~\eqref{eq:central-angle} to find \acs{central-angle}. However, one adjustment must be made to this formula to account for edge cases. Notice in Equation~\eqref{eq:ze'} that when $\cos[\acs{az'}-\acs{az}]$ is negative, so is \acs{ze'}; \acs{ze'} ultimately describes a slope, a negative value does not make sense. In fact, this situation corresponds to an \emph{uphill} slope being a closer match with the observed topography than a downhill one, which occurs when the angular distance between the two azimuth values exceeds \ang{90}. These edge cases are treated by redefining negative \acs{ze'} values to zero [EXPLAIN]. Thus, the final equation implemented here is:
 \begin{equation}
-    \boxed{\ac{ze'}=\max[0,\arctan\left(\tan\ac{ze}\cos\left|\acs{az'}-\acs{az}\right|\right)].}\label{eq:robust-ze'}
+    \boxed{\ac{ze'}
+    =\max[0,\arctan(\tan\ac{ze}
+    \cos[\acs{az'}-\acs{az}])].}
+    \label{eq:robust-ze'}
 \end{equation} 
 
 \subsection{Radial Component of 3D Deformation}
-Figure~\ref{geometric-radial} illustrates how to find the component of 3D deformation along the radial-axial plane. It is just the difference of two results calculated by the procedure developed in Section~\ref{3d-deform}:
+Figure~\ref{fig:geometric-radial} shows what is means to calculate the component of 3D deformation along the radial-axial plane. Comparison with Figure~\ref{fig:geometric-deform-calculated} reveals the geometric similarity between the two problems. Therefore, the same Equation~\ref{eq:ze'} derived in Section~\ref{3d-deform} will be used, with small modifications owing to a few important differences. First, there are two distinct blue central angles to be minimized, and thus two distinct red zenith angles to be calculated. The \acf{radial-deform} value to be calculated is the signed difference between the two zenith values, which correspond to the ``projections'' of \acs{normal} and \acs{normal'} onto the plane containing the $z-$ and $r-$axes. Also, the correction used in Equation~\eqref{eq:robust-ze'} is not desired here, since the vectors \acs{normal} and \acs{normal'} could just as easily project on either side of the $z-$axis.
 \begin{equation}
-    \boxed{\acs{radial-deform}=\arctan\left(\tan\ac{ze}\cos\left|\acs{THETA}-\acs{az}\right|\right)-\arctan\left(\tan\ac{ze'}\cos\left|\acs{THETA}-\acs{az'}\right|\right).}
+    \boxed{\acs{radial-deform}
+    =\arctan(\tan\ac{ze}
+    \cos[\acs{THETA}-\acs{az}])
+    -\arctan(\tan\ac{ze'}
+    \cos[\acs{THETA}-\acs{az'}]).}
 \end{equation}
-Note the correction used in Equation~\eqref{eq:robust-ze'} is not desired here, since the vectors \acs{normal} and \acs{normal'} could just as easily project on either side of the $z-$axis. Also, the sign of the difference (order of terms) is significant. For example, \ang{-5} of radial deformation would represent a ``caving-in'' toward the caldera, while \ang{5} of radial deformation would be more like an outward bulge.
+Note that unlike the difference $\acs{az'}-\acs{az}$, the order of terms (and thus the sign of the difference) is significant. For example, \ang{-5} of radial deformation would represent a ``caving-in'' toward the caldera, while \ang{5} of radial deformation would be more like an outward bulge.
 \begin{figure}
     \centering
     \input{figures/geometric-radial.tex}
-    \caption[Geometric view of \acl{radial-deform}]{Geometric view of \acf{radial-deform} calculated from \acs{normal}, \acs{normal'}, and \acs{THETA}. The same \acs{central-angle}-minimizing procedure developed in Section~\ref{3d-deform} is used here, but now both \acs{normal} and \acs{normal'} are projected onto the radial azimuth plane, and the signed difference between their projected zenith angles is calculated.}\label{geometric-radial}
+    \caption[Geometric view of \acl{radial-deform}]{Geometric view of \acf{radial-deform} calculated from \acs{normal}, \acs{normal'}, and \acs{THETA}. The same \acs{central-angle}-minimizing procedure developed in Section~\ref{3d-deform} is used here, but now both \acs{normal} and \acs{normal'} are projected onto the plane containing the $z-$ and $r-$axes, and the signed difference between their projected zenith angles is calculated.}
+    \label{fig:geometric-radial}
 \end{figure}
 
 \section{Axisymmetric Model of Reservoir Inflation}

@@ -1,6 +1,6 @@
 \begin{subfigure}{\textwidth}
     \centering
-    \begin{tikzpicture}[scale=3.4,tdplot_main_coords]
+    \begin{tikzpicture}[scale=3,tdplot_main_coords]
 
         % origin
         \coordinate (O) at (0,0,0);
@@ -34,7 +34,7 @@
         \draw[arrow] (O) -- (0,0,\axislength) node[anchor=south]{$z$};
         
         % |az' - az| angle label
-        \tdplotdrawarc{(O)}{0.6}{\azi}{\az+360}{anchor=north}{$|\acs{az'}-\acs{az}|$}
+        \tdplotdrawarc{(O)}{0.6}{\azi}{\az+360}{anchor=north}{$\acs{az'}-\acs{az}$}
         
         % ze angle label
         \tdplotdrawarc[tdplot_rotated_coords]{(O)}{\radius}{0}{\ze}{anchor=west}{\acs{ze}}
@@ -42,11 +42,12 @@
 
         \filldraw[black] (O) circle (0.2pt);
         \end{tikzpicture}
-    \caption[Attitude data collected]{Geometric view of attitude data \emph{collected} at each point: \acs{az}, \acs{ze}, and \acs{az'}. The vector \acs{normal} is defined by \acs{az} and \acs{ze}. The \emph{family} of vectors \acs{line} is defined by \acs{az'}.}\label{geometric-deform-collected}
+    \caption[Attitude data collected]{Geometric view of attitude data \emph{collected} at each point: \acs{az}, \acs{ze}, and \acs{az'}. The vector \acs{normal} is defined by \acs{az} and \acs{ze}. The \emph{family} of vectors \acs{line} is defined by \acs{az'}. Note that the order of terms in the difference $\acs{az'}-\acs{az}$ does not matter; it should be apparent geometrically that only the angular distance is important, and this will be reflected in the mathematical derivation to follow.}
+    \label{fig:geometric-deform-collected}
 \end{subfigure}
 \begin{subfigure}{\textwidth}
     \centering
-    \begin{tikzpicture}[scale=3.4,tdplot_main_coords]
+    \begin{tikzpicture}[scale=3,tdplot_main_coords]
 
         % origin
         \coordinate (O) at (0,0,0);
@@ -83,7 +84,7 @@
         \draw[arrow] (O) -- (0,0,\axislength) node[anchor=south]{$z$};
         
         % |az' - az| angle label
-        \tdplotdrawarc{(O)}{0.6}{\azi}{\az+360}{anchor=north}{$|\acs{az'}-\acs{az}|$}
+        \tdplotdrawarc{(O)}{0.6}{\azi}{\az+360}{anchor=north}{$\acs{az'}-\acs{az}$}
         
         % ze angle label
         \tdplotdrawarc[tdplot_rotated_coords]{(O)}{\radius}{0}{\ze}{anchor=west}{\acs{ze}}
@@ -100,5 +101,5 @@
 
         \filldraw[black] (O) circle (0.2pt);
         \end{tikzpicture}
-\caption[Attitude data calculated]{Geometric view of attitude data \emph{calculated} at each point: \acs{ze'} and \acs{central-angle}. From the family of vectors \acs{line}, the vector \acs{normal'} with zenith angle \acs{ze'} is chosen to minimize the blue \acf{central-angle} subtended by \acs{normal} and \acs{normal'}.}\label{geometric-deform-calculated}
+\caption[Attitude data calculated]{Geometric view of attitude data \emph{calculated} at each point: \acs{ze'} and \acs{central-angle}. From the family of vectors \acs{line}, the vector \acs{normal'} with zenith angle \acs{ze'} is chosen to minimize the blue \acf{central-angle} subtended by \acs{normal} and \acs{normal'}.}\label{fig:geometric-deform-calculated}
 \end{subfigure}

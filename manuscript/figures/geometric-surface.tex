@@ -1,4 +1,4 @@
-\begin{tikzpicture}[scale=5.3,tdplot_main_coords]
+\begin{tikzpicture}[scale=6,tdplot_main_coords]
 
 % origin
 \coordinate (O) at (0,0,0);
@@ -7,51 +7,54 @@
 \tdplotsetcoord{P}{\radius}{\ze}{\az}
 
 % fill flat surface
-\filldraw[color = gray!10!white] (0:\radius) arc (0:360:\radius);
+\filldraw[color = gray!10!white] (0,0) circle (0.9*\radius);
 
 % define tilted surface
 \tdplotsetrotatedcoords{\az}{\ze}{0}
 
 % fill tilted surface
-\filldraw[tdplot_rotated_coords, color = green!40!black, opacity=0.2] (0:0.4*\radius) arc (0:360:0.4*\radius);
+\filldraw[tdplot_rotated_coords, color = green!40!black, opacity=0.4] (0,0) circle (0.4*\radius);
 
 % downhill line
-\draw[tdplot_rotated_coords, color = green!40!black] (0,0) -- (0:0.4*\radius);
+\draw[arrow, tdplot_rotated_coords] (0:-0.4*\radius) -- (0:0.4*\radius);
 % \draw[tdplot_rotated_coords, color = green!40!black, arrow] (90:-\radius) -- (270:\radius);
 
-% horizontal surface (front)
-\filldraw[color = gray!10!white, opacity=0.7] (\az-90:\radius) arc (\az-90:\az+90:\radius);
-% horizontal circumference (front)
-% \tdplotdrawarc[very thin]{(O)}{\radius}{\az+90}{\az-\viewaz-25}{}{}
+% fill az surface 
 
-% tilted coordinates
-\tdplotsetrotatedcoords{\az}{\ze}{0}
+%%%%%%%%%%%%%%%%%%%%% FIX BELOW? Circle
+
+% \filldraw[tdplot_rotated_coords, color = black, opacity=0.05] (0,0) circle (0.1*\radius);
 
 % perpendicular corners
-\draw[tdplot_rotated_coords] (0.15,0,0) -- (0.15,0,0.15) -- (0,0,0.15) -- (0,-0.15,0.15) -- (0,-0.15,0);
+\draw[tdplot_rotated_coords] (0.1,0,0) -- (0.1,0,0.1) -- (0,0,0.1) -- (0,-0.1,0.1) -- (0,-0.1,0);
 
-% az surface
-\tdplotsetthetaplanecoords{\az}
+% horizontal surface (front right)
+\fill[color = gray!10!white, opacity=0.6] (\az:0.9*\radius) arc (\az:\az+90:0.9*\radius) -- (0,0);
 
-% line az surface
-\draw[very thin, dashed,green!40!black] (P) -- (Pxy) -- (O);
-% \draw[very thin, dashed,green!40!black] (O) -- (\az:\radius);
-\draw[arrow,very thick, green!40!black] (O) -- (P) node[anchor = south west] {\acs{normal}};
+% perpendicular corners
+\draw[tdplot_rotated_coords] (0.1,0,0) -- (0.1,0,0.1) -- (0,0,0.1) -- (0,-0.1,0.1) -- (0,-0.1,0);
 
-% fill az surface
-% \filldraw[tdplot_rotated_coords, color = black, opacity=0.05] (0:\radius) arc (0:360:\radius);
+% horizontal surface (front left)
+\fill[color = gray!10!white, opacity=0.6] (\az-90:0.9*\radius) arc (\az-90:\az:0.9*\radius) -- (0,0);
 
 % cartesian axes
 \draw[arrow] (O) -- (\axislength,0,0) node[anchor=north]{$x$};
-% \draw[arrow] (O) -- (0,\axislength,0) node[anchor=west]{$y$};
 \draw[arrow] (O) -- (0,0,\axislength) node[anchor=south]{$z$};
+
+% line az surface
+\draw[very thin, dashed,green!40!black] (P) -- (Pxy) -- (O);
+\draw[arrow, green!40!black] (O) -- (P) node[anchor = south west] {\acs{normal}};
 
 % az angle label
 \tdplotdrawarc{(O)}{0.4*\radius}{0}{\az}{anchor=north}{\acs{az}}
 
-% ze angle label
-\tdplotdrawarc[tdplot_rotated_coords]{(O)}{0.4*\radius}{0}{\ze}{anchor=south west}{\acs{ze}}
+% az surface
+\tdplotsetthetaplanecoords{\az}
 
+% ze angle label
+\tdplotdrawarc[tdplot_rotated_coords]{(O)}{\radius}{0}{\ze}{anchor=north east}{\acs{ze}}
+
+% ze angle label
 \tdplotdrawarc[tdplot_rotated_coords]{(O)}{0.4*\radius}{90}{90+\ze}{anchor=west}{\acs{ze}}
 
 \filldraw[black] (O) circle (0.2pt);

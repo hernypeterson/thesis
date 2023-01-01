@@ -12,7 +12,10 @@
         \tdplotsetcoord{Zend}{\radius}{30}{\THETA}
         
         % horizontal circumference
-        \tdplotdrawarc[tdplot_main_coords]{(O)}{0.45*\radius}{0}{360}{}{}
+        % \tdplotdrawarc[tdplot_main_coords]{(O)}{0.45*\radius}{0}{360}{}{}
+
+        % grey circle
+        \filldraw[tdplot_main_coords, color = gray!10!white] (0:0.5*\radius) arc (0:360:0.5*\radius);
         
         % THETA surface
         \tdplotsetthetaplanecoords{\THETA}
@@ -22,7 +25,7 @@
         \filldraw[tdplot_rotated_coords, color = red, opacity = 0.3] (\zenproj:\radius) arc (\zenproj:\zeproj:\radius) -- (0,0);     
 
         % line THETA surface
-        \tdplotdrawarc[arrow, tdplot_rotated_coords, very thick]{(O)}{\radius}{-30}{50}{}{}
+        \tdplotdrawarc[arrow, tdplot_rotated_coords]{(O)}{\radius}{-30}{50}{}{}
         
         % projected def-radial
         \tdplotdrawarc[arrow, tdplot_rotated_coords,very thick,red]{(O)}{\radius}{\zenproj}{\zeproj}{anchor=north west}{\acs{radial-deform}} 
@@ -77,4 +80,6 @@
         % central angle line
         % \tdplotdrawarc[tdplot_rotated_coords, dotted, blue]{(0,0,0)}{\radius}{\cenang}{0}{anchor=south}{\acs{central-angle}}
         
+        \filldraw[black] (O) circle (0.2pt);
+
         \end{tikzpicture}

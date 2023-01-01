@@ -6,6 +6,7 @@
         
         % also defines (Pxy), (Pxz), (Pyz), etc.
         \tdplotsetcoord{P}{\radius}{\ze}{\az}
+        \tdplotsetcoord{C}{-\axislength}{90}{\az-45}
         \tdplotsetcoord{P'}{\radius}{\zen}{\azi}
         \tdplotsetcoord{Q}{\radius}{90}{\azi}
         \tdplotsetcoord{Z}{\radius}{90}{\THETA}
@@ -15,14 +16,23 @@
         % \tdplotdrawarc[tdplot_main_coords]{(O)}{0.45*\radius}{0}{360}{}{}
 
         % grey circle
-        \filldraw[tdplot_main_coords, color = gray!10!white] (0:0.5*\radius) arc (0:360:0.5*\radius);
+        \fill[tdplot_main_coords, color = gray!10!white] (0:0.5*\radius) arc (0:360:0.5*\radius);
+
+        % horizontal surface from caldera center
+        \fill[color = gray!10!white] (C) circle (0.1*\radius);
+
+        % x-axis from caldera center
+        \draw[arrow] (C) --+ (0,0.1*\axislength,0) node[anchor=west]{\acs{north}};
+
+        % az angle labels
+        \tdplotdrawarc{(C)}{0.1}{\THETA}{90}{anchor=north west}{\acs{THETA}}
         
         % THETA surface
         \tdplotsetthetaplanecoords{\THETA}
 
         % fill THETA surface
-        \filldraw[tdplot_rotated_coords, color = black, opacity = 0.05] (-30:\radius) arc (-30:50:\radius) -- (0,0.76604444*\radius) -- (0,-0.5*\radius);
-        \filldraw[tdplot_rotated_coords, color = red, opacity = 0.3] (\zenproj:\radius) arc (\zenproj:\zeproj:\radius) -- (0,0);     
+        \fill[tdplot_rotated_coords, color = black, opacity = 0.05] (-30:\radius) arc (-30:50:\radius) -- (0,0.76604444*\radius) -- (0,-0.5*\radius);
+        \fill[tdplot_rotated_coords, color = red, opacity = 0.3] (\zenproj:\radius) arc (\zenproj:\zeproj:\radius) -- (0,0);     
 
         % line THETA surface
         \tdplotdrawarc[arrow, tdplot_rotated_coords]{(O)}{\radius}{-30}{50}{}{}
@@ -47,10 +57,10 @@
         
         % z-axis
         \draw[arrow] (O) -- (0,0,\axislength) node[anchor=south]{$z$};
-        \draw[arrow] (\THETA:-0.76604444*\axislength) -- (\THETA:0.76604444*\axislength) node[anchor=north east]{$\hat r$};
+        \draw[arrow] (C) -- (\THETA:0.76604444*\axislength) node[anchor=north east]{$\hat r$};
         
         % az angle labels
-        \tdplotdrawarc{(O)}{0.3}{\azi}{\THETA+360}{anchor=north east}{$\acs{THETA}-\acs{az'}$}
+        \tdplotdrawarc{(O)}{0.3}{\azi}{\THETA+360}{anchor=north east}{$\acs{az'}-\acs{THETA}$}
         \tdplotdrawarc{(O)}{0.3}{\THETA}{\az}{anchor=north}{$\acs{THETA}-\acs{az}$}
         
         % ze angle label
@@ -63,7 +73,7 @@
         \tdplotdrawarc[tdplot_rotated_coords, blue]{(0,0,0)}{\radius}{\zecenang}{0}{}{}
 
         % central angle fill n'
-        \filldraw[tdplot_rotated_coords, color = blue, opacity = 0.05] (0:\radius) arc (0:\zecenang:\radius) -- (0,0);
+        \fill[tdplot_rotated_coords, color = blue, opacity = 0.05] (0:\radius) arc (0:\zecenang:\radius) -- (0,0);
 
         % central angle plane for n'
         \tdplotsetrotatedcoords{\THETA}{-90+\zenproj}{0}
@@ -72,14 +82,13 @@
         \tdplotdrawarc[tdplot_rotated_coords, blue]{(0,0,0)}{\radius}{-\zencenang}{0}{}{}
         
         % central angle fill n'
-        \filldraw[tdplot_rotated_coords, color = blue, opacity = 0.05] (-\zencenang:\radius) arc (-\zencenang:0:\radius) -- (0,0);
+        \fill[tdplot_rotated_coords, color = blue, opacity = 0.05] (-\zencenang:\radius) arc (-\zencenang:0:\radius) -- (0,0);
 
-        % original central angle plane
-        % \tdplotsetrotatedcoords{\azi}{-90+\zen}{0}
+        \fill[black] (O) circle (0.2pt);
+        \fill[black] (C) circle (0.2pt) node[anchor=south]{$c$};
         
-        % central angle line
-        % \tdplotdrawarc[tdplot_rotated_coords, dotted, blue]{(0,0,0)}{\radius}{\cenang}{0}{anchor=south}{\acs{central-angle}}
         
-        \filldraw[black] (O) circle (0.2pt);
-
+        
+        
+        
         \end{tikzpicture}

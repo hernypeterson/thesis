@@ -1,6 +1,6 @@
 \begin{subfigure}{\textwidth}
     \centering
-    \begin{tikzpicture}[scale=3,tdplot_main_coords]
+    \begin{tikzpicture}[scale=2.3,tdplot_main_coords]
 
         % origin
         \coordinate (O) at (0,0,0);
@@ -11,13 +11,13 @@
         \tdplotsetcoord{Q}{\radius}{90}{\azi}
         
         % grey circle
-        \filldraw[tdplot_main_coords, color = gray!10!white] (0:\radius) arc (0:360:\radius);
+        \fill[tdplot_main_coords, color = gray!10!white] (0:\radius) arc (0:360:\radius);
         
         % az' surface
         \tdplotsetthetaplanecoords{\azi}
         
         % fill az' surface
-        \filldraw[tdplot_rotated_coords, color = black, opacity = 0.05] (\radius,0) arc (0:90:\radius) -- (0,0);
+        \fill[tdplot_rotated_coords, color = black, opacity = 0.05] (\radius,0) arc (0:90:\radius) -- (0,0);
         
         % line az' surface
         \draw[very thin, dashed] (O) -- (Q);
@@ -40,14 +40,14 @@
         \tdplotdrawarc[tdplot_rotated_coords]{(O)}{\radius}{0}{\ze}{anchor=west}{\acs{ze}}
         
 
-        \filldraw[black] (O) circle (0.2pt);
-        \end{tikzpicture}
-    \caption[Attitude data collected]{Geometric view of attitude data \emph{collected} at each point: \acs{az}, \acs{ze}, and \acs{az'}. The vector \acs{normal} is defined by \acs{az} and \acs{ze}. The \emph{family} of vectors \acs{line} is defined by \acs{az'}. Note that the order of terms in the difference $\acs{az'}-\acs{az}$ does not matter; it should be apparent geometrically that only the angular distance is important, and this will be reflected in the mathematical derivation to follow.}
+        \fill[black] (O) circle (0.2pt);
+    \end{tikzpicture}
+    \caption[Attitude data collected]{Attitude data \emph{collected} at each point: \acs{az}, \acs{ze}, and \acs{az'}. $\acs{normal}=(\acs{az},\acs{ze})$ as shown in Figure~\ref{fig:geometric-surface}. The \emph{family} of vectors \acs{line} is defined by \acs{az'}.}
     \label{fig:geometric-deform-collected}
 \end{subfigure}
 \begin{subfigure}{\textwidth}
     \centering
-    \begin{tikzpicture}[scale=3,tdplot_main_coords]
+    \begin{tikzpicture}[scale=4.3,tdplot_main_coords]
 
         % origin
         \coordinate (O) at (0,0,0);
@@ -58,14 +58,14 @@
         \tdplotsetcoord{Q}{\radius}{90}{\azi}
         
         % grey circle
-        \filldraw[tdplot_main_coords, color = gray!10!white] (0:\radius) arc (0:360:\radius);
+        \fill[tdplot_main_coords, color = gray!10!white] (0:\radius) arc (0:360:\radius);
         
         % az' surface
         \tdplotsetthetaplanecoords{\azi}
         
         % fill az' surface
-        \filldraw[tdplot_rotated_coords, color = red, opacity = 0.45] (\radius,0) arc (0:\zen:\radius) -- (0,0);
-        \filldraw[tdplot_rotated_coords, color = black, opacity = 0.05] (\radius,0) arc (0:90:\radius) -- (0,0);
+        \fill[tdplot_rotated_coords, color = red, opacity = 0.3] (\radius,0) arc (0:\zen:\radius) -- (0,0);
+        \fill[tdplot_rotated_coords, color = black, opacity = 0.05] (\radius,0) arc (0:90:\radius) -- (0,0);
         
         % line az' surface
         \draw[arrow] (O) -- (P') node[anchor = south east] {\acs{normal'}};
@@ -93,13 +93,14 @@
         \tdplotsetrotatedcoords{\azi}{-90+\zen}{0}
         
         % central angle line
-        \tdplotdrawarc[tdplot_rotated_coords,very thick,blue]{(0,0,0)}{\radius}{\cenang}{0}{anchor=south}{\acs{central-angle}}
+        \tdplotdrawarc[tdplot_rotated_coords,blue]{(0,0,0)}{\radius}{\cenang}{0}{anchor=south}{\acs{central-angle}}
         
         % central angle fill
-        \filldraw[tdplot_rotated_coords, color = blue, opacity = 0.15] (\radius,0) arc (0:\cenang:\radius) -- (0,0);
+        \fill[tdplot_rotated_coords, color = blue, opacity = 0.1] (\radius,0) arc (0:\cenang:\radius) -- (0,0);
         
 
-        \filldraw[black] (O) circle (0.2pt);
+        \fill[black] (O) circle (0.2pt);
         \end{tikzpicture}
-\caption[Attitude data calculated]{Geometric view of attitude data \emph{calculated} at each point: \acs{ze'} and \acs{central-angle}. From the family of vectors \acs{line}, the vector \acs{normal'} with zenith angle \acs{ze'} is chosen to minimize the blue \acf{central-angle} subtended by \acs{normal} and \acs{normal'}.}\label{fig:geometric-deform-calculated}
+\caption[Attitude data calculated]{Attitude data \emph{calculated} at each point: \acs{ze'} and \acs{central-angle}. From the family of vectors \acs{line}, the vector \acs{normal'} with zenith angle \acs{ze'} is chosen to minimize the blue \acf{central-angle} subtended by \acs{normal} and \acs{normal'}.}
+\label{fig:geometric-deform-calculated}
 \end{subfigure}

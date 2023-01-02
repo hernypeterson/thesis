@@ -39,7 +39,7 @@
         \tdplotdrawarc{(O)}{0.6}{\azi}{\azrev-360}{anchor=north}{$\acs{az'}-\acs{az}$}
         
         % ze angle label
-        \tdplotdrawarc[tdplot_rotated_coords]{(O)}{\radius}{0}{\ze}{anchor=north,rotate=-28}{$\acs{ze}=\acs{central-angle}$}
+        \tdplotdrawarc[tdplot_rotated_coords]{(O)}{\radius}{0}{\ze}{coordinate, pin={[pin edge={black},-]-90:$\acs{ze}=\acs{central-angle}$}}{}
         
         % central angle plane
         \tdplotsetrotatedcoords{\azi}{-90-\zen}{0}

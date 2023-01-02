@@ -93,7 +93,7 @@
         \tdplotsetrotatedcoords{\azi}{-90+\zen}{0}
         
         % central angle line
-        \tdplotdrawarc[tdplot_rotated_coords,blue]{(0,0,0)}{\radius}{\cenang}{0}{anchor=south}{\acs{central-angle}}
+        \tdplotdrawarc[tdplot_rotated_coords,blue]{(0,0,0)}{\radius}{\cenang}{0}{coordinate, pin={[pin edge={black},-]-90:\acs{central-angle}}}{}
         
         % central angle fill
         \fill[tdplot_rotated_coords, color = blue, opacity = 0.1] (\radius,0) arc (0:\cenang:\radius) -- (0,0);

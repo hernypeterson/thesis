@@ -36,16 +36,16 @@
 \draw[arrow, green!40!black] (O) -- (P) node[anchor = south west] {\acs{normal}};
 
 % az angle label
-\tdplotdrawarc{(O)}{0.4*\radius}{\az}{90}{pin={[pin edge={black},pin distance=1cm,-]-60:\acs{az}}}{}
+\tdplotdrawarc{(O)}{0.4*\radius}{\az}{90}{coordinate, pin={[pin edge={black},-]-60:\acs{az}}}{}
 
 % az surface
 \tdplotsetthetaplanecoords{\az}
 
 % ze angle label
-\tdplotdrawarc[tdplot_rotated_coords]{(O)}{0.4*\radius}{0}{\ze}{pin={[pin edge={black},-]80:\acs{ze}}}{}
+\tdplotdrawarc[tdplot_rotated_coords]{(O)}{0.4*\radius}{0}{\ze}{coordinate, pin={[pin edge={black},-]80:\acs{ze}}}{}
 
 % ze angle label
-\tdplotdrawarc[tdplot_rotated_coords]{(O)}{0.4*\radius}{90}{90+\ze}{pin={[pin edge={black},-]180:\acs{ze}}}{}
+\tdplotdrawarc[tdplot_rotated_coords]{(O)}{0.4*\radius}{90}{90+\ze}{coordinate, pin={[pin edge={black},-]180:\acs{ze}}}{}
 
 \fill[black] (O) circle (0.2pt);
 

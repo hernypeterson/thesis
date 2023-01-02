@@ -1,0 +1,18 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\begin{document}
+\begin{tikzpicture}[node distance=2cm,>=latex, every node/.style={
+    font=\sffamily\scriptsize
+    },  
+    circtext/.style={draw,circle,minimum size=8pt,inner sep=2pt},
+    dot/.style={draw,circle,fill=black,minimum size=0.6mm,inner sep=0pt}
+]
+{
+\node[rectangle, fill=green!10!white!90!black, minimum width=6cm, minimum height=3cm] at (2,0){};
+\node[circtext, fill=yellow](A) at (0,0) {A};
+\node[circtext, fill=yellow, right=of A](B){B};
+\draw[->] (A) -- node[dot, pos=0.5, pin=[red]60:{Hey!}](C){}(B);
+}
+\end{tikzpicture}
+\end{document}

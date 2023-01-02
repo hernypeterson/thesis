@@ -52,15 +52,15 @@ In both cases, lava features are ultimately mapped as lines\footnote{Lines can h
     \caption[Surface attitude as normal vector $\acs{normal}=(\acs{az},\acs{ze})$]{The attitude of a tilted surface (green) is defined relative to horizontal (grey) by its \acf{az} and \acf{ze}. \acs{az} and \acs{ze} are also the spherical coordinates of a unique unit vector \acs{normal} which is normal (perpendicular) to the surface. In the subsequent sections, $\acs{normal}=(\acs{az},\acs{ze})$ will always represent the observed attitude at a sampled location, while $\acs{normal'}=(\acs{az'},\acs{ze'})$ will always represent the \emph{inferred} attitude of the same point when the lava flow was emplaced. Note that azimuth angles always increase clockwise from due \acf{north} as shown, following the geographic convention.}
     \label{fig:geometric-surface}
 \end{figure}
-The ``Surface Parameters'' tool was used in ArcGIS Pro to compute average \acf{ze} and \acf{az} across the entire study area. In both cases, a new raster is produced at the same spatial resolution and coverage as the original \ac{DEM}. To avoid capturing local topographic anomalies, these values are averaged\footnote{Technically, a quadratic surface is interpolated over the neighborhood region and dip and dip direction are computed at the center of this surface.} over a circular ``neighborhood'' with radius \qty{2}{\km}. To each sampling location identified in Section~\ref{sec:mapping} is assigned \acf{ze} and \acf{az} based on the value of the corresponding raster at that location. Figure~\ref{fig:geometric-deform-collected} shows a geometric view of the relevant data to be collected.
+The ``Surface Parameters'' tool was used in ArcGIS Pro to compute average \acf{ze} and \acf{az} across the entire study area. In both cases, a new raster is produced at the same spatial resolution and coverage as the original \ac{DEM}. To avoid capturing local topographic anomalies, these values are averaged\footnote{Technically, a quadratic surface is interpolated over the neighborhood region and dip and dip direction are computed at the center of this surface.} over a circular ``neighborhood'' with radius \qty{2}{\km}. To each sampling location identified in Section~\ref{sec:mapping} is assigned \acf{ze} and \acf{az} based on the value of the corresponding raster at that location. Figure~\ref{fig:deform-collected} shows a geometric view of the relevant data to be collected.
 
 \section{Attitude Data Calculation}
 \subsection{Minimum 3D Deformation}\label{3d-deform}
-Figure~\ref{fig:geometric-deform-calculated} shows what it means to calculate \acs{ze'} such that the \acf{central-angle} between \acs{normal} and \acs{normal'} is minimized. The method for this calculation is presented below.
+Figure~\ref{fig:deform-calculated} shows what it means to calculate \acs{ze'} such that the \acf{central-angle} between \acs{normal} and \acs{normal'} is minimized. The method for this calculation is presented below.
 \begin{figure}
     \centering
-    \input{figures/geometric-deform.tex}
-    \caption{Geometric view of \acl{ze'} calculation}\label{fig:geometric-deform}
+    \input{figures/deform.tex}
+    \caption{Geometric view of \acl{ze'} calculation}\label{fig:deform}
 \end{figure}
 Beginning with the spherical law of cosines:
 \begin{equation}
@@ -88,7 +88,7 @@ Differentiating using the chain rule,
     \cos[\acs{az'}-\acs{az}])}^2}}
     =0.\label{eq:derivative}
 \end{equation}
-Multiplying through by the denominator\footnote{The denominator in Equation~\eqref{eq:derivative} is zero when \acs{central-angle} is \ang{0} or \ang{180}: when \acs{normal} and \acs{normal'} are equal or antipodal. The $\acs{normal}=\acs{normal'}$ case ultimately behaves as desired in Equation~\eqref{eq:robust-ze'} because $\acs{normal}=\acs{normal'}\implies\cos[\acs{az'}-\acs{az}]=1\implies\acs{ze'}=\arctan(\tan\acs{ze}\cdot1)=\acs{ze}$. The $\acs{normal}=-\acs{normal'}$ case is unphysical; it implies paleo- and modern slopes of \ang{90}.} and rearranging to solve for \acs{ze'}:
+Multiplying through by the denominator\footnote{The denominator in Equation~\eqref{eq:derivative} is zero when \acs{central-angle} is \ang{0} or \ang{180}: when \acs{normal} and \acs{normal'} are equal or antipodal. The $\acs{normal}=\acs{normal'}$ case ultimately behaves as desired in Equation~\eqref{eq:robust-ze'} because $\acs{normal}=\acs{normal'}\implies\cos[\acs{az'}-\acs{az}]=1\implies\acs{ze'}=\arctan(\tan\acs{ze}\cdot1)=\acs{ze}$. The antipodal case is unphysical; it implies paleo- and modern slopes of \ang{90}.} and rearranging to solve for \acs{ze'}:
 \begin{gather}
     -\cos\acs{ze}\sin\ac{ze'}
     +\sin\acs{ze}\cos\ac{ze'}
@@ -103,16 +103,22 @@ Multiplying through by the denominator\footnote{The denominator in Equation~\eqr
     \cos[\acs{az'}-\acs{az}]).
     \label{eq:ze'}
 \end{gather}
-The calculated value of \acs{ze'} can then be substituted back into Equation~\eqref{eq:central-angle} to find \acs{central-angle}. However, one adjustment must be made to this formula to account for edge cases. Notice in Equation~\eqref{eq:ze'} that when $\cos[\acs{az'}-\acs{az}]$ is negative, so is \acs{ze'}; \acs{ze'} ultimately describes a slope, a negative value does not make sense. In fact, this situation corresponds to an \emph{uphill} slope being a closer match with the observed topography than a downhill one, which occurs when the angular distance between the two azimuth values exceeds \ang{90}. These edge cases are treated by redefining negative \acs{ze'} values to zero [EXPLAIN]. Thus, the final equation implemented here is:
+The calculated value of \acs{ze'} can then be substituted back into Equation~\eqref{eq:central-angle} to find \acs{central-angle}. However, one adjustment must be made to this formula to account for edge cases. Notice in Equation~\eqref{eq:ze'} that when $\cos[\acs{az'}-\acs{az}]$ is negative, so is \acs{ze'}; \acs{ze'} ultimately describes a slope, a negative value does not make sense. In fact, this situation corresponds to an \emph{uphill} slope being a closer match with the observed topography than a downhill one, which occurs when the angular distance between the two azimuth values exceeds \ang{90}. This treatment of this case is shown in Figure~\ref{fig:reversal}: negative \acs{ze'} values are reset to zero. Thus, the final equation for \acs{ze'} is:
 \begin{equation}
     \boxed{\ac{ze'}
     =\max[0,\arctan(\tan\ac{ze}
     \cos[\acs{az'}-\acs{az}])].}
     \label{eq:robust-ze'}
-\end{equation} 
+\end{equation}
+
+\begin{figure}[h!]
+    \floatbox[{\capbeside\thisfloatsetup{floatwidth=sidefil,capbesideposition={right,center},capbesidewidth=.5\linewidth}}]{figure}
+    {\caption[Treatment of $\cos(\acs{az'}-\acs{az}<0)$ case]{When $\acs{az'}-\acs{az}>\ang{90}$, Equation~\eqref{eq:ze'} gives $\acs{ze'}<0$, which does not make physical sense as a downhill slope in the \acs{az'} direction. Instead, \acs{ze'} is set to zero, the \emph{non-negative} downhill paleo-slope that minimizes \acs{central-angle}.}\label{fig:reversal}}
+    {\input{figures/reversal.tex}}
+  \end{figure}
 
 \subsection{Radial Component of 3D Deformation}
-Figure~\ref{fig:geometric-radial} shows what is means to calculate the component of 3D deformation along the radial-axial plane. Comparison with Figure~\ref{fig:geometric-deform-calculated} reveals the geometric similarity between the two problems. Therefore, the same Equation~\ref{eq:ze'} derived in Section~\ref{3d-deform} applies up to small modifications owing to a few important differences. First, there are two distinct blue central angles to be minimized, and thus two distinct red zenith angles to be calculated. The \acf{radial-deform} value to be calculated is the signed difference between the two zenith values, which correspond to the ``projections'' of \acs{normal} and \acs{normal'} onto the plane containing the $z-$ and $r-$axes. Also, the correction used in Equation~\eqref{eq:robust-ze'} is not desired here, since the vectors \acs{normal} and \acs{normal'} could just as easily project on either side of the $z-$axis.
+Figure~\ref{fig:geometric-radial} shows what it means to calculate the component of 3D deformation along the radial-axial plane. Comparison with Figure~\ref{fig:deform-calculated} reveals the geometric similarity between the two problems. Therefore, the same Equation~\ref{eq:ze'} derived in Section~\ref{3d-deform} applies up to small modifications owing to a few important differences. First, there are two distinct blue central angles to be minimized, and thus two distinct red zenith angles to be calculated. The \acf{radial-deform} value to be calculated is the signed difference between the two zenith values, which correspond to the ``projections'' of \acs{normal} and \acs{normal'} onto the plane containing the $z-$ and $r-$axes. Also, the correction used in Equation~\eqref{eq:robust-ze'} is not desired here, since the vectors \acs{normal} and \acs{normal'} could just as easily project on either side of the $z-$axis.
 \begin{equation}
     \boxed{\acs{radial-deform}
     =\arctan(\tan\ac{ze}

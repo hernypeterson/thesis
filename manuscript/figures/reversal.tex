@@ -1,0 +1,54 @@
+\begin{tikzpicture}[scale=2.4,tdplot_main_coords]
+
+        % origin
+        \coordinate (O) at (0,0,0);
+        
+        % also defines (Pxy), (Pxz), (Pyz), etc.
+        \tdplotsetcoord{P}{\radius}{\ze}{\az}
+        \tdplotsetcoord{P'}{\radius}{\zen}{\azi}
+        \tdplotsetcoord{Q}{\radius}{90}{\azi}
+        
+        % grey circle
+        \fill[tdplot_main_coords, color = gray!10!white] (0:\radius) arc (0:360:\radius);
+        
+        % az' surface
+        \tdplotsetthetaplanecoords{\azi}
+        
+        % fill az' surface
+        \fill[tdplot_rotated_coords, color = red, opacity = 0.3] (\radius,0) arc (0:\zen:\radius) -- (0,0);
+        \fill[tdplot_rotated_coords, color = black, opacity = 0.05] (\radius,0) arc (0:90:\radius) -- (0,0);
+        
+        % line az' surface
+        \draw[arrow] (O) -- (P') node[anchor = south east] {\acs{normal'}};
+        \draw[very thin, dashed] (O) -- (Q);
+        \tdplotdrawarc[tdplot_rotated_coords, very thick]{(O)}{\radius}{90}{0}{anchor=south east}{\acs{line}}
+        \tdplotdrawarc[tdplot_rotated_coords,very thick,red]{(O)}{\radius}{0}{\zen}{anchor=south}{\acs{ze'}}
+        
+        % az surface
+        \tdplotsetthetaplanecoords{\az}
+        
+        % line az surface
+        \draw[very thin, dashed] (P) -- (Pxy) -- (O);
+        \draw[arrow] (O) -- (P) node[anchor = south west] {\acs{normal}};
+        
+        % z-axis
+        \draw[arrow] (O) -- (0,0,\axislength) node[anchor=south]{$z$};
+        
+        % |az' - az| angle label
+        \tdplotdrawarc{(O)}{0.6}{\azi}{\az+360}{anchor=north}{$\acs{az'}-\acs{az}$}
+        
+        % ze angle label
+        \tdplotdrawarc[tdplot_rotated_coords]{(O)}{\radius}{0}{\ze}{anchor=west}{\acs{ze}}
+        
+        % central angle plane
+        \tdplotsetrotatedcoords{\azi}{-90+\zen}{0}
+        
+        % central angle line
+        \tdplotdrawarc[tdplot_rotated_coords,blue]{(0,0,0)}{\radius}{\cenang}{0}{anchor=south}{\acs{central-angle}}
+        
+        % central angle fill
+        \fill[tdplot_rotated_coords, color = blue, opacity = 0.1] (\radius,0) arc (0:\cenang:\radius) -- (0,0);
+        
+
+        \fill[black] (O) circle (0.2pt);
+    \end{tikzpicture}

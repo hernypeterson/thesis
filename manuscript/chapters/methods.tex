@@ -49,7 +49,7 @@ In both cases, lava features are ultimately mapped as lines\footnote{Lines can h
 \begin{figure}
     \centering
     \input{figures/geometric-surface.tex}
-    \caption[Surface attitude as normal vector $\acs{normal}=(\acs{az},\acs{ze})$]{The attitude of a tilted surface (green) is defined relative to horizontal (grey) by its \acf{az} and \acf{ze}. \acs{az} and \acs{ze} are also the spherical coordinates of a unique unit vector \acs{normal} which is normal (perpendicular) to the surface. In the subsequent sections, $\acs{normal}=(\acs{az},\acs{ze})$ will always represent the observed attitude at a sampled location, while $\acs{normal'}=(\acs{az'},\acs{ze'})$ will always represent the \emph{inferred} attitude of the same point when the lava flow was emplaced. Note that azimuth angles always increase clockwise from due \acf{north} as shown, following the geographic convention.}
+    \caption[Surface attitude as a normal vector $\acs{normal}=(\acs{az},\acs{ze})$]{The attitude of a tilted surface (green) is defined relative to horizontal (grey) by its \acf{az} and \acf{ze}. \acs{az} and \acs{ze} are also the spherical coordinates of a unique unit vector \acs{normal} which is normal (perpendicular) to the surface. In the subsequent sections, $\acs{normal}=(\acs{az},\acs{ze})$ will always represent the observed attitude at a sampled location, while $\acs{normal'}=(\acs{az'},\acs{ze'})$ will always represent the \emph{inferred} attitude of the same point when the lava flow was emplaced. Note that azimuth angles always increase clockwise from due \acf{north} as shown, following the geographic convention.}
     \label{fig:geometric-surface}
 \end{figure}
 The ``Surface Parameters'' tool was used in ArcGIS Pro to compute average \acf{ze} and \acf{az} across the entire study area. In both cases, a new raster is produced at the same spatial resolution and coverage as the original \ac{DEM}. To avoid capturing local topographic anomalies, these values are averaged\footnote{Technically, a quadratic surface is interpolated over the neighborhood region and dip and dip direction are computed at the center of this surface.} over a circular ``neighborhood'' with radius \qty{2}{\km}. To each sampling location identified in Section~\ref{sec:mapping} is assigned \acf{ze} and \acf{az} based on the value of the corresponding raster at that location. Figure~\ref{fig:deform-collected} shows a geometric view of the relevant data to be collected.
@@ -113,7 +113,7 @@ The calculated value of \acs{ze'} can then be substituted back into Equation~\eq
 
 \begin{figure}[h!]
     \floatbox[{\capbeside\thisfloatsetup{floatwidth=sidefil,capbesideposition={right,center},capbesidewidth=.5\linewidth}}]{figure}
-    {\caption[Treatment of $\cos(\acs{az'}-\acs{az}<0)$ case]{When $\acs{az'}-\acs{az}>\ang{90}$, Equation~\eqref{eq:ze'} gives $\acs{ze'}<0$, which does not make physical sense as a downhill slope in the \acs{az'} direction. Instead, \acs{ze'} is set to zero, the \emph{non-negative} downhill paleo-slope that minimizes \acs{central-angle}.}\label{fig:reversal}}
+    {\caption[Treatment of $\acs{az'}-\acs{az}>\ang{90}$ case]{When $\acs{az'}-\acs{az}>\ang{90}$, Equation~\eqref{eq:ze'} gives $\acs{ze'}<0$, which does not make physical sense as a downhill slope in the \acs{az'} direction. Instead, \acs{ze'} is set to zero, the \emph{non-negative} downhill paleo-slope that minimizes \acs{central-angle}.}\label{fig:reversal}}
     {\input{figures/reversal.tex}}
   \end{figure}
 

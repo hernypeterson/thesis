@@ -1,42 +1,17 @@
-% Document Structure
-\documentclass[12pt,oneside]{book}
-\usepackage{geometry} % 1 in. margins
-
-% Paper-specific Settings
-\usepackage[ ]{titlesec}  %
-\titleformat{\chapter}[frame]
-{\normalfont}{\filright\small\enspace\thechapter\enspace}{8pt}{\Large\bfseries\filcenter}
-
-% General
-\usepackage[table,xcdraw,dvipsnames]{xcolor}
-
-% Internal references
-\usepackage{hyperref}
-\hypersetup{pdfborder = {0 0 0}} % no link boxes
-\usepackage[all]{hypcap} % link to figure (not caption)
-\usepackage[nottoc]{tocbibind} % manual ToC entries
-\usepackage{chngcntr} % continuous numbering:
-\counterwithout{figure}{chapter} % figures,
-\counterwithout{table}{chapter} % tables,
-\counterwithout{equation}{chapter} % equations.
-
 \input{preamble.tex}
-
-% Title Page
-\title{Lava Flow Constraints on 3D Deformation at the Summit of Olympus Mons on Mars}
-\author{\href{mailto:hgpa2018@mymail.pomona.edu}{Henry Peterson}}
 
 \begin{document}
 
 \frontmatter%
 \maketitle
-% \chapter{Acknowledgements}
-% \input{chapters/acknowledgements.tex}
-% \input{chapters/abstract}
+
+\input{chapters/acknowledgements.tex}
+\input{chapters/abstract}
 
 \tableofcontents
 \hrulefill\\
 Note: in the PDF version of this manuscript, all internal references to equations, figures, page numbers, sections, etc.\ are clickable links.
+
 \chapter{List of Abbreviations}
 \printacronyms[pages={display=all,seq/use=false},heading=none,exclude={sym,math}]
 
@@ -47,12 +22,11 @@ Note: in the PDF version of this manuscript, all internal references to equation
 % \listoftables
 
 \mainmatter%
-% \chapter{Introduction}
-% \input{chapters/intro}
+\input{chapters/intro}
 \input{chapters/methods}
-% \input{chapters/results}
-% \input{chapters/discussion}
-% \input{chapters/conclusions}
+\input{chapters/results}
+\input{chapters/discussion}
+\input{chapters/conclusions}
 
 \backmatter%
 \printbibliography%

@@ -1,25 +1,26 @@
-\ac{OM} is the largest volcano in the solar system (or anywhere else known to science), with a diameter of roughly \qty{600}{\km} (Fig.~\ref{om}) and a summit elevation of over \qty{20}{\km}~\parencite{plescia_morphometric_2004}. The striking observation which catalyzed the current inquiry is that numerous lava flows around its summit caldera appear to flow uphill~\parencite[Fig.~\ref{uphill-flows}; after][]{mouginis-mark_late-stage_2019}. Similar discordance between lava flow direction and topography are observed in the flexural basin surrounding the main edifice, with horizontal discordances between flow direction and regional dip direction of up to \ang{\sim15}~\parencite{chadwick_late_2015}, rather than the \ang{\sim180} discordance observed at the summit. In both cases, however, these discrepancies suggest a history of surface deformation that occured \textit{after} the lava flows were emplaced in what was once a downhill direction. The aim of the current project is to quantify this surface deformation and assess the underlying processes responsible.
+\chapter{Introduction}
+\ac{OM} is the largest volcano in the solar system (or anywhere else known to science), with a diameter of roughly \qty{600}{\km} (Fig.~\ref{fig:om}) and a summit elevation of over \qty{20}{\km}~\parencite{plescia_morphometric_2004}. The striking observation which catalyzed the current inquiry is that numerous lava flows around its summit caldera appear to flow uphill~\parencite[Fig.~\ref{fig:uphill-flows}; after][]{mouginis-mark_late-stage_2019}. Similar discordance between lava flow direction and topography are observed in the flexural basin surrounding the main edifice, with horizontal discordances between flow direction and regional dip direction of up to \ang{\sim15}~\parencite{chadwick_late_2015}, rather than the \ang{\sim180} discordance observed at the summit. In both cases, however, these discrepancies suggest a history of surface deformation that occured \textit{after} the lava flows were emplaced in what was once a downhill direction. The aim of the current project is to quantify this surface deformation and assess the underlying processes responsible.
 
 \begin{figure}
-{\centering
+    \centering
     \includegraphics[width=\textwidth]{om.pdf}
-    \caption[\acl{OM}]{The \ac{OM} edifice is \qty{\sim600}{\km} in diameter and its summit on the southern flank is more than \qty{20}{\km} high. It features a nested caldera complex more than \qty{50}{\km} in diameter and \qty{\sim2}{\km} deep. Main map is a hillshade (shaded relief) derived from \acs{MOLA} elevation data; inset of entire martian surface is raw \acs{MOLA} elevation (See Figure~\ref{mars} for planetary elevation range.) Contours in \unit{\km}.}\label{om}
-}
+    \caption[\acl{OM}]{The \ac{OM} edifice is \qty{\sim600}{\km} in diameter and its summit on the southern flank is more than \qty{20}{\km} high. It features a nested caldera complex more than \qty{50}{\km} in diameter and \qty{\sim2}{\km} deep. Main map is a hillshade (shaded relief) derived from \acs{MOLA} elevation data; inset of entire martian surface is raw \acs{MOLA} elevation (See Figure~\ref{fig:mars} for planetary elevation range.) Contours in \unit{\km}.}
+    \label{fig:om}
 \end{figure}
 
 \begin{figure}
-{\centering
+    \centering
     \includegraphics[width=\textwidth]{uphill-flows.pdf}
-    \caption[Uphill lava flows]{Several lava flows (white) in the southern flank region appear to flow uphill toward the modern summit. \acs{CTX} mosaic basemap. Contours in \unit{\m}. After Figure 3 in \textcite{mouginis-mark_late-stage_2019}.}\label{uphill-flows}
-}
+    \caption[Uphill lava flows]{Several lava flows (white) in the southern flank region appear to flow uphill toward the modern summit. \acs{CTX} mosaic basemap. Contours in \unit{\m}. After Figure 3 in \textcite{mouginis-mark_late-stage_2019}.}
+    \label{fig:uphill-flows}
 \end{figure}
 
 \section{Challenges \& Assumptions}
-The topographic and structural deformation implies a combination of underlying volcanic processes including a) caldera collapse (i.e., magmatic discharge) and b) subsequent reservoir inflation (i.e., magmatic recharge). Untangling the superposition of these competing factors is challenging in itself, although preliminary inspection of the study region (Figure~\ref{study-area}) indicates that these effects may be localized to a) the immediate circumferential region and b) the southern flank, respectively. Additionally, \textit{independent}\footnote{That is, in addition to observed deformation.} stratigraphic constraints on lava flow emplacement relative to the timeline of deformation are unavailable---while crater-dating can be done on lava flows and caldera floors, the timing of reservoir inflation does not leave a temporal record observable from spacecraft. Therefore, certain simplifying assumptions are necessary to make progress with this inquiry. In particular, with only ``initial'' (at flow emplacement) and ``final'' (modern) data points avaiable for each location, only net change can be inferred. For this reason and others to be outlined in Chapter~\ref{methods}, deformation \textit{constraints} will be favored over direct \textit{estimates}.
+The topographic and structural deformation implies a combination of underlying volcanic processes including a) caldera collapse (i.e., magmatic discharge) and b) subsequent reservoir inflation (i.e., magmatic recharge). Untangling the superposition of these competing factors is challenging in itself, although preliminary inspection of the study region (Figure~\ref{fig:study-area}) indicates that these effects may be localized to a) the immediate circumferential region and b) the southern flank, respectively. Additionally, \textit{independent}\footnote{That is, in addition to observed deformation.} stratigraphic constraints on lava flow emplacement relative to the timeline of deformation are unavailable---while crater-dating can be done on lava flows and caldera floors, the timing of reservoir inflation does not leave a temporal record observable from spacecraft. Therefore, certain simplifying assumptions are necessary to make progress with this inquiry. In particular, with only ``initial'' (at flow emplacement) and ``final'' (modern) data points avaiable for each location, only net change can be inferred. For this reason and others to be outlined in Chapter~\ref{cha:methods}, deformation \textit{constraints} will be favored over direct \textit{estimates}.
 
 \section{Research Questions}
 
-The following questions will inform the research project:  \begin{enumerate}
+The following questions will inform the research project: \begin{enumerate}
     \item can a consideration of 3D geometry in the mapping stage yield additional insight into surface deformation beyond that available from horizontal ``deflection'' of lava flows and channels?
     \item what patterns of regional surface deformation are implied by lava flow and channel misalignment across the summit of \ac{OM}?
     \item what combination of volcanic processes, including caldera collapse and/or reservoir inflation, best account for the reconstructed history deformation?
@@ -29,7 +30,7 @@ The following questions will inform the research project:  \begin{enumerate}
 
 My hypotheses follow, with a trend toward increasing speculation for the later-stage research questions:\begin{enumerate}
     \item early consideration of 3D geometry will prevent bias toward flat surfaces (for which horizontal deflection can be achieved with minimal 3D deformation), which will yield different regions of interest than would a purely horizontal deflection-based approach;
-    \item based on preliminary inspection of the study area topography, (Figure~\ref{study-area}) lava flow and channel deflection will reveal concentrated deformation at the southern flank, with minimal change elsewhere;
+    \item based on preliminary inspection of the study area topography, (Figure~\ref{fig:study-area}) lava flow and channel deflection will reveal concentrated deformation at the southern flank, with minimal change elsewhere;
     \item significant pressurization of a relatively shallow, broad reservoir (of diameter $\gtrsim$ caldera complex) will prove most consistent with reconstructed history of surface deformation. Effects from caldera collapse will be highly localized, if observable at all.\footnote{In fact, the lava flow alignment method may not be the most effective approach for characterizing this deformation at all due to limited spatial coverage.}
 \end{enumerate}
 
@@ -49,8 +50,8 @@ The study of \ac{OM} contributes to a more comprehensive understanding of volcan
 However, there are important advantages as well. Most notably, surface deformation signatures are well preserved in the martian environment over hundreds of millions of years, especially at high elevations where weathering and erosion are far less active. This allows for a more comprehensive picture of deformation history than is commonly available on Earth, where large caldera-forming edifices are rare and often poorly preserved. Additionally, the unique martian conditions that yield the largest volcanoes in the solar system broaden our perspective of how volcanism works in general.
 
 \begin{figure}
-{\centering
+    \centering
     \includegraphics[width=\textwidth]{mars.pdf}
-    \caption[Martian topography]{\acs{MOLA}-derived global topography of Mars. \acl{OM} lies exactly on the central meridian, between northern lowlands (green) and southern highlands (orange). Elevation in \unit{\m}. Horizontal scale distances computed at equator.}\label{mars}
-}
+    \caption[Martian topography]{\acs{MOLA}-derived global topography of Mars. \acl{OM} lies exactly on the central meridian, between northern lowlands (green) and southern highlands (orange). Elevation in \unit{\m}. Horizontal scale distances computed at equator.}
+    \label{fig:mars}
 \end{figure}

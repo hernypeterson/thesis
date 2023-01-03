@@ -1,5 +1,41 @@
-% Encoding
+% Document Structure
+\documentclass[11pt,oneside]{book}
+\usepackage{geometry} % 1 in. margins
+
+% Font Encoding
 \usepackage[T1]{fontenc}
+
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage[labelfont={bf}]{caption} % captions
+\usepackage[list=true]{subcaption}
+
+% References
+\usepackage[backend=biber,style=apa]{biblatex}
+% \renewcommand{\newunitpunct}{\addcomma\space}
+\addbibresource{aux/references.bib}
+
+% Title Page
+\title{Lava Flow Constraints on Deformation at the Summit of Olympus Mons on Mars}
+\author{\href{mailto:hgpa2018@mymail.pomona.edu}{Henry Peterson}}
+
+% Format Chapter Header
+\usepackage{titlesec}
+\titleformat{\chapter}[frame]
+{\normalfont}{\filright\small\enspace\thechapter\enspace}{8pt}{\Large\bfseries\filcenter}
+
+% Color
+\usepackage[table,xcdraw,dvipsnames]{xcolor}
+
+% Internal references
+\usepackage{hyperref}
+\hypersetup{pdfborder = {0 0 0}} % no boxes around links
+\usepackage[all]{hypcap} % link to figure (not caption)
+\usepackage[nottoc]{tocbibind} % manual ToC entries
+\usepackage{chngcntr} % continuous numbering:
+\counterwithout{figure}{chapter} % figures,
+\counterwithout{table}{chapter} % tables,
+\counterwithout{equation}{chapter} % equations.
 
 % Lists
 \usepackage{paralist} % inline lists
@@ -12,9 +48,10 @@
 \usepackage[separate-uncertainty=true]{siunitx}
 
 % Typography
-\usepackage{libertine} % text
-\usepackage[libertine]{newtxmath} % math
-\usepackage{microtype} % mmmmm microtype 
+\usepackage{libertine, libertinust1math} % font
+
+\usepackage{microtype} % small adjustments
+\usepackage{indentfirst} % ... paragraph of chap/sec
 \linespread{1.4} % spacing
 
 % Abbreviations
@@ -24,20 +61,20 @@
 \input{aux/symbol}
 
 % Figures & Tables
-% \usepackage{sidecap}
-\usepackage{floatrow}
-\usepackage{wrapfig}
+\usepackage{floatrow} % figures with side captions
 
 % Graphics
-\usepackage{graphicx}
-\graphicspath{{figures/}}
+\usepackage{graphicx} % include images
+\graphicspath{{figures/}} % image location
 
 \usepackage{tikz}
-\usetikzlibrary{shapes,arrows,positioning}
-\tikzstyle{arrow} = [very thick, -stealth]
+\usetikzlibrary{shapes, arrows, positioning}
+\tikzstyle{arrow} = [very thick, -latex]
+\tikzstyle{axis} = [semithick, -latex]
 
 \usepackage{tikz-3dplot}
-% figure view angle ({zenith}{azimuth})
+
+% figure view angle
 \pgfmathsetmacro{\viewze}{65}
 \pgfmathsetmacro{\viewaz}{105}
 \tdplotsetmaincoords{\viewze}{\viewaz}
@@ -54,7 +91,7 @@
 \pgfmathsetmacro{\azi}{330}
 \pgfmathsetmacro{\zen}{14.4523587} % calculated
 
-% define az for reversal case
+% define az for reversal
 \pgfmathsetmacro{\azrev}{2*\azi+180-\az}
 
 % optimize cenang
@@ -68,13 +105,3 @@
 \pgfmathsetmacro{\zenproj}{13.147604528101175}
 \pgfmathsetmacro{\zecenang}{25.18532227675052}
 \pgfmathsetmacro{\zencenang}{6.054528988961903}
-
-\usepackage{adjustbox}
-\usepackage{multirow}
-\usepackage[format=plain, labelfont={bf}]{caption} % captions
-\usepackage[list=true]{subcaption}
-
-% References
-\usepackage[backend=biber,style=apa]{biblatex}
-% \renewcommand{\newunitpunct}{\addcomma\space}
-\addbibresource{aux/references.bib}

@@ -1,4 +1,4 @@
-\begin{tikzpicture}[scale=3.1,tdplot_main_coords]
+\begin{tikzpicture}[scale=3.2,tdplot_main_coords]
 
 % origin
 \coordinate (O) at (0,0,0);
@@ -22,18 +22,20 @@
 \fill[color = gray!10!white, opacity=0.6] (\az:0.5*\radius) arc (\az:\az+90:0.5*\radius) -- (0,0);
 
 % perpendicular corners
-\draw[tdplot_rotated_coords] (0.2,0,0) -- (0.2,0,0.2) -- (0,0,0.2) -- (0,-0.2,0.2) -- (0,-0.2,0);
+\draw[tdplot_rotated_coords] (0.25,0,0) -- (0.25,0,0.25) -- (0,0,0.25) -- (0,-0.25,0.25) -- (0,-0.25,0);
 
 % horizontal surface (front left)
 \fill[color = gray!10!white, opacity=0.6] (\az-90:0.5*\radius) arc (\az-90:\az:0.5*\radius) -- (0,0);
 
-% cartesian axes
-\draw[arrow] (O) -- (0,0.4*\axislength,0) node[anchor=west]{\acs{north}};
-\draw[arrow] (O) -- (0,0,\axislength) node[anchor=south]{$z$};
+% z axis
+\draw[axis] (O) -- (0,0,\axislength) node[anchor=south]{$z$};
 
 % line az surface
 \draw[very thin, dashed,green!40!black] (P) -- (Pxy) -- (O);
 \draw[arrow, green!40!black] (O) -- (P) node[anchor = south west] {\acs{normal}};
+
+% north axis
+\draw[axis] (O) -- (0,0.4*\axislength,0) node[anchor=west]{\acs{north}};
 
 % az angle label
 \tdplotdrawarc{(O)}{0.4*\radius}{\az}{90}{coordinate, pin={[pin edge={black},-]-60:\acs{az}}}{}

@@ -1,5 +1,5 @@
 
-    \begin{tikzpicture}[scale=8.5,tdplot_main_coords]
+    \begin{tikzpicture}[scale=8.1,tdplot_main_coords]
 
         % origin
         \coordinate (O) at (0,0,0);
@@ -22,7 +22,7 @@
         \fill[color = gray!10!white] (C) circle (0.1*\radius);
 
         % x-axis from caldera center
-        \draw[arrow] (C) --+ (0,0.1*\axislength,0) node[anchor=west]{\acs{north}};
+        \draw[axis] (C) --+ (0,0.1*\axislength,0) node[anchor=west]{\acs{north}};
 
         % az angle labels
         \tdplotdrawarc{(C)}{0.1}{\THETA}{90}{anchor=north west}{\acs{THETA}}
@@ -38,7 +38,7 @@
         \tdplotdrawarc[arrow, tdplot_rotated_coords]{(O)}{\radius}{-30}{50}{}{}
         
         % projected def-radial
-        \tdplotdrawarc[arrow, tdplot_rotated_coords,red]{(O)}{\radius}{\zenproj}{\zeproj}{anchor=north west}{\acs{radial-deform}} 
+        \tdplotdrawarc[arrow, tdplot_rotated_coords,red]{(O)}{\radius}{\zenproj}{\zeproj}{coordinate, pin={[pin edge={red,-},pin distance = 2cm,-]0:\acs{radial-deform}}}{}
         
         % az' surface
         \tdplotsetthetaplanecoords{\azi}
@@ -56,8 +56,8 @@
         \draw[arrow] (O) -- (P) node[anchor = south west] {\acs{normal}};
         
         % z-axis
-        \draw[arrow] (O) -- (0,0,\axislength) node[anchor=south]{$z$};
-        \draw[arrow] (C) -- (\THETA:0.76604444*\axislength) node[anchor=north east]{$\hat r$};
+        \draw[axis] (O) -- (0,0,\axislength) node[anchor=south]{$z$};
+        \draw[axis] (C) -- (\THETA:0.76604444*\axislength) node[anchor=north east]{$r$};
         
         % az angle labels
         \tdplotdrawarc{(O)}{0.3}{\azi}{\THETA+360}{anchor=north east}{$\acs{az'}-\acs{THETA}$}

@@ -1,0 +1,36 @@
+\chapter{Spherical Law of Cosines}\label{app:spherical-cosines}
+Let the unit normal vectors \acs{normal} and \acs{normal'} be defined in spherical coordinates $(\vartheta,\varphi,\varrho)$ as follows:
+\begin{equation}
+    \acs{normal}=(\acs{az},\acs{ze},1)\qquad\acs{normal'}=(\acs{az'},\acs{ze'},1).
+\end{equation}
+Let a cartesian coordinate system $(x,y,z)$ be defined such that $\hat z$ is parallel to the spherical zenith and $\hat x$ is parallel to the azimuth of \acs{normal}. Then, the normal vectors \acs{normal} and \acs{normal'} can be expressed as follows:
+\begin{equation}
+    \acs{normal}=\begin{bmatrix}
+        \sin\acs{ze}\\
+        0\\
+        \cos\acs{az}
+    \end{bmatrix}\qquad
+    \acs{normal'}=\begin{bmatrix}
+        \sin\acs{ze'}\cos(\acs{az}-\acs{az'})\\
+        \sin\acs{ze'}\sin(\acs{az}-\acs{az'})\\
+        \cos\acs{az'}
+    \end{bmatrix}.
+\end{equation}
+
+The dot product $(\cdot)$ is used to compute the \acf{central-angle} between \acs{normal} and \acs{normal'}:
+\begin{equation}
+    \acs{normal}\cdot\acs{normal'}=\|\acs{normal}\|\,\|\acs{normal'}\|\cos\acs{central-angle}=\sum_i\acs{normal}_i\acs{normal'}_i.\label{eq:dot-product}
+\end{equation}
+Since both vectors are of unit length by construction $\left(\|\acs{normal}\|=\|\acs{normal'}\|=1\right)$, Equation~\eqref{eq:dot-product} reduces to:
+\begin{equation}
+    \cos\acs{central-angle}=\sin\acs{ze}\sin\acs{ze'}\cos(\acs{az}-\acs{az'})+\cos\acs{az}\cos\acs{az'}.
+\end{equation}
+Or, as used throughout Section~\ref{sec:calculation},
+\begin{equation}
+    \boxed{\acs{central-angle}
+    =\arccos(\cos\acs{ze}\cos\acs{ze'}
+    +\sin\acs{ze}\sin\acs{ze'}
+    \cos[\acs{az'}-\acs{az}]).}
+    \tag{\ref{eq:central-angle}}
+\end{equation}
+Note that cosine is an even function, so the order of terms in its argument ($\acs{az'}-\acs{az}$ vs. $\acs{az}-\acs{az'}$) does not matter.

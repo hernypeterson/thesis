@@ -1,0 +1,64 @@
+% Package
+\usepackage[giveninits=true,uniquename=init,backend=biber,style=authoryear,maxbibnames=10]{biblatex}
+\usepackage{xpatch} % I'm stuff
+
+% ``Referenced Cited'' Section Title 
+\AtBeginDocument{\renewcommand{\bibname}{References Cited}}
+
+% Sources
+\addbibresource{aux/references.bib}
+
+% Punctuation
+\renewcommand*{\nameyeardelim}{\addcomma\space}
+\renewcommand*{\newunitpunct}{\addcomma\space}
+
+% don't print these fields
+\AtEveryBibitem{
+  \clearfield{address}
+  \clearfield{url}
+  \clearfield{urlyear}
+  \clearfield{urlmonth}
+  \clearfield{issn}
+  \clearfield{month}
+  \clearfield{day}
+  \clearfield{note}
+  \clearfield{series}
+  \clearfield{language}
+}
+
+% Surname, [Initials] for ALL authors
+\DeclareNameAlias{sortname}{family-given}
+
+% thin space between author initials
+\renewrobustcmd*{\bibinitdelim}{\hspace{1pt}}
+
+% remove parentheses from bibliography dates
+\xpatchbibmacro{date+extradate}{\printtext[parens]}{\newunit\printtext}{}{}
+
+% Plain format for title & journal
+\DeclareFieldFormat*{title}{#1}
+\DeclareFieldFormat*{journaltitle}{#1}
+
+% replace `in:' before journal with `:'
+\renewbibmacro{in:}{}
+\xpatchbibdriver{article}
+  {\usebibmacro{title}\newunit}
+  {\usebibmacro{title}\printunit{\addcolon\space}}{}{}
+
+% Journal Volume, Number
+\DeclareFieldFormat*{volume}{v. #1}
+\DeclareFieldFormat*{number}{no. #1}
+
+% comma between Volume and Number
+\renewbibmacro*{volume+number+eid}{%
+  \newunit
+  \printfield{volume}%
+  \newunit
+  \printfield{number}%
+  }
+
+% p. (not pp.)
+\DefineBibliographyStrings{english}{pages = {p.},}
+
+% Hyperlink DOI
+\DeclareFieldFormat*{doi}{\href{http://dx.doi.org/\thefield{doi}}{doi:#1}}

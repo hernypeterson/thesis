@@ -1,0 +1,97 @@
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+
+\usepackage[active,tightpage]{preview}  %generates a tightly fitting border around the work
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{2mm}
+
+\begin{document}
+
+%Angle Definitions
+%-----------------
+
+%set the plot display orientation
+%synatax: \tdplotsetdisplay{\theta_d}{\phi_d}
+\tdplotsetmaincoords{65}{105}
+
+%define polar coordinates for some vector
+\pgfmathsetmacro{\rvec}{0.9}
+\pgfmathsetmacro{\thetavec}{37}
+\pgfmathsetmacro{\phivec}{40}
+
+\begin{tikzpicture}[scale=5,tdplot_main_coords]
+
+\shade[tdplot_screen_coords,ball color = white] (0,0) circle (\rvec);
+
+%set up some coordinates 
+%-----------------------
+\coordinate (O) at (0,0,0);
+
+%determine a coordinate (P) using (r,\theta,\phi) coordinates.  This command
+%also determines (Pxy), (Pxz), and (Pyz): the xy-, xz-, and yz-projections
+%of the point (P).
+%syntax: \tdplotsetcoord{Coordinate name without parentheses}{r}{\theta}{\phi}
+\tdplotsetcoord{P}{\rvec}{\thetavec}{\phivec}
+
+%draw figure contents
+%--------------------
+
+%draw the main coordinate system axes
+\draw[->] (0,0,0) -- (1,0,0) node[anchor=north east]{$x$};
+\draw[->] (0,0,0) -- (0,1,0) node[anchor=west]{$y$};
+\draw[->] (0,0,0) -- (0,0,1) node[anchor=south]{$z$};
+
+%draw a vector from origin to point (P) 
+\fill (P) circle [radius=0.3pt];
+
+%draw projection on xy plane, and a connecting line
+\draw[very thin] (P) -- (O) -- (Pxy) -- (P) node[anchor = south west] {$p$};
+
+%draw the angle \phi, and label it
+%syntax: \tdplotdrawarc[coordinate frame, draw options]{center point}{r}{angle}{label options}{label}
+\tdplotdrawarc[thick]{(O)}{0.3}{0}{\phivec}{anchor=north}{$\vartheta$}
+
+
+%set the rotated coordinate system so the x'-y' plane lies within the
+%"theta plane" of the main coordinate system
+%syntax: \tdplotsetthetaplanecoords{\phi}
+\tdplotsetthetaplanecoords{\phivec}
+
+%draw theta arc and label, using rotated coordinate system
+\tdplotdrawarc[tdplot_rotated_coords,thick]{(0,0,0)}{0.4}{\thetavec}{0}{anchor=west}{$\varphi$}
+
+%de slechte
+%test
+% \tdplotdrawarc[tdplot_rotated_coords]{(0,0,0)}{\rvec}{-180}{180}{anchor=south west}{$\gamma$}
+
+\tdplotsetrotatedcoords{240}{-90}{0}
+
+\tdplotsetcoord{Q}{\rvec}{90}{330}
+
+\draw[very thin] (O) -- (Q);
+
+\tdplotdrawarc[tdplot_rotated_coords]{(0,0,0)}{\rvec}{90}{0}{anchor=south east}{$\ell$}
+
+\tdplotdrawarc[tdplot_main_coords,dashed]{(0,0,0)}{\rvec}{0}{360}{anchor=south west}{}
+
+\tdplotdrawarc[thick]{(O)}{0.25}{0}{330}{anchor=north east}{$\vartheta'$}
+
+\tdplotdrawarc[tdplot_rotated_coords,thick,red]{(0,0,0)}{0.4}{0}{14.4523587}{anchor=south}{$\varphi'$}
+
+\tdplotsetcoord{Z}{\rvec}{14.4523587}{330}
+
+\draw[very thin, red] (O) -- (Z);
+
+
+
+\tdplotsetrotatedcoords{330}{-75.5476}{0}
+
+\tdplotdrawarc[tdplot_rotated_coords,thick,blue,<-]{(0,0,0)}{\rvec}{0}{34.438487775}{anchor=south west}{$\Delta\sigma$}
+
+\fill[red] (Z) circle [radius=0.3pt];
+
+
+\end{tikzpicture}
+
+\end{document}

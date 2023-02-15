@@ -1,0 +1,107 @@
+% Document Structure
+\documentclass[12pt,oneside]{book}
+\usepackage{geometry} % 1 in. margins
+
+% Encoding
+\usepackage[T1]{fontenc}
+
+% Color
+\usepackage[table,xcdraw,dvipsnames]{xcolor}
+
+% highlight for named software tools
+\usepackage[most]{tcolorbox} 
+\definecolor{light-gray}{gray}{0.9}
+\tcbset{
+    on line, boxsep=3pt, left=0pt,right=0pt,top=0pt,bottom=-1pt, colframe=white,colback=light-gray, highlight math style={enhanced}
+}
+\newcommand{\hl}[1]{\tcbox{\vphantom{lg}\texttt{#1}}}
+
+\usepackage{lmodern}
+\usepackage[tt=false]{libertine}
+\usepackage{libertinust1math}
+
+% Justification
+\usepackage[nopatch=footnote]{microtype} % small adjustments
+\usepackage{indentfirst} % paragraphs
+\setlength\parindent{3em} % indent length
+
+% vertical spacing
+\usepackage{setspace}
+\setstretch{1.5}
+
+% Page Header & Footer
+\usepackage[twoside]{fancyhdr}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\headheight}{15pt}
+\addtolength{\topmargin}{-2.5pt}
+
+\AtBeginDocument{
+    \pagestyle{fancy}
+    \fancyhead{} % clear all header fields
+    \fancyhead[RO,LE]{\leftmark}
+    \fancyfoot{} % clear all footer fields
+    \fancyfoot[C]{\thepage}
+}
+
+% Chapter Header
+\usepackage{titlesec}
+\titleformat{\chapter}[frame]
+{\normalfont}{\filright\fbox{\enspace%
+\textbf{\chaptertitlename~\thechapter}\enspace}}{8pt}{\Large\bfseries\filcenter}
+
+% Footnotes
+\usepackage[hang,splitrule,multiple]{footmisc}
+\setlength{\footnotemargin}{1em}
+
+% Internal References
+\usepackage{hyperref}
+\hypersetup{pdfborder = {0 0 0}} % no boxes around links
+\usepackage[all]{hypcap} % link to figure (not caption)
+
+% Table of Contents and Lists
+\usepackage[nottoc]{tocbibind} % don't list ToC itself in ToC
+\usepackage[titles]{tocloft}
+\cftsetindents{figure}{0em}{1.5em}
+\setcounter{lofdepth}{2} % list subfigures in LoF
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}} % dotted line for all depths
+
+% Continuous numbering
+\usepackage{chngcntr}
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+\counterwithout{equation}{chapter}
+
+% Lists
+\usepackage{paralist} % inline lists
+\usepackage{enumitem}
+\setlist[itemize]{noitemsep,nolistsep}
+\setlist[enumerate]{noitemsep,nolistsep}
+
+% Technical
+\usepackage{amsmath}
+\usepackage[separate-uncertainty=true]{siunitx}
+
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage[labelfont={bf}]{caption} % captions
+\usepackage[listformat=simple]{subcaption} % figure subparts [would love to have list=true here without extremely deep indents]
+
+% Abbreviations
+\usepackage{supertabular}
+\usepackage{tabularray}
+\usepackage{acro}
+\acsetup{make-links=true}
+\input{aux/abbrev.tex}
+\input{aux/symbol.tex}
+
+% GSA Citations & Bibliography
+\input{aux/gsa.tex}
+
+% Figures & Tables
+\usepackage{floatrow} % figures with side captions
+
+% Graphics
+\usepackage{graphicx} % include images
+\graphicspath{{figures/}} % image location
+
+\input{aux/tikz.tex}

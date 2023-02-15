@@ -1,0 +1,180 @@
+\chapter{Methods}\label{cha:methods}
+
+I first sample paleo- and modern surface attitude data across the summit of \acl{OM} using satellite-derived imagery and topography, respectively. Next, I develop a geometric framework for calculating minimum 3D surface deformation at each sampled location, based on collected attitude data. Next, I determine how much of this deformation must have been toward or away from the center of the edifice for each sampled location. Using these results, I develop a series of axisymmetric numerical models to relate surface deformation to underlying reservoir activity.
+
+\section{Preparation of Published Data}
+
+\subsection{Raster Data}
+The \acf{CTX}\footnote{aboard the \ac{MRO} spacecraft launched in 2005 by \acs{NASA}.} captures \qty{\sim30}{\km} swaths across the entire martian surface in visible $(\lambda=\qtyrange{500}{800}{\nm})$ greyscale at \qty{\sim6}{\m} spatial resolution. \textcite{Dickson2018AGB} blended these swaths to produce a raster mosaic product (hereafter, ``\ac{CTX} mosaic'') which I use to visually identify and map lava flows and flow channels.
+
+The \acf{MOLA}\footnote{aboard the now-retired \ac{MGS} spacecraft launched in 1996 by \acs{NASA}.} returned topography data with horizontal resolution of \qtyproduct{300 x 1000}{\m} at the equator (better at high latitudes) and elevation uncertainty of \qty{\sim3}{\m}~\parencite{smith_mars_2001}. To improve spatial resolution, additional elevation data from the \ac{HRSC}\footnote{aboard the \ac{MEX} spacecraft launched in 2003 by the \ac{ESA}} was blended to product a \ac{DEM} with \qty{200}{\m} pixel resolution. Each pixel's vertical uncertainty is \qty{\sim1}{\m}, with an additional global uncertainty of \qty{\sim1.8}{\m} in the martian areoid (martian equivalent of Earth's geoid). In this project, the global areoid uncertainty is not a concern because only one region (the summit of \ac{OM}) is considered.
+
+These two data sources were registered in an equal-area sinusoidal Mars projection in ArcGIS Pro. The study area is defined by a square \qtyproduct{200 x 200}{\km} centered at the centroid of the outermost \qty{19}{\km} contour,\footnote{This is the highest integer \unit{km} which is roughly circular and completely encloses the caldera complex, implying that it largely records the conical shape of the shield edifice without influence from subsequent caldera collapse or reservoir inflation.} as seen in Figure~\ref{fig:summit}.
+
+\subsection{Study Area Definition}
+I build 
+
+\subsection{Prior Mapping}
+I also include the caldera region mapping by \textcite{mouginis-mark_geologic_2021}, who identified lobate lava flows Relevant to the current project, 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{summit.pdf}
+    \caption[Study area: \acl{OM} summit]{Study area at the summit of \acl{OM} (inset). Sinusoidal Martian Projection. Contours in \unit{km}. Square is \qtyproduct{200 x 200}{\km}, centered at the midpoint of the outermost \qty{19}{\km} contour.}
+    \label{fig:summit}
+\end{figure}
+
+\section{Preliminary Topographic Analysis}
+
+Figure~\ref{fig:summit} shows important topographic patterns at the summit of \ac{OM}. More than \qty{50}{\km} from the center of the figure, topographic contours (\qtyrange{12}{19}{\km}) are fairly regular concentric rings. Closer to the caldera, this radial symmetry breaks down: the caldera complex itself consists of six intersecting collapse pits. On the southern flank, we see a prominent arcuate \qty{20}{\km} contour with the topographic summit (within the \qty{21}{\km} contour) over \qty{20}{\km} from the southern caldera rim. I propose [BASED ON WHAT] that the distal symmetric regions preserve the long-term stable topography of the edifice, while the asymmetric central caldera complex and summit result from relatively recent magmatic activity. 
+
+\subsection{Proto-Edifice Reconstruction}
+Therefore, I present a reconstruction of the proto-edifice which interpolates the topography of the distal (beyond outer \qty{19}{\km} contour) regions within the central region. This reconstruction is shown in Figure~(NUMBER). This provides an independent estimation of proto-topography to compare with the estimates based on lava flow misalignment.
+
+\section{Mapping \& Sampling Site Selection}\label{sec:mapping}
+
+\subsection{Lobate Flows}
+I use the \ac{CTX} mosaic to visually identify lava flows near the summit of \ac{OM}. Following \textcite{mouginis-mark_geologic_2021}, I map lobate flow outlines as polygons where possible. From these polygons, I derive centerline features using the \hl{Polygon To Centerline} tool, as shown in Figure~\ref{fig:flow}.
+
+\subsection{Channels}
+
+Where flow margins are not visible, I map channels directly as linear features. I include discontinuous regions where I infer partial collapse of lava tubes yielding skylight chains,\footnote{The assumption of underlying continuity follows, e.g., \textcite{bleacher_olympus_2007,carr_geologic_2010,peters_lava_2021}.} as shown in Figure~\ref{fig:channel}.
+
+\subsection{Linear Feature Segmentation}
+[INCOMPLETE] Bounding box, aspect ratio
+
+\subsection{Linear Feature Azimuths}
+
+I use the \hl{Calculate Geometry Attributes} tool to find the \hl{Line Bearing} attribute for each linear feature (channel or flow centerline), that is, the azimuthal orientation from the start to the end of each feature. This angle is the variable \acf{az1} to each feature, although the following section discussion explains why this variable is not quite ready for use in attitude analysis. While I maintain a consistent ``sense'' in my channel mapping (pointing away from rather than toward the caldera center), the \hl{Polygon To Centerline} tool does not. Therefore, some flow centerlines need to be reversed using the \hl{Flip Line} tool.
+
+To determine which centerlines must be reversed, I use the \hl{Near} tool with \hl{Angle} selected to determine the azimuth angle from each linear feature to the center of the study area \acs{center}. Here, I invoke the general empirical rule that all flows in the study area point generally \emph{away} from the caldera center. Therefore, a correctly oriented feature is one where \acs{az1} is \ang{\sim180} away from the calculated \hl{Near Angle}; at the very least, it should be \ang{90} away. Therefore I select features where this angular difference\footnote{Specifically, I reverse features where the cosine of this angular difference is positive. See Appendix~\ref{app:spherical-cosines} for a justification of this approach which addresses an arithmetic issue with angular differences.} is less than \ang{90} to reverse using \hl{Flip Line}. With all features now correctly oriented away from the caldera center, I recalculate \hl{Line Bearing}, which establishes the correct \acf{az1} value for attitude analysis. [NEEDS FIGURE HERE]
+
+\subsection{Point Sampling}
+
+\newcommand{\samplinginterval}{\qty{3}{\km}}
+
+Along each linear feature, I use the \hl{Generate Points Along Line} tool to create a series of point features where further attitude data collection and analysis will take place. I use \hl{Distance} mode with sampling interval \samplinginterval\ (rather than \hl{Percentage} mode) so sampling reflects \emph{coverage}, not feature count. For the same reason, I do not \hl{Include End Points}; features with length $<\samplinginterval$ are not sampled at all.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{flow.pdf}
+        \caption[Mapped lava flow \& centerline]{A flow with lobate boundaries at each margin is mapped as a polygon (white) from which a linear centerline is derived for sampling.}
+        \label{fig:flow}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{channel.pdf}
+        \caption[Mapped lava channel]{A lava channel is mapped as a linear feature, including regions of discontinuity which are inferred to be collapsed skylight chains over lava tubes.}
+        \label{fig:channel}
+    \end{subfigure}
+    \caption{Mapping linear features}
+    \label{fig:mapping-linear}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{sampling.pdf}
+    \caption[Sampling site selection]{Each linear feature is assigned an average paleo-dip direction. Points are selected for sampling and calculations at \qty{5}{\km} and \qty{3}{\km} intervals for flows and channels, respectively. Paleo-dip direction is assigned to each point from its corresponding line; modern dip and dip direction is assigned to each point from its unique \ac{DEM} neighborhood.}
+    \label{fig:sampling}
+\end{figure}
+
+\section{Attitude Data Collection}
+
+\newcommand{\neighborhood}{\qty{2}{\km}}
+
+The first variable collected is \acf{az1}, which each point inherits from its parent linear feature.
+
+Then, I use the \hl{Surface Parameters} tool on the \ac{MOLA} \ac{DEM} to compute average topographic \hl{Slope} and \hl{Aspect} (downhill azimuth) rasters across the entire study area. To avoid capturing local topographic anomalies, these values are averaged\footnote{Technically, a quadratic surface is interpolated over the neighborhood region and dip and dip direction are computed at the center of this surface.} over a ``neighborhood'' with radius \neighborhood. I use the \hl{Extract Multi Values to Points} tool to assign \acf{sl2} and \acf{az2} to each based on the value of the corresponding raster value at that location. Figure~\ref{fig:surface} shows the compact geometric representation of these attitude parameters as a unit vector normal to the topographic surface. Figure~\ref{fig:deform-collected} shows a geometric view of all three collected variables, including the incomplete (\acs{az1} but not \acs{sl1}) representation of the paleo-surface attitude.
+
+\begin{figure}
+    \floatbox[{\capbeside\thisfloatsetup{floatwidth=sidefil,capbesideposition={left,bottom},capbesidewidth=.55\linewidth}}]{figure}
+    {\caption[Attitude as a normal vector $\acs{normal2}=(\acs{az2},\acs{sl2})$]{The attitude of a tilted surface (green) is defined relative to horizontal (grey) by its \acf{az2} and \acf{sl2}. \acs{az2} and \acs{sl2} are also the spherical coordinates of a unique unit vector \acs{normal2} which is normal (perpendicular) to the surface. In the subsequent sections, $\acs{normal2}=(\acs{az2},\acs{sl2})$ represents the observed attitude at a sampled location, while $\acs{normal1}=(\acs{az1},\acs{sl1})$ represents the \emph{inferred} paleo-attitude of the same point when the lava flow was emplaced. Azimuth angles increase clockwise from \acf{north} as shown, following geographic convention.}\label{fig:surface}}
+    {\input{figures/surface.tex}}
+\end{figure}
+
+\section{Attitude Data Calculation}\label{sec:calculation}
+
+As seen in Figure~\ref{fig:deform-collected}, attitude data pertaining to the inferred paleo-surface is incomplete. Namely, while the modern topographic surface attitude is fully characterized by \acs{az2} and \acs{sl2}, only the \acf{az1} can be inferred directly from mapped surface features. Without clear insight into the \acf{sl1} at each sampled point, I present a method for constraining its value under the assumption of \emph{minimum deformation.} 
+
+\subsection{Minimum 3D Deformation}\label{sec:3d-deform}
+Figure~\ref{fig:deform-calculated} illustrates conceptually my strategy for calculating \acs{sl1} such that the \acf{deform} between \acs{normal2} and \acs{normal1} is minimized. The associated computational method is derived below.
+\begin{figure}
+    \centering
+    \input{figures/deform.tex}
+    \caption{Calculation of \acf{sl1} and \acf{deform}.}\label{fig:deform}
+\end{figure}
+Beginning with the spherical law of cosines:\footnote{Derived in Appendix~\ref{app:spherical-cosines}}
+\begin{equation}
+    \acs{deform}
+    =\arccos(\sin\acs{sl1}\sin\acs{sl2}\cos\acs{discord}
+    +\cos\acs{sl1}\cos\acs{sl2}).
+    \label{eq:central-angle}
+\end{equation}
+For constant (already measured) \acs{discord} and \acs{sl2}, the value of \acs{sl1} which minimizes \acs{deform} can be calculated by setting:
+\begin{equation}
+    \frac{\partial}{\partial \acs{sl1}}
+    \arccos(\sin\acs{sl1}\sin\acs{sl2}\cos\acs{discord}
+    +\cos\acs{sl1}\cos\acs{sl2})
+    =0.\label{eq:mimimum}
+\end{equation}
+Differentiating using the chain rule,
+\begin{equation}
+    \frac{-\,(\cos\ac{sl1}\sin\acs{sl2}
+    \cos\acs{discord}-\sin\ac{sl1}\cos\acs{sl2})}
+    {\sqrt{1-{(\sin\acs{sl1}\sin\acs{sl2}\cos\acs{discord}
+    +\cos\acs{sl1}\cos\acs{sl2})}^2}}
+    =0.\label{eq:derivative}
+\end{equation}
+Multiplying through by the denominator\footnote{The denominator in Equation~\eqref{eq:derivative} is zero when \acs{deform} is \ang{0} or \ang{180}, that is, when \acs{normal2} and \acs{normal1} are equal or antipodal. The $\acs{normal2}=\acs{normal1}$ case behaves as desired in Equation~\eqref{eq:robust-ze'} because $\acs{normal2}=\acs{normal1}\implies\cos\acs{discord}=1\implies\acs{sl1}=\arctan(\tan\acs{sl2}\cdot1)=\acs{sl2}$. The antipodal case is unphysical.} and rearranging to solve for \acs{sl1}:
+\begin{gather}
+    \cos\ac{sl1}\sin\acs{sl2}
+    \cos\acs{discord}-\sin\ac{sl1}\cos\acs{sl2}
+    =0,\nonumber\\
+    \frac{\sin\acs{sl2}
+    \cos\acs{discord}}
+    {\cos\acs{sl2}}
+    =\frac{\sin\ac{sl1}}{\cos\ac{sl1}},\nonumber\\
+    \ac{sl1}
+    =\arctan(\tan\ac{sl2}
+    \cos\acs{discord}).
+    \label{eq:ze'}
+\end{gather}
+The calculated value of \acs{sl1} can then be substituted back into Equation~\eqref{eq:central-angle} to find \acs{deform}. However, one adjustment must be made to this formula to account for edge cases. Notice in Equation~\eqref{eq:ze'} that when $\cos\acs{discord}$ is negative, so is \acs{sl1}. Since \acs{sl1} ultimately describes a slope, a negative value does not make sense. In fact, this situation corresponds to an \emph{uphill} slope being a closer match with the observed topography than a downhill one, which occurs when the angular distance between the two azimuth values exceeds \ang{90}. This treatment of this case is shown in Figure~\ref{fig:reversal}: negative \acs{sl1} values are reset to zero. Thus, the final equation for \acs{sl1} is:
+\begin{equation}
+    \boxed{\ac{sl1}
+    =\max[0,\arctan(\tan\ac{sl2}
+    \cos\acs{discord})].}
+    \label{eq:robust-ze'}
+\end{equation}
+
+\subsection{Radial Component of Deformation}
+Figure~\ref{fig:radial} shows what it means to calculate the component of 3D deformation along the radial-axial plane. Comparison with Figure~\ref{fig:deform-calculated} reveals the geometric similarity between the two problems. Therefore, the same Equation~\ref{eq:ze'} derived in Section~\ref{sec:3d-deform} applies up to small modifications owing to a few important differences. First, there are two distinct blue central angles to be minimized, and thus two distinct red zenith angles to be calculated. The \acf{radial-deform} value to be calculated is the signed difference between the two zenith values, which correspond to the ``projections'' of \acs{normal2} and \acs{normal1} onto the plane containing the $z-$ and $r-$axes. Also, the correction used in Equation~\eqref{eq:robust-ze'} is not desired here, since the vectors \acs{normal2} and \acs{normal1} could just as easily project on either side of the $z-$axis.
+\begin{equation}
+    \boxed{\acs{radial-deform}
+    =\arctan(\tan\ac{sl2}
+    \cos[\acs{bearing}-\acs{az2}])
+    -\arctan(\tan\ac{sl1}
+    \cos[\acs{bearing}-\acs{az1}]).}
+\end{equation}
+Note that the order of terms (and thus the sign of the difference) is significant. For example, \ang{-5} of radial deformation would represent a ``caving-in'' toward the caldera, while \ang{+5} of radial deformation would be more like an outward bulge.
+
+
+\begin{figure}
+    \floatbox[{\capbeside\thisfloatsetup{floatwidth=sidefil,capbesideposition={left,top},capbesidewidth=.55\linewidth}}]{figure}
+    {\caption[Reversal case: $\acs{discord}>\ang{90}$]{When $\acs{discord}>\ang{90}$, Equation~\eqref{eq:ze'} gives $\acs{sl1}<0$, which does not make physical sense as a downhill slope in the \acs{az1} direction. Instead, \acs{sl1} is set to zero, the \emph{non-negative} downhill paleo-slope that minimizes \acs{deform}.}\label{fig:reversal}}
+    {\hspace*{-0.4\linewidth}\input{figures/reversal.tex}}
+    \vspace*{-9em}
+    \floatbox[{\capbeside\thisfloatsetup{floatwidth=sidefil,capbesideposition={right,bottom},capbesidewidth=.6\linewidth}}]{figure}
+    {\caption[Calculation of \acf{radial-deform}]{Geometric view of \acl{radial-deform}. \acs{bearing} is the bearing angle from the center of the study area \acs{center} to the sampled location, measured clockwise from \acf{north}. It defines the radial-axial plane onto which \acs{normal2} and \acs{normal1} are projected using \acs{deform}-minimizing procedure developed in Section~\ref{sec:3d-deform}. The signed difference between their projected zenith angles is the \acf{radial-deform}, to be used in for axisymmetric modeling.}\label{fig:radial}}
+    {\input{figures/radial.tex}}
+\end{figure}
+
+\section{Axisymmetric Model of Reservoir Inflation}
+
+I use the COMSOL Multiphysics 6.1 (COMSOL) to construct a numerical representation of \acf{OM}. The model is axisymmetric, about the center point discussed previously as the center of the \qty{19}{\km} contour. A profile from due south of this point is used as the 
+
+\subsection{Model Parameter Space}
+
+\section{Crater Dating Lava Flows}

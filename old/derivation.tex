@@ -1,0 +1,38 @@
+\chapter{Spherical Constraint Derivation}\label{derivation}
+\section*{List of Symbols}
+\printacronyms[heading=none,include=math]
+\section*{Problem Statement}
+A certain problem of spherical geometry is encountered twice in this thesis. In its most general form, the problem is as follows. 
+
+Consider a point on the surface of a unit sphere. It is uniquely described by three spherical coordinates $(\acs{spherical-radial},\acs{spherical-azimuth},\acs{spherical-zenith})$. Since the sphere is of unit radius, $\acs{spherical-radial}=1$. Therefore, it is sufficient to define a point $\acs{point}\equiv(\acs{spherical-azimuth}_p,\acs{spherical-zenith}_p)$.
+
+Now consider a line of constant \acs{spherical-azimuth} on the unit sphere. It passes through the zenith (pole) of the sphere and is analogous to a line of longitude on the Earth. This line can be defined $\acs{line}\equiv(\acs{spherical-azimuth}_\ell)$. \emph{Which point \acs{closest-point} on \acs{line} is closest to \acs{point}?}
+
+The \ac{central-angle} subtended between two points on a unit sphere at the sphere's center is:
+\begin{equation}
+    \ac{central-angle}=\arccos\left[\cos\ac{spherical-zenith}_1\cos\ac{spherical-zenith}_2+\sin\ac{spherical-zenith}_1\sin\ac{spherical-zenith}_2\cos\left(\acs{spherical-azimuth}_2-\acs{spherical-azimuth}_1\right)\right].\label{gcd}
+\end{equation}
+Given $\ac{spherical-azimuth}_p$, $\ac{spherical-zenith}_p$, and $\ac{spherical-azimuth}_q$, which value of $\ac{spherical-zenith}_q$ minimizes \ac{central-angle}? This optimization problem can be solved by setting:
+\begin{equation}
+    \frac{\partial}{\partial \ac{spherical-zenith}_q}\arccos\left[\cos\ac{spherical-zenith}_q\cos\ac{spherical-zenith}_p+\sin\ac{spherical-zenith}_q\sin\ac{spherical-zenith}_p\cos\left(\acs{spherical-azimuth}_p-\acs{spherical-azimuth}_q\right)\right]=0.
+\end{equation}
+Collecting constant terms allows for the following simplification:
+\begin{equation}
+    \frac{\partial}{\partial \ac{spherical-zenith}_q}\arccos\left[a\cos\ac{spherical-zenith}_q+b\sin\ac{spherical-zenith}_q\right]=0,
+\end{equation}
+where $a=\cos\ac{spherical-zenith}_p$ and $b=\sin\ac{spherical-zenith}_p\cos\left(\acs{spherical-azimuth}_p-\acs{spherical-azimuth}_q\right)$. Differentiating using the chain rule gives:
+\begin{equation}
+    \frac{-1}{\sqrt{1-{\left(a\cos\ac{spherical-zenith}_q+b\sin\ac{spherical-zenith}_q\right)}^2}}\cdot\left(-a\sin\ac{spherical-zenith}_q+b\cos\ac{spherical-zenith}_q\right)=0.
+\end{equation}
+Clearly, the first term cannot be equal to $0$. Therefore:
+\begin{gather}
+    -a\sin\ac{spherical-zenith}_q+b\cos\ac{spherical-zenith}_q=0,\nonumber\\
+    b\cos\ac{spherical-zenith}_q=a\sin\ac{spherical-zenith}_q,\nonumber\\
+    b/a=\tan\ac{spherical-zenith}_q,\nonumber\\
+    \ac{spherical-zenith}_q=\arctan(b/a).
+\end{gather}
+Substituting the constant terms back in:
+\begin{gather}
+    \ac{spherical-zenith}_q=\arctan\left[\frac{\sin\ac{spherical-zenith}_p\cos\left(\acs{spherical-azimuth}_p-\acs{spherical-azimuth}_q\right)}{\cos\ac{spherical-zenith}_p}\right],\nonumber\\
+    \ac{spherical-zenith}_q=\arctan\left[\tan\ac{spherical-zenith}_p\cos\left(\acs{spherical-azimuth}_p-\acs{spherical-azimuth}_q\right)\right].
+\end{gather}

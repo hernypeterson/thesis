@@ -1,0 +1,106 @@
+\begin{subfigure}{\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=2.3,tdplot_main_coords]
+
+        % origin
+        \coordinate (O) at (0,0,0);
+        
+        % also defines (Pxy), (Pxz), (Pyz), etc.
+        \tdplotsetcoord{P}{\radius}{\ze}{\az}
+        \tdplotsetcoord{P'}{\radius}{\zen}{\azi}
+        \tdplotsetcoord{Q}{\radius}{90}{\azi}
+        
+        % grey circle
+        \fill[tdplot_main_coords, color = gray!10!white] (0:\radius) arc (0:360:\radius);
+        
+        % az' surface
+        \tdplotsetthetaplanecoords{\azi}
+        
+        % fill az' surface
+        \fill[tdplot_rotated_coords, color = black, opacity = 0.05] (\radius,0) arc (0:90:\radius) -- (0,0);
+        
+        % line az' surface
+        \draw[very thin, dashed] (O) -- (Q);
+        \tdplotdrawarc[tdplot_rotated_coords, very thick]{(O)}{\radius}{90}{0}{anchor=north west}{$\theta=\acs{az1}$}
+        
+        % az surface
+        \tdplotsetthetaplanecoords{\az}
+        
+        % line az surface
+        \draw[very thin, dashed] (P) -- (Pxy) -- (O);
+        \draw[arrow] (O) -- (P) node[anchor = south west] {\acs{normal2}};
+        
+        % z-axis
+        \draw[axis] (O) -- (0,0,\axislength) node[anchor=south]{$z$};
+        
+        % |az' - az| angle label
+        \tdplotdrawarc{(O)}{0.6}{\azi}{\az+360}{anchor=north}{$\acs{discord}$}
+        
+        % ze angle label
+        \tdplotdrawarc[tdplot_rotated_coords]{(O)}{\radius}{0}{\ze}{anchor=west}{\acs{sl2}}
+        
+
+        \fill[black] (O) circle (0.2pt);
+    \end{tikzpicture}
+    \caption[Attitude data collected]{Attitude data \emph{collected} at each point: \acs{az2}, \acs{sl2}, and \acs{az1}. $\acs{normal2}=(\acs{az2},\acs{sl2})$ as shown in Figure~\ref{fig:surface}. A whole \emph{family} of normal vectors satisfies $\theta=\acs{az1}$. \acs{discord} is the discordance (difference) between the modern \acf{az2} and \acf{az1}.}
+    \label{fig:deform-collected}
+\end{subfigure}
+\begin{subfigure}{\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=4.3,tdplot_main_coords]
+
+        % origin
+        \coordinate (O) at (0,0,0);
+        
+        % also defines (Pxy), (Pxz), (Pyz), etc.
+        \tdplotsetcoord{P}{\radius}{\ze}{\az}
+        \tdplotsetcoord{P'}{\radius}{\zen}{\azi}
+        \tdplotsetcoord{Q}{\radius}{90}{\azi}
+        
+        % grey circle
+        \fill[tdplot_main_coords, color = gray!10!white] (0:\radius) arc (0:360:\radius);
+        
+        % az' surface
+        \tdplotsetthetaplanecoords{\azi}
+        
+        % fill az' surface
+        \fill[tdplot_rotated_coords, color = red, opacity = 0.3] (\radius,0) arc (0:\zen:\radius) -- (0,0);
+        \fill[tdplot_rotated_coords, color = black, opacity = 0.05] (\radius,0) arc (0:90:\radius) -- (0,0);
+        
+        % line az' surface
+        \draw[arrow] (O) -- (P') node[anchor = south east] {\acs{normal1}};
+        \draw[very thin, dashed] (O) -- (Q);
+        \tdplotdrawarc[tdplot_rotated_coords, very thick]{(O)}{\radius}{90}{0}{anchor=north west}{$\theta=\acs{az1}$}
+        \tdplotdrawarc[tdplot_rotated_coords,very thick,red]{(O)}{\radius}{0}{\zen}{anchor=south}{\acs{sl1}}
+        
+        % az surface
+        \tdplotsetthetaplanecoords{\az}
+        
+        % line az surface
+        \draw[very thin, dashed] (P) -- (Pxy) -- (O);
+        \draw[arrow] (O) -- (P) node[anchor = south west] {\acs{normal2}};
+        
+        % z-axis
+        \draw[axis] (O) -- (0,0,\axislength) node[anchor=south]{$z$};
+        
+        % |az' - az| angle label
+        \tdplotdrawarc{(O)}{0.6}{\azi}{\az+360}{anchor=north}{$\acs{discord}$}
+        
+        % ze angle label
+        \tdplotdrawarc[tdplot_rotated_coords]{(O)}{\radius}{0}{\ze}{anchor=west}{\acs{sl2}}
+        
+        % central angle plane
+        \tdplotsetrotatedcoords{\azi}{-90+\zen}{0}
+        
+        % central angle line
+        \tdplotdrawarc[tdplot_rotated_coords,blue]{(0,0,0)}{\radius}{\cenang}{0}{coordinate, pin={[pin edge={black},-]-90:\acs{deform}}}{}
+        
+        % central angle fill
+        \fill[tdplot_rotated_coords, color = blue, opacity = 0.1] (\radius,0) arc (0:\cenang:\radius) -- (0,0);
+        
+
+        \fill[black] (O) circle (0.2pt);
+    \end{tikzpicture}
+\caption[Attitude data calculated]{Attitude data \emph{calculated} at each point: \acs{sl1} and \acs{deform}. From the family of vectors with $\theta=\acs{az1}$, the vector \acs{normal1} with zenith angle \acs{sl1} is chosen to minimize the blue \acf{deform} between \acs{normal2} and \acs{normal1}.}
+\label{fig:deform-calculated}
+\end{subfigure}

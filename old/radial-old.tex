@@ -1,0 +1,80 @@
+
+The unit normal vectors \acs{normal} and acs{normal'} have already been presented to justify the preceding mathematical treatment of surface attitude data, although their constituent angles in spherical coordinates have done all the computationally heavy lifting involved in calculating minimum 3D deformation. These vectors will play a more explicit role in the following section, in which I resolve the component of 3D deformation which occurs within the axial-radial plane. Two transformations involving these vectors are required. First, their expression in cartesian coordinates $(x,y,z)$:
+\begin{equation}
+    \acs{normal} = \begin{bmatrix}
+        \sin\acs{ze}\cos\acs{az}\\
+        \sin\acs{ze}\sin\acs{az}\\
+        \cos\acs{ze}
+    \end{bmatrix}\qquad
+    \acs{normal'} = \begin{bmatrix}
+        \sin\acs{ze'}\cos\acs{az'}\\
+        \sin\acs{ze'}\sin\acs{az'}\\
+        \cos\acs{ze'}
+    \end{bmatrix}.\label{spherical-to-cartesian}
+\end{equation}
+Second, it is now necessary for the first time to consider the location of the sampled point. In particular, each sampled location is described in 2D polar coordinates $(\acs{R},\acs{THETA})$. The basis used thus far has been implicitly the standard basis:
+\begin{equation}
+    \hat x = \begin{bmatrix}
+        1\\0\\0
+    \end{bmatrix}\quad
+    \hat y = \begin{bmatrix}
+        0\\1\\0
+    \end{bmatrix}\quad
+    \hat z = \begin{bmatrix}
+        0\\0\\1
+    \end{bmatrix}.
+\end{equation}
+Notice, (e.g., in Figure~\ref{geometric-optimize}) only $\hat z$ has been used explicitly as the vertical direction; the actual directions assigned to $\hat x$ and $\hat y$ are not important because any orientation will yield the same value of $|\acs{az}'-\acs{az}|$. It is worth noting here, then, that azimuth angles are calculated throughout this thesis starting with $0$ in the vertical direction and increase clockwise. This means that unlike the typical representation in mathematics, $\hat x$ points up and $\hat y$ points to the right when viewing a map in the standard north-up orientation.
+
+The axisymmetric modeling that follows requires a different choice of basis---one that depends on the location of point where the attitude data are collected and calculated. The zenith vector $\hat z$ is fine, but the horizontal vectors need to describe orientation in a radial or tangential direction, respectively. The following vectors form a basis:
+\begin{equation}
+    \hat r = \begin{bmatrix}
+        \cos\acs{THETA}\\\sin\acs{THETA}\\0
+    \end{bmatrix}\quad
+    \hat t = \begin{bmatrix}
+        -\sin\acs{THETA}\\\cos\acs{THETA}\\0
+    \end{bmatrix}\quad
+    \hat z = \begin{bmatrix}
+        0\\0\\1
+    \end{bmatrix}.
+\end{equation}
+Then a change-of-basis matrix \acs{change-basis} is constructed:
+\begin{equation}
+    \acs{change-basis}=\begin{bmatrix}
+        \cos\acs{THETA} & -\sin\acs{THETA} & 0\\
+        \sin\acs{THETA} & \cos\acs{THETA} & 0\\
+        0 & 0 & 1
+    \end{bmatrix}^{-1}=\begin{bmatrix}
+        \cos\acs{THETA} & \sin\acs{THETA} & 0\\
+        -\sin\acs{THETA} & \cos\acs{THETA} & 0\\
+        0 & 0 & 1
+    \end{bmatrix}.
+\end{equation}
+Thus the normal vectors \acs{normal} and \acs{normal'} can be expressed in radial-tangential form as \acs{change-basis}\acs{normal} and \acs{change-basis}\acs{normal'}, respectively. The component of 3D deformation (as minimized in Section~\ref{3d-deform}) in the radial-axial direction is therefore the angular distance between the projections of \acs{change-basis}\acs{normal} and \acs{change-basis}\acs{normal'} in the $r-z$ plane. We already have $z=\cos\ac{ze}$ from Equation~\ref{spherical-to-cartesian}. For $r$, we need just the first row of \acs{change-basis}:
+\begin{equation}
+    r=
+    \begin{bmatrix}
+        \cos\acs{THETA} & \sin\acs{THETA} & 0
+    \end{bmatrix}\begin{bmatrix}
+        \sin\acs{ze}\cos\acs{az}\\
+        \sin\acs{ze}\sin\acs{az}\\
+        \cos\acs{ze}
+    \end{bmatrix}
+    =\sin\acs{ze}\cos\acs{az}\cos\acs{THETA}+\sin\acs{ze}\sin\acs{az}\sin\acs{THETA}.
+\end{equation}
+Using the cosine of differences identity,
+\begin{equation}
+    r=\sin\acs{ze}\cos(\acs{THETA}-\acs{az}).
+\end{equation}
+A zenith angle can then be defined by
+\begin{equation}
+    \phi=\arctan(r/z)=\arctan\left[\tan\acs{ze}\cos(\acs{THETA}-\acs{az})\right].
+\end{equation}
+Likewise,
+\begin{equation}
+    \phi'=\arctan\left[\tan\acs{ze'}\cos(\acs{THETA}-\acs{az'})\right].
+\end{equation}
+Finally, the radial-axial component of deformation is
+\begin{equation}
+    \boxed{\acs{central-angle}_{rz}=\phi-\phi'.}
+\end{equation}

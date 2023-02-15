@@ -1,0 +1,60 @@
+\begin{tikzpicture}[scale=4.2,tdplot_main_coords]
+
+        % origin
+        \coordinate (O) at (0,0,0);
+        
+        % also defines (Pxy), (Pxz), (Pyz), etc.
+        \tdplotsetcoord{P}{\radius}{\ze}{\azrev}
+        \tdplotsetcoord{P'}{\radius}{\zen}{\azi}
+        \tdplotsetcoord{Q}{\radius}{90}{\azi}
+        \tdplotsetcoord{-Q}{\radius}{90}{180+\azi}
+        
+        % grey circle
+        \fill[tdplot_main_coords, color = gray!10!white] (O) circle (0.6);
+        
+        % az' surface
+        \tdplotsetthetaplanecoords{\azi}
+        
+        % fill az' surface
+        \fill[tdplot_rotated_coords, color = red, opacity = 0.3] (\radius,0) arc (0:-\zen:\radius) -- (0,0);
+        \fill[tdplot_rotated_coords, color = black, opacity = 0.05] (\radius,0) arc (0:90:\radius) -- (0,0);
+        \fill[tdplot_rotated_coords, color = black, opacity = 0.05] (\radius,0) arc (0:-90:\radius) -- (0,0);
+        
+        % line az' surface
+        % \draw[arrow] (O) -- (P') node[anchor = south east] {\acs{normal1}};
+        \draw[very thin, dashed] (-Q) -- (Q);
+        \tdplotdrawarc[tdplot_rotated_coords, very thick]{(O)}{\radius}{90}{0}{anchor=north west}{$\theta=\acs{az1}$}
+        \tdplotdrawarc[tdplot_rotated_coords, dashed]{(O)}{\radius}{0}{-\zen}{}{}
+        % \tdplotdrawarc[tdplot_rotated_coords,dashed]{(O)}{\radius}{0}{-90}{coordinate, pin={[pin edge={black},-]-90:$\acs{sl2}=\acs{deform}$}}{}
+        \tdplotdrawarc[tdplot_rotated_coords,dashed]{(O)}{\radius}{0}{-90}{coordinate, pin={[pin edge={black,solid},-]90:$\theta=\acs{az1}+\ang{180}$}}{}
+        \tdplotdrawarc[tdplot_rotated_coords,dashed,red]{(O)}{\radius}{0}{-\zen}{}{}
+        
+        
+        % az surface
+        \tdplotsetthetaplanecoords{\azrev}
+        
+        % line az surface
+        \draw[very thin, dashed] (P) -- (Pxy) -- (O);
+        \draw[arrow] (O) -- (P) node[anchor = west] {\acs{normal2}};
+        
+        % z-axis
+        \draw[axis] (O) -- (0,0,\axislength) node[anchor=south]{$z=\acs{normal1}$};
+        
+        % |az' - az| angle label
+        \tdplotdrawarc{(O)}{0.6}{\azi}{\azrev-360}{anchor=north}{\acs{discord}}
+        
+        % ze angle label
+        \tdplotdrawarc[tdplot_rotated_coords]{(O)}{\radius}{0}{\ze}{coordinate, pin={[pin edge={black},-]-90:$\acs{sl2}=\acs{deform}$}}{}
+        
+        % central angle plane
+        \tdplotsetrotatedcoords{\azi}{-90-\zen}{0}
+        
+        % central angle line
+        \tdplotdrawarc[tdplot_rotated_coords,blue, dashed]{(0,0,0)}{\radius}{\cenang}{0}{}{}
+        
+        % central angle fill
+        \fill[tdplot_rotated_coords, color = blue, opacity = 0.1] (\radius,0) arc (0:\cenang:\radius) -- (0,0);
+        
+
+        \fill[black] (O) circle (0.3pt);
+    \end{tikzpicture}

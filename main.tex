@@ -1,0 +1,39 @@
+\input{aux/preamble.tex}
+
+\begin{document}
+
+\frontmatter % roman page numbers
+\input{chapters/title.tex}
+
+% Chapter heading height
+\titlespacing*{\chapter}{0pt}{0pt}{40pt}
+
+% \input{chapters/acknowledgements.tex}
+% \input{chapters/abstract}
+
+\tableofcontents
+\listoffigures
+
+\chapter{List of Abbreviations}
+\printacronyms[pages={display=all,seq/use=false},heading=none, exclude=sym, template=tabularray]
+
+\chapter{List of Symbols}
+\printacronyms[pages={display=all,seq/use=false},heading=none,include=sym,template=tabularray]
+
+\mainmatter % regular page numbers
+\input{chapters/intro}
+\input{chapters/methods}
+\input{chapters/results}
+% \input{chapters/discussion}
+% \input{chapters/conclusions}
+
+% \nocite{*}
+
+\begin{flushleft}
+\printbibliography[heading=bibintoc]
+\end{flushleft}
+
+\appendix % lettering
+% \input{chapters/arcgis.tex}
+\input{chapters/spherical-cosines.tex}
+\end{document}

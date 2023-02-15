@@ -1,0 +1,38 @@
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows, positioning}
+\tikzstyle{arrow} = [very thick, -latex]
+\tikzstyle{axis} = [semithick, -latex]
+
+\usepackage{tikz-3dplot}
+
+% figure view angle
+\pgfmathsetmacro{\viewze}{65}
+\pgfmathsetmacro{\viewaz}{105}
+\tdplotsetmaincoords{\viewze}{\viewaz}
+
+% define lengths
+\pgfmathsetmacro{\radius}{1.3}
+\pgfmathsetmacro{\axislength}{1.4}
+
+% define angles for p
+\pgfmathsetmacro{\az}{40}
+\pgfmathsetmacro{\ze}{37}
+
+% define angles for p' (no ' in pgf macros!)
+\pgfmathsetmacro{\azi}{330}
+\pgfmathsetmacro{\zen}{14.4523587} % calculated
+
+% define az for reversal
+\pgfmathsetmacro{\azrev}{2*\azi+180-\az}
+
+% optimize cenang
+\pgfmathsetmacro{\cenang}{34.438487775} % calculated
+
+% define radial projection azimuth
+\pgfmathsetmacro{\THETA}{-5}
+
+% ze_project (all calcualted)
+\pgfmathsetmacro{\zeproj}{28.050617947530625}
+\pgfmathsetmacro{\zenproj}{13.147604528101175}
+\pgfmathsetmacro{\zecenang}{25.18532227675052}
+\pgfmathsetmacro{\zencenang}{6.054528988961903}

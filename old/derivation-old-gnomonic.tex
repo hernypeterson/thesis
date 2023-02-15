@@ -1,0 +1,71 @@
+\chapter{Spherical Constraint Derivation}\label{derivation}
+\section*{List of Symbols}
+\printacronyms[heading=none,include=math]
+\section*{Problem Statement}
+A certain problem of spherical geometry is encountered twice in this thesis. In its most general form, the problem is as follows. 
+
+Consider a point on the surface of a unit sphere. It is uniquely described by three spherical coordinates $(\acs{spherical-radial},\acs{spherical-azimuth},\acs{spherical-zenith})$. Since the sphere is of unit radius, $\acs{spherical-radial}=1$. Therefore, it is sufficient to define a point $\acs{point}\equiv(\acs{spherical-azimuth}_p,\acs{spherical-zenith}_p)$.
+
+Now consider a line of constant \acs{spherical-azimuth} on the unit sphere. It passes through the zenith (pole) of the sphere and is analogous to a line of longitude on the Earth. This line can be defined $\acs{line}\equiv(\acs{spherical-azimuth}_\ell)$.
+
+\emph{Which point \acs{closest-point} on \acs{line} is closest to \acs{point}?}
+\section*{Derivation for Planar Analog}
+This question is easy to answer for a line and point sitting in a plane, as shown in Fig.~\ref{closest-point}. The desired point lies on the line through \acs{point} and perpendicular to \acs{line}. If $m_\ell$ is the slope of \acs{line} and $(x_p,y_p)$ is the location of \acs{point}, then the desired perpendicular line \acs{perp-line} has the point-slope form:
+\begin{equation}
+    y-y_p=\frac{-1}{m_\ell}\left(x-x_p\right).\label{perp-line}
+\end{equation}
+In the spherical case, \acs{line} passes through the sphere's pole. In the planar case, it passes through the origin:
+\begin{equation}
+    y=m_\ell x.\label{line}
+\end{equation}
+The desired point passes through both lines; substituting Equation~\ref{line} into Equation~\ref{perp-line} gives $x_q$:
+\begin{gather}
+    m_\ell x-y_p=\frac{-1}{m_\ell}\left(x-x_p\right)\nonumber\\
+    m_\ell x+\frac{1}{m_\ell}x=x_p/m_\ell+y_p\nonumber\\
+    \boxed{x_q=\frac{x_p/m_\ell+y_p}{m_\ell+1/m_\ell}}\label{x}
+\end{gather}
+Substituting back into Equation~\ref{line} gives $y_q$:
+\begin{equation}
+    \boxed{y_q=m_\ell x_q}\label{y}
+\end{equation}
+\begin{figure}
+    {\centering
+    \begin{tikzpicture}
+        \filldraw[black] (-1.5,.5) circle (2pt) node[anchor=south east]{$\acs{point}$};
+        \draw[arrow,<->] (-1,-3) -- (1,3) node[anchor=north west]{$\ell$};
+        \draw[dotted] (-1.5,.5) -> (0,0) node[midway,above]{\acs{perp-line}};
+        \filldraw[black] (0,0) circle (2pt) node[anchor=north west]{$\acs{closest-point}$};
+        \draw (-.3,.1) -- (-.4,-.2) -- (-.1,-.3);
+    \end{tikzpicture}
+    \caption[Closest point on a line to another point in the plane.]{The closest point \acs{closest-point} to \acs{point} on \acs{line} also lies on \acs{perp-line}, which is perpendicular to \acs{line} and contains \acs{point}.}
+    \label{closest-point}
+    }
+\end{figure}
+\section*{Gnomonic Projection}
+To apply this planar result to the spherical problem, an appropriate projection must be chosen which preserves the geometric property relevant to the question; namely, the closest route between two points. On the surface of a sphere, the closest route between two points is called a geodesic or great circle arc. In the plane, the closest route between two points is a straight line. The \ac{gnomonic} maps geodesics to straight lines as desired. It has the form:
+\begin{equation}
+    \acs{gnomonic}:(\acs{spherical-azimuth},\acs{spherical-zenith})
+    \mapsto(\acs{polar-radial},\acs{polar-azimuth})=(\tan\acs{spherical-zenith},\acs{spherical-azimuth})
+    \mapsto(x,y)=(\tan\acs{spherical-zenith}\sin\acs{spherical-azimuth},\tan\acs{spherical-zenith}\cos\acs{spherical-azimuth}).
+\end{equation}
+Using this projection, \acs{point} and \acs{line} can be expressed in a form where equations~\ref{x}~\&~\ref{y} apply:
+\begin{gather}
+    \acs{gnomonic}(\acs{point})=(x_p,y_p)=(\tan\acs{spherical-zenith}_p\sin\acs{spherical-azimuth}_p,\tan\acs{spherical-zenith}_p\cos\acs{spherical-azimuth}_p).\label{gnomonic-point}\\
+    \acs{gnomonic}(\acs{line})\mapsto f(x_\ell,y_\ell):y_\ell=\underbrace{\cot\acs{spherical-azimuth}_\ell}_{m_\ell} x_\ell\label{gnomonic-line}.
+\end{gather}
+These explicit expressions for $x_p$, $y_p$, and $m_\ell$ can be used in equations~\ref{x}~\&~\ref{y} to determine $\acs{closest-point}=\left(x_q,y_q\right)$. However, $\acs{closest-point}=\left(\acs{spherical-azimuth}_q,\acs{spherical-zenith}_q\right)$ is really a point on the spherical surface; therefore, the inverse gnomonic projection $\left(\acs{gnomonic}^{-1}\right)$ is desired:
+\begin{multline}
+    \acs{gnomonic}^{-1}:(x,y)\mapsto(\acs{polar-radial},\acs{polar-azimuth})=\left(\sqrt{x^2+y^2},\arctan{[y/x]}\right)\\
+    \mapsto(\acs{spherical-azimuth},\acs{spherical-zenith})=\left(\arctan[y/x],\arctan\sqrt{x^2+y^2}\right).
+\end{multline}
+Of course, since \acs{closest-point} is on $\acs{line}$, we know $\acs{spherical-azimuth}_q=\acs{spherical-azimuth}_\ell$. The relevant term in this inverse projection is:
+\begin{equation}
+    \acs{spherical-zenith}_q=\arctan\sqrt{x_q^2+y_q^2}.\label{closest-zenith}
+\end{equation}
+\section*{Summary}
+Given a \acf{line} and a \acf{point}, the \acf{closest-point} can be determined using the following steps:
+\begin{enumerate}
+    \item Express the \acf{gnomonic} of \acs{point} and \acs{line} in cartesian coordinates using equations~\ref{gnomonic-point}~\&~\ref{gnomonic-line}, respectively.
+    \item Calculate $\left(x_q,y_q\right)$ using equations~\ref{x}~\&~\ref{y}, respectively.
+    \item Calculate $\acs{spherical-zenith}_q$ using equation~\ref{closest-zenith}. Since $\acs{spherical-azimuth}_q$ is known from the start, \acs{closest-point} is now defined.
+\end{enumerate}

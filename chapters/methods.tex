@@ -175,6 +175,26 @@ Note that the order of terms (and thus the sign of the difference) is significan
 
 I use the COMSOL Multiphysics 6.1 (COMSOL) to construct a numerical representation of \acf{OM}. The model is axisymmetric, about the center point discussed previously as the center of the \qty{19}{\km} contour. A profile from due south of this point is used as the 
 
+\subsection{Interpreting Surface Displacement}
+
+I develop a formula for the \acf{radial-deform} given \acf{disp}:
+
+\begin{equation}
+    \acs{radial-deform} = \arctan\left(-\frac{d\acs{disp}_v}{d\acs{dist}}\right).\nonumber
+\end{equation}
+
+Each of these position and displacement variables are functions only of \acs{dist}, so the preceding equation can be more compactly expressed as:
+\begin{equation}
+    \acs{radial-deform} = 
+    \arctan\left(\dfrac{\Delta h_0-\Delta\acs{disp}_v}{\Delta\acs{dist}+\Delta\acs{disp}_h}\right) - \arctan\left(\frac{\Delta h_0}{\Delta\acs{dist}}\right).
+\end{equation}
+
+\begin{figure}
+    \input{figures/tilt-from-disp.tex}
+    \caption[]{Radial tilt from vertical and horizontal displacement}
+    \label{fig:tilt-from-disp}
+\end{figure}
+
 \subsection{Model Parameter Space}
 
 \section{Crater Dating Lava Flows}

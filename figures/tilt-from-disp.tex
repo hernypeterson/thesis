@@ -1,0 +1,48 @@
+\newcommand{\soneh}{3.5cm}
+\newcommand{\sonev}{11cm}
+\newcommand{\stwoh}{5.5cm}
+\newcommand{\stwov}{4.5cm}
+\newcommand{\heightdifference}{2.5cm}
+\newcommand{\elementwidth}{8cm}
+
+\begin{tikzpicture}
+    \coordinate (O) at (0,0);
+    \coordinate (S_1) at (0,\heightdifference);
+    \coordinate (S_2) at (\elementwidth,0);
+    
+    \path (S_1) + (\soneh, \sonev) coordinate (disp_1);
+    \path (S_2) + (\stwoh, \stwov) coordinate (disp_2);
+    \path (S_1) + (\stwoh, \stwov) coordinate (disp_2_trans);
+
+    \path (S_1) + (0, \sonev - \stwov) coordinate (S_1_trans);
+    \path (S_2) + (\stwoh - \soneh, 0) coordinate (S_2_trans);
+
+    \path (S_1) + (\soneh, \stwov) coordinate (O_disp);
+
+    \draw[] (O) -- node[sloped,fill=white] {$\Delta\acs{dist}$} (S_2);
+    \draw[] (O) -- node[fill=white] {$\Delta h_0$} (S_1);
+
+    \draw[ultra thick] (S_1) -- node[sloped,fill=white] {Original Surface} (S_2);
+
+    \draw[arrow] (S_1) -- node[sloped, fill=white] {$\acs{disp}_1$} (disp_1);
+    \draw[arrow] (S_2) -- node[sloped, fill=white] {$\acs{disp}_2$} (disp_2);
+    \draw[arrow, dashed] (S_1) -- node[sloped, fill=white] {$\acs{disp}_2$} (disp_2_trans);
+
+    
+    
+    \draw[dashed, thin] (O_disp) -- (S_1);
+    \draw[dashed, thin] (disp_1) -- (S_1_trans);
+    \draw[dashed, thin] (disp_2) -- (S_2_trans);
+    
+    \fill[red] (disp_2) --++ (138:1.75) arc (138:163:1.75);
+    \path (disp_2) + (150:1.4) node {\acs{radial-deform}};
+    \draw[thick, dashed] (disp_2) -- (disp_2_trans);
+    
+    \draw[] (S_1) -- node[fill=white] {$-\Delta\acs{disp}_v$} (S_1_trans);
+    \draw[] (S_2) -- node[fill=white] {$\Delta\acs{disp}_h$} (S_2_trans);
+    
+    \draw[thick, dashed] (S_1_trans) -- (S_2_trans);
+    
+    \draw[] (disp_1) -- node[fill=white] {$-\Delta\acs{disp}_v$} (O_disp) -- node[fill=white] {$\Delta\acs{disp}_h$} (disp_2_trans);
+    \draw[ultra thick] (disp_1) -- node[sloped,fill=white] {Deformed Surface} (disp_2);
+\end{tikzpicture}

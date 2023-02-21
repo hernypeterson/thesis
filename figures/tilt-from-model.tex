@@ -1,70 +1,70 @@
-\newcommand{\soneh}{3.5cm}
-\newcommand{\sonev}{11cm}
-\newcommand{\stwoh}{5.5cm}
-\newcommand{\stwov}{4.5cm}
-\newcommand{\heightdifference}{2.5cm}
-\newcommand{\elementwidth}{8cm}
+\newcommand{\uar}{3.5cm}
+\newcommand{\uaz}{11cm}
+\newcommand{\ubr}{5.5cm}
+\newcommand{\ubz}{4.5cm}
+\newcommand{\dz}{2.5cm}
+\newcommand{\dr}{8cm}
 
 \begin{tikzpicture}
     \coordinate (O) at (0,0);
-    \coordinate (S_1) at (0,\heightdifference);
-    \coordinate (S_2) at (\elementwidth,0);
+    \coordinate (A_1) at (0,\dz);
+    \coordinate (B_1) at (\dr,0);
     
-    \path (S_1) + (\soneh, \sonev) coordinate (disp_1);
-    \path (S_2) + (\stwoh, \stwov) coordinate (disp_2);
-    \path (S_1) + (\stwoh, \stwov) coordinate (disp_2_trans);
+    \path (A_1) + (\uar, \uaz) coordinate (A_2);
+    \path (B_1) + (\ubr, \ubz) coordinate (B_2);
+    \path (A_1) + (\ubr, \ubz) coordinate (B_2_trans);
 
-    \path (S_1) + (0, \sonev - \stwov) coordinate (S_1_trans);
-    \path (S_2) + (\stwoh - \soneh, 0) coordinate (S_2_trans);
-    \path (S_2) + (\soneh, \stwov) coordinate (S_2_trans_helper);
+    \path (A_1) + (0, \uaz - \ubz) coordinate (A_1_trans);
+    \path (B_1) + (\ubr - \uar, 0) coordinate (B_1_trans);
+    \path (B_1) + (\uar, \ubz) coordinate (B_1_trans_helper);
 
-    \path (S_1) + (\soneh, \stwov) coordinate (O_disp);
+    \path (A_1) + (\uar, \ubz) coordinate (O_disp);
 
     \draw[-latex] (O) --+ (-0.5,0) node[anchor=east] {\acs{center}};
 
-    \draw[] (O) -- node[fill=white] {\acs{dr1}} (S_2);
-    \draw[] (O) -- node[fill=white] {\acs{dz1}} (S_1);
+    \draw[] (O) -- node[fill=white] {\acs{dr1}} (B_1);
+    \draw[] (O) -- node[fill=white] {$-\acs{dz1}$} (A_1);
 
-    \draw[ultra thick] (S_1) -- node[sloped,fill=white] {Original Surface} (S_2);
+    \draw[ultra thick] (A_1) -- node[sloped,fill=white] {Original Surface} (B_1);
 
-    \draw[arrow] (S_1) -- node[sloped, fill=white] {$\acs{disp_a}$} (disp_1);
-    \draw[arrow] (S_2) -- node[sloped, fill=white] {$\acs{disp_b}$} (disp_2);
-    \draw[arrow] (S_1) -- node[sloped, fill=white] {$\acs{disp_b}$} (disp_2_trans);
-    \draw[-latex] (disp_1) -- node[sloped, fill=white] {$\acs{ddisp}$} (disp_2_trans);
+    \draw[arrow] (A_1) -- node[sloped, fill=white] {$\acs{disp_a}$} (A_2);
+    \draw[arrow] (B_1) -- node[sloped, fill=white] {$\acs{disp_b}$} (B_2);
+    \draw[arrow] (A_1) -- node[sloped, fill=white] {$\acs{disp_b}$} (B_2_trans);
+    \draw[-latex] (A_2) -- node[sloped, fill=white] {$\acs{ddisp}$} (B_2_trans);
     
-    \fill[blue, opacity = 0.15] (S_2) --++ (162.7:2.5) arc (162.7:180:2.5);
-    \path (S_2) + (172:2) node {\acs{proj1}};
-    \draw[thick, dashed] (disp_2) -- (disp_2_trans);
+    \fill[blue, opacity = 0.15] (B_1) --++ (162.7:2.5) arc (162.7:180:2.5);
+    \path (B_1) + (172:2) node {\acs{proj1}};
+    \draw[thick, dashed] (B_2) -- (B_2_trans);
     
-    \draw[] (S_1) -- node[fill=white] {$-\acs{disp_z}$} (S_1_trans);
-    \draw[] (S_2) -- node[fill=white] {$\acs{disp_r}$} (S_2_trans);
+    \draw[] (A_1) -- node[fill=white] {$-\acs{ddisp_z}$} (A_1_trans);
+    \draw[] (B_1) -- node[fill=white] {$\acs{ddisp_r}$} (B_1_trans);
     
-    \draw[dashed, thin] (O_disp) -- (S_1);
-    \draw[dashed, thin] (disp_1) -- (S_1_trans);
-    \draw[dashed, thin] (disp_2) -- (S_2_trans);
-    \draw (S_2_trans_helper) --  node[fill=white] {\acs{disp_r}} (disp_2);
+    \draw[dashed, thin] (O_disp) -- (A_1);
+    \draw[dashed, thin] (A_2) -- (A_1_trans);
+    \draw[dashed, thin] (B_2) -- (B_1_trans);
+    \draw (B_1_trans_helper) --  node[fill=white] {\acs{ddisp_r}} (B_2);
     
-    \fill[red, opacity = 0.3] (disp_2) --++ (138:2.75) arc (138:162.7:2.75);
-    \path (disp_2) + (150:2) node {\acs{radial-deform}};
-    \draw[thick, dashed] (disp_2) -- (disp_2_trans);
+    \fill[red, opacity = 0.3] (B_2) --++ (138:2.75) arc (138:162.7:2.75);
+    \path (B_2) + (150:2) node {\acs{radial-deform}};
+    \draw[thick, dashed] (B_2) -- (B_2_trans);
     
-    \fill[blue, opacity = 0.15] (S_2_trans) --++ (138:2.75) arc (138:180:2.75);
-    \path (S_2_trans) + (160:2.2) node {\acs{proj2}};
-    \draw[ultra thick] (disp_2) -- (disp_2_trans);
+    \fill[blue, opacity = 0.15] (B_1_trans) --++ (138:2.75) arc (138:180:2.75);
+    \path (B_1_trans) + (160:2.2) node {\acs{proj2}};
+    \draw[ultra thick] (B_2) -- (B_2_trans);
     
     
-    \draw[ultra thick] (S_1_trans) -- (S_2_trans);
+    \draw[ultra thick] (A_1_trans) -- (B_1_trans);
     
-    \draw[] (disp_1) -- node[fill=white] {$-\acs{disp_z}$} (O_disp) -- node[fill=white] {$\acs{disp_r}$} (disp_2_trans);
-    \draw[ultra thick] (disp_1) -- node[sloped,fill=white] {Deformed Surface} (disp_2);
+    \draw[] (A_2) -- node[fill=white] {$-\acs{ddisp_z}$} (O_disp) -- node[fill=white] {$\acs{ddisp_r}$} (B_2_trans);
+    \draw[ultra thick] (A_2) -- node[sloped,fill=white] {Deformed Surface} (B_2);
 
-    \draw[dashed] (O_disp) -- (S_2_trans_helper) -- (S_2);
+    \draw[dashed] (O_disp) -- (B_1_trans_helper) -- (B_1);
     
-    \fill[black] (S_1) circle (2pt) node[anchor = east] {$A_1$};
-    \fill[black] (S_2) circle (2pt) node[anchor = north] {$B_1$};
-    \fill[black] (disp_1) circle (2pt) node[anchor = south] {$A_2$};
-    \fill[black] (disp_2) circle (2pt) node[anchor = west] {$B_2$};
-    \fill[black] (S_1_trans) circle (2pt);
-    \fill[black] (S_2_trans) circle (2pt);
+    \fill[black] (A_1) circle (2pt) node[anchor = east] {$A_1$};
+    \fill[black] (B_1) circle (2pt) node[anchor = north] {$B_1$};
+    \fill[black] (A_2) circle (2pt) node[anchor = south] {$A_2$};
+    \fill[black] (B_2) circle (2pt) node[anchor = west] {$B_2$};
+    \fill[black] (A_1_trans) circle (2pt);
+    \fill[black] (B_1_trans) circle (2pt);
     
 \end{tikzpicture}

@@ -98,7 +98,7 @@ Then, I use the \hl{Surface Parameters} tool on the \ac{MOLA} \ac{DEM} to comput
 
 As seen in Figure~\ref{fig:deform-collected}, attitude data pertaining to the inferred paleo-surface is incomplete. Namely, while the modern topographic surface attitude is fully characterized by \acs{az2} and \acs{sl2}, only the \acf{az1} can be inferred directly from mapped surface features. Without clear insight into the \acf{sl1} at each sampled point, I present a method for constraining its value under the assumption of \emph{minimum deformation.} 
 
-\subsection{Minimum 3D Deformation}\label{sec:3d-deform}
+\subsection{Minimum 3D Tilt from Discordant Flows}\label{sec:3d-deform}
 Figure~\ref{fig:deform-calculated} illustrates conceptually my strategy for calculating \acs{sl1} such that the \acf{deform} between \acs{normal2} and \acs{normal1} is minimized. The associated computational method is derived below.
 \begin{figure}
     \centering
@@ -149,7 +149,7 @@ The calculated value of \acs{sl1} can then be substituted back into Equation~\eq
     \label{eq:robust-ze'}
 \end{equation}
 
-\subsection{Radial Component of Deformation}
+\subsection{Radial Tilt from Discordant Flows}
 Figure~\ref{fig:radial} shows what it means to calculate the component of 3D deformation along the radial-axial plane. Comparison with Figure~\ref{fig:deform-calculated} reveals the geometric similarity between the two problems. Therefore, the same Equation~\ref{eq:ze'} derived in Section~\ref{sec:3d-deform} applies up to small modifications owing to a few important differences. First, there are two distinct blue central angles to be minimized, and thus two distinct red zenith angles to be calculated. The \acf{radial-deform} value to be calculated is the signed difference between the two zenith values, which correspond to the ``projections'' of \acs{normal2} and \acs{normal1} onto the plane containing the $z-$ and $r-$axes. Also, the correction used in Equation~\eqref{eq:robust-ze'} is not desired here, since the vectors \acs{normal2} and \acs{normal1} could just as easily project on either side of the $z-$axis.
 \begin{equation}
     \boxed{\acs{radial-deform}
@@ -175,12 +175,12 @@ Note that the order of terms (and thus the sign of the difference) is significan
 
 I use the numerical modelling software COMSOL Multiphysics 6.1 (COMSOL) to construct a numerical representation of \acf{OM}. The model is axisymmetric, about the center point discussed previously as the center of the \qty{19}{\km} contour. A profile from due south of this point is used as the 
 
-\subsection{Interpreting Surface Displacement}
+\subsection{Radial Tilt from Modelled Displacement}
 
-The formula for \acf{radial-deform} given \acs{disp_a} and \acs{disp_b} is derived from Figure~\ref{fig:tilt-from-model}:
+The numerical formula for \acf{radial-deform} given \acs{disp_a} and \acs{disp_b} is derived from Figure~\ref{fig:tilt-from-model}:
 \begin{equation}
     \boxed{\acs{radial-deform} = 
-    \arctan\left(\dfrac{\acs{dz1}-\acs{disp_z}}{\acs{dr1}+\acs{disp_r}}\right) - \arctan\left(\frac{\acs{dz1}}{\acs{dr1}}\right).}\label{eq:tilt-from-model}
+    \arctan\left(\dfrac{-\acs{dz1}-\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right) - \arctan\left(\frac{\acs{dz1}}{\acs{dr1}}\right).}\label{eq:tilt-from-model}
 \end{equation}
 
 \begin{figure}
@@ -188,6 +188,32 @@ The formula for \acf{radial-deform} given \acs{disp_a} and \acs{disp_b} is deriv
     \caption[Calculation of \acf{radial-deform} from modelling]{Radial tilt from finite element displacement. A model element at the surface of the model is shown as the ``Original Surface'' with slope \acs{proj1}. During the model, the two vertices of the surface element $A_1$ and $B_1$ are displaced via $\acs{disp_a}$ and $\acs{disp_b}$ to $A_2$ and $B_2$ respectively, bringing the element edge to the ``Deformed surface'' with slope \acs{proj2}. The horizontal (radial) and vertical components of the difference $\acs{disp_b} - \acs{disp_a} = \acs{ddisp}$ are labeled. The difference $\acs{proj2}-\acs{proj1}=\acs{radial-deform}$ is the exact same quantity illustrated in Figure~\ref{fig:radial}. While Equation~\eqref{eq:tilt-from-mapping} arrives at this value using lava flows discordant to their observed topographic surroundings, Equation~\eqref{eq:tilt-from-model} determines the value via numerically modelled surface displacement due to underlying reservoir inflation presumed to be responsible.}
     \label{fig:tilt-from-model}
 \end{figure}
+
+\subsection{Comparison with Analytical Model}
+The discrete Equation~\eqref{eq:tilt-from-model} can be taken to the continuous limit by dividing each term in the numerator and denominator (in both fraction terms) by the element width \acs{dr1}:
+\begin{gather}
+    \acs{radial-deform} = 
+    \lim_{\acs{dr1}\to0} \arctan\left(\dfrac{-\acs{dz1}-\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right) - \arctan\left(\frac{\acs{dz1}}{\acs{dr1}}\right),\tag{\ref{eq:tilt-from-model}}\\
+    \acs{radial-deform} = 
+    \lim_{\acs{dr1}\to0} \arctan\left(\dfrac{-\acs{dz1}/\acs{dr1}-\acs{ddisp_z}/\acs{dr1}}{\acs{dr1}/\acs{dr1}+\acs{ddisp_r}/\acs{dr1}}\right) - \arctan\left(\frac{\acs{dz1}/\acs{dr1}}{\acs{dr1}/\acs{dr1}}\right),\nonumber\\
+    \acs{radial-deform} =
+        \arctan\left(\dfrac{-\acs{z1'}-\acs{disp_z'}}{1+\acs{disp_r'}}\right) - \arctan\left(-\acs{z1'}\right),\label{eq:tilt-from-analytical-model}
+\end{gather}
+where $'$ denotes the derivative with respect to $r_1$. I use the Mogi Model:
+\begin{gather}
+    \acs{disp_z} = ad{(d^2+r^2)}^{-1.5},\label{eq:uz_mogi}\\
+    \acs{disp_r} = ar{(d^2+r^2)}^{-1.5},\label{eq:ur_mogi}\\
+    a = {3R_\text{res.}\Delta P}/{4g},\nonumber
+\end{gather}
+where $R_\text{res.}$ is the reservoir radius, $\Delta P$ is the overpressure, and $g$ is gravitational acceleration. This model assumes a horizontal half-space $(\acs{z1'}=0)$ so Equation~\eqref{eq:tilt-from-analytical-model} reduces to
+\begin{equation}
+    \acs{radial-deform} =
+        \arctan\left(\dfrac{-\acs{disp_z'}}{1+\acs{disp_r'}}\right).\label{eq:tilt-from-analytical-flat}
+\end{equation}
+Differentiating Equations~\eqref{eq:uz_mogi} and~\eqref{eq:ur_mogi} and substituting into Equation~\eqref{eq:tilt-from-analytical-flat}:
+\begin{equation}
+    \boxed{\acs{radial-deform} = \arctan\left[\frac{3adr}{{(d^2+r^2)}^{2.5}+ad^2-2ar^2}\right].}\label{eq:tilt-from-mogi-model}
+\end{equation}
 
 \subsection{Model Parameter Space}
 

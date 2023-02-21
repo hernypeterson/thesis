@@ -156,7 +156,7 @@ Figure~\ref{fig:radial} shows what it means to calculate the component of 3D def
     =\arctan(\tan\ac{sl2}
     \cos[\acs{bearing}-\acs{az2}])
     -\arctan(\tan\ac{sl1}
-    \cos[\acs{bearing}-\acs{az1}]).}
+    \cos[\acs{bearing}-\acs{az1}]).}\label{eq:tilt-from-mapping}
 \end{equation}
 Note that the order of terms (and thus the sign of the difference) is significant. For example, \ang{-5} of radial deformation would represent a ``caving-in'' toward the caldera, while \ang{+5} of radial deformation would be more like an outward bulge.
 
@@ -167,32 +167,26 @@ Note that the order of terms (and thus the sign of the difference) is significan
     {\hspace*{-0.4\linewidth}\input{figures/reversal.tex}}
     \vspace*{-9em}
     \floatbox[{\capbeside\thisfloatsetup{floatwidth=sidefil,capbesideposition={right,bottom},capbesidewidth=.6\linewidth}}]{figure}
-    {\caption[Calculation of \acf{radial-deform}]{Geometric view of \acl{radial-deform}. \acs{bearing} is the bearing angle from the center of the study area \acs{center} to the sampled location, measured clockwise from \acf{north}. It defines the radial-axial plane onto which \acs{normal2} and \acs{normal1} are projected using \acs{deform}-minimizing procedure developed in Section~\ref{sec:3d-deform}. The signed difference between their projected zenith angles is the \acf{radial-deform}, to be used in for axisymmetric modeling.}\label{fig:radial}}
+    {\caption[Calculation of \acf{radial-deform} from mapping]{Geometric view of \acl{radial-deform}. \acs{bearing} is the bearing angle from the center of the study area \acs{center} to the sampled location, measured clockwise from \acf{north}. It defines the radial-axial plane onto which \acs{normal1} and \acs{normal2} are projected using \acs{deform}-minimizing procedure developed in Section~\ref{sec:3d-deform}. The resulting projected angles \acs{proj1} and \acs{proj2} are not labeled to reduce visual clutter. Their difference $\acs{proj2}-\acs{proj1}=\acs{radial-deform}$ is the component of tilt in the radial direction to the proto-edifice center \acs{center}.}\label{fig:radial}}
     {\input{figures/radial.tex}}
 \end{figure}
 
 \section{Axisymmetric Model of Reservoir Inflation}
 
-I use the COMSOL Multiphysics 6.1 (COMSOL) to construct a numerical representation of \acf{OM}. The model is axisymmetric, about the center point discussed previously as the center of the \qty{19}{\km} contour. A profile from due south of this point is used as the 
+I use the numerical modelling software COMSOL Multiphysics 6.1 (COMSOL) to construct a numerical representation of \acf{OM}. The model is axisymmetric, about the center point discussed previously as the center of the \qty{19}{\km} contour. A profile from due south of this point is used as the 
 
 \subsection{Interpreting Surface Displacement}
 
-I develop a formula for the \acf{radial-deform} given \acf{disp}:
-
+The formula for \acf{radial-deform} given \acs{disp_a} and \acs{disp_b} is derived from Figure~\ref{fig:tilt-from-model}:
 \begin{equation}
-    \acs{radial-deform} = \arctan\left(-\frac{d\acs{disp}_v}{d\acs{dist}}\right).\nonumber
-\end{equation}
-
-Each of these position and displacement variables are functions only of \acs{dist}, so the preceding equation can be more compactly expressed as:
-\begin{equation}
-    \acs{radial-deform} = 
-    \arctan\left(\dfrac{\Delta h_0-\Delta\acs{disp}_v}{\Delta\acs{dist}+\Delta\acs{disp}_h}\right) - \arctan\left(\frac{\Delta h_0}{\Delta\acs{dist}}\right).
+    \boxed{\acs{radial-deform} = 
+    \arctan\left(\dfrac{\acs{dz1}-\acs{disp_z}}{\acs{dr1}+\acs{disp_r}}\right) - \arctan\left(\frac{\acs{dz1}}{\acs{dr1}}\right).}\label{eq:tilt-from-model}
 \end{equation}
 
 \begin{figure}
-    \input{figures/tilt-from-disp.tex}
-    \caption[]{Radial tilt from vertical and horizontal displacement}
-    \label{fig:tilt-from-disp}
+    \input{figures/tilt-from-model.tex}
+    \caption[Calculation of \acf{radial-deform} from modelling]{Radial tilt from finite element displacement. A model element at the surface of the model is shown as the ``Original Surface'' with slope \acs{proj1}. During the model, the two vertices of the surface element $A_1$ and $B_1$ are displaced via $\acs{disp_a}$ and $\acs{disp_b}$ to $A_2$ and $B_2$ respectively, bringing the element edge to the ``Deformed surface'' with slope \acs{proj2}. The horizontal (radial) and vertical components of the difference $\acs{disp_b} - \acs{disp_a} = \acs{ddisp}$ are labeled. The difference $\acs{proj2}-\acs{proj1}=\acs{radial-deform}$ is the exact same quantity illustrated in Figure~\ref{fig:radial}. While Equation~\eqref{eq:tilt-from-mapping} arrives at this value using lava flows discordant to their observed topographic surroundings, Equation~\eqref{eq:tilt-from-model} determines the value via numerically modelled surface displacement due to underlying reservoir inflation presumed to be responsible.}
+    \label{fig:tilt-from-model}
 \end{figure}
 
 \subsection{Model Parameter Space}

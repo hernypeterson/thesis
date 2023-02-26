@@ -12,17 +12,17 @@
 % \input{chapters/abstract}
 
 \tableofcontents
+\markboth{Table of Contents}{Table of Contents}
 \listoffigures
 
-\chapter{List of Abbreviations}
-\printacronyms[pages={display=all,seq/use=false},heading=none, exclude=sym, template=tabularray]
+% \chapter{List of Abbreviations}
+\printacronyms[pages={display=all,seq/use=false},heading=chapter, name={List of Abbreviations}, exclude=sym, template=tabularray]
 
 % only include if methods section is included
-\chapter{List of Symbols}
-\printacronyms[pages={display=all,seq/use=false},heading=none,include=sym,template=tabularray]
+\printacronyms[pages={display=all,seq/use=false},heading=chapter,name={List of Symbols}, include=sym, template=tabularray]
 
 \mainmatter% regular page numbers
-% \input{chapters/intro}
+\input{chapters/intro}
 \input{chapters/methods}
 % \input{chapters/results}
 % \input{chapters/discussion}

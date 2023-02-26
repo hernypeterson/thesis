@@ -21,10 +21,13 @@
 \tcbset{
     on line, boxsep=3pt, left=0pt,right=0pt,top=0pt,bottom=-1pt, colframe=white,colback=light-gray, highlight math style={enhanced}
 }
-\newcommand{\hl}[1]{\tcbox{\vphantom{lg}\texttt{#1}}}
+
+% single line highlight commands (vphantom to lock height)
+\newcommand{\hltt}[1]{\tcbox{\vphantom{lg}\texttt{#1}}}
+\newcommand{\hlss}[1]{\tcbox{\vphantom{lg}{\sffamily{#1}}}}
 
 \usepackage{lmodern}
-\usepackage[tt=false]{libertine}
+\usepackage[tt=false,oldstyle,proportional]{libertine}
 \usepackage{libertinust1math}
 
 % Justification
@@ -49,7 +52,7 @@
 \AtBeginDocument{
     \pagestyle{fancy}
     \fancyhead{} % clear all header fields
-    \fancyhead[RO,LE]{\textsc\leftmark}
+    \fancyhead[RE,LO]{\textsc\leftmark}
     \fancyfoot{} % clear all footer fields
     \fancyfoot[C]{\thepage}
 }
@@ -58,7 +61,7 @@
 \usepackage{titlesec}
 \titleformat{\chapter}[frame]
 {\normalfont}{\filright\fbox{\enspace%
-\textbf{\chaptertitlename~\thechapter}\enspace}}{8pt}{\Large\bfseries\filcenter}
+{\textsc{\chaptertitlename~\thechapter}}\enspace}}{8pt}{\Large\bfseries\filcenter}
 
 % Footnotes
 \usepackage[hang,splitrule,multiple]{footmisc}
@@ -83,6 +86,7 @@
 
 % Technical
 \usepackage{amsmath}
+\renewcommand\theequation{\liningnums{\arabic{equation}}} % use full height (not old style) numbers for equation tags
 \usepackage[separate-uncertainty=true]{siunitx}
 
 \usepackage{adjustbox}
@@ -93,6 +97,17 @@
 % Abbreviations
 \usepackage{supertabular}
 \usepackage{tabularray}
+\DefTblrTemplate{caption-tag}{normal}{}
+\SetTblrTemplate{caption-tag}{normal}
+\DefTblrTemplate{caption-sep}{normal}{}
+\SetTblrTemplate{caption-sep}{normal}
+\DefTblrTemplate{conthead-text}{normal}{}
+\SetTblrTemplate{conthead-text}{normal}
+
+% vertically align perfectly with textwidth
+\DefTblrTemplate{width}{normal}{1.1\textwidth}
+\SetTblrTemplate{width}{normal}
+
 \usepackage{acro}
 \acsetup{make-links=true}
 \input{aux/abbrev.tex}

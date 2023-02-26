@@ -27,7 +27,7 @@
 \newcommand{\hlss}[1]{\tcbox{\vphantom{lg}{\sffamily{#1}}}}
 
 \usepackage{lmodern}
-\usepackage[tt=false,oldstyle,proportional]{libertine}
+\usepackage[tt=false,oldstyle,proportional,semibold]{libertine}
 \usepackage{libertinust1math}
 
 % Justification
@@ -41,9 +41,9 @@
 
 % Page Header & Footer
 \usepackage[twoside]{fancyhdr}
-\makeatletter
-\renewcommand{\chaptermark}[1]{\markboth{\ifnum\value{chapter}=0\else\@chapapp~\thechapter: \fi #1}{}}
-\makeatother
+\makeatletter % use @ as letter character
+\renewcommand{\chaptermark}[1]{\markboth{\ifnum\value{chapter}=0\else\@chapapp~\thechapter: \fi #1}{}} % don't show chapter number in header if 0 (frontmatter lists)
+\makeatother % protect @ character
 \renewcommand{\headrulewidth}{0.5pt}
 \setlength{\headheight}{15pt}
 \addtolength{\topmargin}{-2.5pt}
@@ -52,9 +52,9 @@
 \AtBeginDocument{
     \pagestyle{fancy}
     \fancyhead{} % clear all header fields
-    \fancyhead[RE,LO]{\textsc\leftmark}
+    \fancyhead[RE,LO]{\textsc\leftmark} % chapter outer upper corner
     \fancyfoot{} % clear all footer fields
-    \fancyfoot[C]{\thepage}
+    \fancyfoot[C]{\thepage} % page number center bottom
 }
 
 % Chapter Header

@@ -175,9 +175,9 @@ I use the numerical modelling software COMSOL Multiphysics 6.1 (COMSOL) to const
 
 \subsection{Parameter Sweep}
 
-I run a series of numerical models using a \hlss{Parameter Sweep} with parameters: \hltt{DtT}: depth to the top of the reservoir, \hltt{Ra}: horizontal radius of reservoir, \hltt{Tb}: vertical radius of reservoir, and \hltt{mult}: a multiplier for over- or underpressure relative to the gravitational load at \hltt{DtT}:
+I run a series of numerical models using a \hlss{Parameter Sweep} over \ac{DtT}, \ac{Rr}, \ac{Rz}, and \ac{mult}:
 \begin{equation}
-    \hltt{delP}=\hltt{mult}\times\hltt{rhor}\times\hltt{g}\times\hltt{DtT}.
+    \acs{dP}=\acs{mult}\times\acs{rhor}\times\acs{g}\times\acs{DtT}.
 \end{equation}
 
 \subsection{Axisymmetric Tilt from Modelled Displacement}

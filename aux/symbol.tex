@@ -2,34 +2,35 @@
   short = \ensuremath{\theta_1},
   long = paleo-azimuth,
   tag = sym,
-  code = \hltt{az1}
+  code = az1
 }
 
 \DeclareAcronym{sl1}{
   short = \ensuremath{\varphi_1},
   long = paleo-slope,
   tag = sym,
-  code = \hltt{sl1}
+  code = sl1
 }
 
 \DeclareAcronym{az2}{
   short = \ensuremath{\theta_2},
   long = azimuth,
   tag = sym,
-  code = \hltt{az2}
+  code = az2
 }
 
 \DeclareAcronym{sl2}{
   short = \ensuremath{\varphi_2},
   long = slope,
   tag = sym,
-  code = \hltt{sl2}
+  code = sl2
 }
 
 \DeclareAcronym{discord}{
   short = \ensuremath{\Delta\theta},
   long = discordance,
-  tag = sym
+  tag = sym,
+  code = disc
 }
 
 \DeclareAcronym{center}{
@@ -42,14 +43,14 @@
   short = \ensuremath{\Theta},
   long = bearing from \acs{center},
   tag = sym,
-  code = \hltt{theta}
+  code = theta
 }
 
 \DeclareAcronym{dist}{
   short = \ensuremath{r},
   long = radial distance,
   tag = sym,
-  code = \hltt{r}
+  code = dist
 }
 
 \DeclareAcronym{normal2}{
@@ -68,28 +69,28 @@
   short = \ensuremath{\Phi_2},
   long = axisymmetric projection of \acs{normal2},
   tag = sym,
-  code = \hltt{proj2}
+  code = proj2
 }
 
 \DeclareAcronym{proj1}{
   short = \ensuremath{\Phi_1},
   long = axisymmetric projection of \acs{normal1},
   tag = sym,
-  code = \hltt{proj1}
+  code = proj1
 }
 
 \DeclareAcronym{radial-deform}{
   short = \ensuremath{\Delta\Phi},
   long = axisymmetric tilt,
   tag = sym,
-  code = \hltt{axtilt}
+  code = axtilt
 }
 
 \DeclareAcronym{deform}{
   short = \ensuremath{\alpha},
   long = tilt,
   tag = sym,
-  code = \hltt{tilt}
+  code = tilt
 }
 
 \DeclareAcronym{north}{
@@ -116,17 +117,20 @@
 \DeclareAcronym{disp}{
   short = \ensuremath{U},
   long = displacement,
-  tag = sym
+  tag = sym,
+  code = disp
 }
 \DeclareAcronym{disp_z}{
   short = \ensuremath{U_z},
   long = vertical component of \acs{disp},
-  tag = sym
+  tag = sym,
+  code = disp[1]
 }
 \DeclareAcronym{disp_r}{
   short = \ensuremath{U_r},
   long = radial component of \acs{disp},
-  tag = sym
+  tag = sym,
+  code = disp[0]
 }
 
 \DeclareAcronym{ddisp_z}{
@@ -165,4 +169,46 @@
   short = \ensuremath{\Delta z_1},
   long = vertical distance between $A$ and $B$,
   tag = sym
+}
+\DeclareAcronym{DtT}{
+  short = \ensuremath{DtT},
+  long = depth to top of magma reservoir,
+  tag = sym,
+  code = DtT
+}
+\DeclareAcronym{Rr}{
+  short = \ensuremath{R_r},
+  long = magma reservoir radial (horizontal) radius,
+  tag = sym,
+  code = Rr
+}
+\DeclareAcronym{Rz}{
+  short = \ensuremath{R_z},
+  long = magma reservoir vertical radius,
+  tag = sym,
+  code = Rz
+}
+\DeclareAcronym{g}{
+  short = \ensuremath{g},
+  long = gravity of mars,
+  tag = sym,
+  code = GRAV
+}
+\DeclareAcronym{mult}{
+  short = \ensuremath{mult},
+  long = multiplier for over- or underpressure,
+  tag = sym,
+  code = mult
+}
+\DeclareAcronym{rhor}{
+  short = \ensuremath{\rho_\text{rock}},
+  long = rock density,
+  tag = sym,
+  code = rhor
+}
+\DeclareAcronym{dP}{
+  short = \ensuremath{\Delta P},
+  long = over- (positive) or under- (negative) pressure,
+  tag = sym,
+  code = dP
 }

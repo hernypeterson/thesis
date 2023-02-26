@@ -2,7 +2,7 @@
 
 \begin{document}
 
-\frontmatter % roman page numbers
+\frontmatter% roman page numbers
 \input{chapters/title.tex}
 
 % Chapter heading height
@@ -17,10 +17,11 @@
 \chapter{List of Abbreviations}
 \printacronyms[pages={display=all,seq/use=false},heading=none, exclude=sym, template=tabularray]
 
+% only include if methods section is included
 \chapter{List of Symbols}
 \printacronyms[pages={display=all,seq/use=false},heading=none,include=sym,template=tabularray]
 
-\mainmatter % regular page numbers
+\mainmatter% regular page numbers
 % \input{chapters/intro}
 \input{chapters/methods}
 % \input{chapters/results}
@@ -28,10 +29,10 @@
 % \input{chapters/conclusions}
 
 % \nocite{*}
-
 \begin{flushleft}
 \printbibliography[heading=bibintoc]
 \end{flushleft}
+
 
 \appendix % lettering
 % \input{chapters/arcgis.tex}

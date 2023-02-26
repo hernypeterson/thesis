@@ -15,11 +15,25 @@
 \markboth{Contents}{Contents}
 \listoffigures
 
-% \chapter{List of Abbreviations}
-\printacronyms[pages={display=all,seq/use=false},heading=chapter, name={List of Abbreviations}, exclude=sym, template=tabularray]
+\acsetup{
+    list/display=all,
+    list/heading=chapter,
+    list/template=tabularray,
+    pages/display=all,
+    pages/seq/use=false,
+}
+
+\printacronyms[
+    name={List of Abbreviations},
+    exclude=sym
+]
 
 % only include if methods section is included
-\printacronyms[pages={display=all,seq/use=false},heading=chapter,name={List of Symbols}, include=sym, template=tabularray]
+\printacronyms[
+    name={List of Symbols},
+    preamble={Numerically computed variables are listed with their text name alongside their symbol.},
+    include=sym
+]
 
 \mainmatter% regular page numbers
 \input{chapters/intro}

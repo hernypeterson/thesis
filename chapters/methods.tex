@@ -42,9 +42,9 @@ Where flow margins are not visible, I map channels directly as linear features. 
 
 \subsubsection{Azimuths}
 
-I use the \hlss{Calculate Geometry Attributes} tool to find the \hlss{Line Bearing} attribute for each linear feature (channel or flow centerline), that is, the azimuthal orientation from the start to the end of each feature. This angle is the variable \acf{az1} to each feature, although the following section discussion explains why this variable is not quite ready for use in attitude analysis. While I maintain a consistent ``sense'' in my channel mapping (pointing away from rather than toward the caldera center), the \hlss{Polygon To Centerline} tool does not. Therefore, some flow centerlines need to be reversed using the \hlss{Flip Line} tool.
+I use the \hlss{Calculate Geometry Attributes} tool to find the \hlss{Line Bearing} attribute for each linear feature (channel or flow centerline), that is, the azimuthal orientation from the start to the end of each feature. This angle is the variable \ac{az1} to each feature, although the following section discussion explains why this variable is not quite ready for use in attitude analysis. While I maintain a consistent ``sense'' in my channel mapping (pointing away from rather than toward the caldera center), the \hlss{Polygon To Centerline} tool does not. Therefore, some flow centerlines need to be reversed using the \hlss{Flip Line} tool.
 
-To determine which centerlines must be reversed, I use the \hlss{Near} tool with \hlss{Angle} selected to determine the azimuth angle from each linear feature to the center of the study area \acs{center}. Here, I invoke the general empirical rule that all flows in the study area point generally \emph{away} from the caldera center. Therefore, a correctly oriented feature is one where \acs{az1} is \ang{\sim180} away from the calculated \hlss{Near Angle}; at the very least, it should be \ang{90} away. Therefore I select features where this angular difference\footnote{Specifically, I reverse features where the cosine of this angular difference is positive. See Appendix~\ref{app:spherical-cosines} for a justification of this approach which addresses an arithmetic issue with angular differences.} is less than \ang{90} to reverse using \hlss{Flip Line}. With all features now correctly oriented away from the caldera center, I recalculate \hlss{Line Bearing}, which establishes the correct \acf{az1} value for attitude analysis. [NEEDS FIGURE HERE]
+To determine which centerlines must be reversed, I use the \hlss{Near} tool with \hlss{Angle} selected to determine the azimuth angle from each linear feature to the center of the study area \acs{center}. Here, I invoke the general empirical rule that all flows in the study area point generally \emph{away} from the caldera center. Therefore, a correctly oriented feature is one where \acs{az1} is \ang{\sim180} away from the calculated \hlss{Near Angle}; at the very least, it should be \ang{90} away. Therefore I select features where this angular difference\footnote{Specifically, I reverse features where the cosine of this angular difference is positive. See Appendix~\ref{app:spherical-cosines} for a justification of this approach which addresses an arithmetic issue with angular differences.} is less than \ang{90} to reverse using \hlss{Flip Line}. With all features now correctly oriented away from the caldera center, I recalculate \hlss{Line Bearing}, which establishes the correct \ac{az1} value for attitude analysis. [NEEDS FIGURE HERE]
 
 \subsection{Point Features}
 
@@ -81,13 +81,13 @@ Along each linear feature, I use the \hlss{Generate Points Along Line} tool to c
 
 \newcommand{\neighborhood}{\qty{2}{\km}}
 
-The first variable collected is \acf{az1}, which each point inherits from its parent linear feature.
+The first variable collected is \ac{az1}, which each point inherits from its parent linear feature.
 
-Then, I use the \hlss{Surface Parameters} tool on the \ac{MOLA} \ac{DEM} to compute average topographic \hlss{Slope} and \hlss{Aspect} (downhill azimuth) rasters across the entire study area. To avoid capturing local topographic anomalies, these values are averaged\footnote{Technically, a quadratic surface is interpolated over the neighborhood region and dip and dip direction are computed at the center of this surface.} over a ``neighborhood'' with radius \neighborhood. I use the \hlss{Extract Multi Values to Points} tool to assign \acf{sl2} and \acf{az2} to each based on the value of the corresponding raster value at that location. Figure~\ref{fig:surface} shows the compact geometric representation of these attitude parameters as a pole to the topographic surface plane. Figure~\ref{fig:deform-collected} shows a geometric view of all three collected variables, including the incomplete (\acs{az1} but not \acs{sl1}) representation of the paleo-surface attitude.
+Then, I use the \hlss{Surface Parameters} tool on the \ac{MOLA} \ac{DEM} to compute average topographic \hlss{Slope} and \hlss{Aspect} (downhill azimuth) rasters across the entire study area. To avoid capturing local topographic anomalies, these values are averaged\footnote{Technically, a quadratic surface is interpolated over the neighborhood region and dip and dip direction are computed at the center of this surface.} over a ``neighborhood'' with radius \neighborhood. I use the \hlss{Extract Multi Values to Points} tool to assign \ac{sl2} and \ac{az2} to each based on the value of the corresponding raster value at that location. Figure~\ref{fig:surface} shows the compact geometric representation of these attitude parameters as a pole to the topographic surface plane. Figure~\ref{fig:deform-collected} shows a geometric view of all three collected variables, including the incomplete (\acs{az1} but not \acs{sl1}) representation of the paleo-surface attitude.
 
 \begin{figure}
     \floatbox[{\capbeside\thisfloatsetup{floatwidth=sidefil,capbesideposition={left,bottom},capbesidewidth=.55\linewidth}}]{figure}
-    {\caption[Pole to plane $\acs{normal2}=(\acs{az2},\acs{sl2})$]{The attitude of a tilted surface (green) is defined relative to horizontal (grey) by its \acf{az2} and \acf{sl2}. \acs{az2} and \acs{sl2} are also the spherical coordinates of a unique unit vector \acs{normal2} which is normal (perpendicular) to the surface. In the subsequent sections, $\acs{normal2}=(\acs{az2},\acs{sl2})$ represents the observed attitude at a sampled location, while $\acs{normal1}=(\acs{az1},\acs{sl1})$ represents the \emph{inferred} paleo-attitude of the same point when the lava flow was emplaced. Azimuth angles increase clockwise from \acf{north} as shown, following geographic convention.}\label{fig:surface}}
+    {\caption[Pole to plane $\acs{normal2}=(\acs{az2},\acs{sl2})$]{The attitude of a tilted surface (green) is defined relative to horizontal (grey) by \ac{az2} and \ac{sl2}. \acs{az2} and \acs{sl2} are also the spherical coordinates of a unique unit vector \acs{normal2} which is normal (perpendicular) to the surface. In the subsequent sections, $\acs{normal2}=(\acs{az2},\acs{sl2})$ represents the observed attitude at a sampled location, while $\acs{normal1}=(\acs{az1},\acs{sl1})$ represents the \emph{inferred} paleo-attitude of the same point when the lava flow was emplaced. Azimuth angles increase clockwise from \acf{north} as shown, following geographic convention.}\label{fig:surface}}
     {\input{figures/surface.tex}}
 \end{figure}
 
@@ -173,6 +173,13 @@ Note that the order of terms (and thus the sign of the difference) is significan
 
 I use the numerical modelling software COMSOL Multiphysics 6.1 (COMSOL) to construct a numerical representation of \acf{OM}. The model is axisymmetric, about the center point discussed previously as the center of the \qty{19}{\km} contour. A profile from due south of this point is used as the 
 
+\subsection{Parameter Sweep}
+
+I run a series of numerical models using a \hlss{Parameter Sweep} with parameters: \hltt{DtT}: depth to the top of the reservoir, \hltt{Ra}: horizontal radius of reservoir, \hltt{Tb}: vertical radius of reservoir, and \hltt{mult}: a multiplier for over- or underpressure relative to the gravitational load at \hltt{DtT}:
+\begin{equation}
+    \hltt{delP}=\hltt{mult}\times\hltt{rhor}\times\hltt{g}\times\hltt{DtT}.
+\end{equation}
+
 \subsection{Axisymmetric Tilt from Modelled Displacement}
 
 The numerical formula for \acf{radial-deform} given \acs{disp_a} and \acs{disp_b} is derived from Figure~\ref{fig:tilt-from-model}:
@@ -211,6 +218,4 @@ where $R$ is the reservoir radius, $\Delta P$ is the overpressure, and $G$ is th
 \begin{equation}
     \boxed{\acs{radial-deform} = \arctan\left(\frac{3adr}{{(d^2+r^2)}^{2.5}+ad^2-2ar^2}\right).}\label{eq:tilt-from-mogi-model}
 \end{equation}
-
-\subsection{Model Parameter Space}
 

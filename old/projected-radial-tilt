@@ -1,0 +1,73 @@
+\subsection{Minimum 3D Tilt from Discordant Flows}\label{sec:3d-deform}
+Figure~\ref{fig:deform-calculated} illustrates conceptually my strategy for calculating \acs{sl1} such that the \acf{deform} between \acs{normal2} and \acs{normal1} is minimized. The associated computational method is derived below.
+\begin{figure}
+    \centering
+    \input{figures/deform.tex}
+    \caption{Calculation of \acf{sl1} and \acf{deform}.}\label{fig:deform}
+\end{figure}
+Beginning with the spherical law of cosines:\footnote{Derived in Appendix~\ref{app:spherical-cosines}}
+\begin{equation}
+    \acs{deform}
+    =\arccos(\sin\acs{sl1}\sin\acs{sl2}\cos\acs{discord}
+    +\cos\acs{sl1}\cos\acs{sl2}).
+    \label{eq:central-angle}
+\end{equation}
+For constant (already measured) \acs{discord} and \acs{sl2}, the value of \acs{sl1} which minimizes \acs{deform} can be calculated by setting:
+\begin{equation}
+    \frac{\partial}{\partial \acs{sl1}}
+    \arccos\left(\sin\acs{sl1}\sin\acs{sl2}\cos\acs{discord}
+    +\cos\acs{sl1}\cos\acs{sl2}\right)
+    =0.\label{eq:mimimum}
+\end{equation}
+Differentiating using the chain rule,
+\begin{equation}
+    \frac{-\,(\cos\ac{sl1}\sin\acs{sl2}
+    \cos\acs{discord}-\sin\ac{sl1}\cos\acs{sl2})}
+    {\sqrt{1-{(\sin\acs{sl1}\sin\acs{sl2}\cos\acs{discord}
+    +\cos\acs{sl1}\cos\acs{sl2})}^2}}
+    =0.\label{eq:derivative}
+\end{equation}
+Multiplying through by the denominator\footnote{The denominator in Equation~\eqref{eq:derivative} is zero when \acs{deform} is \ang{0} or \ang{180}, that is, when \acs{normal2} and \acs{normal1} are equal or antipodal. The $\acs{normal2}=\acs{normal1}$ case behaves as desired in Equation~\eqref{eq:robust-ze'} because $\acs{normal2}=\acs{normal1}\implies\cos\acs{discord}=1\implies\acs{sl1}=\arctan(\tan\acs{sl2}\cdot1)=\acs{sl2}$. The antipodal case is unphysical.} and rearranging to solve for \acs{sl1}:
+\begin{gather}
+    \cos\ac{sl1}\sin\acs{sl2}
+    \cos\acs{discord}-\sin\ac{sl1}\cos\acs{sl2}
+    =0,\nonumber\\
+    \frac{\sin\acs{sl2}
+    \cos\acs{discord}}
+    {\cos\acs{sl2}}
+    =\frac{\sin\ac{sl1}}{\cos\ac{sl1}},\nonumber\\
+    \ac{sl1}
+    =\arctan(\tan\ac{sl2}
+    \cos\acs{discord}).
+    \label{eq:ze'}
+\end{gather}
+The calculated value of \acs{sl1} can then be substituted back into Equation~\eqref{eq:central-angle} to find \acs{deform}. However, one adjustment must be made to this formula to account for edge cases. Notice in Equation~\eqref{eq:ze'} that when $\cos\acs{discord}$ is negative, so is \acs{sl1}. Since \acs{sl1} ultimately describes a slope, a negative value does not make sense. In fact, this situation corresponds to an \emph{uphill} slope being a closer match with the observed topography than a downhill one, which occurs when the angular distance between the two azimuth values exceeds \ang{90}. This treatment of this case is shown in Figure~\ref{fig:reversal}: negative \acs{sl1} values are reset to zero. Thus, the final equation for \acs{sl1} is:
+\begin{equation}
+    \boxed{\ac{sl1}
+    =\max[0,\arctan(\tan\ac{sl2}
+    \cos\acs{discord})].}
+    \label{eq:robust-ze'}
+\end{equation}
+
+\subsection{Axisymmetric Tilt from Discordant Flows}
+
+Figure~\ref{fig:radial} shows what it means to calculate the component of 3D deformation along the radial-axial plane. Comparison with Figure~\ref{fig:deform-calculated} reveals the geometric similarity between the two problems. Therefore, the same Equation~\ref{eq:ze'} derived in Section~\ref{sec:3d-deform} applies up to small modifications owing to a few important differences. First, there are two distinct blue central angles to be minimized, and thus two distinct red zenith angles to be calculated. The \acf{radial-deform} value to be calculated is the signed difference between the two zenith values, which correspond to the ``projections'' of \acs{normal2} and \acs{normal1} onto the plane containing the $z-$ and $r-$axes. Also, the correction used in Equation~\eqref{eq:robust-ze'} is not desired here, since the vectors \acs{normal2} and \acs{normal1} could just as easily project on either side of the $z-$axis.
+\begin{equation}
+    \boxed{\acs{radial-deform}
+    =\arctan(\tan\ac{sl2}
+    \cos[\acs{bearing}-\acs{az2}])
+    -\arctan(\tan\ac{sl1}
+    \cos[\acs{bearing}-\acs{az1}]).}\label{eq:tilt-from-mapping}
+\end{equation}
+Note that the order of terms (and thus the sign of the difference) is significant. For example, \ang{-5} of radial deformation would represent a ``caving-in'' toward the caldera, while \ang{+5} of radial deformation would be more like an outward bulge.
+
+
+\begin{figure}
+    \floatbox[{\capbeside\thisfloatsetup{floatwidth=sidefil,capbesideposition={left,top},capbesidewidth=.55\linewidth}}]{figure}
+    {\caption[Reversal case: $\acs{discord}>\ang{90}$]{When $\acs{discord}>\ang{90}$, Equation~\eqref{eq:ze'} gives $\acs{sl1}<0$, which does not make physical sense as a downhill slope in the \acs{az1} direction. Instead, \acs{sl1} is set to zero, the \emph{non-negative} downhill paleo-slope that minimizes \acs{deform}.}\label{fig:reversal}}
+    {\hspace*{-0.4\linewidth}\input{figures/reversal.tex}}
+    \vspace*{-9em}
+    \floatbox[{\capbeside\thisfloatsetup{floatwidth=sidefil,capbesideposition={right,bottom},capbesidewidth=.6\linewidth}}]{figure}
+    {\caption[Calculation of \acf{radial-deform} from mapping]{Geometric view of \acl{radial-deform}. \acs{bearing} is the bearing angle from the center of the study area \acs{center} to the sampled location, measured clockwise from \acf{north}. It defines the radial-axial plane onto which \acs{normal1} and \acs{normal2} are projected using \acs{deform}-minimizing procedure developed in Section~\ref{sec:3d-deform}. The resulting projected angles \acs{proj1} and \acs{proj2} are not labeled to reduce visual clutter. Their difference $\acs{proj2}-\acs{proj1}=\acs{radial-deform}$ is the component of tilt in the direction radial to the proto-edifice center \acs{center}.}\label{fig:radial}}
+    {\input{figures/radial.tex}}
+\end{figure}

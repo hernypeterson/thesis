@@ -1,0 +1,35 @@
+\newcommand{\stereoradius}{7cm}
+\newcommand{\dotradius}{3pt}
+
+\begin{tikzpicture}[scale=1]
+    \coordinate (orig) at (0,0);
+    \coordinate (edge) at (0,0);
+    \coordinate (pole) at (70:5.15cm);
+    \draw (O) circle (\stereoradius);
+    \fill (O) circle (\dotradius);
+
+    % az1 line
+    \draw[arrow] (orig) -- node[fill=white,sloped] {\acs{az1}} (45:\stereoradius);
+
+    % \draw small circle between point and line;
+    \draw[dashed] (pole) --+ (0,-3);
+
+    % theta line
+    \draw[arrow] (orig) -- node[fill=white] {\acs{bearing}} (0,\stereoradius);
+    
+    % half ellipse
+    \draw[green!80!black, ultra thick] (\stereoradius,0) arc(0:180:7cm and 5cm) node[near end,sloped,fill=white] {\acs{proj2}};
+
+    % half ellipse
+    \draw[blue,ultra thick] (\stereoradius,0) arc(0:180:7cm and 1.83cm) node[near end,sloped,fill=white] {\acs{proj1}};
+
+    % az2, sl2 point
+    \fill (pole) circle (\dotradius) node[anchor=south] {$(\acs{az2}, \acs{sl2})$};
+
+    % fill in 
+    \fill[red,opacity=0.15] (\stereoradius,0) arc(0:180:7cm and 1.83cm) arc(180:0:7cm and 5cm);
+
+    % points of rotation
+    \fill (\stereoradius,0) circle (\dotradius);
+    \fill (-\stereoradius,0) circle (\dotradius);
+\end{tikzpicture}

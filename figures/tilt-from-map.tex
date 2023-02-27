@@ -1,35 +1,60 @@
 \newcommand{\stereoradius}{7cm}
-\newcommand{\dotradius}{3pt}
+\newcommand{\dotradius}{1pt}
 
-\begin{tikzpicture}[scale=1]
+\begin{tikzpicture}[scale=2]
     \coordinate (orig) at (0,0);
     \coordinate (edge) at (0,0);
-    \coordinate (pole) at (70:5.15cm);
-    \draw (O) circle (\stereoradius);
+    \coordinate (pole2) at (1.8, 4.845cm);
+    \coordinate (pole1) at (1.8, 1.8cm);
+    \coordinate (horiz) at (1.8, 0);
+    \coordinate (proj1) at (0, 1.86);
+    \coordinate (proj2) at (0, 5.01);
+
+    % \draw (O) circle (\stereoradius);
+    \draw (\stereoradius,0) arc(0:90:\stereoradius);
+    \draw (horiz) -- node[fill=white] {Tilt Axis} (\stereoradius,0);
     \fill (O) circle (\dotradius);
-
-    % az1 line
-    \draw[arrow] (orig) -- node[fill=white,sloped] {\acs{az1}} (45:\stereoradius);
-
+    \fill (horiz) circle (\dotradius);
+    
     % \draw small circle between point and line;
-    \draw[dashed] (pole) --+ (0,-3);
-
-    % theta line
-    \draw[arrow] (orig) -- node[fill=white] {\acs{bearing}} (0,\stereoradius);
+    \draw[dashed] (pole1) -- (horiz) -- node[fill=white] {$\delta$} (orig);
+    \draw[arrow] (pole1) -- (pole2);
     
     % half ellipse
-    \draw[green!80!black, ultra thick] (\stereoradius,0) arc(0:180:7cm and 5cm) node[near end,sloped,fill=white] {\acs{proj2}};
-
+    \draw[green!80!black, ultra thick] (\stereoradius,0) arc(0:90:7cm and 5.01cm) node[anchor=east] {\textcolor{black}{\acs{proj2}}};
+    
     % half ellipse
-    \draw[blue,ultra thick] (\stereoradius,0) arc(0:180:7cm and 1.83cm) node[near end,sloped,fill=white] {\acs{proj1}};
-
+    \draw[blue,ultra thick] (\stereoradius,0) arc(0:90:7cm and 1.86cm) node[anchor=east] {\textcolor{black}{\acs{proj1}}};
+    
     % az2, sl2 point
-    \fill (pole) circle (\dotradius) node[anchor=south] {$(\acs{az2}, \acs{sl2})$};
+    \fill (pole2) circle (\dotradius) node[anchor=south] {$\left(\acs{az2}, \acs{sl2}\right)$};
+    \draw[dashed] (pole2) -- node[midway,sloped,fill=white]{$\sin\acs{sl2}$} (orig);
+    \draw (69.5:1.03) arc (69.5:90:1.03);
+    \path (80:.83) node{\acs{beta2}};
+    
+    % az1 line
+    \path (68:.4cm) node[fill=white]{\acs{beta1}};
+    \draw (45:.6cm) arc (45:90:.6cm);
+    \draw[arrow] (orig) -- (45:\stereoradius) node[anchor=south west] {\acs{az1}};
+    \draw (orig) -- node[fill=white,sloped] {$\sin\acs{sl1}$} (pole1);
 
-    % fill in 
-    \fill[red,opacity=0.15] (\stereoradius,0) arc(0:180:7cm and 1.83cm) arc(180:0:7cm and 5cm);
+    % theta line
+    \draw[arrow] (orig) -- (0,\stereoradius) node[anchor = south] {\acs{bearing}};
+
+    % axtilt segment
+    \draw[arrow,red] (proj1) -- node[fill=white] {\textcolor{black}{\acs{tilt}}} (proj2);
+
+    % fill in
+    \begin{scope}
+        \clip(0,0) rectangle (\stereoradius,\stereoradius);
+        \fill[red,opacity=0.15] (\stereoradius,0) arc(0:180:7cm and 1.86cm) arc(180:0:7cm and 5.01cm);
+    \end{scope}
+
 
     % points of rotation
     \fill (\stereoradius,0) circle (\dotradius);
-    \fill (-\stereoradius,0) circle (\dotradius);
+    % \fill (-\stereoradius,0) circle (\dotradius);
+
+    %
+    \fill (pole1) circle (\dotradius);
 \end{tikzpicture}

@@ -93,19 +93,47 @@ Then, I use the \hlss{Surface Parameters} tool on the \ac{MOLA} \ac{DEM} to comp
 
 \section{Attitude Data Calculation}\label{sec:calculation}
 
+\subsection{Paleo-Slope}
+
 \begin{figure}
 \begin{center}
     \input{figures/tilt-from-map.tex}%
-    \caption[Tilt from Map]{Tilt from map}%
+    \caption[Tilt from Map]{One quadrant of an upper hemisphere stereographic projection. The point labeled $\left(\acs{az2},\acs{sl2}\right)$ represents the attitude of the modern topographic surface. The line labeled \acs{az1} represents the family of attitudes that could be represented by the surface based on the downhill lava flow direction. The figure is oriented so that the direction away from a chosen inflation center (\acs{bearing}) is up. In this geometry, \acs{beta1} and \acs{beta2} are defined as $\acs{az1}-\acs{bearing}$ and $\acs{az1}-\acs{bearing}$, respectively. The axisymmetric model condition imposes a tilt axis perpendicular to \acs{bearing}, which will translate any point in the projection vertically. Thus the tilt inferred is the rotation that brings some point on the \acs{az1} line vertically to meet $\left(\acs{az2},\acs{sl2}\right)$.}%
     \label{fig:tilt-from-map}
 \end{center}
 \end{figure}
 
-As seen in Figure~[NEW FIGURE PROBABLY JUST STEREONET], attitude data pertaining to the inferred paleo-surface is incomplete. Namely, while the modern topographic surface attitude is fully characterized by \acs{az2} and \acs{sl2}, only the \acf{az1} can be inferred directly from mapped surface features.
+While the modern topographic surface attitude is fully characterized by \acs{az2} and \acs{sl2}, only the \acf{az1} can be inferred directly from mapped surface features. The axisymmetric model imposes a circumferential tilt axis, that is, modelled tilt is always directly toward or away from the inflation center. Figure~\ref{fig:tilt-from-map} illustrates my method for calculating \acf{sl1} under this assumption. The horizontal segment labeled $\delta$ can be defined in two ways:
+\begin{gather*}
+    \delta = \sin\acs{beta1}\sin\acs{sl1},\\
+    \delta = \sin\acs{beta2}\sin\acs{sl2},
+\end{gather*}
+where $\acs{beta1} = \acl{beta1}$ and $\acs{beta2} = \acl{beta2}$. Thus,
+\begin{equation}
+    \acs{sl1} = \arcsin\left(\frac{\sin\acs{beta2}\sin\acs{sl2}}{\sin\acs{beta1}}\right).\label{eq:sl1}
+\end{equation}
+\subsection{Error Handling}
+The computed results from Equation~\eqref{eq:sl1} allow me to handle some issues inherent to the geometry of the problem. First, for some combinations of surface characteristics and center point choice, it is impossible to tilt the once-downhill lava flow about the imposed axis and reach the observed surface attitude. In Figure~\ref{fig:tilt-from-map} a single quadrant contains both $\left(\acs{az2},\acs{sl2}\right)$ and \acs{az1}, but if these fall on opposing sides of the \acs{bearing} line (one on the left, one on the right) there will be no possible vertical translation between the two. Mathematically, this case will arise as a negative value for \acs{sl1}, which is unphysical and must therefore be removed from the subsequent analysis. When a large fraction of sampled points are subject to this error, it signals that the chosen axisymmetric inflation center is inaccurate.
 
+Another problem occurs even in the single-handed (both left or both right) case when:
+\begin{equation}
+     |\sin\acs{beta2}\sin\acs{sl2}| > |\sin\acs{beta1}|,
+\end{equation}
+because the resulting argument in Equation~\eqref{eq:sl1} is outside the domain of the arcsin function. Physically this case occurs when the lava flow is close to parallel to the radial direction for the modelled inflation center. Additionally, when $|\sin\acs{beta1}|$ is only slightly greater than $|\sin\acs{beta2}\sin\acs{sl2}|$, the calculated \acs{sl1} will be unrealistically large. Both of these cases reflect the difficulty of changing the downhill azimuth of a flow by tipping it roughly in the direction it is already pointing. The quantity of these undefined or unrealistic tilt values provide an additional test on the validity of each axisymmetric inflation center.
+
+Once these errors are addressed by removing any \hltt{NULL} (domain error), negative, or excessively high values of \acs{sl1}, I record the number of instances for each error type and proceed using with the valid sample subset.
+
+\subsection{Axisymmetric Tilt from Mapped Discordance}
+In Figure~\ref{fig:tilt-from-map}, the arrow which translates the \acs{az1} line onto $\left(\acs{az2},\acs{sl2}\right)$ is a segment of a small circle about the tilt axis. I determine the angle of tilt by essentially treating the $\left(\acs{az1},\acs{sl1}\right)$ and $\left(\acs{az2},\acs{sl2}\right)$ poles as apparent ``dips''\footnote{I use this very loosely because the apparent dip is a pole and not a physical linear feature; also, I allow these dips to take negative values rather than reversing the dip direction.} where the true ``dip'' direction is \acs{bearing}. Thus the true ``dips'' and their difference:
+\begin{gather}
+    \acs{proj1} = \arctan(\tan\acs{sl1}/\cos\acs{beta1})\\
+    \acs{proj2} = \arctan(\tan\acs{sl2}/\cos\acs{beta2})\\
+    \acs{tilt} = \acs{proj2} - \acs{proj1}.
+\end{gather}
+Unlike Equation~\eqref{eq:sl1}, these calculations will not yield any domain errors. The only regions of high numerical sensitivity are near the poles of the tilt axis, but this occurs only for near-vertical observed surfaces (to yield high values of $\delta$ in Figure~\ref{fig:tilt-from-map}) which is unphysical. 
 \section{Modelling Reservoir Pressure Change}
 
-I use the numerical modelling software COMSOL Multiphysics 6.1 (COMSOL) to construct a numerical representation of \acf{OM}. The model is axisymmetric, about the center point discussed previously as the center of the \qty{19}{\km} contour. A profile from due south of this point is used as the 
+I use the numerical modelling software COMSOL Multiphysics 6.1 (COMSOL) to construct a numerical representation of \acl{OM}. The model is axisymmetric, about the center point discussed previously as the center of the \qty{19}{\km} contour. A profile from due south of this point is used as the 
 
 \subsection{Parameter Sweep}
 
@@ -116,27 +144,27 @@ I run a series of numerical models using a \hlss{Parameter Sweep} over \ac{DtT},
 
 \subsection{Axisymmetric Tilt from Modelled Displacement}
 
-The numerical formula for \acf{radial-deform} given \acs{disp_a} and \acs{disp_b} is derived from Figure~\ref{fig:tilt-from-model}:
+The numerical formula for \acf{tilt} given \acs{disp_a} and \acs{disp_b} is derived from Figure~\ref{fig:tilt-from-model}:
 \begin{equation}
-    \boxed{\acs{radial-deform} = 
+    \boxed{\acs{tilt} = 
     \arctan\left(\dfrac{-\acs{dz1}-\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right) - \arctan\left(\frac{-\acs{dz1}}{\acs{dr1}}\right).}\label{eq:tilt-from-model}
 \end{equation}
 For a flat model ($\acs{dz1} = 0$), Equation~\eqref{eq:tilt-from-model} reduces to
 \begin{equation}
-    \boxed{\acs{radial-deform} = 
+    \boxed{\acs{tilt} = 
     \arctan\left(\dfrac{-\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right).}\label{eq:tilt-from-flat-model}
 \end{equation}
 
 \begin{figure}
     \input{figures/tilt-from-model.tex}
-    \caption[Calculation of \acf{radial-deform} from modelling]{Axisymmetric tilt from finite element displacement. A model element at the surface of the model is shown as the ``Original Surface'' with slope \acs{proj1}. During the model, the two vertices of the surface element $A_1$ and $B_1$ are displaced via $\acs{disp_a}$ and $\acs{disp_b}$ to $A_2$ and $B_2$ respectively, bringing the element edge to the ``Deformed surface'' with slope \acs{proj2}. The horizontal (radial) and vertical components of the difference $\acs{disp_b} - \acs{disp_a} = \acs{ddisp}$ are labeled. The difference $\acs{proj2}-\acs{proj1}=\acs{radial-deform}$ is the exact same quantity illustrated in Figure~[NEEDS NEW FIGURE FOR NEW METHOD]. While Equation~[NEEDS NEW EQUATIONS] arrives at this value using lava flows discordant to their observed topographic surroundings, Equation~\eqref{eq:tilt-from-model} determines the value via numerically modelled surface displacement due to underlying reservoir inflation presumed to be responsible.}%
+    \caption[Calculation of \acf{tilt} from modelling]{Axisymmetric tilt from finite element displacement. A model element at the surface of the model is shown as the ``Original Surface'' with slope \acs{proj1}. During the model, the two vertices of the surface element $A_1$ and $B_1$ are displaced via $\acs{disp_a}$ and $\acs{disp_b}$ to $A_2$ and $B_2$ respectively, bringing the element edge to the ``Deformed surface'' with slope \acs{proj2}. The horizontal (radial) and vertical components of the difference $\acs{disp_b} - \acs{disp_a} = \acs{ddisp}$ are labeled. The difference $\acs{proj2}-\acs{proj1}=\acs{tilt}$ is the exact same quantity illustrated in Figure~[NEEDS NEW FIGURE FOR NEW METHOD]. While Equation~[NEEDS NEW EQUATIONS] arrives at this value using lava flows discordant to their observed topographic surroundings, Equation~\eqref{eq:tilt-from-model} determines the value via numerically modelled surface displacement due to underlying reservoir inflation presumed to be responsible.}%
     \label{fig:tilt-from-model}
 \end{figure}
 
 \subsection{Comparison with Analytical Model}
 The discrete Equation~\eqref{eq:tilt-from-flat-model} can be taken to the continuous limit by dividing each term in the numerator and denominator by the element width \acs{dr1}:
 \begin{equation}
-\acs{radial-deform}
+\acs{tilt}
     = \lim_{\acs{dr1}\to0} 
     \arctan\left(\dfrac{-\acs{ddisp_z}/\acs{dr1}}{\acs{dr1}/\acs{dr1}
     + \acs{ddisp_r}/\acs{dr1}}\right) = 
@@ -150,6 +178,6 @@ where $'$ denotes the derivative with respect to $r_1$. I use the \textcite{mogi
 \end{gather}
 where $R$ is the reservoir radius, $\Delta P$ is the overpressure, and $G$ is the elastic shear modulus. Differentiating Equations~\eqref{eq:uz_mogi} and~\eqref{eq:ur_mogi}, substituting into Equation~\eqref{eq:tilt-from-flat-analytical-model}, and simplifying:
 \begin{equation}
-    \boxed{\acs{radial-deform} = \arctan\left(\frac{3adr}{{(d^2+r^2)}^{2.5}+ad^2-2ar^2}\right).}\label{eq:tilt-from-mogi-model}
+    \boxed{\acs{tilt} = \arctan\left(\frac{3adr}{{(d^2+r^2)}^{2.5}+ad^2-2ar^2}\right).}\label{eq:tilt-from-mogi-model}
 \end{equation}
 

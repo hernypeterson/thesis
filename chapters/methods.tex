@@ -5,48 +5,40 @@ I first sample paleo- and modern surface attitude data across the summit of \acl
 \section{Challenges \& Assumptions}
 The topographic and structural deformation implies a combination of underlying volcanic processes including a.\ caldera collapse (i.e., magmatic discharge) and b.\ subsequent reservoir inflation (i.e., magmatic recharge). Untangling the superposition of these competing factors is challenging in itself, although preliminary inspection of the study region (Figure~\ref{fig:summit}) indicates that these effects may be localized to a.\ the immediate circumferential region, and b.\ the southern flank, respectively. Additionally, \textit{independent}\footnote{That is, in addition to observed deformation.} stratigraphic constraints on lava flow emplacement relative to the timeline of deformation are unavailable---while crater-dating can be done on lava flows and caldera floors, the timing of reservoir inflation does not leave a temporal record observable from spacecraft. Therefore, certain simplifying assumptions are necessary to make progress with this inquiry. In particular, with only ``initial'' (at flow emplacement) and ``final'' (modern) data points available for each location, only net change can be inferred.
 
-\section{Preparation of Published Data}
+\section{Mapping}
+\subsection{Preparation of Published Data}
 
-\subsection{Raster Data}
 The \acf{CTX}\footnote{aboard the \ac{MRO} spacecraft launched in 2005 by \acs{NASA}.} captures \qty{\sim30}{\km} swaths across the entire martian surface in visible $(\lambda=\qtyrange{500}{800}{\nm})$ greyscale at \qty{\sim6}{\m} spatial resolution. \textcite{Dickson2018AGB} blended these swaths to produce a raster mosaic product (hereafter, ``\ac{CTX} mosaic'') which I use to visually identify and map lava flows and flow channels.
 
 The \acf{MOLA}\footnote{aboard the now-retired \ac{MGS} spacecraft launched in 1996 by \acs{NASA}.} returned topography data with horizontal resolution of \qtyproduct{300 x 1000}{\m} at the equator (better at high latitudes) and elevation uncertainty of \qty{\sim3}{\m}~\parencite{smith_mars_2001}. To improve spatial resolution, additional elevation data from the \ac{HRSC}\footnote{aboard the \ac{MEX} spacecraft launched in 2003 by the \ac{ESA}} was blended to product a \ac{DEM} with \qty{200}{\m} pixel resolution. Each pixel's vertical uncertainty is \qty{\sim1}{\m}, with an additional global uncertainty of \qty{\sim1.8}{\m} in the martian areoid (martian equivalent of Earth's geoid). In this project, the global areoid uncertainty is not a concern because only one region (the summit of \ac{OM}) is considered.
 
 These two data sources were registered in an equal-area sinusoidal Mars projection in ArcGIS Pro. The study area is defined by a square \qtyproduct{200 x 200}{\km} centered at the centroid of the outermost \qty{19}{\km} contour,\footnote{This is the highest integer \unit{km} which is roughly circular and completely encloses the caldera complex, implying that it largely records the conical shape of the shield edifice without influence from subsequent caldera collapse or reservoir inflation.} as seen in Figure~\ref{fig:summit}.
 
-\subsection{Prior Mapping}
-I also include the caldera region mapping by \textcite{mouginis-mark_geologic_2021}, who identified lobate lava flows Relevant to the current project, 
+I also include the caldera region mapping by \textcite{mouginis-mark_geologic_2021}, who identified lobate lava flows.
 
-\section{Study Area Definition \& Preliminary Analysis}
+\subsection{Study Area Definition \& Preliminary Analysis}
 
 Figure~\ref{fig:summit} shows important topographic patterns at the summit of \ac{OM}. More than \qty{50}{\km} from the center of the figure, topographic contours (\qtyrange{12}{19}{\km}) are fairly regular concentric rings. Closer to the caldera, this radial symmetry breaks down: the caldera complex itself consists of six intersecting collapse pits. On the southern flank, we see a prominent arcuate \qty{20}{\km} contour with the topographic summit (within the \qty{21}{\km} contour) over \qty{20}{\km} from the southern caldera rim. I propose [BASED ON WHAT] that the distal symmetric regions preserve the long-term stable topography of the edifice, while the asymmetric central caldera complex and summit result from relatively recent magmatic activity. 
 
-\subsection{Proto-Edifice Reconstruction}
-Therefore, I present a reconstruction of the proto-edifice which interpolates the topography of the distal (beyond outer \qty{19}{\km} contour) regions within the central region. This reconstruction is shown in Figure~(NUMBER). This provides an independent estimation of proto-topography to compare with the estimates based on lava flow misalignment.
+%\subsection{Proto-Edifice Reconstruction}
+% Therefore, I present a reconstruction of the proto-edifice which interpolates the topography of the distal (beyond outer \qty{19}{\km} contour) regions within the central region. This reconstruction is shown in Figure~(NUMBER). This provides an independent estimation of proto-topography to compare with the estimates based on lava flow misalignment.
 
-\section{Mapping Discordant Features}\label{sec:mapping}
+\subsection{Mapping Lava Features}\label{sec:mapping}
 
-\subsection{Lobate Flows}
 I use the \ac{CTX} mosaic to visually identify lava flows near the summit of \ac{OM}. Following \textcite{mouginis-mark_geologic_2021}, I map lobate flow outlines as polygons where possible. From these polygons, I derive centerline features using the \hlss{Polygon To Centerline} tool, as shown in Figure~\ref{fig:flow}.
-
-\subsection{Channels}
 
 Where flow margins are not visible, I map channels directly as linear features. I include discontinuous regions where I infer partial collapse of lava tubes yielding skylight chains,\footnote{The assumption of underlying continuity follows, e.g., \textcite{bleacher_olympus_2007,carr_geologic_2010,peters_lava_2021}.} as shown in Figure~\ref{fig:channel}.
 
-\section{Sampling Discordant Features}
+\subsection{Paleo-Azimuth from Mapped Features}
 
-\subsection{Linear Features}
-
-\subsubsection{Segmentation}
-[INCOMPLETE] Bounding box, aspect ratio
-
-\subsubsection{Azimuths}
+% \subsubsection{Segmentation}
+% [INCOMPLETE] Bounding box, aspect ratio
 
 I use the \hlss{Calculate Geometry Attributes} tool to find the \hlss{Line Bearing} attribute for each linear feature (channel or flow centerline), that is, the azimuthal orientation from the start to the end of each feature. This angle is the variable \ac{az1} to each feature, although the following section discussion explains why this variable is not quite ready for use in attitude analysis. While I maintain a consistent ``sense'' in my channel mapping (pointing away from rather than toward the caldera center), the \hlss{Polygon To Centerline} tool does not. Therefore, some flow centerlines need to be reversed using the \hlss{Flip Line} tool.
 
-To determine which centerlines must be reversed, I use the \hlss{Near} tool with \hlss{Angle} selected to determine the azimuth angle from each linear feature to the center of the study area \acs{center}. Here, I invoke the general empirical rule that all flows in the study area point generally \emph{away} from the caldera center. Therefore, a correctly oriented feature is one where \acs{az1} is \ang{\sim180} away from the calculated \hlss{Near Angle}; at the very least, it should be \ang{90} away. Therefore I select features where this angular difference\footnote{Specifically, I reverse features where the cosine of this angular difference is positive. See Appendix~[worth including spherical cosines?] for a justification of this approach which addresses an arithmetic issue with angular differences.} is less than \ang{90} to reverse using \hlss{Flip Line}. With all features now correctly oriented away from the caldera center, I recalculate \hlss{Line Bearing}, which establishes the correct \ac{az1} value for attitude analysis. [NEEDS FIGURE HERE]
+To determine which centerlines must be reversed, I use the \hlss{Near} tool to determine the azimuth angle from each linear feature to the center of the study area \acs{center}. Here, I leverage my initial observation that all flows in the study area point generally \emph{away} from the caldera center. Therefore, a correctly oriented feature is one where \acs{az1} is \ang{\sim180} away from the calculated angle; at the very least, it should be \ang{90} away. Therefore I select features where this angular difference\footnote{Specifically, I reverse features where the cosine of this angular difference is positive. See Appendix~[worth including spherical cosines?] for a justification of this approach which addresses an arithmetic issue with angular differences.} is less than \ang{90} to reverse using \hlss{Flip Line}. With all features now correctly oriented away from the caldera center, I recalculate \hlss{Line Bearing}, which establishes the correct \ac{az1} value for attitude analysis. [NEEDS FIGURE HERE]
 
-\subsection{Point Features}
+\subsection{Modern Attitude from Topography}
 
 \newcommand{\samplinginterval}{\qty{3}{\km}}
 
@@ -77,41 +69,38 @@ Along each linear feature, I use the \hlss{Generate Points Along Line} tool to c
     \label{fig:sampling}
 \end{figure}
 
-\section{Attitude Data Collection}
-
 \newcommand{\neighborhood}{\qty{2}{\km}}
 
 The first variable collected is \ac{az1}, which each point inherits from its parent linear feature.
 
-Then, I use the \hlss{Surface Parameters} tool on the \ac{MOLA} \ac{DEM} to compute average topographic \hlss{Slope} and \hlss{Aspect} (downhill azimuth) rasters across the entire study area. To avoid capturing local topographic anomalies, these values are averaged\footnote{Technically, a quadratic surface is interpolated over the neighborhood region and dip and dip direction are computed at the center of this surface.} over a ``neighborhood'' with radius \neighborhood. I use the \hlss{Extract Multi Values to Points} tool to assign \ac{sl2} and \ac{az2} to each based on the value of the corresponding raster value at that location. Figure~\ref{fig:surface} shows the compact geometric representation of these attitude parameters as a pole to the topographic surface plane. Figure~[NEW FIGURE] shows a geometric view of all three collected variables, including the incomplete (\acs{az1} but not \acs{sl1}) representation of the paleo-surface attitude.
+Then, I use the \hlss{Surface Parameters} tool on the \ac{MOLA} \ac{DEM} to compute average topographic \hlss{Slope} and \hlss{Aspect} (downhill azimuth) rasters across the entire study area. To avoid capturing local topographic anomalies, these values are averaged over a ``neighborhood'' with radius \neighborhood. I use the \hlss{Extract Multi Values to Points} tool to assign \ac{sl2} and \ac{az2} to each based on the value of the corresponding raster value at that location. Figure~\ref{fig:tilt-from-map} includes a geometric view of these three collected variables.
 
-\begin{figure}
-    \floatbox[{\capbeside\thisfloatsetup{floatwidth=sidefil,capbesideposition={left,bottom},capbesidewidth=.55\linewidth}}]{figure}
-    {\caption[Pole to plane $\acs{normal2}=(\acs{az2},\acs{sl2})$]{The attitude of a tilted surface (green) is defined relative to horizontal (grey) by \ac{az2} and \ac{sl2}. \acs{az2} and \acs{sl2} are also the spherical coordinates of a unique unit vector \acs{normal2} which is normal (perpendicular) to the surface. In the subsequent sections, $\acs{normal2}=(\acs{az2},\acs{sl2})$ represents the observed attitude at a sampled location, while $\acs{normal1}=(\acs{az1},\acs{sl1})$ represents the \emph{inferred} paleo-attitude of the same point when the lava flow was emplaced. Azimuth angles increase clockwise from \acf{north} as shown, following geographic convention.}\label{fig:surface}}
-    {\input{figures/surface.tex}}
-\end{figure}
+% \begin{figure}
+%     \floatbox[{\capbeside\thisfloatsetup{floatwidth=sidefil,capbesideposition={left,bottom},capbesidewidth=.55\linewidth}}]{figure}
+%     {\caption[Pole to plane $\acs{normal2}=(\acs{az2},\acs{sl2})$]{The attitude of a tilted surface (green) is defined relative to horizontal (grey) by \ac{az2} and \ac{sl2}. \acs{az2} and \acs{sl2} are also the spherical coordinates of a unique unit vector \acs{normal2} which is normal (perpendicular) to the surface. In the subsequent sections, $\acs{normal2}=(\acs{az2},\acs{sl2})$ represents the observed attitude at a sampled location, while $\acs{normal1}=(\acs{az1},\acs{sl1})$ represents the \emph{inferred} paleo-attitude of the same point when the lava flow was emplaced. Azimuth angles increase clockwise from \acf{north} as shown, following geographic convention.}\label{fig:surface}}
+%     {\input{figures/surface.tex}}
+% \end{figure}
 
-\section{Paleo-Slope Calculation}
+\subsection{Paleo-Slope Calculation}
 
 \begin{figure}
 \begin{center}
     \input{figures/tilt-from-map-3d.tex}%
     \hspace{1cm}%
     \input{figures/tilt-from-map-flat.tex}%
-    \caption{Left: One quadrant of an upper hemisphere representing attitude space for one sampled point relative to one chosen inflation center. The pole labeled $\left(\acs{az2},\acs{sl2}\right)$ represents the modern topographic surface. The line of poles labeled \acs{az1} represents the family of possible paleo-surfaces that with downhill direction given by the lava flow direction. The $r$ axis points in the azimuthal direction away from a potential inflation center. The assumption of axisymmetry imposes a horizontal axis of tilt perpendicular to $r$. The red arrow labeled \acs{tilt} answers the question: how much tilt about the axis imposed by the chosen inflation center bring some pole on line \acs{az1} to pole $\left(\acs{az2},\acs{sl2}\right)$?}%
+    \caption[\Acl{tilt} from mapping]{\textbf{Left:} A quadrant of an upper hemisphere representing attitude space for a sampled point relative to a particular inflation center. The pole labeled $\left(\acs{az2},\acs{sl2}\right)$ represents the modern surface. The line of poles labeled \acs{az1} represents the family of possible paleo-surfaces with downhill direction given by the lava flow direction. The $r-$axis points in the azimuthal direction away from a modelled inflation center \acs{center}. The assumption of axisymmetry imposes a horizontal axis of tilt perpendicular to the $r-$axis. The red arrow labeled \acs{tilt} answers the question: how much tilt \emph{about this axis} bring some pole on line \acs{az1} to pole $\left(\acs{az2},\acs{sl2}\right)$? \textbf{Right:} Plan view of the stereographic projection labeled with important angles for the tilt calculation. Corresponds to horizontal grey rectangle on the left.}%
     \label{fig:tilt-from-map}%
 \end{center}
 \end{figure}
 While the modern topographic surface attitude is fully characterized by \acs{az2} and \acs{sl2}, only the \acf{az1} can be inferred directly from mapped surface features. The axisymmetric model imposes a circumferential tilt axis, that is, modelled tilt is always directly toward or away from the inflation center. I denote the direction away from the inflation center by \acs{bearing}. Figure~\ref{fig:tilt-from-map} illustrates my method for calculating \acf{sl1} under this assumption. The horizontal segment labeled $\delta$ can be defined in two ways:
-\begin{gather*}
-    \delta = \sin\acs{beta1}\sin\acs{sl1},\\
-    \delta = \sin\acs{beta2}\sin\acs{sl2},
-\end{gather*}
+\begin{equation*}
+    \delta = \sin\acs{beta1}\sin\acs{sl1} = \sin\acs{beta2}\sin\acs{sl2},
+\end{equation*}
 where $\acs{beta1} = \acl{beta1}$ and $\acs{beta2} = \acl{beta2}$. Thus,
 \begin{equation}
     \acs{sl1} = \arcsin\left(\frac{\sin\acs{beta2}\sin\acs{sl2}}{\sin\acs{beta1}}\right).\label{eq:sl1}
 \end{equation}
-\subsection{Error Handling}
+\subsubsection{Error Handling}
 The computed results from Equation~\eqref{eq:sl1} allow me to handle some issues inherent to the geometry of the problem. First, for some combinations of surface characteristics and center point choice, it is impossible to tilt the once-downhill lava flow about the imposed axis and reach the observed surface attitude. In Figure~\ref{fig:tilt-from-map} a single quadrant contains both $\left(\acs{az2},\acs{sl2}\right)$ and \acs{az1}, but if these fall on opposing sides of the \acs{bearing} line (one on the left, one on the right) there will be no possible vertical translation between the two. Mathematically, this case will arise as a negative value for \acs{sl1}, which is unphysical and must therefore be removed from the subsequent analysis. When a large fraction of sampled points are subject to this error, it signals that the chosen axisymmetric inflation center is inaccurate.
 
 Another problem occurs even in the single-handed (both left or both right) case when:
@@ -120,48 +109,47 @@ Another problem occurs even in the single-handed (both left or both right) case 
 \end{equation}
 because the resulting argument in Equation~\eqref{eq:sl1} is outside the domain of the arcsin function. Physically this case occurs when the lava flow is close to parallel to the radial direction for the modelled inflation center. Additionally, when $|\sin\acs{beta1}|$ is only slightly greater than $|\sin\acs{beta2}\sin\acs{sl2}|$, the calculated \acs{sl1} will be unrealistically large. Both of these cases reflect the difficulty of changing the downhill azimuth of a flow by tipping it roughly in the direction it is already pointing. The quantity of these undefined or unrealistic tilt values provide an additional test on the validity of each axisymmetric inflation center.
 
-Once these errors are addressed by removing any \hltt{NULL} (domain error), negative, or excessively high values of \acs{sl1}, I record the number of instances for each error type and proceed using with the valid sample subset.
+Once these issues are addressed by removing \hltt{<null>} (domain error) or negative entries, I record the number of invalid samples and proceed using the valid subset.
 
-\section{Tilt from Mapped Discordance}
-In Figure~\ref{fig:tilt-from-map}, the arrow which translates the \acs{az1} line onto $\left(\acs{az2},\acs{sl2}\right)$ is a segment of a small circle about the tilt axis.
-
-\begin{gather}
-    \acs{proj1} = \arctan(\tan\acs{sl1}\cos\acs{beta1})\nonumber\\
-    \acs{proj2} = \arctan(\tan\acs{sl2}\cos\acs{beta2})\nonumber\\
-    \acs{tilt} = \acs{proj2} - \acs{proj1}.\label{eq:tilt-from-map}
-\end{gather}
-Unlike Equation~\eqref{eq:sl1}, these calculations will not yield any domain errors. The only regions of high numerical sensitivity are near the poles of the tilt axis, but this occurs only for near-vertical observed surfaces (to yield high values of $\delta$ in Figure~\ref{fig:tilt-from-map}) which is unphysical. 
-
-\section{Tilt from Numerically Modelled Displacement}
-
-I use the numerical modelling software COMSOL Multiphysics 6.1 (COMSOL) to construct a numerical representation of \acl{OM}. The model is axisymmetric, about the center point discussed previously as the center of the \qty{19}{\km} contour. A profile from due south of this point is used as the 
-
-The numerical formula for \acf{tilt} given \acs{disp_a} and \acs{disp_b} is derived from Figure~\ref{fig:tilt-from-model}:
-\begin{gather}
-    \acs{proj1} = -\arctan\left({\acs{dz1}}/{\acs{dr1}}\right)\nonumber\\
-    \acs{proj1} = -\arctan\left(\dfrac{\acs{dz1}+\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right)\nonumber\\
-    \acs{tilt} = \acs{proj2} - \acs{proj1}.\label{eq:tilt-from-model}
-\end{gather}
-For a flat model ($\acs{dz1} = 0$), Equation~\eqref{eq:tilt-from-model} reduces to
+\subsection{Deriving Tilt from Mapped Samples}
+In Figure~\ref{fig:tilt-from-map}, the arrow which translates the \acs{az1} line onto $\left(\acs{az2},\acs{sl2}\right)$ is a segment of a small circle about the tilt axis. To determine the true angle of tilt I translate this small circle onto the corresponding great circle along the blue and green great circle segments, respectively. [NOTE: How could I rephrase this? It's kind of like an apparent dip problem but would it be confusing to mention this?] The difference between these two transformations is the tilt: 
 \begin{equation}
-    \acs{tilt} = 
-    -\arctan\left(\dfrac{\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right).\label{eq:tilt-from-flat-model}
+    \acs{tilt} = \arctan(\tan\acs{sl2}\cos\acs{beta2}) - \arctan(\tan\acs{sl1}\cos\acs{beta1}).\label{eq:tilt-from-map}
 \end{equation}
+Unlike Equation~\eqref{eq:sl1}, these calculations will not yield any domain errors. The only regions of high numerical sensitivity are near the poles of the tilt axis, but this occurs only for near-vertical observed surfaces (to yield high values of $\delta$ in Figure~\ref{fig:tilt-from-map}) which is unphysical.
 
-\begin{figure}
-    \input{figures/tilt-from-model.tex}
-    \caption[Calculation of \acf{tilt} from modelling]{Axisymmetric tilt from finite element displacement. A model element at the surface of the model is shown as the ``Original Surface'' with slope \acs{proj1}. During the model, the two vertices of the surface element $A_1$ and $B_1$ are displaced via $\acs{disp_a}$ and $\acs{disp_b}$ to $A_2$ and $B_2$ respectively, bringing the element edge to the ``Deformed surface'' with slope \acs{proj2}. The horizontal (radial) and vertical components of the difference $\acs{disp_b} - \acs{disp_a} = \acs{ddisp}$ are labeled. The difference $\acs{proj2}-\acs{proj1}=\acs{tilt}$ is the exact same quantity illustrated in Figure~[NEEDS NEW FIGURE FOR NEW METHOD]. While Equation~[NEEDS NEW EQUATIONS] arrives at this value using lava flows discordant to their observed topographic surroundings, Equation~\eqref{eq:tilt-from-model} determines the value via numerically modelled surface displacement due to underlying reservoir inflation presumed to be responsible.}%
-    \label{fig:tilt-from-model}
-\end{figure}
+\subsection{Implementation}
 
-\subsection{Numerical Model Parameter Sweep}
+To identify the most likely inflation center candidates I use the \hlss{Generate Tesselation} and \hlss{Feature to Point} tools to generate an evenly spaced [DISTANCE] array of points in the caldera vicinity as shown in Figure [FIG].
 
-I run a series of numerical models using the \hlss{Parameter Sweep} tool over \ac{DtT}, \ac{Rr}, \ac{Rz}, and a \ac{mult}:
-\begin{equation}
-    \acs{dP}=\acs{mult}\times\acs{rhor}\times\acs{g}\times\acs{DtT}.
-\end{equation}
+Then, I need to compute Equation~\eqref{eq:tilt-from-map} for each sampled point (from flows and channels) and from each inflation center point. To do this, I use the \hlss{ModelBuilder} to:
+\begin{enumerate}
+    \item Iterate over the feature class shown in Figure~[CENTERS] (perform the subsequent steps in order using a different point each).
+    \item Run the \hlss{Near} tool to compute the distance and direction from the single inflation center to the sampled point. The former is necessary for direct comparison with the axisymmetric model results, step is necessary to define \acs{beta1} and \acs{beta2} for each point.
+    \item Evaluate Equation~\eqref{eq:sl1} for each point.
+    \item In addition to the values which are already \hltt{<null>} due to the domain error in Equation~\eqref{eq:sl1}, I set any negative values to \hltt{<null>}.
+    \item Evaluate Equation~\eqref{eq:tilt-from-map} for each valid point.
+    \item Export a table with attributes of each sampled point: some of which depend only on the point itself (calculated in Section [Previous]) and some of which depend on the relationship between the sampled point and the inflation center [calculated in this iteration]. With the data exported, the iteration begins again with the next inflation center candidate.
+\end{enumerate}
+The final product of this process is a collection of \hltt{.csv} files---one for each inflation center candidate---each containing the axisymmetric tilt angle implied at each point. 
 
-\section{Tilt from Analytically Modelled Displacement}
+% FIGURE of CENTER POINTS
+
+\subsection{Evaluating Inflation Center Candidates}
+
+Before comparing\dots
+
+\section{Modelling}
+
+\subsection{Preliminary Assumption Testing}
+% Gravity - Prestress
+% Topography
+% Looking to conclude that flat, non-gravitational model is sufficient for tilt to make previous section valid (arbitrary center points)
+
+% Include specific methods and results in Appendix rather than main results
+% Maybe move Mogi Model solution to an appendix as well.
+
+\subsubsection{Comparison with Analytical Solution}
 The discrete Equation~\eqref{eq:tilt-from-flat-model} can be taken to the continuous limit by dividing each term in the numerator and denominator by the element width \acs{dr1}:
 \begin{equation}
 \acs{tilt}
@@ -181,3 +169,30 @@ where $R$ is the reservoir radius, $\Delta P$ is the overpressure, and $G$ is th
     \boxed{\acs{tilt} = \arctan\left(\frac{3adr}{{(d^2+r^2)}^{2.5}+ad^2-2ar^2}\right).}\label{eq:tilt-from-mogi-model}
 \end{equation}
 I compare this result with the numerical results for equant $(\acs{Rr}=\acs{Rz})$ reservoirs to validate the method.
+
+\subsection{Deriving Tilt from Modelled Displacement}
+
+I use the numerical modelling software COMSOL Multiphysics 6.1 (COMSOL) to construct a numerical representation of \acl{OM}. The model is axisymmetric, about the center point discussed previously as the center of the \qty{19}{\km} contour. A profile from due south of this point is used as the 
+
+The numerical formula for \acf{tilt} given \acs{disp_a} and \acs{disp_b} is derived from Figure~\ref{fig:tilt-from-model}:
+\begin{equation}
+    \acs{tilt} = \arctan\left({\acs{dz1}}/{\acs{dr1}}\right) - \arctan\left(\dfrac{\acs{dz1}+\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right).\label{eq:tilt-from-model}
+\end{equation}
+For a flat model ($\acs{dz1} = 0$), Equation~\eqref{eq:tilt-from-model} reduces to
+\begin{equation}
+    \acs{tilt} = 
+    -\arctan\left(\dfrac{\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right).\label{eq:tilt-from-flat-model}
+\end{equation}
+
+\begin{figure}
+    \input{figures/tilt-from-model.tex}
+    \caption[\Acl{tilt} from modelling]{Tilt from finite element displacement. A surface element is labelled ``Original Surface'' with slope \acs{proj1}. During the model, the two element vertices $A_1$ and $B_1$ are displaced via $\acs{disp_a}$ and $\acs{disp_b}$ to $A_2$ and $B_2$ respectively, bringing the element to the ``Deformed surface'' with slope \acs{proj2}. The horizontal (radial) and vertical components of the difference $\acs{disp_b} - \acs{disp_a} = \acs{ddisp}$ are labeled. Despite the difference in appearance, the quantity $\acs{proj2}-\acs{proj1}=\acs{tilt}$ (red) is the same quantity labelled in Figure~\ref{fig:tilt-from-map} (also red). The angles colored blue and green are closely related but not identical across the two figures (discussed in the body) and thus I do not explicitly analyze them as such.}%
+    \label{fig:tilt-from-model}
+\end{figure}
+
+\subsection{Implementation}
+
+As in my mapping implementation, I leverage iteration to conduct a sequence of analyses which are identical except for specifically controlled parameters. I run a series of numerical models using the \hlss{Parameter Sweep} tool over \ac{DtT}, \ac{Rr}, \ac{Rz}, and a \ac{mult}:
+\begin{equation}
+    \acs{dP}=\acs{mult}\times\acs{rhor}\times\acs{g}\times\acs{DtT}.
+\end{equation}

@@ -35,7 +35,7 @@
     
     % r-z surface, fill, line
     \tdplotsetthetaplanecoords{\THETA}
-    \fill[tdplot_rotated_coords, color = red, opacity = 0.1] (\zenproj:\radius) arc (\zenproj:\zeproj:\radius) -- (0,0);     
+    % \fill[tdplot_rotated_coords, color = red, opacity = 0.1] (\zenproj:\radius) arc (\zenproj:\zeproj:\radius) -- (0,0);     
     \tdplotdrawarc[arrow, tdplot_rotated_coords]{(orig)}{\radius}{0}{90}{}{}
     \tdplotdrawarc[arrow, tdplot_rotated_coords,red,line width=1mm]{(orig)}{\radius}{\zenproj}{\zeproj}{anchor=south west}{\acs{tilt}}
 
@@ -69,5 +69,4 @@
     
     % (az2, sl2) point
     \fill (P) circle (0.2mm) node[anchor = north east] {$(\acs{az2},\acs{sl2})$};
-    % \node[right=of P] (P) circle (0.2mm) node[anchor = west] {$(\acs{az2},\acs{sl2})$};
 \end{tikzpicture}%

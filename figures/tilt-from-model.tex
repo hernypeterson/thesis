@@ -1,70 +1,50 @@
-\newcommand{\uar}{3.5cm}
-\newcommand{\uaz}{11cm}
-\newcommand{\ubr}{5.5cm}
-\newcommand{\ubz}{4.5cm}
-\newcommand{\dz}{2.5cm}
-\newcommand{\dr}{8cm}
+\newcommand{\uar}{3.5}
+\newcommand{\uaz}{11}
+\newcommand{\ubr}{5.5}
+\newcommand{\ubz}{4.5}
+\newcommand{\dz}{2.5}
+\newcommand{\dr}{8}
 
 \begin{tikzpicture}[scale=0.95]
-    \coordinate (O) at (0,0);
-    \coordinate (A_1) at (0,\dz);
-    \coordinate (B_1) at (\dr,0);
+    \coordinate (orig) at (0,0);
+    \coordinate (A1) at (0,\dz);
+    \coordinate (B1) at (\dr,0);
     
-    \path (A_1) + (\uar, \uaz) coordinate (A_2);
-    \path (B_1) + (\ubr, \ubz) coordinate (B_2);
-    \path (A_1) + (\ubr, \ubz) coordinate (B_2_trans);
+    \path (A1) + (\uar, \uaz) coordinate (A2);
+    \path (B1) + (\ubr, \ubz) coordinate (B2);
 
-    \path (A_1) + (0, \uaz - \ubz) coordinate (A_1_trans);
-    \path (B_1) + (\ubr - \uar, 0) coordinate (B_1_trans);
-    \path (B_1) + (\uar, \ubz) coordinate (B_1_trans_helper);
+    \path (A1) + (\uar - \ubr, \uaz - \ubz) coordinate (A1_trans);
 
-    \path (A_1) + (\uar, \ubz) coordinate (O_disp);
+    \draw[-latex] (orig) --+ (-0.5,0) node[anchor=east] {\acs{center}};
 
-    \draw[-latex] (O) --+ (-0.5,0) node[anchor=east] {\acs{center}};
+    \draw[] (orig) -- node[fill=white] {\acs{dr1}} (B1);
+    \draw[] (orig) -- node[fill=white] {$-\acs{dz1}$} (A1);
 
-    \draw[] (O) -- node[fill=white] {\acs{dr1}} (B_1);
-    \draw[] (O) -- node[fill=white] {$-\acs{dz1}$} (A_1);
+    \draw[ultra thick] (A1) -- node[sloped,fill=white] {Original Surface} (B1);
 
-    \draw[ultra thick] (A_1) -- node[sloped,fill=white] {Original Surface} (B_1);
+    % % main displacement vectors
+    \draw[arrow,gray] (A1) -- node[sloped, fill=white] {\acs{disp_a}} (A2);
+    \draw[arrow,gray] (B1) -- node[sloped, fill=white] {\acs{disp_b}} (B2);
+    
+    % % \fill[blue, opacity = 0.15] (B1) --++ (162.7:2.5) arc (162.7:180:2.5);
+    % % \path (B1) + (172:2) node {\acs{proj1}};
+    
+    \draw[arrow,gray,dashed] (A1) -- node[fill=white] {$-\acs{ddisp}$} (A1_trans);
+    
+    \draw[arrow,gray,dashed] (A2) --node[fill=white] {$\acs{disp_b}$} (A1_trans);
+    
+    % % \fill[red, opacity = 0.3] (B2) --++ (138:2.75) arc (138:162.7:2.75);
+    % % \path (B2) + (150:2) node {\acs{tilt}};
 
-    \draw[arrow] (A_1) -- node[sloped, fill=white] {$\acs{disp_a}$} (A_2);
-    \draw[arrow] (B_1) -- node[sloped, fill=white] {$\acs{disp_b}$} (B_2);
-    \draw[arrow] (A_1) -- node[sloped, fill=white] {$\acs{disp_b}$} (B_2_trans);
-    \draw[-latex] (A_2) -- node[sloped, fill=white] {$\acs{ddisp}$} (B_2_trans);
+    % % Draw displaced surface lines
+    \draw[ultra thick] (A1_trans) -- node[sloped,fill=white] {Displaced Surface (Translated)} (B1);
+    \draw[ultra thick] (A2) -- node[sloped,fill=white] {Displaced Surface} (B2);
     
-    \fill[blue, opacity = 0.15] (B_1) --++ (162.7:2.5) arc (162.7:180:2.5);
-    \path (B_1) + (172:2) node {\acs{proj1}};
-    \draw[thick, dashed] (B_2) -- (B_2_trans);
-    
-    \draw[] (A_1) -- node[fill=white] {$-\acs{ddisp_z}$} (A_1_trans);
-    \draw[] (B_1) -- node[fill=white] {$\acs{ddisp_r}$} (B_1_trans);
-    
-    \draw[dashed, thin] (O_disp) -- (A_1);
-    \draw[dashed, thin] (A_2) -- (A_1_trans);
-    \draw[dashed, thin] (B_2) -- (B_1_trans);
-    \draw (B_1_trans_helper) --  node[fill=white] {\acs{ddisp_r}} (B_2);
-    
-    \fill[red, opacity = 0.3] (B_2) --++ (138:2.75) arc (138:162.7:2.75);
-    \path (B_2) + (150:2) node {\acs{tilt}};
-    \draw[thick, dashed] (B_2) -- (B_2_trans);
-    
-    \fill[green!80!black, opacity = 0.25] (B_1_trans) --++ (138:2.75) arc (138:180:2.75);
-    \path (B_1_trans) + (160:2.2) node {\acs{proj2}};
-    \draw[ultra thick] (B_2) -- (B_2_trans);
-    
-    
-    \draw[ultra thick] (A_1_trans) -- (B_1_trans);
-    
-    \draw[] (A_2) -- node[fill=white] {$-\acs{ddisp_z}$} (O_disp) -- node[fill=white] {$\acs{ddisp_r}$} (B_2_trans);
-    \draw[ultra thick] (A_2) -- node[sloped,fill=white] {Deformed Surface} (B_2);
-
-    \draw[dashed] (O_disp) -- (B_1_trans_helper) -- (B_1);
-    
-    \fill[black] (A_1) circle (2pt) node[anchor = east] {$A_1$};
-    \fill[black] (B_1) circle (2pt) node[anchor = north] {$B_1$};
-    \fill[black] (A_2) circle (2pt) node[anchor = south] {$A_2$};
-    \fill[black] (B_2) circle (2pt) node[anchor = west] {$B_2$};
-    \fill[black] (A_1_trans) circle (2pt);
-    \fill[black] (B_1_trans) circle (2pt);
+    % % draw points
+    \fill (B1) circle (2pt) node[anchor = north] {$B_1$};
+    \fill (A2) circle (2pt) node[anchor = south] {$A_2$};
+    \fill (B2) circle (2pt) node[anchor = west] {$B_2$};
+    \fill (A1_trans) circle (2pt);
+    \fill (A1) circle (2pt) node[anchor = east] {$A_1$};
     
 \end{tikzpicture}

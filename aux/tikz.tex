@@ -7,20 +7,21 @@
 
 % figure view angle
 \pgfmathsetmacro{\viewze}{65}
-\pgfmathsetmacro{\viewaz}{105}
+\pgfmathsetmacro{\viewaz}{107}
 \tdplotsetmaincoords{\viewze}{\viewaz}
 
 % define lengths
 \pgfmathsetmacro{\radius}{1.3}
 \pgfmathsetmacro{\axislength}{1.4}
 
-% define angles for p
+% define angles for (az2, sl2) pole 
 \pgfmathsetmacro{\az}{40}
 \pgfmathsetmacro{\ze}{37}
 
-% define angles for p' (no ' in pgf macros!)
-\pgfmathsetmacro{\azi}{330}
-\pgfmathsetmacro{\zen}{14.4523587} % calculated
+% define angles (az1, az1) plane and pole
+\pgfmathsetmacro{\azi}{0}
+\pgfmathsetmacro{\zen}{18.676174754207974} % calculated
+\pgfmathsetmacro{\sinzen}{0.3202190853902431} % calculated
 
 % define az for reversal
 \pgfmathsetmacro{\azrev}{2*\azi+180-\az}
@@ -29,10 +30,15 @@
 \pgfmathsetmacro{\cenang}{34.438487775} % calculated
 
 % define radial projection azimuth
-\pgfmathsetmacro{\THETA}{-5}
+\pgfmathsetmacro{\THETA}{70}
 
-% ze_project (all calcualted)
-\pgfmathsetmacro{\zeproj}{28.050617947530625}
-\pgfmathsetmacro{\zenproj}{13.147604528101175}
-\pgfmathsetmacro{\zecenang}{25.18532227675052}
-\pgfmathsetmacro{\zencenang}{6.054528988961903}
+% ze_project (all calculated)
+\pgfmathsetmacro{\zeproj}{33.128344027484886}
+\pgfmathsetmacro{\zenproj}{6.594628182428004}
+
+\pgfmathsetmacro{\deltalength}{.3009075*\radius}
+\pgfmathsetmacro{\asindelta}{-17.512118517810134}
+\pgfmathsetmacro{\smallcircleradius}{0.953653327722986*\radius}
+
+\pgfmathsetmacro{\poleoneflatx}{0.3261686478308167*\smallcircleradius}
+\pgfmathsetmacro{\poletwoflatx}{0.8258880082116726*\smallcircleradius}

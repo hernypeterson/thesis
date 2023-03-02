@@ -91,19 +91,18 @@ Then, I use the \hlss{Surface Parameters} tool on the \ac{MOLA} \ac{DEM} to comp
     {\input{figures/surface.tex}}
 \end{figure}
 
-\section{Attitude Data Calculation}\label{sec:calculation}
-
-\subsection{Paleo-Slope}
+\section{Paleo-Slope Calculation}
 
 \begin{figure}
 \begin{center}
-    \input{figures/tilt-from-map.tex}%
-    \caption[Tilt from Map]{One quadrant of an upper hemisphere stereographic projection. The point labeled $\left(\acs{az2},\acs{sl2}\right)$ represents the attitude of the modern topographic surface. The line labeled \acs{az1} represents the family of attitudes that could be represented by the surface based on the downhill lava flow direction. The figure is oriented so that the direction away from a chosen inflation center (\acs{bearing}) is up. In this geometry, \acs{beta1} and \acs{beta2} are defined as $\acs{az1}-\acs{bearing}$ and $\acs{az1}-\acs{bearing}$, respectively. The axisymmetric model condition imposes a tilt axis perpendicular to \acs{bearing}, which will translate any point in the projection vertically. Thus the tilt inferred is the rotation that brings some point on the \acs{az1} line vertically to meet $\left(\acs{az2},\acs{sl2}\right)$.}%
-    \label{fig:tilt-from-map}
+    \input{figures/tilt-from-map-3d.tex}%
+    \hspace{1cm}%
+    \input{figures/tilt-from-map-flat.tex}%
+    \caption{Left: One quadrant of an upper hemisphere representing attitude space for one sampled point relative to one chosen inflation center. The pole labeled $\left(\acs{az2},\acs{sl2}\right)$ represents the modern topographic surface. The line of poles labeled \acs{az1} represents the family of possible paleo-surfaces that with downhill direction given by the lava flow direction. The $r$ axis points in the azimuthal direction away from a potential inflation center. The assumption of axisymmetry imposes a horizontal axis of tilt perpendicular to $r$. The red arrow labeled \acs{tilt} answers the question: how much tilt about the axis imposed by the chosen inflation center bring some pole on line \acs{az1} to pole $\left(\acs{az2},\acs{sl2}\right)$?}%
+    \label{fig:tilt-from-map}%
 \end{center}
 \end{figure}
-
-While the modern topographic surface attitude is fully characterized by \acs{az2} and \acs{sl2}, only the \acf{az1} can be inferred directly from mapped surface features. The axisymmetric model imposes a circumferential tilt axis, that is, modelled tilt is always directly toward or away from the inflation center. Figure~\ref{fig:tilt-from-map} illustrates my method for calculating \acf{sl1} under this assumption. The horizontal segment labeled $\delta$ can be defined in two ways:
+While the modern topographic surface attitude is fully characterized by \acs{az2} and \acs{sl2}, only the \acf{az1} can be inferred directly from mapped surface features. The axisymmetric model imposes a circumferential tilt axis, that is, modelled tilt is always directly toward or away from the inflation center. I denote the direction away from the inflation center by \acs{bearing}. Figure~\ref{fig:tilt-from-map} illustrates my method for calculating \acf{sl1} under this assumption. The horizontal segment labeled $\delta$ can be defined in two ways:
 \begin{gather*}
     \delta = \sin\acs{beta1}\sin\acs{sl1},\\
     \delta = \sin\acs{beta2}\sin\acs{sl2},
@@ -123,36 +122,30 @@ because the resulting argument in Equation~\eqref{eq:sl1} is outside the domain 
 
 Once these errors are addressed by removing any \hltt{NULL} (domain error), negative, or excessively high values of \acs{sl1}, I record the number of instances for each error type and proceed using with the valid sample subset.
 
-\subsection{Axisymmetric Tilt from Mapped Discordance}
-In Figure~\ref{fig:tilt-from-map}, the arrow which translates the \acs{az1} line onto $\left(\acs{az2},\acs{sl2}\right)$ is a segment of a small circle about the tilt axis. I determine the angle of tilt by essentially treating the $\left(\acs{az1},\acs{sl1}\right)$ and $\left(\acs{az2},\acs{sl2}\right)$ poles as apparent ``dips''\footnote{I use this very loosely because the apparent dip is a pole and not a physical linear feature; also, I allow these dips to take negative values rather than reversing the dip direction.} where the true ``dip'' direction is \acs{bearing}. Thus the true ``dips'' and their difference:
+\section{Tilt from Mapped Discordance}
+In Figure~\ref{fig:tilt-from-map}, the arrow which translates the \acs{az1} line onto $\left(\acs{az2},\acs{sl2}\right)$ is a segment of a small circle about the tilt axis.
+
 \begin{gather}
-    \acs{proj1} = \arctan(\tan\acs{sl1}/\cos\acs{beta1})\\
-    \acs{proj2} = \arctan(\tan\acs{sl2}/\cos\acs{beta2})\\
-    \acs{tilt} = \acs{proj2} - \acs{proj1}.
+    \acs{proj1} = \arctan(\tan\acs{sl1}\cos\acs{beta1})\nonumber\\
+    \acs{proj2} = \arctan(\tan\acs{sl2}\cos\acs{beta2})\nonumber\\
+    \acs{tilt} = \acs{proj2} - \acs{proj1}.\label{eq:tilt-from-map}
 \end{gather}
 Unlike Equation~\eqref{eq:sl1}, these calculations will not yield any domain errors. The only regions of high numerical sensitivity are near the poles of the tilt axis, but this occurs only for near-vertical observed surfaces (to yield high values of $\delta$ in Figure~\ref{fig:tilt-from-map}) which is unphysical. 
-\section{Modelling Reservoir Pressure Change}
+
+\section{Tilt from Numerically Modelled Displacement}
 
 I use the numerical modelling software COMSOL Multiphysics 6.1 (COMSOL) to construct a numerical representation of \acl{OM}. The model is axisymmetric, about the center point discussed previously as the center of the \qty{19}{\km} contour. A profile from due south of this point is used as the 
 
-\subsection{Parameter Sweep}
-
-I run a series of numerical models using a \hlss{Parameter Sweep} over \ac{DtT}, \ac{Rr}, \ac{Rz}, and \ac{mult}:
-\begin{equation}
-    \acs{dP}=\acs{mult}\times\acs{rhor}\times\acs{g}\times\acs{DtT}.
-\end{equation}
-
-\subsection{Axisymmetric Tilt from Modelled Displacement}
-
 The numerical formula for \acf{tilt} given \acs{disp_a} and \acs{disp_b} is derived from Figure~\ref{fig:tilt-from-model}:
-\begin{equation}
-    \boxed{\acs{tilt} = 
-    \arctan\left(\dfrac{-\acs{dz1}-\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right) - \arctan\left(\frac{-\acs{dz1}}{\acs{dr1}}\right).}\label{eq:tilt-from-model}
-\end{equation}
+\begin{gather}
+    \acs{proj1} = -\arctan\left({\acs{dz1}}/{\acs{dr1}}\right)\nonumber\\
+    \acs{proj1} = -\arctan\left(\dfrac{\acs{dz1}+\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right)\nonumber\\
+    \acs{tilt} = \acs{proj2} - \acs{proj1}.\label{eq:tilt-from-model}
+\end{gather}
 For a flat model ($\acs{dz1} = 0$), Equation~\eqref{eq:tilt-from-model} reduces to
 \begin{equation}
-    \boxed{\acs{tilt} = 
-    \arctan\left(\dfrac{-\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right).}\label{eq:tilt-from-flat-model}
+    \acs{tilt} = 
+    -\arctan\left(\dfrac{\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right).\label{eq:tilt-from-flat-model}
 \end{equation}
 
 \begin{figure}
@@ -161,7 +154,14 @@ For a flat model ($\acs{dz1} = 0$), Equation~\eqref{eq:tilt-from-model} reduces 
     \label{fig:tilt-from-model}
 \end{figure}
 
-\subsection{Comparison with Analytical Model}
+\subsection{Numerical Model Parameter Sweep}
+
+I run a series of numerical models using the \hlss{Parameter Sweep} tool over \ac{DtT}, \ac{Rr}, \ac{Rz}, and a \ac{mult}:
+\begin{equation}
+    \acs{dP}=\acs{mult}\times\acs{rhor}\times\acs{g}\times\acs{DtT}.
+\end{equation}
+
+\section{Tilt from Analytically Modelled Displacement}
 The discrete Equation~\eqref{eq:tilt-from-flat-model} can be taken to the continuous limit by dividing each term in the numerator and denominator by the element width \acs{dr1}:
 \begin{equation}
 \acs{tilt}
@@ -180,4 +180,4 @@ where $R$ is the reservoir radius, $\Delta P$ is the overpressure, and $G$ is th
 \begin{equation}
     \boxed{\acs{tilt} = \arctan\left(\frac{3adr}{{(d^2+r^2)}^{2.5}+ad^2-2ar^2}\right).}\label{eq:tilt-from-mogi-model}
 \end{equation}
-
+I compare this result with the numerical results for equant $(\acs{Rr}=\acs{Rz})$ reservoirs to validate the method.

@@ -1,0 +1,73 @@
+\begin{tikzpicture}[scale=5,tdplot_main_coords]
+    % origin
+    \coordinate (orig) at (0,0,0);
+    
+    % also defines (Pxy), (Pxz), (Pyz), etc.
+    \tdplotsetcoord{P}{\radius}{\ze}{\az}
+    \tdplotsetcoord{C}{-0.4*\axislength}{90}{\THETA}
+    \tdplotsetcoord{P'}{\radius}{\zen}{\azi}
+    \tdplotsetcoord{tiltintercept}{\deltalength}{90}{\THETA-90}
+    \tdplotsetcoord{rintercept}{0.68}{90}{\THETA}
+    
+    % gray rectangle
+    \fill[tdplot_main_coords, color = gray!30!white] (orig) -- (tiltintercept) -- (Pxy) -- (rintercept);
+    \draw[tdplot_main_coords] (\THETA-90:\radius) arc (\THETA-90:\THETA:\radius);
+
+    % z-axis
+    \draw[arrow] (orig) -- (0,0,\axislength) node[anchor=south]{$z$};
+    \draw[arrow] (orig) -- (\THETA:\axislength) node[anchor=north east]{$r$};
+    \draw[arrow] (orig) -- node[sloped, fill=white, pos=.65]{Tilt Axis} (\THETA-90:\axislength);
+
+    % az' surface
+    \tdplotsetthetaplanecoords{\azi}
+
+    \draw[tdplot_rotated_coords] (90:\radius) -- (0,0.76604444*\radius) -- (0,0);
+    \tdplotdrawarc[tdplot_rotated_coords, line width = 1mm]{(orig)}{\radius}{0}{90}{anchor=east}{\acs{az1}}
+
+    % \draw[very thin, dashed] (P') -- (P'xy) -- (orig);
+    % \draw (orig) -- (P');
+
+    % surface vertical from axis
+    \tdplotsetthetaplanecoords{\THETA+90}
+
+    % proj1 line
+    \tdplotdrawarc[tdplot_rotated_coords]{(orig)}{\radius}{-90}{0}{}{}
+    
+    % r-z surface, fill, line
+    \tdplotsetthetaplanecoords{\THETA}
+    \fill[tdplot_rotated_coords, color = red, opacity = 0.1] (\zenproj:\radius) arc (\zenproj:\zeproj:\radius) -- (0,0);     
+    \tdplotdrawarc[arrow, tdplot_rotated_coords]{(orig)}{\radius}{0}{90}{}{}
+    \tdplotdrawarc[arrow, tdplot_rotated_coords,red,line width=1mm]{(orig)}{\radius}{\zenproj}{\zeproj}{anchor=south west}{\acs{tilt}}
+
+    % az2 surface
+    \tdplotsetthetaplanecoords{\az}
+    \draw[very thin, dashed] (P) -- (Pxy) -- (orig);
+    % \draw (orig) -- (P);
+    
+    % az angle labels
+    %\tdplotdrawarc{(orig)}{0.33}{\THETA}{\azi}{}{}%{fill=white, anchor=south east}{\acs{beta1}}
+    %\tdplotdrawarc{(orig)}{0.37}{\THETA}{\az}{}{}%{anchor=north west}{\acs{beta2}}
+
+    % translate THETA surface to small circle
+    \tdplotsetthetaplanecoords{\THETA}
+    \tdplotsetrotatedcoordsorigin{(tiltintercept)}
+    \draw[tdplot_rotated_coords] (0:\smallcircleradius) arc (0:90:\smallcircleradius) -- (0,0.76604444*\smallcircleradius) -- (0,0) -- cycle;
+    \tdplotdrawarc[arrow, tdplot_rotated_coords]{(tiltintercept)}{\smallcircleradius}{\zenproj}{\zeproj}{coordinate}{}
+    
+    % translate THETA surface to back to great circle
+    \tdplotsetrotatedcoordsorigin{(orig)}
+
+    % proj1 plane, line, fill
+    \tdplotsetrotatedcoords{\THETA}{-90+\zenproj}{0}
+    \tdplotdrawarc[tdplot_rotated_coords, blue, ultra thick]{(0,0,0)}{\radius}{\asindelta}{0}{}{}
+    \fill[tdplot_rotated_coords, color = blue, opacity = 0.2] (\asindelta:\radius) arc (\asindelta:0:\radius) -- (0,0) -- (tiltintercept);
+
+    % proj2 plane, fill, line,
+    \tdplotsetrotatedcoords{\THETA}{-90+\zeproj}{0}
+    \fill[tdplot_rotated_coords, color = green!70!black, opacity = 0.3] (\asindelta:\radius) arc (\asindelta:0:\radius) -- (0,0) -- (tiltintercept);
+    \tdplotdrawarc[tdplot_rotated_coords, green!70!black, ultra thick]{(0,0,0)}{\radius}{\asindelta}{0}{}{}
+    
+    % (az2, sl2) point
+    \fill (P) circle (0.2mm) node[anchor = north east] {$(\acs{az2},\acs{sl2})$};
+    % \node[right=of P] (P) circle (0.2mm) node[anchor = west] {$(\acs{az2},\acs{sl2})$};
+\end{tikzpicture}%

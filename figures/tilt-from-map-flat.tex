@@ -1,0 +1,67 @@
+\newcommand{\dotradius}{.3pt}%
+\begin{tikzpicture}[scale=8]
+    \coordinate (orig) at (0,0);
+    \coordinate (proj1) at (0, 1.86);
+    \coordinate (proj2) at (0, 5.01);
+    \coordinate (tiltintercept) at (\deltalength,0);
+    \coordinate (pole1) at (\deltalength,\poleoneflatx);
+    \coordinate (pole2) at (\deltalength,\poletwoflatx);
+    \coordinate (rendpoint) at (0,\poletwoflatx+0.2);
+    \coordinate (rintercept2) at (0,\poletwoflatx);    
+    \coordinate (rintercept1) at (0,\poleoneflatx);    
+
+    \coordinate (tiltaxisendpoint) at (\deltalength,0);
+    
+    % \draw (O) circle (\stereoradius);
+    % \draw (\stereoradius,0) arc(0:90:\stereoradius);
+    % \draw (horiz) -- node[fill=white] {Tilt Axis} (\stereoradius,0);
+    \draw[dashed] (rintercept2) -- node[fill=white] {$\delta$} (pole2);
+    \draw[dashed] (rintercept1) -- (pole1);
+    
+    % az2, sl2 point
+    \fill (pole2) circle (\dotradius);
+    \draw[dashed] (orig) -- node[pos=0.6,sloped,fill=white]{$\sin\acs{sl2}$} (pole2);
+    \draw (70.5:.25) arc (70.5:90:.25);
+    \path (80:.32) node{\acs{beta2}};
+    \draw[arrow] (orig) -- (rendpoint) node[anchor=south] {$r$};
+    \draw[arrow] (orig) -- node[fill=white] {Tilt Axis}(tiltaxisendpoint);
+    \draw (tiltaxisendpoint) -- (pole2);
+
+    % colored great circle segments
+    % first radius should be the value of \radius
+    \begin{scope}
+        \clip (tiltintercept) rectangle (rendpoint);
+        \draw[blue, very thick] (\radius,0) arc(0:90:1.3 and 0.425);
+        \draw[green!70!black, very thick] (\radius,0) arc(0:90:1.3 and 1.075);
+    \end{scope}
+    \draw[red, arrow] (0,.425) -- (0,1.075);
+    
+    % az1 line
+    \path (68:.15cm) node[fill=white]{\acs{beta1}};
+    \draw (45:.2) arc (45:90:.2);
+    % \draw[arrow] (orig) -- (45:\stereoradius) node[anchor=south west] {\acs{az1}};
+    \draw[ultra thick,-latex] (orig) -- node[fill=white,sloped,pos=.65] {$\sin\acs{sl1}$} (pole1);
+
+    % theta line
+    % \draw[arrow] (orig) -- (0,\stereoradius) node[anchor = south] {\acs{bearing}};
+
+    % axtilt segment
+    % \draw[arrow,red] (proj1) -- node[fill=white] {\textcolor{black}{\acs{tilt}}} (proj2);
+
+    % fill in
+    % \begin{scope}
+    %     \clip(0,0) rectangle (1.2,\stereoradius);
+    %     \fill[red,opacity=0.15] (\stereoradius,0) arc(0:180:7cm and 1.86cm) arc(180:0:7cm and 5.01cm);
+    % \end{scope}
+
+
+    % points of rotation
+    % \fill (\stereoradius,0) circle (\dotradius);
+    % \fill (-\stereoradius,0) circle (\dotradius);
+
+    %
+    % \fill (pole1) circle (\dotradius);
+    % \fill (tiltintercept) circle (\dotradius);
+    % \fill (pole1) circle (\dotradius);
+    \fill (pole2) circle (\dotradius);
+\end{tikzpicture}%

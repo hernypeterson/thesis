@@ -1,50 +1,61 @@
-\newcommand{\uar}{3.5}
-\newcommand{\uaz}{11}
-\newcommand{\ubr}{5.5}
-\newcommand{\ubz}{4.5}
-\newcommand{\dz}{2.5}
-\newcommand{\dr}{8}
+\newcommand{\uar}{1}
+\newcommand{\uaz}{5}
+\newcommand{\ubr}{3.5}
+\newcommand{\ubz}{1.5}
+\newcommand{\dz}{1.5}
+\newcommand{\dr}{6}
 
-\begin{tikzpicture}[scale=0.95]
+\begin{tikzpicture}[scale=1]
     \coordinate (orig) at (0,0);
     \coordinate (A1) at (0,\dz);
     \coordinate (B1) at (\dr,0);
     
     \path (A1) + (\uar, \uaz) coordinate (A2);
     \path (B1) + (\ubr, \ubz) coordinate (B2);
+    \path (A1) + (\uar - \ubr, 0) coordinate (ZA1);
+    \path (orig) + (\uar - \ubr, 0) coordinate (ZB1);
 
-    \path (A1) + (\uar - \ubr, \uaz - \ubz) coordinate (A1_trans);
+    \path (A1) + (\uar - \ubr, \uaz - \ubz) coordinate (A2_trans);
 
-    \draw[-latex] (orig) --+ (-0.5,0) node[anchor=east] {\acs{center}};
+    \draw[-latex] (A2_trans) --+ (0,1) node[anchor=south] {$z$};
+    \draw[-latex] (B1) --+ (2.5,0) node[anchor=west] {$r$};
 
+    % initial element shape
     \draw[] (orig) -- node[fill=white] {\acs{dr1}} (B1);
     \draw[] (orig) -- node[fill=white] {$-\acs{dz1}$} (A1);
-
-    \draw[ultra thick] (A1) -- node[sloped,fill=white] {Original Surface} (B1);
 
     % % main displacement vectors
     \draw[arrow,gray] (A1) -- node[sloped, fill=white] {\acs{disp_a}} (A2);
     \draw[arrow,gray] (B1) -- node[sloped, fill=white] {\acs{disp_b}} (B2);
     
-    % % \fill[blue, opacity = 0.15] (B1) --++ (162.7:2.5) arc (162.7:180:2.5);
-    % % \path (B1) + (172:2) node {\acs{proj1}};
+    \draw[arrow,gray,dashed] (A2_trans) -- node[sloped, fill=white] {$\acs{disp_b}$} (A2);
+    \draw (A2_trans) -- node[fill=white] {$-\acs{ddisp_z}$} (ZA1) -- node[fill=white] {$-\acs{dz1}$} (ZB1) -- node[fill=white] {\acs{ddisp_r}} (orig);
     
-    \draw[arrow,gray,dashed] (A1) -- node[fill=white] {$-\acs{ddisp}$} (A1_trans);
-    
-    \draw[arrow,gray,dashed] (A2) --node[fill=white] {$\acs{disp_b}$} (A1_trans);
-    
-    % % \fill[red, opacity = 0.3] (B2) --++ (138:2.75) arc (138:162.7:2.75);
-    % % \path (B2) + (150:2) node {\acs{tilt}};
+    % red tilt angle
+    \draw[red,arrow,ultra thick] (B1) + (166:5) arc (166:149.5:5);
+    \path (B1) + (158:5.4) node {\acs{tilt}};
 
-    % % Draw displaced surface lines
-    \draw[ultra thick] (A1_trans) -- node[sloped,fill=white] {Displaced Surface (Translated)} (B1);
-    \draw[ultra thick] (A2) -- node[sloped,fill=white] {Displaced Surface} (B2);
+    % element surface lines
+    \draw[dashed, ultra thick, green!70!black] (A2_trans) -- (B1);
+    \draw[ultra thick, blue] (A1) -- node[sloped,fill=white] {\textcolor{black}{Initial Surface}} (B1);
+    \draw[ultra thick, green!70!black] (A2) -- node[sloped,fill=white] {\textcolor{black}{Displaced Surface}} (B2);
     
-    % % draw points
+    % horizontal component of displacement
+    \draw (ZA1) -- (A1);
+
+    % A_1 label
+    \fill (A1) node[fill=white, anchor = east] {$A_1$} circle (2pt);
+
+    % ddisp vector
+    \draw[arrow, gray] (A2_trans) -- node[sloped,fill=white] {$\acs{ddisp}$} (A1);
+
+    % points
     \fill (B1) circle (2pt) node[anchor = north] {$B_1$};
     \fill (A2) circle (2pt) node[anchor = south] {$A_2$};
     \fill (B2) circle (2pt) node[anchor = west] {$B_2$};
-    \fill (A1_trans) circle (2pt);
-    \fill (A1) circle (2pt) node[anchor = east] {$A_1$};
+    \fill (A2_trans) circle (2pt) node[anchor = east] {$A_2'$};
+
+    % A_1 point
+    \fill (A1) circle (2pt);
     
 \end{tikzpicture}

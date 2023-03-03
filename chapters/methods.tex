@@ -2,9 +2,6 @@
 
 I first sample paleo- and modern surface attitude data across the summit of \acl{OM} using satellite-derived imagery and topography, respectively. Next, I develop a geometric framework for calculating minimum 3D surface deformation at each sampled location, based on collected attitude data. Next, I determine how much of this deformation must have been toward or away from the center of the edifice for each sampled location. Using these results, I develop a series of axisymmetric numerical models to relate surface deformation to underlying reservoir activity.
 
-\section{Challenges \& Assumptions}
-The topographic and structural deformation implies a combination of underlying volcanic processes including a.\ caldera collapse (i.e., magmatic discharge) and b.\ subsequent reservoir inflation (i.e., magmatic recharge). Untangling the superposition of these competing factors is challenging in itself, although preliminary inspection of the study region (Figure~\ref{fig:summit}) indicates that these effects may be localized to a.\ the immediate circumferential region, and b.\ the southern flank, respectively. Additionally, \textit{independent}\footnote{That is, in addition to observed deformation.} stratigraphic constraints on lava flow emplacement relative to the timeline of deformation are unavailable---while crater-dating can be done on lava flows and caldera floors, the timing of reservoir inflation does not leave a temporal record observable from spacecraft. Therefore, certain simplifying assumptions are necessary to make progress with this inquiry. In particular, with only ``initial'' (at flow emplacement) and ``final'' (modern) data points available for each location, only net change can be inferred.
-
 \section{Mapping}
 \subsection{Preparation of Published Data}
 
@@ -186,7 +183,7 @@ For a flat model ($\acs{dz1} = 0$), Equation~\eqref{eq:tilt-from-model} reduces 
 
 \begin{figure}
     \input{figures/tilt-from-model.tex}%
-    \caption[\Acl{tilt} from modelling]{Tilt from modelling.}%
+    \caption[\Acl{tilt} from modelling]{Cross-sectional view of a surface element in the axisymmetric model. As in Figure~\ref{fig:tilt-from-map}, the $r-$axis points away from the inflation center. During the model, the two vertices $A_1$ and $B_1$ of a surface element are displaced along \acs{disp_a} and \acs{disp_b} to reach a final position at $A_2$ and $B_2$, respectively. I illustrate the difference $\acs{disp_b} - \acs{disp_a} = \acs{ddisp}$ in terms of its components \acs{ddisp_r} and \acs{ddisp_z}. Notice that $z-$component terms are negative to ensure that tilt away from the inflation center yields a positive tilt \acs{tilt}, as shown in red. To calculate \acs{tilt}, I determine the slopes of segments $\overline{A_1B_1}$ and $\overline{A_2'B_1}$ using the labeled horizontal and vertical segments, convert these slopes to angles, and take their difference.}%
     \label{fig:tilt-from-model}%
 \end{figure}
 

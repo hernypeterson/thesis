@@ -1,26 +1,36 @@
 \chapter{Methods}\label{cha:methods}
 
-I first sample paleo- and modern surface attitude data across the summit of \acl{OM} using satellite-derived imagery and topography, respectively. Next, I develop a geometric framework for calculating minimum 3D surface deformation at each sampled location, based on collected attitude data. Next, I determine how much of this deformation must have been toward or away from the center of the edifice for each sampled location. Using these results, I develop a series of axisymmetric numerical models to relate surface deformation to underlying reservoir activity.
+In this section, I first introduce the fundamental geometric consideration of axisymmetry that applies to each of my methods. I then explain a derivation of paleo- and modern attitude information from sampled locations at the summit of \acl{OM}. I show that paleo-attitude information is incomplete but can be reconstructed uniquely under the axisymmetric assumption given a particular inflation center location. I then explain how to derive the angle of tilt necessary to reconcile the paleo- and modern surface attitudes as a function of distance from the chosen inflation center. By examining the degree to which each inflation center can realistically explain the observed discordance in the region, I determine the most likely inflation centers and test the general validity of the axisymmetric assumption for this system. Once I determine a subset of likely inflation center candidates, I compare the corresponding tilt-distance function with those derived from numerical models of reservoir pressure change. Through the complimentary approaches of mapping and modelling, I evaluate the most likely combinations of reservoir location (laterally by mapping and vertically my modelling) size, and pressure change responsible for observed discordance. 
 
-\section{Mapping}
+\section{Axisymmetry}
+
+Numerical models are widely used by physical volcanologists to better understand a wide array of observed phenomena in terms of their underlying mechanisms. One advantage of these simulated models (as opposed to physical models involving real materials) is the diversity of conditions available to be tested, from the deep mantle \parencite[e.g.,][]{redmond_numerical_2004,ogawa_four-stage_2021} or volcanic edifices and their surroundings \parencite[e.g.,][]{isherwood_volcanic_2013} to individual magma reservoirs \parencite[e.g.,][]{grosfils_magma_2007,grosfils_elastic_2015}. Many of these models are axisymmetric, reflecting the common characteristic that many volcanic and magmatic features are roughly circular in plan view. While this sacrifice the ability to assess certain asymmetric features, they are much easier to construct, take much less time to run due to the massively simplified geometry, and often capture major characteristics of the system in question.
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{axisymmetry.jpeg}%
+    \caption[Axisymmetric model geometry]{A rotationally symmetric 3D feature is modelled by a single representative cross section.}%
+    \label{fig:axisymmetry}
+\end{figure}    
+
+In this thesis, I seek to compare surface tilt inferred at the summit with tilt resulting from pressure changes in an underlying magma reservoir. Since this thesis is an early component of a larger research program to assess late Amazonian magmatism at \acl{OM}, I use the simplified\footnote{I justify additional simplifying assumptions in Section~\ref{sec:modelling}.} axisymmetric condition in my numerical models. Therefore, I make the same assumption when estimating tilt from discordant lava flows at the summit.
+
+\section{Mapping}\label{sec:mapping}
 \subsection{Preparation of Published Data}
 
 The \acf{CTX}\footnote{aboard the \ac{MRO} spacecraft launched in 2005 by \acs{NASA}.} captures \qty{\sim30}{\km} swaths across the entire martian surface in visible $(\lambda=\qtyrange{500}{800}{\nm})$ greyscale at \qty{\sim6}{\m} spatial resolution. \textcite{Dickson2018AGB} blended these swaths to produce a raster mosaic product (hereafter, ``\ac{CTX} mosaic'') which I use to visually identify and map lava flows and flow channels.
 
 The \acf{MOLA}\footnote{aboard the now-retired \ac{MGS} spacecraft launched in 1996 by \acs{NASA}.} returned topography data with horizontal resolution of \qtyproduct{300 x 1000}{\m} at the equator (better at high latitudes) and elevation uncertainty of \qty{\sim3}{\m}~\parencite{smith_mars_2001}. To improve spatial resolution, additional elevation data from the \ac{HRSC}\footnote{aboard the \ac{MEX} spacecraft launched in 2003 by the \ac{ESA}} was blended to product a \ac{DEM} with \qty{200}{\m} pixel resolution. Each pixel's vertical uncertainty is \qty{\sim1}{\m}, with an additional global uncertainty of \qty{\sim1.8}{\m} in the martian areoid (martian equivalent of Earth's geoid). In this project, the global areoid uncertainty is not a concern because only one region (the summit of \ac{OM}) is considered.
 
-These two data sources were registered in an equal-area sinusoidal Mars projection in ArcGIS Pro. The study area is defined by a square \qtyproduct{200 x 200}{\km} centered at the centroid of the outermost \qty{19}{\km} contour,\footnote{This is the highest integer \unit{km} which is roughly circular and completely encloses the caldera complex, implying that it largely records the conical shape of the shield edifice without influence from subsequent caldera collapse or reservoir inflation.} as seen in Figure~\ref{fig:summit}.
-
-I also include the caldera region mapping by \textcite{mouginis-mark_geologic_2021}, who identified lobate lava flows.
+I load these two data sources in an equal-area sinusoidal Mars projection in ArcGIS Pro. The study area is defined by a square \qtyproduct{200 x 200}{\km} centered at the centroid of the outermost \qty{19}{\km} contour,\footnote{This is the highest integer \unit{km} which is roughly circular and completely encloses the caldera complex, implying that it largely records the conical shape of the shield edifice without influence from subsequent caldera collapse or reservoir inflation.} as seen in Figure~\ref{fig:summit}.
 
 \subsection{Study Area Definition \& Preliminary Analysis}
 
-Figure~\ref{fig:summit} shows important topographic patterns at the summit of \ac{OM}. More than \qty{50}{\km} from the center of the figure, topographic contours (\qtyrange{12}{19}{\km}) are fairly regular concentric rings. Closer to the caldera, this radial symmetry breaks down: the caldera complex itself consists of six intersecting collapse pits. On the southern flank, we see a prominent arcuate \qty{20}{\km} contour with the topographic summit (within the \qty{21}{\km} contour) over \qty{20}{\km} from the southern caldera rim. I propose [BASED ON WHAT] that the distal symmetric regions preserve the long-term stable topography of the edifice, while the asymmetric central caldera complex and summit result from relatively recent magmatic activity. 
+Figure~\ref{fig:summit} shows important topographic patterns at the summit of \ac{OM}. More than \qty{50}{\km} from the center of the figure, topographic contours (\qtyrange{12}{19}{\km}) are fairly regular concentric rings. Closer to the caldera, this axisymmetry breaks down: the caldera complex itself consists of six intersecting collapse pits. On the southern flank, we see a prominent arcuate \qty{20}{\km} contour with the topographic summit (within the \qty{21}{\km} contour) over \qty{20}{\km} from the southern caldera rim. Thus, my first task is to determine the degree to which axisymmetric inflation can apply to an edifice which is not entirely axisymmetric. It is important to point out, however, that the asymmetry inherent to the region is crucial for the discordant flow method to function, as I describe in subsequent sections. 
 
 %\subsection{Proto-Edifice Reconstruction}
 % Therefore, I present a reconstruction of the proto-edifice which interpolates the topography of the distal (beyond outer \qty{19}{\km} contour) regions within the central region. This reconstruction is shown in Figure~(NUMBER). This provides an independent estimation of proto-topography to compare with the estimates based on lava flow misalignment.
 
-\subsection{Mapping Lava Features}\label{sec:mapping}
+\subsection{Mapping Lava Features}
 
 I use the \ac{CTX} mosaic to visually identify lava flows near the summit of \ac{OM}. Following \textcite{mouginis-mark_geologic_2021}, I map lobate flow outlines as polygons where possible. From these polygons, I derive centerline features using the \hlss{Polygon To Centerline} tool, as shown in Figure~\ref{fig:flow}.
 
@@ -31,15 +41,21 @@ Where flow margins are not visible, I map channels directly as linear features. 
 % \subsubsection{Segmentation}
 % [INCOMPLETE] Bounding box, aspect ratio
 
-I use the \hlss{Calculate Geometry Attributes} tool to find the \hlss{Line Bearing} attribute for each linear feature (channel or flow centerline), that is, the azimuthal orientation from the start to the end of each feature. This angle is the variable \ac{az1} to each feature, although the following section discussion explains why this variable is not quite ready for use in attitude analysis. While I maintain a consistent ``sense'' in my channel mapping (pointing away from rather than toward the caldera center), the \hlss{Polygon To Centerline} tool does not. Therefore, some flow centerlines need to be reversed using the \hlss{Flip Line} tool.
+I use the \hlss{Calculate Geometry Attributes} tool to find the azimuthal orientation from the start to the end of each feature. This angle is the variable \ac{az1} to each feature, although the following section discussion explains why this variable is not quite ready for use in attitude analysis. While I maintain a consistent ``sense'' in my channel mapping (pointing away from rather than toward the caldera center), the \hlss{Polygon To Centerline} tool does not. Therefore, some flow centerlines need to be reversed using the \hlss{Flip Line} tool.
 
-To determine which centerlines must be reversed, I use the \hlss{Near} tool to determine the azimuth angle from each linear feature to the center of the study area \acs{center}. Here, I leverage my initial observation that all flows in the study area point generally \emph{away} from the caldera center. Therefore, a correctly oriented feature is one where \acs{az1} is \ang{\sim180} away from the calculated angle; at the very least, it should be \ang{90} away. Therefore I select features where this angular difference\footnote{Specifically, I reverse features where the cosine of this angular difference is positive. See Appendix~[worth including spherical cosines?] for a justification of this approach which addresses an arithmetic issue with angular differences.} is less than \ang{90} to reverse using \hlss{Flip Line}. With all features now correctly oriented away from the caldera center, I recalculate \hlss{Line Bearing}, which establishes the correct \ac{az1} value for attitude analysis. [NEEDS FIGURE HERE]
+To determine which centerlines must be reversed, I use the \hlss{Near} tool to determine the azimuth angle from each linear feature to the center of the study area \acs{center}. Here, I leverage my initial observation that all flows in the study area point generally \emph{away} from the caldera center. Therefore, a correctly oriented feature is one where \acs{az1} is \ang{\sim180} away from the calculated angle; at the very least, it should be \ang{90} away. Therefore I select features where this angular difference is less than \ang{90} to reverse using \hlss{Flip Line}, as shown in Figure~\ref{fig:flip-line}. With all features now correctly oriented away from the caldera center, I recalculate the true \ac{az1} value using \hlss{Calculate Geometry Attributes}.
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{flip-line.jpeg}%
+    \caption{Clip Line}%
+    \label{fig:flip-line}
+\end{figure}
 
 \subsection{Modern Attitude from Topography}
 
 \newcommand{\samplinginterval}{\qty{3}{\km}}
 
-Along each linear feature, I use the \hlss{Generate Points Along Line} tool to create a series of point features where further attitude data collection and analysis will take place. I use \hlss{Distance} mode with sampling interval \samplinginterval\ (rather than \hlss{Percentage} mode) so sampling reflects \emph{coverage}, not feature count. For the same reason, I do not \hlss{Include End Points}; features with length $<\samplinginterval$ are not sampled at all.
+Along each linear feature, I use the \hlss{Generate Points Along Line} tool sampling interval \samplinginterval\ to create a series of point features where further attitude data collection and analysis will take place. Note that features with length $<\samplinginterval$ are not sampled at all.
 
 \begin{figure}
     \centering
@@ -70,7 +86,7 @@ Along each linear feature, I use the \hlss{Generate Points Along Line} tool to c
 
 The first variable collected is \ac{az1}, which each point inherits from its parent linear feature.
 
-Then, I use the \hlss{Surface Parameters} tool on the \ac{MOLA} \ac{DEM} to compute average topographic \hlss{Slope} and \hlss{Aspect} (downhill azimuth) rasters across the entire study area. To avoid capturing local topographic anomalies, these values are averaged over a ``neighborhood'' with radius \neighborhood. I use the \hlss{Extract Multi Values to Points} tool to assign \ac{sl2} and \ac{az2} to each based on the value of the corresponding raster value at that location. Figure~\ref{fig:tilt-from-map} includes a geometric view of these three collected variables.
+Then, I use the \hlss{Surface Parameters} tool on the \ac{MOLA} \ac{DEM} to compute average topographic \hlss{Slope} and \hlss{Aspect} (downhill azimuth) rasters across the entire study area. To avoid capturing local topographic anomalies, these values are averaged over a ``neighborhood'' with radius \neighborhood. I use the \hlss{Extract Multi Values to Points} tool to assign \ac{sl2} and \ac{az2} to each based on the value of the corresponding raster value at that location. Figure~\ref{fig:tilt-from-map} includes a geometric view of these variables in attitude space alongside \acs{az1}.
 
 % \begin{figure}
 %     \floatbox[{\capbeside\thisfloatsetup{floatwidth=sidefil,capbesideposition={left,bottom},capbesidewidth=.55\linewidth}}]{figure}
@@ -102,7 +118,7 @@ The computed results from Equation~\eqref{eq:sl1} allow me to handle some issues
 
 Another problem occurs even in the single-handed (both left or both right) case when:
 \begin{equation}
-     |\sin\acs{beta2}\sin\acs{sl2}| > |\sin\acs{beta1}|,
+     |\sin\acs{beta2}\sin\acs{sl2}| > |\sin\acs{beta1}|,\label{eq:domain-error}
 \end{equation}
 because the resulting argument in Equation~\eqref{eq:sl1} is outside the domain of the arcsin function. Physically this case occurs when the lava flow is close to parallel to the radial direction for the modelled inflation center. Additionally, when $|\sin\acs{beta1}|$ is only slightly greater than $|\sin\acs{beta2}\sin\acs{sl2}|$, the calculated \acs{sl1} will be unrealistically large. Both of these cases reflect the difficulty of changing the downhill azimuth of a flow by tipping it roughly in the direction it is already pointing. The quantity of these undefined or unrealistic tilt values provide an additional test on the validity of each axisymmetric inflation center.
 
@@ -117,9 +133,9 @@ Unlike Equation~\eqref{eq:sl1}, these calculations will not yield any domain err
 
 \subsection{Implementation}
 
-To identify the most likely inflation center candidates I use the \hlss{Generate Tesselation} and \hlss{Feature to Point} tools to generate an evenly spaced [DISTANCE] array of points in the caldera vicinity as shown in Figure [FIG].
+To identify the most likely inflation center candidates I use the \hlss{Generate Tesselation} and \hlss{Feature to Point} tools to generate an evenly spaced array of points in the caldera vicinity as shown in Figure [Need to make map here].
 
-Then, I need to compute Equation~\eqref{eq:tilt-from-map} for each sampled point (from flows and channels) and from each inflation center point. To do this, I use the \hlss{ModelBuilder} to:
+Then, I need to compute Equation~\eqref{eq:tilt-from-map} for each sampled point (from flows and channels) and from each inflation center point. Here I use the \hlss{ModelBuilder} tool to:
 \begin{enumerate}
     \item Iterate over the feature class shown in Figure~[CENTERS] (perform the subsequent steps in order using a different point each).
     \item Run the \hlss{Near} tool to compute the distance and direction from the single inflation center to the sampled point. The former is necessary for direct comparison with the axisymmetric model results, step is necessary to define \acs{beta1} and \acs{beta2} for each point.
@@ -134,9 +150,15 @@ The final product of this process is a collection of \hltt{.csv} files---one for
 
 \subsection{Evaluating Inflation Center Candidates}
 
-Before comparing\dots
+I evaluate each inflation center point by several criteria derived from this exported data using the Python programming language in a Jupyter Notebook. First, I determine what fraction of the sampled data points are possible to account for mathematically: those not ruled out by the sign error in Equation~\eqref{eq:sl1} and the domain error in Equation~\eqref{eq:domain-error}. Then, I choose a cutoff angle (tentatively, a generous \ang{5}) and rank the output tables by the fraction of calculated tilts whose absolute value is within the cutoff magnitude. 
 
-\section{Modelling}
+After evaluating these criteria, I export a table containing each center point with its score on each criterion. I rejoin this table to the original point features to examine the spatial distribution of the most likely inflation centers.
+
+Within these most likely inflation center datasets, I search scatter plots of tilt as a function of distance, looking for qualitative patterns matching the expected pattern (discussed in the following section).
+
+I conduct the analysis outlined above using various subsets of the sample point data to determine whether multiple inflation centers are necessary to explain inflation in different regions. I pay particular attention to the highly discordant flows near the southern summit region shown in Figure~\ref{fig:uphill-flows}.
+
+\section{Modelling}\label{sec:modelling}
 
 \subsection{Preliminary Assumption Testing}
 % Gravity - Prestress
@@ -191,5 +213,6 @@ For a flat model ($\acs{dz1} = 0$), Equation~\eqref{eq:tilt-from-model} reduces 
 
 As in my mapping implementation, I leverage iteration to conduct a sequence of analyses which are identical except for specifically controlled parameters. I run a series of numerical models using the \hlss{Parameter Sweep} tool over \ac{DtT}, \ac{Rr}, \ac{Rz}, and a \ac{mult}:
 \begin{equation}
-    \acs{dP}=\acs{mult}\times\acs{rhor}\times\acs{g}\times\acs{DtT}.
+    \acs{dP}=\acs{mult}\times\acs{rhor}\times\acs{g}\times\acs{DtT},
 \end{equation}
+where \acs{dP} is the simulated over- (positive) or under-pressure in the reservoir. For each numerical model, I output surface displacement in the radial and vertical direction as a function of distance from the inflation center. Post processing and implementation of Equation~\eqref{eq:tilt-from-model} is explained in the linked Jupyter notebook.

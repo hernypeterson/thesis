@@ -1,46 +1,76 @@
-\chapter{Spherical Law of Cosines}\label{app:spherical-cosines}
-Let unit normal vectors \acs{normal1} and \acs{normal2} be defined in spherical coordinates $(\vartheta,\varphi,\varrho)$ by:
+\chapter{Derivation}\label{app:spherical-cosines}
+Let two poles be defined in attitude space $(\theta,\varphi,\rho)$ on the unit sphere $(\rho=1)$ by:
 \begin{equation}
-    \acs{normal1}=(\acs{az1},\acs{sl1},1)\qquad\acs{normal2}=(\acs{az2},\acs{sl2},1).
+    p=(\theta_p,\varphi_p,1)\qquad q=(\theta_q,\varphi_q,1).
 \end{equation}
-Let a cartesian coordinate system $(x,y,z)$ be defined such that $\hat x$ is parallel to \acs{az1}, $\hat y$ is \ang{90} counter-clockwise from $\hat x$, and $\hat z$ is parallel to the spherical zenith as shown in Figure~\ref{fig:spherical-cosines}. Then, \acs{normal1} and \acs{normal2} take the following form:\footnote{$|\acs{az1}-\acs{az2}|$ is not necessarily equal to \acs{discord}, due to the bearing discontinuity at due north. For example, for $\acs{az1}=\ang{355}$ and $\acs{az2}=\ang{5}$, $|\acs{az1}-\acs{az2}|=\ang{350}$ while the true discordance $\acs{discord}=\ang{10}$. However, it is always true that $\cos\acs{discord}=\cos|\acs{az2}-\acs{az1}|$, which is the only form in which \acs{discord} is used computationally. Although it looks strange, I calculate \acs{discord} explicitly as $\arccos(\cos|\acs{az2}-\acs{az1}|)$, which avoids the aforementioned error.}
+Let a cartesian coordinate system $(x,y,z)$ be defined such that $\hat x$ is parallel to $\theta_p$, $\hat y$ is \ang{90} counter-clockwise from $\hat x$, and $\hat z$ is parallel to the spherical zenith. Then, $p$ and $q$ take the following form: % as shown in Figure~\ref{fig:spherical-cosines}
 \begin{equation}
-    \acs{normal1}=
+    p=
     \begin{bmatrix}
-        \sin\acs{sl1}\\
+        \sin\varphi_p\\
         0\\
-        \cos\acs{sl1}
+        \cos\varphi_p
     \end{bmatrix}
     \qquad
-    \acs{normal2}=
+    q=
     \begin{bmatrix}
-        \sin\acs{sl2}\cos\acs{discord}\\
-        \sin\acs{sl2}\sin\acs{discord}\\
-        \cos\acs{sl2}
-    \end{bmatrix}.
+        \sin\varphi_q\cos\beta\\
+        \sin\varphi_q\sin\beta\\
+        \cos\varphi_q
+    \end{bmatrix},
 \end{equation}
-
-The dot product is used to compute the angle \acs{deform} between \acs{normal1} and \acs{normal2}:
+where $\beta=\theta_q-\theta_p$. I use the dot product compute the central angle $\alpha$ subtended by $p$ and $q$:
 \begin{equation}
-    \acs{normal1}\cdot\acs{normal2}
-    =\|\acs{normal1}\|\,\|\acs{normal2}\|\cos\acs{deform}
-    =\acs{normal1}_x\acs{normal2}_x
-    +\acs{normal1}_y\acs{normal2}_y
-    +\acs{normal1}_z\acs{normal2}_z.\label{eq:dot-product}
+    p\cdot q
+    =\|p\|\,\|q\|\cos\alpha
+    =p_{x}q_{x}
+    +p_{y}q_{y}
+    +p_{z}q_{z}.\label{eq:dot-product}
 \end{equation}
-Since $\|\acs{normal2}\|=\|\acs{normal1}\|=1$ by construction, Equation~\eqref{eq:dot-product} reduces to:
+Since $\|p\|=\|q\|=1$ by construction, Equation~\eqref{eq:dot-product} reduces to:
 \begin{gather}
-    \cos\acs{deform}
-    =\sin\acs{sl1}\sin\acs{sl2}\cos\acs{discord}
-    +\cos\acs{sl1}\cos\acs{sl2},\nonumber\\
-    \boxed{\acs{deform}
-    =\arccos(\sin\acs{sl1}\sin\acs{sl2}\cos\acs{discord}
-    +\cos\acs{sl1}\cos\acs{sl2}).}
-    \tag{\ref{eq:central-angle}}
+    \cos\alpha
+    =\sin\varphi_p\sin\varphi_q\cos\beta
+    +\cos\varphi_p\cos\varphi_q,\nonumber\\
+    \alpha
+    =\arccos(\sin\varphi_p\sin\varphi_q\cos\beta
+    +\cos\varphi_p\cos\varphi_q).
 \end{gather}
-\begin{figure}
-    \centering
-    \input{figures/spherical-cosines.tex}
-    \caption[Spherical law of cosines]{Geometric view of spherical law of cosines}
-    \label{fig:spherical-cosines}
-\end{figure}
+% \begin{figure}
+%     \centering
+%     \input{figures/spherical-cosines.tex}
+%     \caption[Spherical law of cosines]{Geometric view of spherical law of cosines}
+%     \label{fig:spherical-cosines}
+% \end{figure}
+
+For constant $\beta$ and $\varphi_q$, the value of $\varphi_p$ which minimizes $\alpha$ (great circle distance) can be calculated by setting:
+\begin{equation}
+    \frac{\partial}{\partial \varphi_p}
+    \arccos\left(\sin\varphi_p\sin\varphi_q\cos\beta
+    +\cos\varphi_p\cos\varphi_q\right)
+    =0.\label{eq:mimimum}
+\end{equation}
+Differentiating using the chain rule,
+\begin{equation}
+    \frac{-\,(\cos\varphi_p\sin\varphi_q
+    \cos\beta-\sin\varphi_p\cos\varphi_q)}
+    {\sqrt{1-{(\sin\varphi_p\sin\varphi_q\cos\beta
+    +\cos\varphi_p\cos\varphi_q)}^2}}
+    =0.\label{eq:derivative}
+\end{equation}
+Multiplying through by the denominator and rearranging to solve for $\varphi_p$:
+\begin{gather}
+    \cos\varphi_p\sin\varphi_q
+    \cos\beta-\sin\varphi_p\cos\varphi_q
+    =0,\nonumber\\
+    \frac{\sin\varphi_q
+    \cos\beta}
+    {\cos\varphi_q}
+    =\frac{\sin\varphi_p}{\cos\varphi_p},\nonumber\\
+    \varphi_p
+    =\arctan(\tan\varphi_q
+    \cos\beta).
+    \label{eq:ze'}
+\end{gather}
+
+% \footnote{The denominator in Equation~\eqref{eq:derivative} is zero when \acs{tilt_min} is \ang{0} or \ang{180}, that is, when q and \acs{normal1} are equal or antipodal. The $q=\acs{normal1}$ case behaves as desired in Equation~\eqref{eq:robust-ze'} because $q=\acs{normal1}\implies\cos\beta=1\implies\varphi_p=\arctan(\tan\varphi_q\cdot1)=\varphi_q$. The antipodal case is unphysical.}

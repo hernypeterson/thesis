@@ -1,0 +1,37 @@
+\begin{tikzpicture}[scale=1.5,tdplot_main_coords]
+
+% origin
+\coordinate (orig) at (0,0,0);
+\coordinate (orig1) at (0,0,1);
+\coordinate (orig2) at (0,0,2);
+\coordinate (bottomcorner) at (0,3*\radius,0);
+\coordinate (topcorner) at (0,3*\radius,1);
+\coordinate (edbottomcorner) at (0,2*\radius,1);
+\coordinate (edtopcorner) at (0,\radius,2);
+
+% also defines (Pxy), (Pxz), (Pyz), etc.
+\tdplotsetcoord{P}{\radius}{\ze}{\az}
+
+% draw bottom surface
+\draw (0,0,0) circle (3*\radius);
+
+% back half 
+% \fill[opacity=0.1] (bottomcorner) -- (topcorner) arc (90:-270:3*\radius) -- (0,-3*\radius,0) arc (-270:90:3*\radius);
+
+% cross section
+\fill[white] (orig) -- (orig2) -- (edtopcorner) -- (edbottomcorner) -- (topcorner) -- (bottomcorner);
+\draw (orig) -- (orig2) -- (edtopcorner) -- (edbottomcorner) -- (topcorner) -- (bottomcorner) -- (orig);
+
+% z axis
+\draw[axis] (orig) -- (0,3*\axislength,0) node[anchor=west]{$r$};
+
+% draw middle surfaces
+\fill[even odd rule,opacity=0.1] (0,0,1) circle (3*\radius) (0,0,1) circle (2*\radius);
+
+% draw top surface
+\fill[white,opacity=.8] (0,0,2) circle (\radius);
+\draw (0,0,2) circle (\radius);
+
+\draw[axis] (0,0,2) -- (0,0,2*\axislength) node[anchor=south]{$z$};
+
+\end{tikzpicture}

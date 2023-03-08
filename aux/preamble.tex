@@ -1,6 +1,6 @@
 % Document Structure
-\documentclass[12pt,oneside]{book}
-\usepackage{geometry} % 1 in. margins
+\documentclass[12pt, oneside]{book}
+\usepackage{geometry} % 1 inch margins
 
 % Encoding
 \usepackage[T1]{fontenc}
@@ -16,17 +16,22 @@
 
 % \renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}} % dotted line for all depths
 
-% highlight for named software tools
+% highlight boxes
 \usepackage[most]{tcolorbox} 
-\definecolor{light-gray}{gray}{0.9}
-\tcbset{
-    on line, boxsep=3pt, left=0pt,right=0pt,top=0pt,bottom=-1pt, colframe=white,colback=light-gray, highlight math style={enhanced}
-}
+    % multiline highlight
+    \definecolor{light-gray}{gray}{0.9}
+    \tcbset{
+        on line, boxsep=3pt, left=0pt,right=0pt,top=0pt,bottom=-1pt, colframe=white,colback=light-gray, highlight math style={enhanced}
+    }
 
-% single line highlight commands (vphantom to lock height)
-\newcommand{\hltt}[1]{\tcbox{\vphantom{lg}\texttt{#1}}}
-\newcommand{\hlss}[1]{\tcbox{\vphantom{lg}{\sffamily{#1}}}}
+    % Sans serif grey highlight for software tools
+    \newcommand{\hltt}[1]{\tcbox{\vphantom{lg}\texttt{#1}}}
 
+    % typewriter grey highlight for code
+    \newcommand{\hlss}[1]{\tcbox{\vphantom{lg}{\sffamily{#1}}}}
+
+
+% typefaces
 \usepackage{lmodern}
 \usepackage[tt=false,oldstyle,proportional,semibold]{libertine}
 \usepackage{libertinust1math}
@@ -34,7 +39,6 @@
 % Justification
 \usepackage[nopatch=footnote]{microtype} % small adjustments
 \usepackage{indentfirst} % paragraphs
-% \usepackage{parskip}
 
 % vertical spacing
 \usepackage{setspace}
@@ -43,6 +47,7 @@
 % Page Header & Footer
 \usepackage[twoside]{fancyhdr}
 
+% custom running header
 \makeatletter % use @ as letter character
 \renewcommand{\chaptermark}[1]{\markboth{\ifnum\value{chapter}=0\else\@chapapp~\thechapter: \fi #1}{}} % don't show chapter number in header if 0 (frontmatter lists)
 \makeatother % protect @ character
@@ -54,6 +59,7 @@
 
 \newcommand\MakeMarkcase{} % remove \MakeUppercase (replace with small caps below)
 
+% custom page header
 \AtBeginDocument{
     \pagestyle{fancy}
     \fancyhead{} % clear all header fields
@@ -62,7 +68,7 @@
     \fancyfoot[C]{\thepage} % page number center bottom
 }
 
-% Chapter Header
+% Chapter Header with box 
 \usepackage{titlesec}
 \titleformat{\chapter}[frame]
 {\normalfont}{\filright\fbox{\enspace%

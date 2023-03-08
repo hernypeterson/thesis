@@ -30,24 +30,23 @@
 ]
 
 % only include if methods section is included
-\printacronyms[
-    name={List of Symbols},
-    preamble={Numerically computed variables are listed with their text name alongside their symbol.},
-    include=sym
-]
+% \printacronyms[
+%     name={List of Symbols},
+%     preamble={Numerically computed variables are listed with their text name alongside their symbol.},
+%     include=sym
+% ]
 
 \mainmatter% regular page numbers
 \input{chapters/intro}
-\input{chapters/methods}
+% \input{chapters/methods}
 % \input{chapters/results}
 % \input{chapters/discussion}
 % \input{chapters/conclusions}
 
-% \nocite{*}
 \begin{flushleft}
-\printbibliography[heading=bibintoc]
+    \printbibliography[heading=bibintoc]
+    \markboth{References Cited}{References Cited}
 \end{flushleft}
-\markboth{References Cited}{Table of Contents}
 
 \appendix % lettering
 % \input{chapters/arcgis.tex}

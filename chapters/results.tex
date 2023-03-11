@@ -12,18 +12,21 @@ Differentiated lava lows and channels do not uniformly cover the summit of Olymp
 \end{figure}
 % map with polygons for entire study area
 % smaller map with polygons, centerlines, and sampled points - points labels with arrows downhill and scaled by color
-\subsection{Sampled Points}
-% \begin{figure}
-%     \includegraphics[width=\textwidth]{results-samples.pdf}%
-%     \caption[Sampling Coverage]{Minimum \acf{tilt_min}.}%
-%     \label{fig:results-samples}
-% \end{figure}
-% map with lines and points for entire study area, same downhill color symbology
-% TODO maybe smaller map as well
-\subsection{Minimum Tilt}
-% map showing each point with a plan view of the calculated axis of minimum tilt, colored by angle of tilt
-% do these appear to converge on a single inflation center?
-\subsection{Axisymmetric Tilt}
+
+\subsection{Paleo-Summit Evaluation}
+\begin{figure}
+    \includegraphics[width=\textwidth]{summit-score.pdf}%
+    \caption[Paleo-Summit Evaluation]{Paleo-summit Evaluation. Green regions with low ``Summit Score'' are most likely to represent the summit of an axisymmetric paleo-edifice. Summit Score is defined for each candidate point (large colored circle) as the average value of $\log_{10}\beta_1$ for all sampled points relative to that candidate point. In other words, linear features (both channels and lobate flow centerlines) collectively flow away from the green regions more than from the red regions. White contour lines are included to distinguish the true center of the green region, that is, the most likely paleo-summit.}%
+    \label{fig:summit-score}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{beta1.pdf}%
+    \caption[Best Paleo-Summit Candidate]{Using the paleo-summit shown at the center of the green region in Figure~\ref{fig:summit-score}.}%
+    \label{fig:beta1}
+\end{figure}
+
+\subsection{Inflation Center Evaluation}
 % maps matching previous case in symbology but showing radial tilt instead (so all arrows pointing toward or away from the respective center point)
 
 % scatter plots with radial distance against axisymmetric tilt for a. entire study area and b. sub-area

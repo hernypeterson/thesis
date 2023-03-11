@@ -47,7 +47,7 @@ To determine which centerlines must be reversed, I use the \hlss{Near} tool to d
 
 \begin{figure}
     \includegraphics[width=\textwidth]{flip-line.jpeg}%
-    \caption{Clip Line}%
+    \caption{Flip Line}%
     \label{fig:flip-line}
 \end{figure}
 
@@ -101,7 +101,7 @@ Then, I use the \hlss{Surface Parameters} tool on the \ac{MOLA} \ac{DEM} to comp
     \input{figures/tilt-from-map-3d.tex}%
     \hspace{1cm}%
     \input{figures/tilt-from-map-flat.tex}%
-    \caption[\Acl{tilt} from mapping]{\textbf{Left:} A quadrant of an upper hemisphere representing attitude space for a sampled point relative to a particular inflation center. The pole labeled $\left(\acs{az2},\acs{sl2}\right)$ represents the modern surface. The line of poles labeled \acs{az1} represents the family of possible paleo-surfaces with downhill direction given by the lava flow direction. The $r-$axis points in the azimuthal direction away from a modelled inflation center \acs{center}. The assumption of axisymmetry imposes a horizontal axis of tilt perpendicular to the $r-$axis. The red arrow labeled \acs{tilt} answers the question: how much tilt \emph{about this axis} bring some pole on line \acs{az1} to pole $\left(\acs{az2},\acs{sl2}\right)$? \textbf{Right:} Plan view of the stereographic projection labeled with important angles for the tilt calculation. Corresponds to horizontal grey rectangle on the left.}%
+    \caption[\Acl{tilt} from mapping]{\textbf{Left:} A quadrant of an upper hemisphere representing attitude space for a sampled point relative to a particular inflation center. The pole labeled $\left(\acs{az2},\acs{sl2}\right)$ represents the modern surface. The line of poles labeled \acs{az1} represents the family of possible paleo-surfaces with downhill direction given by the lava flow direction. The $r-$axis points in the azimuthal direction away from a modelled inflation center \acs{center}. The assumption of axisymmetry imposes a horizontal axis of tilt perpendicular to the $r-$axis. The red arrow labeled \acs{tilt} answers the question: how much tilt \emph{about this axis} bring some pole on line \acs{az1} to pole $\left(\acs{az2},\acs{sl2}\right)$? \textbf{Right:} Plan view of an orthographic projection (plan view of sphere) labeled with important angles for the tilt calculation. Corresponds to horizontal grey rectangle on the left.}%
     \label{fig:tilt-from-map}%
 \end{center}
 \end{figure}
@@ -202,6 +202,7 @@ For a flat model ($\acs{dz1} = 0$), Equation~\eqref{eq:tilt-from-model} reduces 
     \acs{tilt} = 
     -\arctan\left(\dfrac{\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right).\label{eq:tilt-from-flat-model}
 \end{equation}
+In fact, for the range of parameters examined in this study, the difference between Equations~\eqref{eq:tilt-from-model} and~\eqref{eq:tilt-from-flat-model} never exceeds a fraction of a degree of tilt, so I use the latter as an approximation which simplifies the implementation of the numerical modelling.
 
 \begin{figure}
     \input{figures/tilt-from-model.tex}%
@@ -211,7 +212,7 @@ For a flat model ($\acs{dz1} = 0$), Equation~\eqref{eq:tilt-from-model} reduces 
 
 \subsection{Implementation}
 
-As in my mapping implementation, I leverage iteration to conduct a sequence of analyses which are identical except for specifically controlled parameters. I run a series of numerical models using the \hlss{Parameter Sweep} tool over \ac{DtT}, \ac{Rr}, \ac{Rz}, and a \ac{mult}:
+As in my mapping implementation, I leverage iteration to conduct a sequence of analyses which are identical except for specifically controlled parameters. I run a series of numerical models using the \hlss{Parametric Sweep} tool over \ac{DtT}, \ac{Rr}, \ac{Rz}, and a \ac{mult}:
 \begin{equation}
     \acs{dP}=\acs{mult}\times\acs{rhor}\times\acs{g}\times\acs{DtT},
 \end{equation}

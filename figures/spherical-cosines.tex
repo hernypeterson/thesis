@@ -16,7 +16,7 @@
         
         % line az' surface
         \draw[very thin, dashed] (P') -- (P'xy) -- (O);
-        \draw[arrow] (O) -- (P') node[anchor = south east] {\acs{normal1}};
+        \draw[arrow] (O) -- (P') node[anchor = south east] {$p$};
         % ze' angle label
         \tdplotdrawarc[tdplot_rotated_coords]{(O)}{\radius}{0}{\zen}{anchor=south}{\acs{sl1}}
         
@@ -25,7 +25,7 @@
         
         % line az surface
         \draw[very thin, dashed] (P) -- (Pxy) -- (O);
-        \draw[arrow] (O) -- (P) node[anchor = south west] {\acs{normal2}};
+        \draw[arrow] (O) -- (P) node[anchor = south west] {$q$};
         
         % axes
         \draw[axis] (O) -- (0,0,\axislength) node[anchor=south]{$z$};
@@ -33,7 +33,7 @@
         \draw[axis] (O) -- (\azi+90:\axislength) node[anchor=north west]{$y$};
         
         % |az' - az| angle label
-        \tdplotdrawarc{(O)}{0.2}{\azi}{\az+360}{anchor=north}{$\acs{discord}$}
+        \tdplotdrawarc{(O)}{0.2}{\azi}{\az+360}{anchor=north}{$\beta$}
         
         % ze angle label
         \tdplotdrawarc[tdplot_rotated_coords]{(O)}{\radius}{0}{\ze}{anchor=west}{\acs{sl2}}
@@ -42,7 +42,7 @@
         \tdplotsetrotatedcoords{\azi}{-90+\zen}{0}
         
         % central angle line
-        \tdplotdrawarc[tdplot_rotated_coords,blue]{(0,0,0)}{\radius}{\cenang}{0}{coordinate, pin={[pin edge={black},-]-90:\acs{deform}}}{}
+        \tdplotdrawarc[tdplot_rotated_coords,blue]{(0,0,0)}{\radius}{\cenang}{0}{coordinate, pin={[pin edge={black},-]-90:$\alpha$}}{}
         
         % central angle fill
         \fill[tdplot_rotated_coords, color = blue, opacity = 0.1] (\radius,0) arc (0:\cenang:\radius) -- (0,0);

@@ -19,7 +19,7 @@
 \renewcommand*{\nameyeardelim}{\addcomma\space}
 \renewcommand*{\newunitpunct}{\addcomma\space}
 
-% don't print these fields
+% don't print these fields. for some reason, language still prints, so make sure it is missing from each entry in the .bib file.
 \AtEveryBibitem{
   \clearfield{address}
   \clearfield{url}

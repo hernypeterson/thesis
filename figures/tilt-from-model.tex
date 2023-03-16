@@ -31,13 +31,21 @@
     \draw[arrow,gray,dashed] (A2_trans) -- node[sloped, fill=white] {$\acs{disp_b}$} (A2);
     \draw (A2_trans) -- node[fill=white] {$-\acs{ddisp_z}$} (ZA1) -- node[fill=white] {$-\acs{dz1}$} (ZB1) -- node[fill=white] {\acs{ddisp_r}} (orig);
     
-    % red tilt angle
-    \draw[red,arrow,ultra thick] (B1) + (166:5) arc (166:149.5:5);
-    \path (B1) + (158:5.4) node {\acs{tilt}};
+    % tilt
+    \draw[red,arrow,line width=1mm] (B1) + (166:5.3) arc (166:149.5:5.3);
+    \path (B1) + (158:5.7) node {\acs{tilt}};
+
+    % axsl1
+    \draw[blue, arrow] (B1) + (180:4.8) arc (180:166:4.8);
+    \path (B1) + (173.3:4.5) node {\acs{axsl1}};
+
+    % axsl2
+    \draw[green!70!black, arrow] (B1) + (180:5) arc (180:149.5:5);
+    \path (B1) + (158:4.7) node {\acs{axsl2}};
 
     % element surface lines
     \draw[dashed, ultra thick, green!70!black] (A2_trans) -- (B1);
-    \draw[ultra thick, blue] (A1) -- node[sloped,fill=white] {\textcolor{black}{Initial Surface}} (B1);
+    \draw[ultra thick, blue] (A1) -- node[sloped,fill=white,pos=.55] {\textcolor{black}{Initial Surface}} (B1);
     \draw[ultra thick, green!70!black] (A2) -- node[sloped,fill=white] {\textcolor{black}{Displaced Surface}} (B2);
     
     % horizontal component of displacement

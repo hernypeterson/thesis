@@ -195,26 +195,40 @@ For a flat model ($\acs{dz1} = 0$), Equation~\eqref{eq:tilt-from-model} reduces 
     \acs{tilt} = 
     -\arctan\left(\dfrac{\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right).\label{eq:tilt-from-flat-model}
 \end{equation}
-In fact, for the range of parameters examined in this study, the difference between Equations~\eqref{eq:tilt-from-model} and~\eqref{eq:tilt-from-flat-model} never exceeds a fraction of a degree of tilt, so I use the latter as an approximation which simplifies the implementation of the numerical modelling.
 
 \begin{figure}
     \input{figures/tilt-from-model.tex}%
-    \caption[\Acl{tilt} from modelling]{Cross-sectional view of a surface element in the axisymmetric model. As in Figure~\ref{fig:tilt-from-map}, the $r-$axis points away from the inflation center. During the model, the two nodes $A_1$ and $B_1$ of a surface element are displaced along \acs{disp_a} and \acs{disp_b} to reach a final position at $A_2$ and $B_2$, respectively. I illustrate the difference $\acs{disp_b} - \acs{disp_a} = \acs{ddisp}$ in terms of its components \acs{ddisp_r} and \acs{ddisp_z}. Notice that $z-$component terms are negative to ensure that tilt away from the inflation center yields a positive tilt \acs{tilt}, as shown in red. To calculate \acs{tilt}, I determine the slopes of segments $\overline{A_1B_1}$ and $\overline{A_2'B_1}$ using the labeled horizontal and vertical segments, convert these slopes to angles, and take their difference.}%
+    \caption[Tilt from numerical modelling]{Cross-sectional view of a surface element in the axisymmetric numerical model. As in Figure~\ref{fig:tilt-from-map}, the $r-$axis points away from the inflation center. During the model, the two nodes $A_1$ and $B_1$ of a surface element are displaced along \acs{disp_a} and \acs{disp_b} to reach a final position at $A_2$ and $B_2$, respectively. I illustrate the difference $\acs{disp_b} - \acs{disp_a} = \acs{ddisp}$ in terms of its components \acs{ddisp_r} and \acs{ddisp_z}. Notice that $z-$component terms are negative to ensure that tilt away from the inflation center yields a positive tilt \acs{tilt}, as shown in red. To calculate \acs{tilt}, I determine the slopes of segments $\overline{A_1B_1}$ and $\overline{A_2'B_1}$ using the labeled horizontal and vertical segments, convert these slopes to angles, and take their difference.}%
     \label{fig:tilt-from-model}%
 \end{figure}
 
 \subsection{Additional Model Considerations}
 
+\subsubsection{Topography}
+
+In fact, for the range of parameters examined in this study, the difference between Equations~\eqref{eq:tilt-from-model} and~\eqref{eq:tilt-from-flat-model} never exceeds a fraction of a degree of tilt, so I use the latter as an approximation which simplifies the implementation of the numerical modelling.
+
+The Olympus Mons edifice is very flat and observed tilts are on the order of a few degrees. Equation~\eqref{eq:tilt-from-flat-model} is sufficient and paleo-topography is unnecessary for tilt. This is very important because if paleo-topography were significant, I would not be able to assess multiple inflation center candidates without reconstructing new axisymmetry topographic sections relative to those points, and they wouldn't be any good anyway because the assumption of topographic axisymmetric is not valid everywhere.
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{topo-test.pdf}
+    \caption[Flat Model]{Comparison between topographic and flat model.}%
+    \label{fig:topo-test}%
+\end{figure}
+
+Therefore, I proceed with a flat, non-gravitationally loaded model.
 
 \subsubsection{Gravitational Loading}
 
 \textcite{grosfils_magma_2007} showed that incorporating gravitational loading is unnecessary for modelling surface displacement.
 
-\subsubsection{Topography}
-
-The Olympus Mons edifice is very flat and observed tilts are on the order of a few degrees. Equation~\eqref{eq:tilt-from-flat-model} is sufficient and paleo-topography is unnecessary for tilt. This is very important because if paleo-topography were significant, I would not be able to assess multiple inflation center candidates without reconstructing new axisymmetry topographic sections relative to those points, and they wouldn't be any good anyway because the assumption of topographic axisymmetric is not valid everywhere.
-
-Therefore, I proceed with a flat, non-gravitationally loaded model.
+To confirm this, I run a test model under three conditions:
+\begin{enumerate}
+    \item no gravitational loading with magma reservoir overpressure \label{g0p1}
+    \item gravitational loading (lithostatic pre-stress) applied with no magma reservoir overpressure\label{g1p0}
+    \item gravitational loading applied with magma reservoir overpressure \label{g1p1}
+\end{enumerate}
+If gravitational loading is in fact insignificant, displacement in case~\ref{g0p1} should match the component of remaining in case~\ref{g1p1} after the gravitational component from case~\ref{g1p0} is subtracted out. The reason I need to subtract out this component is that the modelled edifice is not perfectly flat. Therefore, vertical loading is not initially in equilibrium under the reservoir and some ``slumping'' occurs to accommodate this imbalance.
 
 \subsubsection{Comparison with Analytical Solution}
 The discrete Equation~\eqref{eq:tilt-from-flat-model} can be taken to the continuous limit by dividing each term in the numerator and denominator by the element width \acs{dr1}:

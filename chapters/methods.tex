@@ -94,6 +94,24 @@ Then, I use the \hlss{Surface Parameters} tool on the \ac{MOLA} \ac{DEM} to comp
 %     {\input{figures/surface.tex}}
 % \end{figure}
 
+\subsection{Spatial Description of Sampled Points}
+
+Mars' rotation about an essentially fixed axis provides a convenient coordinate system of \ac{lat} and \ac{lon} for describing surface position. However, an \emph{axis}ymmetric model imposes a different coordinate system---one defined with respect to the axis of rotational symmetry.
+
+Points mapped in GIS are automatically expressed in \ac{lat} and \ac{lon}; I need to convert this into polar coordinates $(\acs{dist},\acs{bearing})$ with the axisymmetric center as the origin. And because one goal of the project is to evaluate an array of candidate center points, I need an equation that takes any set of center coordinates $(\acs{latC}, \acs{lonC})$ and any set of sample point coordinates and returns a $(\acs{dist},\acs{bearing})$ pair.
+
+To calculate \acf{dist}, I use the spherical law of cosines\footnote{Also known as the great circle distance formula, derived in Appendix~\ref{app:spherical-cosines} with .} scaled by the martian equatorial radius since Olympus Mons is close to the equator:
+\begin{equation}
+    \acs{dist}=\arccos(\cos\acs{latC}\cos\acs{lat}\cos(\acs{lonC}-\acs{lon}) + \sin\acs{latC}\sin\acs{lat})\cdot\qty{3396.2}{\km}.
+\end{equation}
+
+It turns out that error in the calculated \acs{bearing} value is much more significant than error in \acs{dist}. That's because I use \acs{bearing} to define the axis of tilt and thus the value of tilt for a given center-sample pair, and this computation is very sensitive to minor variations.
+
+Therefore, I make the following choices especially carefully. First, the bearing of a great circle segment is not constant. Since all the calculations take place at the sampled point, I define \acs{bearing} as the geographic azimuth angle directly \emph{away} from \acs{center}. This is to ensure that the horizontal \acs{bearing}-axis points in the same direction as positive \acs{dist}.
+\begin{equation}
+    \acs{bearing} = \ang{180} + \arctan\left(\frac{\sin(\acs{lonC}-\acs{lon})\cos\acs{latC}} {\cos\acs{lat} \sin\acs{latC}-\sin\acs{lat}\cos\acs{latC}\cos(\acs{lonC}-\acs{lon})}\right).
+\end{equation} 
+
 \subsection{Paleo-Slope Calculation}
 
 \begin{figure}
@@ -101,7 +119,7 @@ Then, I use the \hlss{Surface Parameters} tool on the \ac{MOLA} \ac{DEM} to comp
     \input{figures/tilt-from-map-3d.tex}%
     \hspace{1cm}%
     \input{figures/tilt-from-map-flat.tex}%
-    \caption[\Acl{tilt} from mapping]{\textbf{Left:} A quadrant of an upper hemisphere representing attitude space for a sampled point relative to a particular inflation center. The pole labeled $\left(\acs{az2},\acs{sl2}\right)$ represents the modern surface. The line of poles labeled \acs{az1} represents the family of possible paleo-surfaces with downhill direction given by the lava flow direction. The $r-$axis points in the azimuthal direction away from a modelled inflation center \acs{center}. The assumption of axisymmetry imposes a horizontal axis of tilt perpendicular to the $r-$axis. The red arrow labeled \acs{tilt} answers the question: how much tilt \emph{about this axis} bring some pole on line \acs{az1} to pole $\left(\acs{az2},\acs{sl2}\right)$? \textbf{Right:} Orthographic projection (plan view of sphere) labeled with important angles and distances for the tilt calculation. Corresponds to horizontal grey rectangle on the left.}%
+    \caption[\Acl{tilt} from mapping]{\textbf{Left:} A quadrant of an upper hemisphere representing attitude space for a sampled point relative to a particular inflation center. The pole labeled $\left(\acs{az2},\acs{sl2}\right)$ represents the modern surface. The line of poles labeled \acs{az1} represents the family of possible paleo-surfaces with downhill direction given by the lava flow direction. The $r-$axis points in the azimuthal direction away from a modelled inflation center \acs{center}. The assumption of axisymmetry imposes a horizontal axis of tilt perpendicular to the $r-$axis. The red arrow labeled \acs{tilt} answers the question: how much tilt \emph{about this axis} bring some pole on line \acs{az1} to pole $\left(\acs{az2},\acs{sl2}\right)$? \textbf{Right:} Orthographic projection (plan view of sphere, \emph{not stereographic!}) labeled with important angles and distances for the tilt calculation. Corresponds to horizontal grey rectangle on the left.}%
     \label{fig:tilt-from-map}%
 \end{center}
 \end{figure}
@@ -149,7 +167,11 @@ Within these most likely inflation center datasets, I search scatter plots of ti
 
 I conduct the analysis outlined above using various subsets of the sample point data to determine whether multiple inflation centers are necessary to explain inflation in different regions. I pay particular attention to the highly discordant flows near the southern summit region shown in Figure~\ref{fig:uphill-flows}.
 
+% TODO: add section with great circle distance function from lat/lon
+
 \subsection{Implementation}
+
+%TODO this section needs to be completely rewritten
 
 \subsubsection{Mapping in ArcGIS Pro}
 
@@ -166,9 +188,15 @@ Then, I need to compute Equation~\eqref{eq:tilt-from-map} for each sampled point
 \end{enumerate}
 The final product of this process is a collection of \hltt{.csv} files---one for each inflation center candidate---each containing the axisymmetric tilt angle implied at each point. 
 
-\subsubsection{Processing in Python}
+\subsubsection{Computation in Python}\label{sec:map-python}
 
-% FIGURE of CENTER POINTS
+I use the Python programming language (version 3.10.9) in a Jupyter Notebook environment for computing tilt (and additional variables) for each center-sample pair. I then evaluate each center point for a range of criteria based on these computed variables. In this section, I describe conceptually the data structures, functions, and logic involved in the analysis. The full source code with more detailed comments is included in Appendix~\ref{app:code}.
+
+\begin{figure}
+    \input{figures/centers-eval-model.tex}%
+    \caption[]{Evaluation of axisymmetric center candidates.}%
+    \label{fig:centers-eval-model}
+\end{figure}
 
 \section{Numerical Modelling}\label{sec:modelling}
 
@@ -253,10 +281,17 @@ I compare this result with the numerical results for equant $(\acs{Rr}=\acs{Rz})
 
 \subsection{Implementation}
 
+\subsubsection{Modelling Displacement in COMSOL}
+
 I use the numerical modelling software COMSOL Multiphysics 6.1 (COMSOL) to construct a numerical representation of Olympus Mons. The model is axisymmetric, about the center point discussed previously as the center of the \qty{19}{\km} contour. A profile from due south of this point is used as the 
 
-As in my mapping implementation, I leverage iteration to conduct a sequence of analyses which are identical except for specifically controlled parameters. I run a series of numerical models using the \hlss{Parametric Sweep} tool over \ac{DtT}, \ac{Rr}, \ac{Rz}, and a \ac{mult}:
+I use the \hlss{Parametric Sweep} tool to perform a sequence of analyses which are identical except for specifically controlled parameters: \ac{DtT}, \ac{Rr}, \ac{Rz}, and a \ac{mult}:
 \begin{equation}
     \acs{dP}=\acs{mult}\times\acs{rhor}\times\acs{g}\times\acs{DtT},
 \end{equation}
-where \acs{dP} is the simulated over- (positive) or under-pressure in the reservoir. For each numerical model, I output surface displacement in the radial and vertical direction as a function of distance from the inflation center. Post processing and implementation of Equation~\eqref{eq:tilt-from-model} is explained in the linked Jupyter notebook.
+where \acs{dP} is the simulated over- (positive) or under-pressure in the reservoir. For each numerical model, I output surface displacement in the radial and vertical direction as a function of distance from the inflation center. 
+
+\subsubsection{Computing Tilt in Python}
+
+As in Section~\ref{sec:map-python}, I use this section to describe my approach for implementing Equation~\eqref{eq:tilt-from-model} using the displacement data generated in COMSOL, leaving the full details to Appendix~\ref{app:code}.
+

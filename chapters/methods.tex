@@ -263,19 +263,19 @@ The discrete Equation~\eqref{eq:tilt-from-flat-model} can be taken to the contin
 \begin{equation}
 \acs{tilt}
     = \lim_{\acs{dr1}\to0} 
-    \arctan\left(\dfrac{-\acs{ddisp_z}/\acs{dr1}}{\acs{dr1}/\acs{dr1}
+    -\arctan\left(\dfrac{\acs{ddisp_z}/\acs{dr1}}{\acs{dr1}/\acs{dr1}
     + \acs{ddisp_r}/\acs{dr1}}\right) = 
-    \arctan\left(\dfrac{-\acs{disp_z'}}{1+\acs{disp_r'}}\right),\label{eq:tilt-from-flat-analytical-model}
+    -\arctan\left(\dfrac{\acs{disp_z'}}{1+\acs{disp_r'}}\right),\label{eq:tilt-from-flat-analytical-model}
 \end{equation}
 where $'$ denotes the derivative with respect to $r_1$. I use the \textcite{mogi_relations_1958} Model:
 \begin{gather}
-    \acs{disp_z} = ad{(d^2+r^2)}^{-1.5},\label{eq:uz_mogi}\\
-    \acs{disp_r} = ar{(d^2+r^2)}^{-1.5},\label{eq:ur_mogi}\\
-    a = {3R^3\Delta P}/{4G},\nonumber
+    \acs{disp_z} = kd{(d^2+r_1^2)}^{-1.5},\label{eq:uz_mogi}\\
+    \acs{disp_r} = kr_1{(d^2+r_1^2)}^{-1.5},\label{eq:ur_mogi}\\
+    k = {3R^3\Delta P}/{4G},\nonumber
 \end{gather}
 where $R$ is the reservoir radius, $\Delta P$ is the overpressure, and $G$ is the elastic shear modulus. Differentiating Equations~\eqref{eq:uz_mogi} and~\eqref{eq:ur_mogi}, substituting into Equation~\eqref{eq:tilt-from-flat-analytical-model}, and simplifying:
 \begin{equation}
-    \boxed{\acs{tilt} = \arctan\left(\frac{3adr}{{(d^2+r^2)}^{2.5}+ad^2-2ar^2}\right).}\label{eq:tilt-from-mogi-model}
+    \boxed{\acs{tilt} = \arctan\left(\frac{3kdr_1}{{(d^2+r_1^2)}^{2.5}+k(d^2-2r_1^2)}\right).}\label{eq:tilt-from-mogi-model}
 \end{equation}
 I compare this result with the numerical results for equant $(\acs{Rr}=\acs{Rz})$ reservoirs to validate the method.
 

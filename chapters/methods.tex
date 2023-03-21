@@ -1,20 +1,67 @@
 \chapter{Methods}\label{cha:methods}
 
-In this section, I first introduce the fundamental geometric consideration of axisymmetry that applies to each of my methods. I then explain a derivation of paleo- and modern attitude information from sampled locations at the summit of Olympus Mons. I show that paleo-attitude information is incomplete but can be reconstructed uniquely under the axisymmetric assumption given a particular inflation center location. I then explain how to derive the angle of tilt necessary to reconcile the paleo- and modern surface attitudes as a function of distance from the chosen inflation center. By examining the degree to which each inflation center can realistically explain the observed discordance in the region, I determine the most likely inflation centers and test the general validity of the axisymmetric assumption for this system. Once I determine a subset of likely inflation center candidates, I compare the corresponding tilt-distance function with those derived from numerical models of reservoir pressure change. Through the complimentary approaches of mapping and modelling, I evaluate the most likely combinations of reservoir location (laterally by mapping and vertically my modelling) size, and pressure change responsible for observed discordance. 
+\section{Overview}
 
-\section{Axisymmetry}
+In this section, I first introduce fundamental geometric considerations which inform the derivation and implementation of each subsequent method (Section~\ref{sec:considerations}).
+
+Next, I outline a method for measuring surface \emph{attitude} data via topography and the orientation of discordant lava flow features (Section~\ref{sec:mapping}). While this dataset alone provides evidence of surface deformation \parencite[c.f.][]{mouginis-mark_late-stage_2019}, I show that it is insufficient for physically quantifying this deformation, i.e., estimating reservoir location (horizontal and vertical), volume, pressure change, etc. I also briefly discuss some limitations and necessary assumptions of this method. 
+
+Before describing a solution to this problem, it is necessary to introduce a method for gathering modelled \emph{displacement} data corresponding to Olympus Mons' elastic response to reservoir pressure change. I use this method to explore a wide space of model parameters including gravitational loading, proto-topography, and magma reservoir depth, size, shape, and pressure change. Once again, I discuss limitations and criteria for assessing physical plausibility of these models.
+
+Finally, I develop a geometric framework to directly compare mapped attitude data and modelled displacement data. Key steps in this framework include:
+\begin{enumerate}
+    \item Letting the assumption of axisymmetry impose a unique solution to the under-determined discordance problem. Specifically, a given pair of points---one axisymmetric inflation center and one sample with incomplete attitude data---is sufficient to complete the attitude dataset for that point and calculate tilt.
+    \item Converting displacement data along an axisymmetric model surface into tilt. While this method is not used immediately, it sets up an important derivation: a simplified analytical solution providing tilt as a function of distance with two parameters linked to the physical characteristics of the underlying reservoir pressure change.
+    \item Evaluating the degree to which axisymmetric ``epicenter'' (map-view location) candidates can explain observed topographic discordance under the assumption of axisymmetric pressure change. For each center candidate, this involves determining the unique\footnote{if it exists at all.} tilt solution for each sampled point as a function of distance from that center, then fitting the general analytical tilt function to the resulting dataset (or sub-populations thereof). Each center is then evaluated on the goodness of fit and physical plausibility of these parameters, among other criteria.
+\end{enumerate}
+
+\section{Fundamental Considerations}\label{sec:considerations}
+
+\subsection{Topographic Discordance [REDO FIGURE]}
+
+Numerous lava flows around the summit caldera of Olympus Mons appear to flow uphill~\parencite[Figure~\ref{fig:uphill-flows}; after][]{mouginis-mark_late-stage_2019}. In this thesis, the term \ac{disc} is defined as the angular difference between a lava flow's downhill azimuthal direction and the local dip direction of the underlying surface. For example, a flow pointing directly uphill would have $\acs{disc}=\ang{180}$. 
+
+Discordant lava features have long been used to infer surface deformation under the assumption that lava flows record the downhill direction at the time of their emplacement. This method has been applied at a regional scale to constrain flexural loading of the lithosphere from large volcanic edifices \parencite{mouginis-mark_ancient_1982,isherwood_volcanic_2013,chadwick_late_2015} and more recently to reservoir-scale processes at the summit of Olympus Mons \parencite{mouginis-mark_late-stage_2019}.
+
+The goal of this thesis is to derive as much information as possible from the spatial pattern of topographic discordance at the summit of Olympus Mons. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{uphill-flows.pdf}
+    \caption[Discordant lava flows]{Several lava flows (white) in the southern flank region appear to flow uphill toward the modern summit. \acs{CTX} mosaic basemap. Contours in \unit{\km}. After Figure 3 in \textcite{mouginis-mark_late-stage_2019}.}%
+    \label{fig:uphill-flows}
+\end{figure}
+
+\subsection{Axisymmetry [FINISH TEXT]}
 
 Numerical models are widely used by physical volcanologists to better understand a wide array of observed phenomena in terms of their underlying mechanisms. One advantage of these simulated models (as opposed to physical models involving real materials) is the diversity of conditions available to be tested, from the deep mantle \parencite[e.g.,][]{redmond_numerical_2004,ogawa_four-stage_2021} or volcanic edifices and their surroundings \parencite[e.g.,][]{isherwood_volcanic_2013} to individual magma reservoirs \parencite[e.g.,][]{grosfils_magma_2007,grosfils_elastic_2015}. Many of these models are axisymmetric, reflecting the common characteristic that many volcanic and magmatic features are roughly circular in plan view. While this sacrifice the ability to assess certain asymmetric features, they are much easier to construct, take much less time to run due to the massively simplified geometry, and often capture major characteristics of the system in question.
 
 \begin{figure}
     \input{figures/axisymmetry.tex}%
-    \caption[Axisymmetry]{Schematic illustration of an axisymmetric model. A feature with rotational symmetry about a vertical axis (here, a simplified volcanic cone and its surroundings, shaded grey) is completely described by a single cross-sectional surface (white). Conceptually this surface can be swept around the axis of symmetry (along the red arrow) to reconstruct the 3D shape. Radial $(r)$ and vertical $(z)$ coordinates describe position within the model.}%
+    \caption[Axisymmetry]{Schematic illustration of an axisymmetric model. A 3D feature with rotational symmetry about a vertical axis is fully described by a single cross-section (white). Conceptually this surface can be swept around the axis of symmetry (red arrow) to reconstruct the 3D shape. Radial $(r)$ and vertical $(z)$ coordinates describe position within the model.}%
     \label{fig:axisymmetry}
 \end{figure}    
 
 In this thesis, I seek to compare surface tilt inferred at the summit with tilt resulting from pressure changes in an underlying magma reservoir. Since this thesis is an early component of a larger research program to assess late Amazonian magmatism at Olympus Mons, I use the simplified\footnote{I justify additional simplifying assumptions in Section~\ref{sec:modelling}.} axisymmetric condition in my numerical models. Therefore, I make the same assumption when estimating tilt from discordant lava flows at the summit.
 
-\section{Mapping}\label{sec:mapping}
+\subsection{Attitude Data Representation [FINISH TEXT AND FIGURE]}
+
+The data I collect, calculate, and analyze in this thesis refer to attitude: the 3D orientation (primarily of surfaces) in space. It is important to use a suitable and consistent graphical representation of these data. The most common such representation in geology is the lower-hemisphere stereographic projection, in which linear and planar features are represented by their intersections with a unit sphere whose center lies within the feature.
+
+In this thesis, I use an orthographic (rather than stereographic) projection of this same sphere. Rather than projecting from a point on the sphere, features are projected perpendicular to the map surface. The reason for this change is that small circles whose axis is on the primitive circle project to straight lines, which is most convenient for the derivation in Section~\ref{sec:paleo-slope} and elsewhere.
+
+Additionally, planes are often plotted by their curvilinear intersection to help set them apart from linear features, whose intersections are points. However, I do not describe any linear attitudes in this thesis, and curvilinear intersections quickly become unwieldy. Therefore, I define all planes by their poles, or the unique linear attitude normal to any plane.
+
+Additionally, the projection I use is of the upper hemisphere, not the lower hemisphere.
+
+\begin{figure}
+    \input{figures/surface.tex}%
+    \caption[Pole to plane]{Pole to Plane in an upper hemisphere orthographic projection.}%
+    \label{fig:surface}%
+\end{figure}
+
+\section{Mapping Discordant Features}\label{sec:mapping}
+
 \subsection{Preparation of Published Data}
 
 The \acf{CTX}\footnote{aboard the \ac{MRO} spacecraft launched in 2005 by \acs{NASA}.} captures \qty{\sim30}{\km} swaths across the entire martian surface in visible $(\lambda=\qtyrange{500}{800}{\nm})$ greyscale at \qty{\sim6}{\m} spatial resolution. \textcite{Dickson2018AGB} blended these swaths to produce a raster mosaic product (hereafter, ``\ac{CTX} mosaic'') which I use to visually identify and map lava flows and flow channels.
@@ -26,9 +73,6 @@ I load these two data sources in an equal-area sinusoidal Mars projection in Arc
 \subsection{Study Area Definition \& Preliminary Analysis}
 
 Figure~\ref{fig:summit} shows important topographic patterns at the summit of Olympus Mons. More than \qty{50}{\km} from the center of the figure, topographic contours (\qtyrange{12}{19}{\km}) are fairly regular concentric rings. Closer to the caldera, this axisymmetry breaks down: the caldera complex itself consists of six intersecting collapse pits. On the southern flank, we see a prominent arcuate \qty{20}{\km} contour with the topographic summit (within the \qty{21}{\km} contour) over \qty{20}{\km} from the southern caldera rim. Thus, my first task is to determine the degree to which axisymmetric inflation can apply to an edifice which is not entirely axisymmetric. It is important to point out, however, that the asymmetry inherent to the region is crucial for the discordant flow method to function, as I describe in subsequent sections. 
-
-%\subsection{Proto-Edifice Reconstruction}
-% Therefore, I present a reconstruction of the proto-edifice which interpolates the topography of the distal (beyond outer \qty{19}{\km} contour) regions within the central region. This reconstruction is shown in Figure~(NUMBER). This provides an independent estimation of proto-topography to compare with the estimates based on lava flow misalignment.
 
 \subsection{Mapping Lava Features}
 
@@ -88,19 +132,48 @@ The first variable collected is \ac{az1}, which each point inherits from its par
 
 Then, I use the \hlss{Surface Parameters} tool on the \ac{MOLA} \ac{DEM} to compute average topographic \hlss{Slope} and \hlss{Aspect} (downhill azimuth) rasters across the entire study area. To avoid capturing local topographic anomalies, these values are averaged over a ``neighborhood'' with radius \neighborhood. I use the \hlss{Extract Multi Values to Points} tool to assign \ac{sl2} and \ac{az2} to each based on the value of the corresponding raster value at that location. Figure~\ref{fig:tilt-from-map} includes a geometric view of these variables in attitude space alongside \acs{az1}.
 
-% \begin{figure}
-%     \floatbox[{\capbeside\thisfloatsetup{floatwidth=sidefil,capbesideposition={left,bottom},capbesidewidth=.55\linewidth}}]{figure}
-%     {\caption[Pole to plane $\acs{normal2}=(\acs{az2},\acs{sl2})$]{The attitude of a tilted surface (green) is defined relative to horizontal (grey) by \ac{az2} and \ac{sl2}. \acs{az2} and \acs{sl2} are also the spherical coordinates of a unique unit vector \acs{normal2} which is normal (perpendicular) to the surface. In the subsequent sections, $\acs{normal2}=(\acs{az2},\acs{sl2})$ represents the observed attitude at a sampled location, while $\acs{normal1}=(\acs{az1},\acs{sl1})$ represents the \emph{inferred} paleo-attitude of the same point when the lava flow was emplaced. Azimuth angles increase clockwise from \acf{north} as shown, following geographic convention.}\label{fig:surface}}
-%     {\input{figures/surface.tex}}
-% \end{figure}
+\section{Numerically Modelling Reservoir Pressure Change}\label{sec:modelling}
 
-\subsection{Spatial Description of Sampled Points}
+In this section, I model pressure changes (either inflation or deflation) of a magma reservoir under the mapped study area.
+
+I use the numerical modelling software COMSOL Multiphysics 6.1 (COMSOL) to construct a numerical representation of Olympus Mons. The model is axisymmetric, about the center point discussed previously as the center of the \qty{19}{\km} contour.
+
+%\subsection{Proto-Edifice Reconstruction}
+% Therefore, I present a reconstruction of the proto-edifice which interpolates the topography of the distal (beyond outer \qty{19}{\km} contour) regions within the central region. This reconstruction is shown in Figure~(NUMBER). This provides an independent estimation of proto-topography to compare with the estimates based on lava flow misalignment.
+
+I use the \hlss{Parametric Sweep} tool to perform a sequence of analyses which are identical except for specifically controlled parameters: \ac{DtT}, \ac{Rr}, \ac{Rz}, and a \ac{mult}:
+\begin{equation}
+    \acs{dP}=\acs{mult}\times\acs{rhor}\times\acs{g}\times\acs{DtT},
+\end{equation}
+where \acs{dP} is the simulated over- (positive) or under-pressure in the reservoir. For each numerical model, I output surface displacement in the radial and vertical direction as a function of distance from the inflation center. 
+
+\subsection{Axisymmetric Elastic Model}
+
+Figure~\ref{fig:axisymmetry} illustrates that the assumption of axisymmetry reduces the 3D edifice to a cross-sectional plane which is equivalent for modelling.
+
+TODO: describe Hookean elasticity assumption.
+
+\subsection{Finite Element Method}
+
+The \ac{FEM} is widely used to model phenomena ranging from fluid flow, heat transfer, and mechanical stress in engineering and geology. This method involves discretizing a continuous medium by constructing a \emph{mesh:} a network of nodes connected to their neighbors by edges. Polygons enclosed by these edges are called elements. Software then solves the chosen equations to compute the variables of interest only for the nodes, whose values can then be interpolated within each element to determine the solution for any point within the continuum.
+
+\section{Synthesis}
+
+The previous sections introduce some broad considerations and describe basic mechanics of data collection methods as they exist in isolation. However, the methods for \emph{analyzing} those data in light of those considerations are difficult to partition into ``mapping'' and ``modelling.'' Therefore, the sequence of methods in this section frequently transitions between map- and model-related data, functions, etc.
+
+To keep this process organized, I bring all data (map-derived attitude and position, model-derived displacement and position) into a Jupyter Notebook environment using the Python programming language (version 3.10.0). Python is an open-source, general purpose language whose large library of modules make it a popular choice for scientific computing applications.
+
+In the body of this section, I describe conceptually and graphically the sequence of computations I would perform for a single analysis. The full source code I use to implement these operations for my entire dataset is included in Appendix~\ref{app:code}.
+
+\subsection{Deriving Tilt from Mapped Attitude Data}
+
+\subsubsection{Spatial Description of Sampled Points}
 
 Mars' rotation about an essentially fixed axis provides a convenient coordinate system of \ac{lat} and \ac{lon} for describing surface position. However, an \emph{axis}ymmetric model imposes a different coordinate system---one defined with respect to the axis of rotational symmetry.
 
 Points mapped in GIS are automatically expressed in \ac{lat} and \ac{lon}; I need to convert this into polar coordinates $(\acs{dist},\acs{bearing})$ with the axisymmetric center as the origin. And because one goal of the project is to evaluate an array of candidate center points, I need an equation that takes any set of center coordinates $(\acs{latC}, \acs{lonC})$ and any set of sample point coordinates and returns a $(\acs{dist},\acs{bearing})$ pair.
 
-To calculate \acf{dist}, I use the spherical law of cosines\footnote{Also known as the great circle distance formula, derived in Appendix~\ref{app:spherical-cosines} with .} scaled by the martian equatorial radius since Olympus Mons is close to the equator:
+To calculate \acf{dist}, I use the spherical law of cosines\footnote{Also known as the great circle distance formula, derived in Appendix~\ref{app:spherical-trig}.} scaled by the martian equatorial radius since Olympus Mons is close to the equator:
 \begin{equation}
     \acs{dist}=\arccos(\cos\acs{latC}\cos\acs{lat}\cos(\acs{lonC}-\acs{lon}) + \sin\acs{latC}\sin\acs{lat})\cdot\qty{3396.2}{\km}.
 \end{equation}
@@ -112,7 +185,7 @@ Therefore, I make the following choices especially carefully. First, the bearing
     \acs{bearing} = \ang{180} + \arctan\left(\frac{\sin(\acs{lonC}-\acs{lon})\cos\acs{latC}} {\cos\acs{lat} \sin\acs{latC}-\sin\acs{lat}\cos\acs{latC}\cos(\acs{lonC}-\acs{lon})}\right).
 \end{equation} 
 
-\subsection{Paleo-Slope Calculation}
+\subsubsection{Paleo-Slope Equation}\label{sec:paleo-slope}
 
 \begin{figure}
 \begin{center}
@@ -131,8 +204,8 @@ where $\acs{beta1} = \acl{beta1}$ and $\acs{beta2} = \acl{beta2}$. Thus,
 \begin{equation}
     \acs{sl1} = \arcsin\left(\frac{\sin\acs{beta2}\sin\acs{sl2}}{\sin\acs{beta1}}\right).\label{eq:sl1}
 \end{equation}
-\subsubsection{Error Handling}
-The computed results from Equation~\eqref{eq:sl1} allow me to handle some issues inherent to the geometry of the problem. First, for some combinations of surface characteristics and center point choice, it is impossible to tilt the once-downhill lava flow about the imposed axis and reach the observed surface attitude. In Figure~\ref{fig:tilt-from-map} a single quadrant contains both $\left(\acs{az2},\acs{sl2}\right)$ and \acs{az1}, but if these fall on opposing sides of the \acs{bearing} line (one on the left, one on the right) there will be no possible vertical translation between the two. Mathematically, this case will arise as a negative value for \acs{sl1}, which is unphysical and must therefore be removed from the subsequent analysis. When a large fraction of sampled points are subject to this error, it signals that the chosen axisymmetric inflation center is inaccurate.
+
+Equation~\eqref{eq:sl1} can naturally handle some issues inherent to the geometry of the problem. First, for some combinations of surface characteristics and center point choice, it is impossible to tilt the once-downhill lava flow about the imposed axis and reach the observed surface attitude. In Figure~\ref{fig:tilt-from-map} a single quadrant contains both $\left(\acs{az2},\acs{sl2}\right)$ and \acs{az1}, but if these fall on opposing sides of the \acs{bearing} line (one on the left, one on the right) there will be no possible vertical translation between the two. Mathematically, this case will arise as a negative value for \acs{sl1}, which is unphysical and must therefore be removed from the subsequent analysis. When a large fraction of sampled points are subject to this error, it signals that the chosen axisymmetric inflation center is inaccurate.
 
 Another problem occurs even in the single-handed (both left or both right) case when:
 \begin{equation}
@@ -142,12 +215,82 @@ because the resulting argument in Equation~\eqref{eq:sl1} is outside the domain 
 
 Once these issues are addressed by removing \hltt{<null>} (domain error) or negative entries, I record the number of invalid samples and proceed using the valid subset.
 
-\subsection{Deriving Tilt from Mapped Samples}
-In Figure~\ref{fig:tilt-from-map}, the arrow which translates the \acs{az1} line onto $\left(\acs{az2},\acs{sl2}\right)$ is a segment of a small circle about the tilt axis. To determine the true angle of tilt I translate this small circle onto the corresponding great circle along the blue and green great circle segments, respectively. I include this derivation in Appendix~\ref{app:spherical-cosines}. The difference between these two transformations is the tilt: 
+\subsubsection{Tilt Equation}
+
+In Figure~\ref{fig:tilt-from-map}, the arrow which translates the \acs{az1} line onto $\left(\acs{az2},\acs{sl2}\right)$ is a segment of a small circle about the tilt axis. To determine the true angle of tilt I translate this small circle onto the corresponding great circle along the blue and green great circle segments, respectively. I include this derivation in Appendix~\ref{app:spherical-trig}. The difference between these two transformations is the tilt: 
 \begin{equation}
     \acs{tilt} = \arctan(\tan\acs{sl2}\cos\acs{beta2}) - \arctan(\tan\acs{sl1}\cos\acs{beta1}).\label{eq:tilt-from-map}
 \end{equation}
-Unlike Equation~\eqref{eq:sl1}, these calculations will not yield any domain errors. The only regions of high numerical sensitivity are near the poles of the tilt axis, but this occurs only for near-vertical observed surfaces (to yield high values of $\delta$ in Figure~\ref{fig:tilt-from-map}) which is unphysical.
+Unlike Equation~\eqref{eq:sl1}, this calculations will not raise any domain errors. The only regions of high numerical sensitivity are near the poles of the tilt axis, but this occurs only for near-vertical observed surfaces (to yield high values of $\delta$ in Figure~\ref{fig:tilt-from-map}) which is unphysical.
+
+\subsection{Deriving Tilt from Modelled Displacement Data}
+
+The numerical formula for \acf{tilt} given \acs{disp_a} and \acs{disp_b} is derived from Figure~\ref{fig:tilt-from-model}, which shows the surface edge of a single model element before and after reservoir pressure change:
+\begin{equation}
+    \acs{tilt} = \arctan\left({\acs{dz1}}/{\acs{dr1}}\right) - \arctan\left(\dfrac{\acs{dz1}+\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right).\label{eq:tilt-from-model}
+\end{equation}
+
+\begin{figure}
+    \input{figures/tilt-from-model.tex}%
+    \caption[Tilt from numerical modelling]{Cross-sectional view of a surface element in the axisymmetric numerical model. As in Figure~\ref{fig:tilt-from-map}, the $r-$axis points away from the inflation center. During the model, the two nodes $A_1$ and $B_1$ of a surface element are displaced along \acs{disp_a} and \acs{disp_b} to reach a final position at $A_2$ and $B_2$, respectively. I illustrate the difference $\acs{disp_b} - \acs{disp_a} = \acs{ddisp}$ in terms of its components \acs{ddisp_r} and \acs{ddisp_z}. Notice that $z-$component terms are negative to ensure that tilt away from the inflation center yields a positive tilt \acs{tilt}, as shown in red. To calculate \acs{tilt}, I determine the slopes of segments $\overline{A_1B_1}$ and $\overline{A_2'B_1}$ using the labeled horizontal and vertical segments, convert these slopes to angles, and take their difference.}%
+    \label{fig:tilt-from-model}%
+\end{figure}
+
+\subsubsection{Additional Model Considerations}
+
+Topography and gravity.
+
+As discussed above, the spline fit defines the center\dots
+
+\textcite{grosfils_magma_2007} showed that incorporating gravitational loading is unnecessary for modelling surface displacement.
+
+To confirm this, I run a test model under three conditions:
+\begin{enumerate}
+    \item no gravitational loading with magma reservoir overpressure \label{g0p1}
+    \item gravitational loading (lithostatic pre-stress) applied with no magma reservoir overpressure\label{g1p0}
+    \item gravitational loading applied with magma reservoir overpressure \label{g1p1}
+\end{enumerate}
+If gravitational loading is in fact insignificant, displacement in case~\ref{g0p1} should match the component of remaining in case~\ref{g1p1} after the gravitational component from case~\ref{g1p0} is subtracted out. The reason I need to subtract out this component is that the modelled edifice is not perfectly flat. Therefore, vertical loading is not initially in equilibrium under the reservoir and some ``slumping'' occurs to accommodate this imbalance.
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{topo-test.pdf}
+    \caption[Flat Model]{Comparison between topographic and flat model.}%
+    \label{fig:topo-test}%
+\end{figure}
+
+Therefore, I proceed with a non-gravitationally loaded model.
+
+\subsection{Analytical Tilt Solution}
+
+In this section, I draw on the widely cited analytical \emph{displacement} solution developed by \textcite{mogi_relations_1958} to derive an analytical \emph{tilt} solution as a counterpart to the numerical tilt-from-displacement solution outlined above. This model assumes a deep spherical reservoir within an elastic half-space. These conditions are not necessarily met even within my numerical models, much less the physical edifice of Olympus Mons. However, this solution serves two important roles in my analysis. 
+
+First, when the assumptions are upheld in the numerical model, the analytical solution confirms that the model is working correctly.
+
+More importantly, even conditions which violate the analytical solution assumptions produce tilt functions of similar qualitative shapes. [SHOW THIS]. Therefore, tilt data resulting from unknown pressure change conditions can be fit to the right class of function. To see this, I proceed with the analytical tilt function derivation.  
+
+Equation~\eqref{eq:tilt-from-model} in a half-space (flat; $\acs{dz1} = 0$),  reduces to:
+\begin{equation}
+    \acs{tilt} = 
+    -\arctan\left(\dfrac{\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right).\label{eq:tilt-from-flat-model}
+\end{equation}
+This discrete equation can be taken to the continuous limit by dividing each term in the numerator and denominator by the element width \acs{dr1}:
+\begin{equation}
+\acs{tilt}
+    = \lim_{\acs{dr1}\to0} 
+    -\arctan\left(\dfrac{\acs{ddisp_z}/\acs{dr1}}{\acs{dr1}/\acs{dr1}
+    + \acs{ddisp_r}/\acs{dr1}}\right) = 
+    -\arctan\left(\dfrac{\acs{disp_z'}}{1+\acs{disp_r'}}\right),\label{eq:tilt-from-flat-analytical-model}
+\end{equation}
+where $'$ denotes the derivative with respect to $r_1$. The \textcite{mogi_relations_1958} solution provides the following displacement components:
+\begin{gather}
+    \acs{disp_z} = kd{(d^2+r_1^2)}^{-1.5},\label{eq:uz_mogi}\\
+    \acs{disp_r} = kr_1{(d^2+r_1^2)}^{-1.5},\label{eq:ur_mogi}\\
+    k = {3R^3\Delta P}/{4G},\nonumber
+\end{gather}
+where $R$ is the reservoir radius, $\Delta P$ is the overpressure, and $G$ is the elastic shear modulus. Differentiating Equations~\eqref{eq:uz_mogi} and~\eqref{eq:ur_mogi}, substituting into Equation~\eqref{eq:tilt-from-flat-analytical-model}, and simplifying:
+\begin{equation}
+    \acs{tilt} = \arctan\left(\frac{3kdr_1}{{(d^2+r_1^2)}^{2.5}+k(d^2-2r_1^2)}\right).\label{eq:tilt-from-mogi-model}
+\end{equation}
 
 \subsection{Evaluating Axisymmetry Center Candidates}
 
@@ -159,7 +302,7 @@ The center location which best explains an axisymmetric paleo-edifice direction 
 
 \subsubsection{Inflation Center}
 
-I evaluate each inflation center point by several criteria derived from this exported data using the Python programming language in a Jupyter Notebook. First, I determine what fraction of the sampled data points are possible to account for mathematically: those not ruled out by the sign error in Equation~\eqref{eq:sl1} and the domain error in Equation~\eqref{eq:domain-error}. Then, I choose a cutoff angle (tentatively, a generous \ang{5}) and rank the output tables by the fraction of calculated tilts whose absolute value is within the cutoff magnitude. 
+First, I determine what fraction of the sampled data points are possible to account for mathematically: those not ruled out by the sign error in Equation~\eqref{eq:sl1} and the domain error in Equation~\eqref{eq:domain-error}. Then, I choose a cutoff angle (tentatively, a generous \ang{5}) and rank the output tables by the fraction of calculated tilts whose absolute value is within the cutoff magnitude. 
 
 After evaluating these criteria, I export a table containing each center point with its score on each criterion. I rejoin this table to the original point features to examine the spatial distribution of the most likely inflation centers.
 
@@ -198,100 +341,6 @@ I use the Python programming language (version 3.10.9) in a Jupyter Notebook env
     \label{fig:centers-eval-model}
 \end{figure}
 
-\section{Numerical Modelling}\label{sec:modelling}
 
-In this section, I model pressure changes (either inflation or deflation) of a magma reservoir under the mapped study area.
 
-\subsection{Axisymmetric Elastic Model}
-
-Figure~\ref{fig:axisymmetry} illustrates that the assumption of axisymmetry reduces the 3D edifice to a cross-sectional plane which is equivalent for modelling.
-
-TODO: describe Hookean elasticity assumption.
-
-\subsection{The Finite Element Method}
-
-The \ac{FEM} is widely used to model phenomena ranging from fluid flow, heat transfer, and mechanical stress in engineering and geology. This method involves discretizing a continuous medium by constructing a \emph{mesh:} a network of nodes connected to their neighbors by edges. Polygons enclosed by these edges are called elements. Software then solves the chosen equations to compute the variables of interest only for the nodes, whose values can then be interpolated within each element to determine the solution for any point within the continuum.
-
-\subsection{Deriving Tilt from Modelled Displacement}
-
-The numerical formula for \acf{tilt} given \acs{disp_a} and \acs{disp_b} is derived from Figure~\ref{fig:tilt-from-model}, which shows the surface edge of a single model element before and after reservoir pressure change:
-\begin{equation}
-    \acs{tilt} = \arctan\left({\acs{dz1}}/{\acs{dr1}}\right) - \arctan\left(\dfrac{\acs{dz1}+\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right).\label{eq:tilt-from-model}
-\end{equation}
-For a flat model ($\acs{dz1} = 0$), Equation~\eqref{eq:tilt-from-model} reduces to
-\begin{equation}
-    \acs{tilt} = 
-    -\arctan\left(\dfrac{\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right).\label{eq:tilt-from-flat-model}
-\end{equation}
-
-\begin{figure}
-    \input{figures/tilt-from-model.tex}%
-    \caption[Tilt from numerical modelling]{Cross-sectional view of a surface element in the axisymmetric numerical model. As in Figure~\ref{fig:tilt-from-map}, the $r-$axis points away from the inflation center. During the model, the two nodes $A_1$ and $B_1$ of a surface element are displaced along \acs{disp_a} and \acs{disp_b} to reach a final position at $A_2$ and $B_2$, respectively. I illustrate the difference $\acs{disp_b} - \acs{disp_a} = \acs{ddisp}$ in terms of its components \acs{ddisp_r} and \acs{ddisp_z}. Notice that $z-$component terms are negative to ensure that tilt away from the inflation center yields a positive tilt \acs{tilt}, as shown in red. To calculate \acs{tilt}, I determine the slopes of segments $\overline{A_1B_1}$ and $\overline{A_2'B_1}$ using the labeled horizontal and vertical segments, convert these slopes to angles, and take their difference.}%
-    \label{fig:tilt-from-model}%
-\end{figure}
-
-\subsection{Additional Model Considerations}
-
-\subsubsection{Topography}
-
-In fact, for the range of parameters examined in this study, the difference between Equations~\eqref{eq:tilt-from-model} and~\eqref{eq:tilt-from-flat-model} never exceeds a fraction of a degree of tilt, so I use the latter as an approximation which simplifies the implementation of the numerical modelling.
-
-The Olympus Mons edifice is very flat and observed tilts are on the order of a few degrees. Equation~\eqref{eq:tilt-from-flat-model} is sufficient and paleo-topography is unnecessary for tilt. This is very important because if paleo-topography were significant, I would not be able to assess multiple inflation center candidates without reconstructing new axisymmetry topographic sections relative to those points, and they wouldn't be any good anyway because the assumption of topographic axisymmetric is not valid everywhere.
-
-\begin{figure}
-    \includegraphics[width=\textwidth]{topo-test.pdf}
-    \caption[Flat Model]{Comparison between topographic and flat model.}%
-    \label{fig:topo-test}%
-\end{figure}
-
-Therefore, I proceed with a flat, non-gravitationally loaded model.
-
-\subsubsection{Gravitational Loading}
-
-\textcite{grosfils_magma_2007} showed that incorporating gravitational loading is unnecessary for modelling surface displacement.
-
-To confirm this, I run a test model under three conditions:
-\begin{enumerate}
-    \item no gravitational loading with magma reservoir overpressure \label{g0p1}
-    \item gravitational loading (lithostatic pre-stress) applied with no magma reservoir overpressure\label{g1p0}
-    \item gravitational loading applied with magma reservoir overpressure \label{g1p1}
-\end{enumerate}
-If gravitational loading is in fact insignificant, displacement in case~\ref{g0p1} should match the component of remaining in case~\ref{g1p1} after the gravitational component from case~\ref{g1p0} is subtracted out. The reason I need to subtract out this component is that the modelled edifice is not perfectly flat. Therefore, vertical loading is not initially in equilibrium under the reservoir and some ``slumping'' occurs to accommodate this imbalance.
-
-\subsubsection{Comparison with Analytical Solution}
-The discrete Equation~\eqref{eq:tilt-from-flat-model} can be taken to the continuous limit by dividing each term in the numerator and denominator by the element width \acs{dr1}:
-\begin{equation}
-\acs{tilt}
-    = \lim_{\acs{dr1}\to0} 
-    -\arctan\left(\dfrac{\acs{ddisp_z}/\acs{dr1}}{\acs{dr1}/\acs{dr1}
-    + \acs{ddisp_r}/\acs{dr1}}\right) = 
-    -\arctan\left(\dfrac{\acs{disp_z'}}{1+\acs{disp_r'}}\right),\label{eq:tilt-from-flat-analytical-model}
-\end{equation}
-where $'$ denotes the derivative with respect to $r_1$. I use the \textcite{mogi_relations_1958} Model:
-\begin{gather}
-    \acs{disp_z} = kd{(d^2+r_1^2)}^{-1.5},\label{eq:uz_mogi}\\
-    \acs{disp_r} = kr_1{(d^2+r_1^2)}^{-1.5},\label{eq:ur_mogi}\\
-    k = {3R^3\Delta P}/{4G},\nonumber
-\end{gather}
-where $R$ is the reservoir radius, $\Delta P$ is the overpressure, and $G$ is the elastic shear modulus. Differentiating Equations~\eqref{eq:uz_mogi} and~\eqref{eq:ur_mogi}, substituting into Equation~\eqref{eq:tilt-from-flat-analytical-model}, and simplifying:
-\begin{equation}
-    \boxed{\acs{tilt} = \arctan\left(\frac{3kdr_1}{{(d^2+r_1^2)}^{2.5}+k(d^2-2r_1^2)}\right).}\label{eq:tilt-from-mogi-model}
-\end{equation}
-I compare this result with the numerical results for equant $(\acs{Rr}=\acs{Rz})$ reservoirs to validate the method.
-
-\subsection{Implementation}
-
-\subsubsection{Modelling Displacement in COMSOL}
-
-I use the numerical modelling software COMSOL Multiphysics 6.1 (COMSOL) to construct a numerical representation of Olympus Mons. The model is axisymmetric, about the center point discussed previously as the center of the \qty{19}{\km} contour. A profile from due south of this point is used as the 
-
-I use the \hlss{Parametric Sweep} tool to perform a sequence of analyses which are identical except for specifically controlled parameters: \ac{DtT}, \ac{Rr}, \ac{Rz}, and a \ac{mult}:
-\begin{equation}
-    \acs{dP}=\acs{mult}\times\acs{rhor}\times\acs{g}\times\acs{DtT},
-\end{equation}
-where \acs{dP} is the simulated over- (positive) or under-pressure in the reservoir. For each numerical model, I output surface displacement in the radial and vertical direction as a function of distance from the inflation center. 
-
-\subsubsection{Computing Tilt in Python}
-
-As in Section~\ref{sec:map-python}, I use this section to describe my approach for implementing Equation~\eqref{eq:tilt-from-model} using the displacement data generated in COMSOL, leaving the full details to Appendix~\ref{app:code}.
 

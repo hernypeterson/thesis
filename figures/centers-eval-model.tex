@@ -1,8 +1,8 @@
 \begin{tikzpicture}[scale=1]
 
 \coordinate (ceval) at (0,-2);
-\coordinate (subsetA) at (-4,3);
-\coordinate (subsetB) at (-2,3);
+\coordinate (popA) at (-4,3);
+\coordinate (popB) at (-2,3);
 \coordinate (fcriteria) at (3,3.5);
 \coordinate (gcriteria) at (3,2.5);
 \coordinate (centersample) at (0,6);
@@ -39,24 +39,24 @@
         \hline
         &\\
         &copy of & calculated\\
-        &\hltt{samples.csv} & from center ID\\
+        &\hltt{samples.csv} & from cID\\
         &\\
       \end{tabular}};
 
-  \node [draw, shape=rectangle, align=center, rounded corners=0.2cm] at (subsetA) {\begin{tabular}{c}
+  \node [draw, shape=rectangle, align=center, rounded corners=0.2cm] at (popA) {\begin{tabular}{c}
     sID\\
     \hline
     \\
   \end{tabular}};
 
-  \node [draw, shape=rectangle, align=center, rounded corners=0.2cm] at (subsetB) {\begin{tabular}{c}
+  \node [draw, shape=rectangle, align=center, rounded corners=0.2cm] at (popB) {\begin{tabular}{c}
     sID\\
     \hline\\
     \hline\\
   \end{tabular}};
 
-  \node [draw, shape=rectangle, align=center, rounded corners=0.2cm] at (fcriteria) {$f:\text{subset}, \text{cID} \longrightarrow \text{number}$};
-  \node [draw, shape=rectangle, align=center, rounded corners=0.2cm] at (gcriteria) {$g:\text{subset}, \text{cID} \longrightarrow \text{number}$};
+  \node [draw, shape=rectangle, align=center, rounded corners=0.2cm] at (fcriteria) {$f:\text{population}, \text{cID} \longrightarrow \text{number}$};
+  \node [draw, shape=rectangle, align=center, rounded corners=0.2cm] at (gcriteria) {$g:\text{population}, \text{cID} \longrightarrow \text{number}$};
 
   \node (centersevaltable) [draw, shape=rectangle, align=center] at (ceval) {\begin{tabular}{c|c|c}
     cID & LAT, LON & $f(A), g(A)\cdots f(B), g(B)\cdots$\\
@@ -64,7 +64,7 @@
     &\\
     &\\
     &copy of&calculated from\\
-    &\hltt{centers.csv}&subsets \& criteria\\
+    &\hltt{centers.csv}&populations \& criteria\\
     &\\
     &\\
   \end{tabular}};

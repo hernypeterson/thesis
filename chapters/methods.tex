@@ -224,9 +224,8 @@ This uncertainty term provides some flexibility in the analysis, but at a cost. 
 However, samples taken from discordant features can now be explained by a range of tilts, as shown in Figure~\ref{fig:tilt-range}.
 
 \begin{figure}
-    %\includegraphics[width=\textwidth]{tilt-range.jpeg}%
     \include{figures/tilt-range.tex}%
-    \caption{Paleo-azimuth uncertainty introduces tilt flexibility.}%
+    \caption{Paleo-azimuth uncertainty introduces tilt flexibility. \textbf{Left:} With \acs{az1} treated as an exact quantity, there are a narrow range of radial directions which can translate the line to meet the point, and for many of those angles the tilt required is large. \textbf{Right:} With a wider range of possible \acs{az1} values, more radial directions are possible to translate somewhere in the shaded region to the point. Additionally, the tilt required to reach the boundary will always be less. However, points within the shaded region can only evaluate to $\acs{tilt}=\ang{0}$. Therefore, the choice of uncertainty value is a tradeoff between incorporating more data points and explaining discordance using smaller, more realistic tilts.}%
     \label{fig:tilt-range}
 \end{figure}
 
@@ -349,10 +348,6 @@ Then, I need to compute Equation~\eqref{eq:tilt-from-map} for each sampled point
     \item Export a table with attributes of each sampled point: some of which depend only on the point itself (calculated in Section [Previous]) and some of which depend on the relationship between the sampled point and the inflation center [calculated in this iteration]. With the data exported, the iteration begins again with the next inflation center candidate.
 \end{enumerate}
 The final product of this process is a collection of \hltt{.csv} files---one for each inflation center candidate---each containing the axisymmetric tilt angle implied at each point. 
-
-\subsubsection{Computation in Python}\label{sec:map-python}
-
-I use the Python programming language (version 3.10.9) in a Jupyter Notebook environment for computing tilt (and additional variables) for each center-sample pair. I then evaluate each center point for a range of criteria based on these computed variables. In this section, I describe conceptually the data structures, functions, and logic involved in the analysis. The full source code with more detailed comments is included in Appendix~\ref{app:code}.
 
 \begin{figure}
     \input{figures/centers-eval-model.tex}%

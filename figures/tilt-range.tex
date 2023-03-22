@@ -1,21 +1,37 @@
-\newcommand{\flatradius}{5}
-\newcommand{\flatouterradius}{5.5}
-\newcommand{\uncert}{15}
+\newcommand{\flatradius}{2.5}
+\newcommand{\uncert}{25}
 
 \begin{tikzpicture}[scale=1]
 
     \coordinate (orig) at (0,0);
-    \coordinate (s2) at (-60:2);
+    \coordinate (s2) at (-60:1);
 
     \draw (orig) circle (\flatradius);
 
-    \draw[line width=1mm] (120:\flatouterradius) arc (120:70:\flatouterradius);
-    
-    \draw[line width=1mm] (250:\flatouterradius) arc (250:300:\flatouterradius);
-
-    \draw[arrow] (orig) -- (70:\flatradius);
-    \draw[arrow, thin] (orig) -- (70-\uncert:\flatradius);
-    \draw[arrow, thin] (orig) -- (70+\uncert:\flatradius);
+    \draw[arrow, ultra thick] (orig) -- (70:\flatradius);
     \fill (s2) circle (1mm);
 
+    \draw[very thin] (s2) -- (orig);
+    \draw[very thin] (s2) -- (70:\flatradius);
+
+
+\end{tikzpicture}%
+\hspace{1.5cm}%
+\begin{tikzpicture}[scale=1]
+
+    \coordinate (orig) at (0,0);
+    \coordinate (s2) at (-60:1);
+
+    \fill[opacity=0.1] (orig) -- (70+\uncert:\flatradius) arc (70+\uncert:70-\uncert:\flatradius) -- (orig);
+    \fill (s2) circle (1mm);
+
+    \draw (orig) circle (\flatradius);
+
+    \draw[arrow, ultra thick] (orig) -- (70:\flatradius);
+    \draw[arrow, blue] (orig) -- (70-\uncert:\flatradius);
+    \draw[arrow, blue] (orig) -- (70+\uncert:\flatradius);
+    \fill (s2) circle (1mm);
+
+    \draw[very thin, blue] (s2) -- (orig);
+    \draw[very thin, blue] (s2) -- (70-\uncert:\flatradius);
 \end{tikzpicture}%

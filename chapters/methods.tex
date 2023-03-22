@@ -6,7 +6,7 @@ In this section, I first introduce fundamental geometric considerations which in
 
 Next, I outline a method for measuring surface \emph{attitude} data via topography and the orientation of discordant lava flow features (Section~\ref{sec:mapping}). While this dataset alone provides evidence of surface deformation \parencite[c.f.][]{mouginis-mark_late-stage_2019}, I show that it is insufficient for physically quantifying this deformation, i.e., estimating reservoir location (horizontal and vertical), volume, pressure change, etc. I also briefly discuss some limitations and necessary assumptions of this method. 
 
-Before describing a solution to this problem, it is necessary to introduce a method for gathering modelled \emph{displacement} data corresponding to Olympus Mons' elastic response to reservoir pressure change. I use this method to explore a wide space of model parameters including gravitational loading, proto-topography, and magma reservoir depth, size, shape, and pressure change. Once again, I discuss limitations and criteria for assessing physical plausibility of these models.
+Before describing a solution to this problem, it is necessary to introduce a method for gathering modelled \emph{displacement} data corresponding to Olympus Mons' elastic response to reservoir pressure change. I use this method to explore a wide space of model parameters including gravitational loading, paleo-topography, and magma reservoir depth, size, shape, and pressure change. Once again, I discuss limitations and criteria for assessing physical plausibility of these models.
 
 Finally, I develop a geometric framework to directly compare mapped attitude data and modelled displacement data. Key steps in this framework include:
 \begin{enumerate}
@@ -213,8 +213,6 @@ Another problem occurs even in the single-handed (both left or both right) case 
 \end{equation}
 because the resulting argument in Equation~\eqref{eq:sl1} is outside the domain of the arcsin function. Physically this case occurs when the lava flow is close to parallel to the radial direction for the modelled inflation center. Additionally, when $|\sin\acs{beta1}|$ is only slightly greater than $|\sin\acs{beta2}\sin\acs{sl2}|$, the calculated \acs{sl1} will be unrealistically large. Both of these cases reflect the difficulty of changing the downhill azimuth of a flow by tipping it roughly in the direction it is already pointing. The quantity of these undefined or unrealistic tilt values provide an additional test on the validity of each axisymmetric inflation center.
 
-Once these issues are addressed by removing \hltt{<null>} (domain error) or negative entries, I record the number of invalid samples and proceed using the valid subset.
-
 \subsubsection{Tilt Equation}
 
 In Figure~\ref{fig:tilt-from-map}, the arrow which translates the \acs{az1} line onto $\left(\acs{az2},\acs{sl2}\right)$ is a segment of a small circle about the tilt axis. To determine the true angle of tilt I translate this small circle onto the corresponding great circle along the blue and green great circle segments, respectively. I include this derivation in Appendix~\ref{app:spherical-trig}. The difference between these two transformations is the tilt: 
@@ -225,10 +223,13 @@ Unlike Equation~\eqref{eq:sl1}, this calculations will not raise any domain erro
 
 \subsection{Deriving Tilt from Modelled Displacement Data}
 
-The numerical formula for \acf{tilt} given \acs{disp_a} and \acs{disp_b} is derived from Figure~\ref{fig:tilt-from-model}, which shows the surface edge of a single model element before and after reservoir pressure change:
+\subsubsection{Tilt Equation}
+Figure~\ref{fig:tilt-from-model} shows the surface edge of a single model element before (initial) and after (displaced) modelled pressure change. The corresponding tilt equation is:
 \begin{equation}
     \acs{tilt} = \arctan\left({\acs{dz1}}/{\acs{dr1}}\right) - \arctan\left(\dfrac{\acs{dz1}+\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right).\label{eq:tilt-from-model}
 \end{equation}
+
+I define the distance value associated with this calculated tilt as the midpoint of the displaced element. In practice, the horizontal scale for this element (both before and after displacement) is negligible compared to the scale of the edifice, so another choice of distance within the element (e.g., the midpoint of the initial surface) would produce indistinguishable results.
 
 \begin{figure}
     \input{figures/tilt-from-model.tex}%
@@ -238,7 +239,7 @@ The numerical formula for \acf{tilt} given \acs{disp_a} and \acs{disp_b} is deri
 
 \subsubsection{Additional Model Considerations}
 
-Topography and gravity.
+In Section~\ref{sec:modelling}, I explain that the axisymmetric numerical model edifice is constructed from a elevation transect due south from the study area center point to the base of the edifice \qty{\sim240}{\km} away. This particular center point is derived from the summit of a topographic spline: an interpolation of a hypothetical paleo-topography based on the existing topography outside the outermost \qty{19}{\km} contour (Figure~\ref{fig:summit}). The topography of this outer region \emph{is} roughly axisymmetric and assumed to be relatively unaffected by subsequent caldera and reservoir activity.
 
 As discussed above, the spline fit defines the center\dots
 

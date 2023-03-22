@@ -129,6 +129,16 @@ The first variable collected is \ac{az1}, which each point inherits from its par
 
 Then, I use the \hlss{Surface Parameters} tool on the \ac{MOLA} \ac{DEM} to compute average topographic \hlss{Slope} and \hlss{Aspect} (downhill azimuth) rasters across the entire study area. To avoid capturing local topographic anomalies, these values are averaged over a ``neighborhood'' with radius \neighborhood. I use the \hlss{Extract Multi Values to Points} tool to assign \ac{sl2} and \ac{az2} to each based on the value of the corresponding raster value at that location. Figure~\ref{fig:tilt-from-map} includes a geometric view of these variables in attitude space alongside \acs{az1}.
 
+\subsection{Axisymmetric Center Candidate Locations}
+
+To identify the most likely center candidates I use the \hlss{Generate Tesselation} and \hlss{Feature to Point} tools to generate an evenly spaced array of points in the caldera vicinity as shown in Figure~\ref{fig:candidates}. Each of these 781 points is than \qty{4}{\km} from its six neighbors.
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{candidates.pdf}%
+    \caption{Axisymmetric center location candidates}%
+    \label{fig:candidates}
+\end{figure}
+
 \section{Numerically Modelling Reservoir Pressure Change}\label{sec:modelling}
 
 In this section, I model pressure changes (either inflation or deflation) of a magma reservoir under the mapped study area.
@@ -217,7 +227,7 @@ Unlike Equation~\eqref{eq:sl1}, this calculations will not raise any domain erro
 
 \subsubsection{Physical Considerations}
 
-Equation~\eqref{fig:tilt-from-map} could in principle be applied directly to a given center-sample pair to calculate up to one unique tilt value. However, this calculation is extremely sensitive to error in collected data. [FIGURE TO ILLUSTRATE THIS]. Even if attitude data could be collected with perfect precision, there are several reasons why the resulting tilt would be inaccurate. For example, a lava flow may have been heading at a slight offset from the regional downhill azimuth due to local topography or physical processes occurring within the lava. Therefore, I introduce an uncertainly term for the \acs{az1} term, $\pm\ang{7}$. 
+Equation~\eqref{fig:tilt-from-map} could in principle be applied directly to a given center-sample pair to calculate up to one unique tilt value. However, this calculation is extremely sensitive to error in collected data. Even if attitude data could be collected with perfect precision, there are several reasons why the resulting tilt would be inaccurate. For example, a lava flow may have been heading at a slight offset from the regional downhill azimuth due to local topography or physical processes occurring within the lava. Therefore, I introduce an uncertainly term for the \acs{az1} term, $\pm\ang{7}$. 
 
 This uncertainty term provides some flexibility in the analysis, but at a cost. By definition, any flow feature whose modern underlying topography has a downhill azimuth within \ang{7} cannot be considered ``discordant'' and thus no tilt calculation can take place here.
 
@@ -225,11 +235,13 @@ However, samples taken from discordant features can now be explained by a range 
 
 \begin{figure}
     \include{figures/tilt-range.tex}%
-    \caption{Paleo-azimuth uncertainty introduces tilt flexibility. \textbf{Left:} With \acs{az1} treated as an exact quantity, there are a narrow range of radial directions which can translate the line to meet the point, and for many of those angles the tilt required is large. \textbf{Right:} With a wider range of possible \acs{az1} values, more radial directions are possible to translate somewhere in the shaded region to the point. Additionally, the tilt required to reach the boundary will always be less. However, points within the shaded region can only evaluate to $\acs{tilt}=\ang{0}$. Therefore, the choice of uncertainty value is a tradeoff between incorporating more data points and explaining discordance using smaller, more realistic tilts.}%
+    \caption[Paleo-azimuth uncertainty]{Paleo-azimuth uncertainty introduces tilt flexibility. \textbf{Left:} With \acs{az1} treated as an exact quantity, there are a narrow range of radial directions which can translate the line to meet the point, and for many of those angles the tilt required is large. \textbf{Right:} With a wider range of possible \acs{az1} values, more radial directions are possible to translate somewhere in the shaded region to the point. Additionally, the tilt required to reach the boundary will always be less. However, points within the shaded region can only evaluate to $\acs{tilt}=\ang{0}$. Therefore, the choice of uncertainty value is a tradeoff between incorporating more data points and explaining discordance using smaller, more realistic tilts.}%
     \label{fig:tilt-range}
 \end{figure}
 
 \subsection{Deriving Tilt from Modelled Displacement Data}
+
+It is much more straightforward to derive tilt from the numerical model, since this is a direct simulation of a surface being deformed from an initial configuration to a displaced configuration. The only issue is that COMSOL produces displacement data corresponding to individual model nodes. Tilt is derived from the attitude of a surface, the smallest unit of which in the axisymmetric model is an edge defined by two adjacent nodes.
 
 \subsubsection{Tilt Equation}
 Figure~\ref{fig:tilt-from-model} shows the surface edge of a single model element before (initial) and after (displaced) modelled pressure change. The corresponding tilt equation is:
@@ -237,11 +249,11 @@ Figure~\ref{fig:tilt-from-model} shows the surface edge of a single model elemen
     \acs{tilt} = \arctan\left({\acs{dz1}}/{\acs{dr1}}\right) - \arctan\left(\dfrac{\acs{dz1}+\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right).\label{eq:tilt-from-model}
 \end{equation}
 
-I define the distance value associated with this calculated tilt as the midpoint of the displaced element. In practice, the horizontal scale for this element (both before and after displacement) is negligible compared to the scale of the edifice, so another choice of distance within the element (e.g., the midpoint of the initial surface) would produce indistinguishable results.
+I define the distance value associated with this calculated tilt as the midpoint of the displaced edge. In practice, the horizontal scale for this edge (both before and after displacement) is negligible compared to the scale of the edifice, so another choice of distance within the edge (e.g., the midpoint of the initial surface) would produce indistinguishable results.
 
 \begin{figure}
     \input{figures/tilt-from-model.tex}%
-    \caption[Tilt from numerical modelling]{Cross-sectional view of a surface element in the axisymmetric numerical model. As in Figure~\ref{fig:tilt-from-map}, the $r-$axis points away from the inflation center. During the model, the two nodes $A_1$ and $B_1$ of a surface element are displaced along \acs{disp_a} and \acs{disp_b} to reach a final position at $A_2$ and $B_2$, respectively. I illustrate the difference $\acs{disp_b} - \acs{disp_a} = \acs{ddisp}$ in terms of its components \acs{ddisp_r} and \acs{ddisp_z}. Notice that $z-$component terms are negative to ensure that tilt away from the inflation center yields a positive tilt \acs{tilt}, as shown in red. To calculate \acs{tilt}, I determine the slopes of segments $\overline{A_1B_1}$ and $\overline{A_2'B_1}$ using the labeled horizontal and vertical segments, convert these slopes to angles, and take their difference.}%
+    \caption[Tilt from numerical modelling]{Cross-sectional view of a surface edge in the axisymmetric numerical model. As in Figure~\ref{fig:tilt-from-map}, the $r-$axis points away from the inflation center. During the model, the two nodes $A_1$ and $B_1$ of a surface element are displaced along \acs{disp_a} and \acs{disp_b} to reach a final position at $A_2$ and $B_2$, respectively. I illustrate the difference $\acs{disp_b} - \acs{disp_a} = \acs{ddisp}$ in terms of its components \acs{ddisp_r} and \acs{ddisp_z}. Notice that $z-$component terms are negative to ensure that tilt away from the inflation center yields a positive tilt \acs{tilt}, as shown in red. To calculate \acs{tilt}, I determine the slopes of segments $\overline{A_1B_1}$ and $\overline{A_2'B_1}$ using the labeled horizontal and vertical segments, convert these slopes to angles, and take their difference.}%
     \label{fig:tilt-from-model}%
 \end{figure}
 
@@ -261,31 +273,29 @@ Additionally, \textcite{grosfils_magma_2007} showed that incorporating gravitati
     \item gravitational loading (lithostatic pre-stress) with no reservoir overpressure\label{g1p0}
     \item gravitational loading with reservoir overpressure \label{g1p1}
 \end{enumerate}
-If gravitational loading is in fact insignificant, displacement in case~\ref{g0p1} should match the component of remaining in case~\ref{g1p1} after the gravitational component from case~\ref{g1p0} is subtracted out. The reason I need to subtract out this component is that the modelled edifice is not perfectly flat. Therefore, vertical loading is not initially in equilibrium under the reservoir and some ``slumping'' occurs to accommodate this imbalance. I present preliminary test results in Figure~\ref{fig:topo-test}.
+If gravitational loading is in fact insignificant, displacement in case~\ref{g0p1} should match the component of remaining in case~\ref{g1p1} after the gravitational component from case~\ref{g1p0} is subtracted out. The reason I need to subtract out this component is that the modelled edifice is not perfectly flat. Therefore, vertical loading is not initially in equilibrium under the reservoir and some ``slumping'' occurs to accommodate this imbalance. I present preliminary test results in Figure~\ref{fig:grav-topo-test}.
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{topo-test.pdf}
-    \includegraphics[width=\textwidth]{topo-test-zoom.pdf}%
-    \caption[Flat Model]{Comparison between topographic and flat model with and without gravitational loading. Patterns are consistent across a range of model parameters tested; a single representative case is plotted above, with the peak shown in more detail below. Gravitational loadings makes essentially no difference, while the flat model (topo = False) tends to underestimate tilt by a few percent.}%
-    \label{fig:topo-test}%
+    \includegraphics[width=\textwidth]{grav-topo-test.pdf}
+    \includegraphics[width=\textwidth]{grav-topo-test-zoom.pdf}%
+    \caption[Numerical model sensitivity to topography and gravity]{Comparison between topographic and flat model with and without gravitational loading. Patterns are consistent across a range of model parameters tested; a single representative case is plotted above, with the peak shown in more detail below. Gravitational loadings makes essentially no difference, while the flat model (topo = False) tends to underestimate tilt by a few percent.}%
+    \label{fig:grav-topo-test}%
 \end{figure}
 
-As expected for the flat model, gravitational loading has no effect on surface displacement and thus the subsequently calculated tilt is identical. The topographically accurate model shows the same pattern with respect to gravitational loading. There is a small but noticeable difference in tilt between the flat and topographic models, which ranges between ($0\%-10\%$) for the parameters I examined.
+As expected for the flat model, gravitational loading has no effect on surface displacement and thus the subsequently calculated tilt is identical. The topographically accurate model shows the same pattern with respect to gravitational loading. There is a small but noticeable difference in tilt between the flat and topographic models, which ranges between ($0\%-10\%$) for the parameters I examined. This result places a reassuring upper bound on the magnitude of error that could be introduced by varying the horizontal location of a modelled inflation center within the summit region---likely much less than error introduced elsewhere.
 
 \subsection{Analytical Tilt Solution}
 
-In this section, I draw on the widely cited analytical \emph{displacement} solution developed by \textcite{mogi_relations_1958} to derive an analytical \emph{tilt} solution as a counterpart to the numerical method described by Equation~\eqref{eq:tilt-from-model}. This so-called Mogi model assumes a deep spherical reservoir within a flat (``topo = False'') elastic half-space. These conditions are not necessarily met even within my numerical models, much less the physical edifice of Olympus Mons. However, this solution serves two important roles in my analysis. 
+In this section, I draw on the widely cited analytical \emph{displacement} solution developed by \textcite{mogi_relations_1958} to derive an analytical \emph{tilt} solution as a counterpart to the numerical method described by Equation~\eqref{eq:tilt-from-model}. This so-called Mogi model assumes a deep spherical reservoir within a flat (``topo = False'') elastic half-space.
 
-First, when the assumptions are upheld in the numerical model, the analytical solution confirms that the model is working correctly.
+\subsubsection{Tilt Equation}
 
-More importantly, I will show that even conditions which violate the analytical solution assumptions produce tilt functions of similar qualitative shapes. To see this, I proceed with the analytical tilt solution derivation.
-
-Equation~\eqref{eq:tilt-from-model} in a flat half-space (fla$\acs{dz1} = 0$) reduces to:
+Equation~\eqref{eq:tilt-from-model} in such a half-space ($\acs{dz1} = 0$) reduces to:
 \begin{equation}
     \acs{tilt} = 
     -\arctan\left(\dfrac{\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right).\label{eq:tilt-from-flat-model}
 \end{equation}
-This discrete equation can be taken to the continuous limit by dividing each term in the numerator and denominator by the element width \acs{dr1}:
+This discrete equation can be taken to the continuous limit by dividing each term in the numerator and denominator by the edge width \acs{dr1}:
 \begin{equation}
 \acs{tilt}
     = \lim_{\acs{dr1}\to0} 
@@ -310,6 +320,26 @@ Differentiating Equations~\eqref{eq:uz_mogi} and~\eqref{eq:ur_mogi}, substitutin
 \end{equation}
 This key equation relates the measured\footnote{or independently calculated.} variables \acs{tilt} and r1 to physical parameters associated with reservoir pressure change: depth $d$ and energy $PV$.
 
+\subsubsection{Physical Considerations}
+
+The conditions assumed in this analytical model are not necessarily met even within my numerical models, much less the physical edifice of Olympus Mons. However, this solution serves two important roles in my analysis. 
+
+First, when the assumptions \emph{are} upheld\footnote{to the greatest extent possible; a reservoir of finite width and depth can never completely eliminate edge effects from the free surface above} in the numerical model, the analytical solution confirms that the model is working correctly. I show a representative example confirming this in Figure~\ref{fig:mogi-test}.
+
+\begin{figure}[h!]
+    \includegraphics[width=\textwidth]{mogi-test.pdf}%
+    \caption[Analytical solution verification]{Verification that the analytical tilt solution derived from \textcite{mogi_relations_1958} matches the numerical result for a deep, small, spherical reservoir in a flat half-space. ``Mogi (calc)'' uses parameters $d$ and $PV$ identical (or calculated directly from) those in the numerical model; ``Mogi (fit)'' uses a non-linear least squares regression to fit the numerical model data to the parameterized tilt function. All three results are essentially identical; the estimated parameters are very close to the true parameters.}%
+    \label{fig:mogi-test}
+\end{figure}
+
+More importantly, I show in Figure~\ref{fig:mogi-test-shallow-oblate} that even conditions which violate the analytical solution assumptions produce tilt functions of similar qualitative shapes, although the associated parameters are incorrect.
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{mogi-test-shallow-oblate.pdf}%
+    \caption[Analytical model sensitivity to reservoir geometry]{Illustration of the error introduced by violating analytical assumption of a deep, point-like reservoir in a flat half-space. Specifically, this numerically modelled reservoir is oblate and close to the surface relative to its size; it also lies within a model of the Olympus Mons edifice rather than a flat half-space. Despite these factors, an analytical solution can fit the shape of this numerical data well, albeit by overestimating the depth and inflation energy responsible.}%
+    \label{fig:mogi-test-shallow-oblate}
+\end{figure}
+
 \subsection{Evaluating Axisymmetry Center Candidates}
 
 I apply the axisymmetry condition to two distinct aspects of the study area geometry: paleo-summit location (prior to caldera complex formation) and inflation (or deflation) center. Importantly, the center of these two locations may be different.
@@ -330,28 +360,9 @@ I conduct the analysis outlined above using various subsets of the sample point 
 
 % TODO: add section with great circle distance function from lat/lon
 
-\subsection{Implementation}
-
-%TODO this section needs to be completely rewritten
-
-\subsubsection{Mapping in ArcGIS Pro}
-
-To identify the most likely inflation center candidates I use the \hlss{Generate Tesselation} and \hlss{Feature to Point} tools to generate an evenly spaced array of points in the caldera vicinity as shown in Figure [Need to make map here].
-
-Then, I need to compute Equation~\eqref{eq:tilt-from-map} for each sampled point (from flows and channels) and from each inflation center point. Here I use the \hlss{ModelBuilder} tool to:
-\begin{enumerate}
-    \item Iterate over the feature class shown in Figure~[CENTERS] (perform the subsequent steps in order using a different point each).
-    \item Run the \hlss{Near} tool to compute the distance and direction from the single inflation center to the sampled point. The former is necessary for direct comparison with the axisymmetric model results, step is necessary to define \acs{beta1} and \acs{beta2} for each point.
-    \item Evaluate Equation~\eqref{eq:sl1} for each point.
-    \item In addition to the values which are already \hltt{<null>} due to the domain error in Equation~\eqref{eq:sl1}, I set any negative values to \hltt{<null>}.
-    \item Evaluate Equation~\eqref{eq:tilt-from-map} for each valid point.
-    \item Export a table with attributes of each sampled point: some of which depend only on the point itself (calculated in Section [Previous]) and some of which depend on the relationship between the sampled point and the inflation center [calculated in this iteration]. With the data exported, the iteration begins again with the next inflation center candidate.
-\end{enumerate}
-The final product of this process is a collection of \hltt{.csv} files---one for each inflation center candidate---each containing the axisymmetric tilt angle implied at each point. 
-
 \begin{figure}
     \input{figures/centers-eval-model.tex}%
-    \caption[]{Evaluation of axisymmetric center candidates.}%
+    \caption{Evaluation of axisymmetric center candidates.}%
     \label{fig:centers-eval-model}
 \end{figure}
 

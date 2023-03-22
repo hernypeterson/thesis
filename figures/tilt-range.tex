@@ -1,0 +1,21 @@
+\newcommand{\flatradius}{5}
+\newcommand{\flatouterradius}{5.5}
+\newcommand{\uncert}{15}
+
+\begin{tikzpicture}[scale=1]
+
+    \coordinate (orig) at (0,0);
+    \coordinate (s2) at (-60:2);
+
+    \draw (orig) circle (\flatradius);
+
+    \draw[line width=1mm] (120:\flatouterradius) arc (120:70:\flatouterradius);
+    
+    \draw[line width=1mm] (250:\flatouterradius) arc (250:300:\flatouterradius);
+
+    \draw[arrow] (orig) -- (70:\flatradius);
+    \draw[arrow, thin] (orig) -- (70-\uncert:\flatradius);
+    \draw[arrow, thin] (orig) -- (70+\uncert:\flatradius);
+    \fill (s2) circle (1mm);
+
+\end{tikzpicture}%

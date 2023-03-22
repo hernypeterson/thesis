@@ -82,9 +82,6 @@ Where flow margins are not visible, I map channels directly as linear features. 
 
 \subsection{Paleo-Azimuth from Mapped Features}
 
-% \subsubsection{Segmentation}
-% [INCOMPLETE] Bounding box, aspect ratio
-
 I use the \hlss{Calculate Geometry Attributes} tool to find the azimuthal orientation from the start to the end of each feature. This angle is the variable \ac{az1} to each feature, although the following section discussion explains why this variable is not quite ready for use in attitude analysis. While I maintain a consistent ``sense'' in my channel mapping (pointing away from rather than toward the caldera center), the \hlss{Polygon To Centerline} tool does not. Therefore, some flow centerlines need to be reversed using the \hlss{Flip Line} tool.
 
 To determine which centerlines must be reversed, I use the \hlss{Near} tool to determine the azimuth angle from each linear feature to the center of the study area \acs{center}. Here, I leverage my initial observation that all flows in the study area point generally \emph{away} from the caldera center. Therefore, a correctly oriented feature is one where \acs{az1} is \ang{\sim180} away from the calculated angle; at the very least, it should be \ang{90} away. Therefore I select features where this angular difference is less than \ang{90} to reverse using \hlss{Flip Line}, as shown in Figure~\ref{fig:flip-line}. With all features now correctly oriented away from the caldera center, I recalculate the true \ac{az1} value using \hlss{Calculate Geometry Attributes}.
@@ -138,8 +135,7 @@ In this section, I model pressure changes (either inflation or deflation) of a m
 
 I use the numerical modelling software COMSOL Multiphysics 6.1 (COMSOL) to construct a numerical representation of Olympus Mons. The model is axisymmetric, about the center point discussed previously as the center of the \qty{19}{\km} contour.
 
-%\subsection{Proto-Edifice Reconstruction}
-% Therefore, I present a reconstruction of the proto-edifice which interpolates the topography of the distal (beyond outer \qty{19}{\km} contour) regions within the central region. This reconstruction is shown in Figure~(NUMBER). This provides an independent estimation of proto-topography to compare with the estimates based on lava flow misalignment.
+From this point, elevation transect due south from the study area center point to the base of the edifice \qty{\sim240}{\km} away. This particular center point is derived from the summit of a topographic spline: an interpolation of a hypothetical paleo-topography based on the existing topography outside the \qty{19}{\km} contour (Figure~\ref{fig:summit}). The topography of this outer region \emph{is} roughly axisymmetric and assumed to be relatively unaffected by subsequent caldera and reservoir activity.
 
 I use the \hlss{Parametric Sweep} tool to perform a sequence of analyses which are identical except for specifically controlled parameters: \ac{DtT}, \ac{Rr}, \ac{Rz}, and a \ac{mult}:
 \begin{equation}
@@ -189,9 +185,7 @@ Therefore, I make the following choices especially carefully. First, the bearing
 
 \begin{figure}
 \begin{center}
-    \input{figures/tilt-from-map-3d.tex}%
-    \hspace{1cm}%
-    \input{figures/tilt-from-map-flat.tex}%
+    \input{figures/tilt-from-map.tex}%
     \caption[\Acl{tilt} from mapping]{\textbf{Left:} A quadrant of an upper hemisphere representing attitude space for a sampled point relative to a particular inflation center. The pole labeled $\left(\acs{az2},\acs{sl2}\right)$ represents the modern surface. The line of poles labeled \acs{az1} represents the family of possible paleo-surfaces with downhill direction given by the lava flow direction. The $r-$axis points in the azimuthal direction away from a modelled inflation center \acs{center}. The assumption of axisymmetry imposes a horizontal axis of tilt perpendicular to the $r-$axis. The red arrow labeled \acs{tilt} answers the question: how much tilt \emph{about this axis} bring some pole on line \acs{az1} to pole $\left(\acs{az2},\acs{sl2}\right)$? \textbf{Right:} Orthographic projection (plan view of sphere, \emph{not stereographic!}) labeled with important angles and distances for the tilt calculation. Corresponds to horizontal grey rectangle on the left.}%
     \label{fig:tilt-from-map}%
 \end{center}
@@ -221,6 +215,21 @@ In Figure~\ref{fig:tilt-from-map}, the arrow which translates the \acs{az1} line
 \end{equation}
 Unlike Equation~\eqref{eq:sl1}, this calculations will not raise any domain errors. The only regions of high numerical sensitivity are near the poles of the tilt axis, but this occurs only for near-vertical observed surfaces (to yield high values of $\delta$ in Figure~\ref{fig:tilt-from-map}) which is unphysical.
 
+\subsubsection{Physical Considerations}
+
+Equation~\eqref{fig:tilt-from-map} could in principle be applied directly to a given center-sample pair to calculate up to one unique tilt value. However, this calculation is extremely sensitive to error in collected data. [FIGURE TO ILLUSTRATE THIS]. Even if attitude data could be collected with perfect precision, there are several reasons why the resulting tilt would be inaccurate. For example, a lava flow may have been heading at a slight offset from the regional downhill azimuth due to local topography or physical processes occurring within the lava. Therefore, I introduce an uncertainly term for the \acs{az1} term, $\pm\ang{7}$. 
+
+This uncertainty term provides some flexibility in the analysis, but at a cost. By definition, any flow feature whose modern underlying topography has a downhill azimuth within \ang{7} cannot be considered ``discordant'' and thus no tilt calculation can take place here.
+
+However, samples taken from discordant features can now be explained by a range of tilts, as shown in Figure~\ref{fig:tilt-range}.
+
+\begin{figure}
+    %\includegraphics[width=\textwidth]{tilt-range.jpeg}%
+    \include{figures/tilt-range.tex}%
+    \caption{Paleo-azimuth uncertainty introduces tilt flexibility.}%
+    \label{fig:tilt-range}
+\end{figure}
+
 \subsection{Deriving Tilt from Modelled Displacement Data}
 
 \subsubsection{Tilt Equation}
@@ -239,37 +248,40 @@ I define the distance value associated with this calculated tilt as the midpoint
 
 \subsubsection{Additional Model Considerations}
 
-In Section~\ref{sec:modelling}, I explain that the axisymmetric numerical model edifice is constructed from a elevation transect due south from the study area center point to the base of the edifice \qty{\sim240}{\km} away. This particular center point is derived from the summit of a topographic spline: an interpolation of a hypothetical paleo-topography based on the existing topography outside the outermost \qty{19}{\km} contour (Figure~\ref{fig:summit}). The topography of this outer region \emph{is} roughly axisymmetric and assumed to be relatively unaffected by subsequent caldera and reservoir activity.
+In Section~\ref{sec:modelling}, I explain that the axisymmetric numerical model edifice is constructed from a particular elevation transect measured from the summit of Olympus Mons. Relative to this point, surrounding topography is roughly axisymmetric, especially more than \qty{\sim50}{\km} away past the previously discussed \qty{19}{\km} contour.
 
-As discussed above, the spline fit defines the center\dots
+However, I do not assume that the subsequent reservoir pressure change was centered at this same location. Instead, my goal is to  determine this inflation center location on the basis of discordant flow data, wherever they may point.\footnote{In fact, I will show that the tendency of lava features to point away from this paleo-summit makes it a particularly \emph{unlikely} candidate for an identifiable inflation center}.
 
-\textcite{grosfils_magma_2007} showed that incorporating gravitational loading is unnecessary for modelling surface displacement.
+Importantly, placing a reservoir inflation center anywhere off the axis of symmetry in the numerical model introduces some inaccuracy. To make progress I need to determine whether this error is negligible; if it is not, I need to be aware of its magnitude as I interpret results.
 
-To confirm this, I run a test model under three conditions:
+Of course, an axisymmetric model by definition does not permit any non-axisymmetric elements to be introduced. Instead, I construct a flat (no edifice, horizontal surface) variant of the model as an end-member case for the topographic variation introduced by shifting the reservoir within the edifice.\footnote{This model does not directly address the issue of introducing uphill slope away from the inflation center, but the magnitude of any error introduced should be similar.}
+
+Additionally, \textcite{grosfils_magma_2007} showed that incorporating gravitational loading is unnecessary for modelling surface displacement. To confirm this, I run a test model under three conditions:
 \begin{enumerate}
     \item no gravitational loading with magma reservoir overpressure \label{g0p1}
-    \item gravitational loading (lithostatic pre-stress) applied with no magma reservoir overpressure\label{g1p0}
-    \item gravitational loading applied with magma reservoir overpressure \label{g1p1}
+    \item gravitational loading (lithostatic pre-stress) with no reservoir overpressure\label{g1p0}
+    \item gravitational loading with reservoir overpressure \label{g1p1}
 \end{enumerate}
-If gravitational loading is in fact insignificant, displacement in case~\ref{g0p1} should match the component of remaining in case~\ref{g1p1} after the gravitational component from case~\ref{g1p0} is subtracted out. The reason I need to subtract out this component is that the modelled edifice is not perfectly flat. Therefore, vertical loading is not initially in equilibrium under the reservoir and some ``slumping'' occurs to accommodate this imbalance.
+If gravitational loading is in fact insignificant, displacement in case~\ref{g0p1} should match the component of remaining in case~\ref{g1p1} after the gravitational component from case~\ref{g1p0} is subtracted out. The reason I need to subtract out this component is that the modelled edifice is not perfectly flat. Therefore, vertical loading is not initially in equilibrium under the reservoir and some ``slumping'' occurs to accommodate this imbalance. I present preliminary test results in Figure~\ref{fig:topo-test}.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{topo-test.pdf}
-    \caption[Flat Model]{Comparison between topographic and flat model.}%
+    \includegraphics[width=\textwidth]{topo-test-zoom.pdf}%
+    \caption[Flat Model]{Comparison between topographic and flat model with and without gravitational loading. Patterns are consistent across a range of model parameters tested; a single representative case is plotted above, with the peak shown in more detail below. Gravitational loadings makes essentially no difference, while the flat model (topo = False) tends to underestimate tilt by a few percent.}%
     \label{fig:topo-test}%
 \end{figure}
 
-Therefore, I proceed with a non-gravitationally loaded model.
+As expected for the flat model, gravitational loading has no effect on surface displacement and thus the subsequently calculated tilt is identical. The topographically accurate model shows the same pattern with respect to gravitational loading. There is a small but noticeable difference in tilt between the flat and topographic models, which ranges between ($0\%-10\%$) for the parameters I examined.
 
 \subsection{Analytical Tilt Solution}
 
-In this section, I draw on the widely cited analytical \emph{displacement} solution developed by \textcite{mogi_relations_1958} to derive an analytical \emph{tilt} solution as a counterpart to the numerical tilt-from-displacement solution outlined above. This model assumes a deep spherical reservoir within an elastic half-space. These conditions are not necessarily met even within my numerical models, much less the physical edifice of Olympus Mons. However, this solution serves two important roles in my analysis. 
+In this section, I draw on the widely cited analytical \emph{displacement} solution developed by \textcite{mogi_relations_1958} to derive an analytical \emph{tilt} solution as a counterpart to the numerical method described by Equation~\eqref{eq:tilt-from-model}. This so-called Mogi model assumes a deep spherical reservoir within a flat (``topo = False'') elastic half-space. These conditions are not necessarily met even within my numerical models, much less the physical edifice of Olympus Mons. However, this solution serves two important roles in my analysis. 
 
 First, when the assumptions are upheld in the numerical model, the analytical solution confirms that the model is working correctly.
 
-More importantly, even conditions which violate the analytical solution assumptions produce tilt functions of similar qualitative shapes. [SHOW THIS]. Therefore, tilt data resulting from unknown pressure change conditions can be fit to the right class of function. To see this, I proceed with the analytical tilt function derivation.  
+More importantly, I will show that even conditions which violate the analytical solution assumptions produce tilt functions of similar qualitative shapes. To see this, I proceed with the analytical tilt solution derivation.
 
-Equation~\eqref{eq:tilt-from-model} in a half-space (flat; $\acs{dz1} = 0$),  reduces to:
+Equation~\eqref{eq:tilt-from-model} in a flat half-space (fla$\acs{dz1} = 0$) reduces to:
 \begin{equation}
     \acs{tilt} = 
     -\arctan\left(\dfrac{\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right).\label{eq:tilt-from-flat-model}
@@ -286,12 +298,18 @@ where $'$ denotes the derivative with respect to $r_1$. The \textcite{mogi_relat
 \begin{gather}
     \acs{disp_z} = kd{(d^2+r_1^2)}^{-1.5},\label{eq:uz_mogi}\\
     \acs{disp_r} = kr_1{(d^2+r_1^2)}^{-1.5},\label{eq:ur_mogi}\\
-    k = {3R^3\Delta P}/{4G},\nonumber
+    k = {3R^3\Delta P}/{4G},\label{eq:k}
 \end{gather}
-where $R$ is the reservoir radius, $\Delta P$ is the overpressure, and $G$ is the elastic shear modulus. Differentiating Equations~\eqref{eq:uz_mogi} and~\eqref{eq:ur_mogi}, substituting into Equation~\eqref{eq:tilt-from-flat-analytical-model}, and simplifying:
+where $d$ is the depth to the center of the reservoir, $R$ is the reservoir radius, $\Delta P$ is the overpressure, and $G$ is the elastic shear modulus of the surrounding rock. Notice that Equation~\eqref{eq:k} can be written to solve for the product of reservoir volume and overpressure, which represents the energy associated with the reservoir pressure change:
+\begin{equation}
+    PV = \frac{4}{3}\pi R^3\Delta P=\frac{16\pi G}{9} \cdot k.
+\end{equation}
+
+Differentiating Equations~\eqref{eq:uz_mogi} and~\eqref{eq:ur_mogi}, substituting into Equation~\eqref{eq:tilt-from-flat-analytical-model}, and simplifying:
 \begin{equation}
     \acs{tilt} = \arctan\left(\frac{3kdr_1}{{(d^2+r_1^2)}^{2.5}+k(d^2-2r_1^2)}\right).\label{eq:tilt-from-mogi-model}
 \end{equation}
+This key equation relates the measured\footnote{or independently calculated.} variables \acs{tilt} and r1 to physical parameters associated with reservoir pressure change: depth $d$ and energy $PV$.
 
 \subsection{Evaluating Axisymmetry Center Candidates}
 

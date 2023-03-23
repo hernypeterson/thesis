@@ -143,6 +143,20 @@ To identify the most likely center candidates I use the \hlss{Generate Tesselati
 
 In this section, I model pressure changes (either inflation or deflation) of a magma reservoir under the mapped study area.
 
+\subsection{Axisymmetric Elastic Model}
+
+[NOTE: How much of this ``numerical modelling 101'' is appropriate?] 
+
+Figure~\ref{fig:axisymmetry} illustrates that the assumption of axisymmetry reduces the 3D edifice to a cross-sectional plane which is equivalent for modelling.
+
+TODO: describe Hookean elasticity assumption?
+
+\subsection{Finite Element Method}
+
+The \ac{FEM} is widely used to model phenomena ranging from fluid flow, heat transfer, and mechanical stress in engineering and geology. This method involves discretizing a continuous medium by constructing a \emph{mesh:} a network of nodes connected to their neighbors by edges. Polygons enclosed by these edges are called elements. Software then solves the chosen equations to compute the variables of interest only for the nodes, whose values can then be interpolated within each element to determine the solution for any point within the continuum.
+
+\subsection{Reservoir Pressure Change Model}
+
 I use the numerical modelling software COMSOL Multiphysics 6.1 (COMSOL) to construct a numerical representation of Olympus Mons. The model is axisymmetric, about the center point discussed previously as the center of the \qty{19}{\km} contour.
 
 From this point, elevation transect due south from the study area center point to the base of the edifice \qty{\sim240}{\km} away. This particular center point is derived from the summit of a topographic spline: an interpolation of a hypothetical paleo-topography based on the existing topography outside the \qty{19}{\km} contour (Figure~\ref{fig:summit}). The topography of this outer region \emph{is} roughly axisymmetric and assumed to be relatively unaffected by subsequent caldera and reservoir activity.
@@ -152,16 +166,6 @@ I use the \hlss{Parametric Sweep} tool to perform a sequence of analyses which a
     \acs{dP}=\acs{mult}\times\acs{rhor}\times\acs{g}\times\acs{DtT},
 \end{equation}
 where \acs{dP} is the simulated over- (positive) or under-pressure in the reservoir. For each numerical model, I output surface displacement in the radial and vertical direction as a function of distance from the inflation center. 
-
-\subsection{Axisymmetric Elastic Model}
-
-Figure~\ref{fig:axisymmetry} illustrates that the assumption of axisymmetry reduces the 3D edifice to a cross-sectional plane which is equivalent for modelling.
-
-TODO: describe Hookean elasticity assumption.
-
-\subsection{Finite Element Method}
-
-The \ac{FEM} is widely used to model phenomena ranging from fluid flow, heat transfer, and mechanical stress in engineering and geology. This method involves discretizing a continuous medium by constructing a \emph{mesh:} a network of nodes connected to their neighbors by edges. Polygons enclosed by these edges are called elements. Software then solves the chosen equations to compute the variables of interest only for the nodes, whose values can then be interpolated within each element to determine the solution for any point within the continuum.
 
 \section{Synthesis}
 
@@ -231,12 +235,12 @@ Equation~\eqref{fig:tilt-from-map} could in principle be applied directly to a g
 
 This uncertainty term provides some flexibility in the analysis, but at a cost. By definition, any flow feature whose modern underlying topography has a downhill azimuth within \ang{7} cannot be considered ``discordant'' and thus no tilt calculation can take place here.
 
-However, samples taken from discordant features can now be explained by a range of tilts, as shown in Figure~\ref{fig:tilt-range}.
+However, samples taken from discordant features can now be explained by a range of tilts, as shown in Figure~\ref{fig:az1-uncertainty}.
 
 \begin{figure}
-    \include{figures/tilt-range.tex}%
+    \include{figures/az1-uncertainty.tex}%
     \caption[Paleo-azimuth uncertainty]{Paleo-azimuth uncertainty introduces tilt flexibility. \textbf{Left:} With \acs{az1} treated as an exact quantity, there are a narrow range of radial directions which can translate the line to meet the point, and for many of those angles the tilt required is large. \textbf{Right:} With a wider range of possible \acs{az1} values, more radial directions are possible to translate somewhere in the shaded region to the point. Additionally, the tilt required to reach the boundary will always be less. However, points within the shaded region can only evaluate to $\acs{tilt}=\ang{0}$. Therefore, the choice of uncertainty value is a tradeoff between incorporating more data points and explaining discordance using smaller, more realistic tilts.}%
-    \label{fig:tilt-range}
+    \label{fig:az1-uncertainty}
 \end{figure}
 
 \subsection{Deriving Tilt from Modelled Displacement Data}
@@ -311,14 +315,14 @@ where $'$ denotes the derivative with respect to $r_1$. The \textcite{mogi_relat
 \end{gather}
 where $d$ is the depth to the center of the reservoir, $R$ is the reservoir radius, $\Delta P$ is the overpressure, and $G$ is the elastic shear modulus of the surrounding rock. Notice that Equation~\eqref{eq:k} can be written to solve for the product of reservoir volume and overpressure, which represents the energy associated with the reservoir pressure change:
 \begin{equation}
-    PV = \frac{4}{3}\pi R^3\Delta P=\frac{16\pi G}{9} \cdot k.
+    \acs{epv} = \frac{4}{3}\pi R^3\Delta P=\frac{16\pi G}{9} \cdot k.\label{eq:epv}
 \end{equation}
 
 Differentiating Equations~\eqref{eq:uz_mogi} and~\eqref{eq:ur_mogi}, substituting into Equation~\eqref{eq:tilt-from-flat-analytical-model}, and simplifying:
 \begin{equation}
     \acs{tilt} = \arctan\left(\frac{3kdr_1}{{(d^2+r_1^2)}^{2.5}+k(d^2-2r_1^2)}\right).\label{eq:tilt-from-mogi-model}
 \end{equation}
-This key equation relates the measured\footnote{or independently calculated.} variables \acs{tilt} and r1 to physical parameters associated with reservoir pressure change: depth $d$ and energy $PV$.
+This key equation relates the measured\footnote{or independently calculated.} variables \acs{tilt} and $r_1$ to physical parameters associated with reservoir pressure change: depth $d$ and energy \acs{epv}.
 
 \subsubsection{Physical Considerations}
 
@@ -328,11 +332,11 @@ First, when the assumptions \emph{are} upheld\footnote{to the greatest extent po
 
 \begin{figure}[h!]
     \includegraphics[width=\textwidth]{mogi-test.pdf}%
-    \caption[Analytical solution verification]{Verification that the analytical tilt solution derived from \textcite{mogi_relations_1958} matches the numerical result for a deep, small, spherical reservoir in a flat half-space. ``Mogi (calc)'' uses parameters $d$ and $PV$ identical (or calculated directly from) those in the numerical model; ``Mogi (fit)'' uses a non-linear least squares regression to fit the numerical model data to the parameterized tilt function. All three results are essentially identical; the estimated parameters are very close to the true parameters.}%
+    \caption[Analytical solution verification]{Verification that the analytical tilt solution derived from \textcite{mogi_relations_1958} matches the numerical result for a deep, small, spherical reservoir in a flat half-space. ``Mogi (calc)'' uses parameters $d$ and \acs{epv} identical (or calculated directly from) those in the numerical model; ``Mogi (fit)'' uses a non-linear least squares regression to fit the numerical model data to the parameterized tilt function. All three results are essentially identical; the estimated parameters are very close to the true parameters.}%
     \label{fig:mogi-test}
 \end{figure}
 
-More importantly, I show in Figure~\ref{fig:mogi-test-shallow-oblate} that even conditions which violate the analytical solution assumptions produce tilt functions of similar qualitative shapes, although the associated parameters are incorrect.
+More importantly, I show in Figure~\ref{fig:mogi-test-shallow-oblate} that even conditions which violate the analytical solution assumptions produce tilt functions of similar qualitative shapes, although the associated parameters are incorrect. This is arguably the most significant methodological finding in this thesis because it provides the quantitative link between map- and model-derived datasets, which I describe in 
 
 \begin{figure}
     \includegraphics[width=\textwidth]{mogi-test-shallow-oblate.pdf}%
@@ -342,29 +346,41 @@ More importantly, I show in Figure~\ref{fig:mogi-test-shallow-oblate} that even 
 
 \subsection{Evaluating Axisymmetry Center Candidates}
 
-I apply the axisymmetry condition to two distinct aspects of the study area geometry: paleo-summit location (prior to caldera complex formation) and inflation (or deflation) center. Importantly, the center of these two locations may be different.
+In this section, I define a set of criteria by which to evaluate each of the center candidate points shown in Figure~\ref{fig:candidates} based on their spatial relationship with the sample data shown in Figure~\ref{fig:results-coverage}. Each criterion may be applied to the entire sample dataset or only a subpopulation, but in either case it yields a numerical score for each center point.
+
+In general, these criteria answer the question ``how well does this location perform as an axisymmetric center point.'' Importantly, two different locations may each individually explain different aspects of the study area. Additionally, the answer to ``where is the most likely center location'' may have a different answer even based on the same criterion if different sample populations are considered. After all, my goal is not to construct a single axisymmetric model but to determine the best explanations for all observed data by more flexibly applying the axisymmetric framework.
+
+I illustrate the flow of this iterative approach abstractly in Figure~\ref{fig:eval-model} and present the Python implementation in Appendix~\ref{app:code}. In the following sections, I describe the specific criteria used to evaluate different aspects of the summit's geometry and history.
+
+\begin{figure}
+    \input{figures/eval-model.tex}%
+    \caption[Center evaluation workflow]{Schematic illustration of candidate center evaluation process. First I read data for samples and center candidates. Then I compute the tilt each center implies for each sample (and related variables.) Then I define sample populations to examine and criteria to evaluate centers. Finally I evaluate each center point using each criterion for each sample population.}%
+    \label{fig:eval-model}
+\end{figure}
 
 \subsubsection{Paleo-Summit}
 
-The center location which best explains an axisymmetric paleo-edifice direction is the one for which the majority of the flow features are pointing as directly away as possible. In other words, this point is the one which minimizes the average value of $\beta_1$ for sampled points.
+The center location which best explains an axisymmetric paleo-edifice direction is the one for which flow features are pointing downhill away from the center as directly possible. In other words, this point is the one which minimizes the average value of $\beta_1$ for all the sampled points. For this criterion, I use both the full sample dataset and populations broken down by feature type (polygon flow and linear channel). Estimated paleo-summits differing by feature type could suggest that the features erupted under different topographic conditions and thus at different times, with regional deformation occurring between eruptive periods.
 
 \subsubsection{Inflation Center}
 
-First, I determine what fraction of the sampled data points are possible to account for mathematically: those not ruled out by the sign error in Equation~\eqref{eq:sl1} and the domain error in Equation~\eqref{eq:domain-error}. Then, I choose a cutoff angle (tentatively, a generous \ang{5}) and rank the output tables by the fraction of calculated tilts whose absolute value is within the cutoff magnitude. 
+Identifying and evaluating axisymmetric inflation (or deflation) centers is considerably more difficult for several reasons.
 
-After evaluating these criteria, I export a table containing each center point with its score on each criterion. I rejoin this table to the original point features to examine the spatial distribution of the most likely inflation centers.
+First, very little information can be derived from a single center-sample pair of points. That is because the single resulting tilt-distance data point could be consistent with any number of reservoir pressure conditions----or more likely, simply a mathematical calculation with no physical basis since the actual tilt at that point occurred about a different axis of rotation. Therefore, simply calculating an average value for some variable over all sample points (as in the previous case) will not be sufficient.
 
-Within these most likely inflation center datasets, I search scatter plots of tilt as a function of distance, looking for qualitative patterns matching the expected pattern (discussed in the following section).
+Instead, I need to consider a larger population of tilt-distance data points together. This increases the likelihood of recognizing a tilt pattern consistent with reservoir pressure change, i.e., a shape similar to those shown in Figures~\ref{fig:grav-topo-test},~\ref{fig:mogi-test}, and~\ref{fig:mogi-test-shallow-oblate}. However, this alone does not address the second issue, that erroneously calculated tilt values will often be present alongside any true tilt patterns consistent with axisymmetric tilt from the inflation center in question. Of course,identifying these erroneous calculations as such would require independent knowledge of the axis and degree of tilt responsible, which is exactly what I am trying to determine.
 
-I conduct the analysis outlined above using various subsets of the sample point data to determine whether multiple inflation centers are necessary to explain inflation in different regions. I pay particular attention to the highly discordant flows near the southern summit region shown in Figure~\ref{fig:uphill-flows}.
+The next best option is to discard any calculations which \emph{must} be erroneous, recognizing that some will have to remain to have any chance of identifying real tilt signatures. To do this, I first calculate each tilt value using Equation~\eqref{eq:tilt-from-map} and the \acs{az1}-uncertainty correction illustrated in Figure~\ref{fig:az1-uncertainty}. Specifically, this correction involves setting the tilt for any points where $\acs{disc}<\ang{7}$ to $\acs{tilt}=\ang{0}$, and for the remaining points calculating \acs{tilt} for the two boundaries of the uncertainty region, then taking the lower of the two (if one exists at all).
 
-% TODO: add section with great circle distance function from lat/lon
+Then, I compute an analytical tilt solution to an unrealistically shallow, high-\acs{epv} inflation (and a low-\acs{epv} counterpart). This is designed to place an upper bound on realistic tilt at each distance from the center. I discard any computed tilt values which exceed this maximum envelope at the appropriate distance. 
 
-\begin{figure}
-    \input{figures/centers-eval-model.tex}%
-    \caption{Evaluation of axisymmetric center candidates.}%
-    \label{fig:centers-eval-model}
-\end{figure}
+During this process, I count the number of points discarded due either to mathematical or physical implausibility---this number itself is an important criterion for evaluating the inflation center candidate.
+
+Finally, I perform a non-linear least squares regression to fit an analytical tilt solution (Equation~\eqref{eq:tilt-from-flat-analytical-model}). Just as a linear regression computes the best-fitting slope and intercept, this process computes the best fit parameters $d$ and $k$, the latter of which is easily converted to \acs{epv} via Equation~\eqref{eq:epv}. I use these fitted values and crucially, their associated error terms, to determine the likelihood that surface tilt actually occurred in the direction radial to the given center candidate. This approach is supported by Figure~\ref{fig:mogi-test-shallow-oblate}, which illustrates that even tilt resulting from shallow, oblate reservoirs within a topographic edifice can be fit well to the analytical Mogi tilt function. At this stage, I pay closer attention to the parameter error estimates (similar to an $R^2$ value for a linear regression) to determine whether \emph{any} axisymmetric tilt is likely to have occured from this center, rather than the estimates themselves---although I treat any unrealistic parameter estimates with caution regardless of their goodness of fit.
+
+This sequence of calculations is much more computationally expensive than the previous one, and a single realistic reservoir pressure change is unlikely to explain the entire dataset anyway. Therefore, I select smaller sample populations for this criterion, paying particular attention to the highly discordant flows near the southern summit region shown in Figure~\ref{fig:uphill-flows}.
+
+\subsection{Evaluating Reservoir Pressure Change Parameters}
 
 
 

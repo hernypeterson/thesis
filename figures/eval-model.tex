@@ -1,0 +1,107 @@
+\begin{tikzpicture}[scale=.95]
+
+  \usetikzlibrary{positioning}
+
+\coordinate (ceval) at (0,-2);
+\coordinate (popA) at (-4,2.2);
+\coordinate (popB) at (-2,2.2);
+\coordinate (fcriteria) at (3,2.7);
+\coordinate (gcriteria) at (3,1.7);
+\coordinate (centersample) at (0,5.7);
+\coordinate (samples) at (-3,11);
+\coordinate (centers) at (3,11);
+
+% \node [draw, shape=rectangle, align=center] at (samples) {ID, LAT, LON, \acs{az1}, \acs{az2}, \acs{sl2} \\ \phantom{hello}};
+
+\draw (-6.5,14) rectangle (6.5,8.5);
+\fill[opacity=0.1] (-6.5,8.5) rectangle (6.5,1);
+
+% centers_eval rectangle
+\draw (-5.2,4) rectangle (5.2,8);
+
+\draw (-6.5,1) rectangle (6.5,-4.5);
+
+\node [rotate=270] at (7, 11.25) {Input (from ArcGIS)};
+\node [rotate=270] at (7, 4.75) {Defined \& Computed in Python};
+\node [rotate=270] at (7, -1.75) {Output (back into ArcGIS)};
+
+\draw[arrow,line width=1mm] (-7, 11) -- (-7, -2);
+
+\node (samplestable) [draw, shape=rectangle, align=center] at (samples) {\begin{tabular}{c|c}
+    sID & LAT, LON, \acs{az1}, \acs{az2}, \acs{sl2}\\
+    \hline\\
+    \hline\\
+    \hline\\
+    \hline\\
+  \end{tabular}};
+
+\node[above=0mm of samplestable] {\hltt{samples.csv}};
+
+\node (centerstable) [draw, shape=rectangle, align=center] at (centers) {\begin{tabular}{c|c}
+    cID & LAT, LON\\
+    \hline\\
+    \hline\\
+    \hline\\
+    \hline\\
+    \hline\\
+    \hline\\
+  \end{tabular}};
+
+\node[above=0mm of centerstable] {\hltt{centers.csv}};
+
+\node (frontcentersample) [shape=rectangle, align=center, rounded corners=0.2cm] at (centersample) {\begin{tabular}{c|c|c}
+  sID & LAT, LON, \acs{az1}, \acs{az2}, \acs{sl2} & \acs{dist}, \acs{bearing}, \acs{beta1}, \acs{beta2}, \acs{sl1}, \acs{tilt}\\
+  \hline
+  &\\
+  &copy of & calculated\\
+  &\hltt{samples.csv} & from one cID\\
+  &\\
+\end{tabular}};
+
+\node[above=3mm of frontcentersample] {\hltt{centers\_calc}};
+
+\foreach \x in {0.3,0.25,...,-0.05}
+    \path (centersample) + (-\x, \x) node[draw, shape=rectangle, align=center, fill=white, rounded corners=0.2cm] {\begin{tabular}{c|c|c}
+        sID & LAT, LON, \acs{az1}, \acs{az2}, \acs{sl2} & \acs{dist}, \acs{bearing}, \acs{beta1}, \acs{beta2}, \acs{sl1}, \acs{tilt}\\
+        \hline
+        &\\
+        &copy of & calculated\\
+        &\hltt{samples.csv} & from cID\\
+        &\\
+      \end{tabular}};
+
+  \node (popAtable) [draw, shape=rectangle, align=center, fill=white, rounded corners=0.2cm] at (popA) {\begin{tabular}{c}
+    sID\\
+    \hline\\
+    \hline\\
+  \end{tabular}};
+
+  \node [above = 0mm of popAtable] {Pop. A};
+  
+  \node (popBtable) [draw, shape=rectangle, align=center, fill=white, rounded corners=0.2cm] at (popB) {\begin{tabular}{c}
+    sID\\
+    \hline\\
+    \hline\\
+  \end{tabular}};
+  
+  \node [above =0mm of popBtable] {Pop. B};
+  
+  \node (topcrit) [draw, shape=rectangle, align=center, fill=white, rounded corners=0.2cm] at (fcriteria) {$f:\text{Pop.}, \text{cID} \longrightarrow \text{score(s)}$};
+  \node [draw, shape=rectangle, align=center, fill=white, rounded corners=0.2cm] at (gcriteria) {$g:\text{Pop.}, \text{cID} \longrightarrow \text{score(s)}$};
+
+  \node [above = 0mm of topcrit] {Criteria};
+
+  \node (centersevaltable) [draw, shape=rectangle, align=center] at (ceval) {\begin{tabular}{c|c|c}
+    cID & LAT, LON & $f(A), g(A)\cdots f(B), g(B)\cdots$\\
+    \hline
+    &\\
+    &\\
+    &copy of&calculated from\\
+    &\hltt{centers.csv}&populations \& criteria\\
+    &\\
+    &\\
+  \end{tabular}};
+
+\node[above=0mm of centersevaltable] {\hltt{centers\_eval.csv}};
+
+\end{tikzpicture}

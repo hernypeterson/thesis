@@ -18,7 +18,7 @@ Differentiated lava lows and channels do not uniformly cover the summit of Olymp
 \subsection{Paleo-Summit Evaluation}
 \begin{figure}
     \includegraphics[width=\textwidth]{summit-score.pdf}%
-    \caption[Paleo-Summit Evaluation]{Paleo-summit Evaluation. Green regions with low ``Summit Score'' are most likely to represent the summit of an axisymmetric paleo-edifice. Summit Score is defined for each candidate point (large colored circle) as the average value of $\log_{10}\beta_1$ for all sampled points relative to that candidate point. In other words, linear features (both channels and lobate flow centerlines) collectively flow away from the green regions more than from the red regions. White contour lines are included to distinguish the true center of the green region, that is, the most likely paleo-summit.}%
+    \caption[Paleo-Summit Evaluation]{Summit Score is defined for each candidate point as the average value of \acs{beta1} for all sampled points relative to that candidate point. Since the scores vary smoothly over the candidates, I show only the central contour plots to identify the lowest (best) scoring region.}%
     \label{fig:summit-score}
 \end{figure}
 
@@ -29,9 +29,11 @@ Differentiated lava lows and channels do not uniformly cover the summit of Olymp
 \end{figure}
 
 \subsection{Inflation Center Evaluation}
-% maps matching previous case in symbology but showing radial tilt instead (so all arrows pointing toward or away from the respective center point)
 
-% scatter plots with radial distance against axisymmetric tilt for a. entire study area and b. sub-area
+\begin{figure}
+    \includegraphics[width=\textwidth]{cutoff1.pdf}%
+    \caption[Cutoff Effect]{Evaluating undue influence from the maximum tilt cutoff. Essentially, I want to see whether calculated parameters closely ``hug'' the values set to define the shallow high-\acs{epv} Mogi tilt cutoff. This is a kernel density estimate where this ``hugging'' issue would show up as steep clusters right at 0, particularly for \acs{epv}, since depth $d$ is much more constrained. Seeing variation in \acs{epv} over several orders of magnitude is encouraging. This is also weighted by the number of samples that are actually ``tiltable.'' The best fits are hopefully on the lower end of the \acs{epv} distribution\dots} 
+\end{figure}
 
 \section{Model Results}
 % figures with radial tilt plotted against radial distance

@@ -59,6 +59,7 @@
 
 \newcommand\MakeMarkcase{} % remove \MakeUppercase (replace with small caps below)
 
+
 % custom page header
 \AtBeginDocument{
     \pagestyle{fancy}
@@ -74,6 +75,25 @@
 {\normalfont}{\filright\fbox{\enspace%
 {\textsc{\chaptertitlename~\thechapter}}\enspace}}{8pt}{\Large\bfseries\filcenter}
 
+% table of contents and list of figures (no MakeUpperCase nonsense)
+\makeatletter
+\renewcommand\tableofcontents{%
+    \chapter*{\contentsname
+        \@mkboth{%
+           \contentsname}{\contentsname}}%
+    \@starttoc{toc}%
+}
+
+% \renewcommand\listoffigures{%
+%     \section*{List of Figures
+%         \@mkboth{%
+%            List of Figures}{List of Figures}}%
+%     \@starttoc{toc}%
+%   }
+\makeatother
+
+\renewcommand\listfigurename{L\lowercase{ist of} F\lowercase{igures}}
+
 % Footnotes
 \usepackage[hang,splitrule,multiple]{footmisc}
 \setlength{\footnotemargin}{1em}
@@ -83,7 +103,7 @@
 \hypersetup{pdfborder = {0 0 0}} % no boxes around links
 \usepackage[all]{hypcap} % link to figure (not caption)
 
-% Continuous numbering
+% Continuous numbering (not by section)
 \usepackage{chngcntr}
 \counterwithout{figure}{chapter}
 \counterwithout{table}{chapter}

@@ -330,7 +330,7 @@ The conditions assumed in this analytical model are not necessarily met even wit
 
 First, when the assumptions \emph{are} upheld\footnote{to the greatest extent possible; a reservoir of finite width and depth can never completely eliminate edge effects from the free surface above} in the numerical model, the analytical solution confirms that the model is working correctly. I show a representative example confirming this in Figure~\ref{fig:mogi-test}.
 
-\begin{figure}[h!]
+\begin{figure}
     \includegraphics[width=\textwidth]{mogi-test.pdf}%
     \caption[Analytical solution verification]{Verification that the analytical tilt solution derived from \textcite{mogi_relations_1958} matches the numerical result for a deep, small, spherical reservoir in a flat half-space. ``Mogi (calc)'' uses parameters $d$ and \acs{epv} identical (or calculated directly from) those in the numerical model; ``Mogi (fit)'' uses a non-linear least squares regression to fit the numerical model data to the parameterized tilt function. All three results are essentially identical; the estimated parameters are very close to the true parameters.}%
     \label{fig:mogi-test}
@@ -372,7 +372,7 @@ Instead, I need to consider a larger population of tilt-distance data points tog
 
 The next best option is to discard any calculations which \emph{must} be erroneous, recognizing that some will have to remain to have any chance of identifying real tilt signatures. To do this, I first calculate each tilt value using Equation~\eqref{eq:tilt-from-map} and the \acs{az1}-uncertainty correction illustrated in Figure~\ref{fig:az1-uncertainty}. Specifically, this correction involves setting the tilt for any points where $\acs{disc}<\ang{7}$ to $\acs{tilt}=\ang{0}$, and for the remaining points calculating \acs{tilt} for the two boundaries of the uncertainty region, then taking the lower of the two (if one exists at all).
 
-Then, I compute an analytical tilt solution to an unrealistically shallow, high-\acs{epv} inflation (and a low-\acs{epv} counterpart). This is designed to place an upper bound on realistic tilt at each distance from the center. I discard any computed tilt values which exceed this maximum envelope (Figure~\ref{fig:envelope}) at the appropriate distance.
+Then, I compute an analytical tilt solution to a deep, high-\acs{epv} inflation (or deflation), as shown Figure~\ref{fig:envelope}. This is designed to place an upper bound on realistic tilt at each distance from the center, so any computed tilt values which exceed this envelope are discarded due to physical implausibility. This function needs to have an especially high value of \acs{epv} in light of Figure~\ref{fig:mogi-test-shallow-oblate}; shallow oblate reservoirs are best approximated by slightly deeper and \emph{much} more energetic inflations, and I want to be confident that the cutoff envelope exceeds any realistic conditions.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{envelope.pdf}%
@@ -388,6 +388,4 @@ This sequence of calculations is much more computationally expensive than the pr
 
 \subsection{Evaluating Reservoir Pressure Change Parameters}
 
-
-
-
+Finally, I draw on the preliminary result shown in Figure~\ref{fig:mogi-test-shallow-oblate}: map data which are well fit by the analytical Mogi tilt solution are also likely to fit one or more numerical results. For the most promising center candidates, I examine these numerical results to identify which set of reservoir conditions most closely match the fitted analytical function, and more importantly the map-derived tilt dataset itself.

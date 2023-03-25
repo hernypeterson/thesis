@@ -344,9 +344,15 @@ More importantly, I show in Figure~\ref{fig:mogi-test-shallow-oblate} that even 
     \label{fig:mogi-test-shallow-oblate}
 \end{figure}
 
-\subsection{Evaluating Axisymmetry Center Candidates}
+\subsection{Evaluating Axisymmetry Center Candidates [Rewrite to avoid pop/crit suggesting cartesian product]}
 
 In this section, I define a set of criteria by which to evaluate each of the center candidate points shown in Figure~\ref{fig:candidates} based on their spatial relationship with the sample data shown in Figure~\ref{fig:results-coverage}. Each criterion may be applied to the entire sample dataset or only a subpopulation, but in either case it yields a numerical score for each center point.
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{populations.pdf}%
+    \caption[Sample Populations for Inflation Center Evaluation]{I use three nearby populations of lava features from which to evaluate axisymmetric pressure change candidates. I chose these because they are among the most discordant features in the summit which are not at the immediate caldera rim. For reference, the flows shown in the center of Figure~\ref{fig:uphill-flows} are included in population B.}%
+    \label{fig:populations}
+\end{figure}
 
 In general, these criteria answer the question ``how well does this location perform as an axisymmetric center point.'' Importantly, two different locations may each individually explain different aspects of the study area. Additionally, the answer to ``where is the most likely center location'' may have a different answer even based on the same criterion if different sample populations are considered. After all, my goal is not to construct a single axisymmetric model but to determine the best explanations for all observed data by more flexibly applying the axisymmetric framework.
 
@@ -366,7 +372,7 @@ The center location which best explains an axisymmetric paleo-edifice direction 
 
 Identifying and evaluating axisymmetric inflation (or deflation) centers is considerably more difficult for several reasons.
 
-First, very little information can be derived from a single center-sample pair of points. That is because the single resulting tilt-distance data point could be consistent with any number of reservoir pressure conditions----or more likely, simply a mathematical calculation with no physical basis since the actual tilt at that point occurred about a different axis of rotation. Therefore, simply calculating an average value for some variable over all sample points (as in the previous case) will not be sufficient.
+First, very little information can be derived from a single center-sample pair of points. That is because the single resulting tilt-distance data point could be consistent with any number of reservoir pressure conditions---or more likely, simply a mathematical calculation with no physical basis since the actual tilt at that point occurred about a different axis of rotation. Therefore, simply calculating an average value for some variable over all sample points (as in the previous case) will not be sufficient.
 
 Instead, I need to consider a larger population of tilt-distance data points together. This increases the likelihood of recognizing a tilt pattern consistent with reservoir pressure change, i.e., a shape similar to those shown in Figures~\ref{fig:grav-topo-test},~\ref{fig:mogi-test}, and~\ref{fig:mogi-test-shallow-oblate}. However, this alone does not address the second issue, that erroneously calculated tilt values will often be present alongside any true tilt patterns consistent with axisymmetric tilt from the inflation center in question. Of course, identifying these erroneous calculations as such would require independent knowledge of the axis and degree of tilt responsible, which is exactly what I am trying to determine.
 
@@ -376,7 +382,7 @@ Then, I compute an analytical tilt solution to a deep, high-\acs{epv} inflation 
 
 \begin{figure}
     \includegraphics[width=\textwidth]{envelope.pdf}%
-    \caption[Tilt Plausibility Envelope]{Upper and lower plausility bounds on tilt as a function of distance. This function is computer using a relatively deep and extremely high-\acs{epv} Mogi function to ensure appropriate breadth and width is included, keeping in mind that the true reservoir is likely to be oblate. Any computed tilt values outside this envelope are discarded on physical grounds.}%
+    \caption[Tilt Plausibility Envelope]{Upper and lower plausibility bounds on tilt as a function of distance. This function is computer using a relatively deep and extremely high-\acs{epv} Mogi function to ensure appropriate breadth and width is included, keeping in mind that the true reservoir is likely to be oblate. Any computed tilt values outside this envelope are discarded on physical grounds.}%
     \label{fig:envelope}
 \end{figure}
 

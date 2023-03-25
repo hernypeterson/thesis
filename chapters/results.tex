@@ -33,29 +33,50 @@ Differentiated lava lows and channels do not uniformly cover the summit of Olymp
 Figure~\ref{fig:cutoff} illustrates the degree to which estimated depth and energy parameters simply match those used to define the cutoff function.
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{cutoff.pdf}%
-    \caption[Cutoff Effect]{Evaluating undue influence from the maximum tilt cutoff. Essentially, I want to see whether calculated parameters closely ``hug'' the values set to define the shallow high-\acs{epv} Mogi tilt cutoff. This is a kernel density estimate where this ``hugging'' issue would show up as steep clusters right at 0, particularly for \acs{epv}, since depth $d$ is much more constrained. Seeing variation in \acs{epv} over several orders of magnitude is encouraging. This is also weighted by the number of samples that are actually ``tiltable.'' The best fits are hopefully on the lower end of the \acs{epv} distribution\dots} 
+    \includegraphics[width=\textwidth]{hugging-a.pdf}
+    \includegraphics[width=\textwidth]{hugging-c.pdf}
+    \caption[Check for envelope ``hugging'']{Evaluating inadvertent influence from the tilt envelope (Figure~\ref{fig:envelope}) on the regression. Essentially, I want to see whether calculated parameters closely ``hug'' the values set to define the shallow high-\acs{epv} Mogi tilt cutoff. This is a kernel density estimate where this ``hugging'' issue would show up as steep clusters right at 0, particularly for \acs{epv}, since depth $d$ is much more constrained. Seeing variation in \acs{epv} over several orders of magnitude is encouraging. This is also weighted by the number of samples that are actually ``tiltable.'' The best fits are hopefully on the lower end of the \acs{epv} distribution\dots} 
     \label{fig:cutoff}
 \end{figure}
 
-\begin{figure}
-    \includegraphics[width=.5\textwidth]{num-tiltable-a.pdf}%
-    \includegraphics[width=.5\textwidth]{num-tiltable-b.pdf}%
-    \caption[Inflation Center Candidates by number of ``Tiltable'' Samples]{Number tiltable} 
-    \label{fig:num-tiltable}
+ \begin{figure}
+    \begin{center}
+     \includegraphics[width=.5\textwidth]{num-tiltable-a.pdf}\\
+     \includegraphics[width=.5\textwidth]{num-tiltable-b.pdf}%
+     \includegraphics[width=.5\textwidth]{num-tiltable-c.pdf}
+     \caption[Inflation Center Candidates by number of ``tiltable'' samples]{Center candidates symbolized by the number of samples from the given population for which the computed tilt (using Equation~\eqref{eq:tilt-from-map} with the \acs{az1} corrections illustrated in Figure~\ref{fig:az1-uncertainty}) is within the maximum realistic tilt envelope (Figure~\ref{fig:envelope}). \textbf{Top:} Population A; $n=13$. \textbf{Left:} Population B; $n=14$. \textbf{Right:} Population C; $n=12$. Note the change in color ramp interval for Population B.} 
+     \label{fig:num-tiltable}
+    \end{center}
 \end{figure}
 
 \begin{figure}
-    \includegraphics[width=.5\textwidth]{depth-est-c.pdf}%
-    \includegraphics[width=.5\textwidth]{energy-est-c.pdf}%
-    \caption[Inflation Center Candidates by Parameter Estimates]{Parameter Estimates. Redo with Pop. A} 
-    \label{fig:param-est}
+    \includegraphics[width=\textwidth]{math-fit-a.pdf}%
+    \caption[Population A: Goodness of Fit]{For population A, nonlinear regression using parameterized analytical function (Equation~\eqref{eq:tilt-from-flat-analytical-model}) converges, i.e., successfully reaches an estimate within 800 function calls, for 10 of the 781 center candidates, all within \qty{\sim20}{\km} of the samples. The four purple circles represent those estimates where the relative error (standard deviation divided by estimate) of both the energy \acs{epv} and depth $d$ parameters are within a factor of ten. Scaled parameter error for the light grey circles are much higher, indicating a poor fit. Center candidates are labeled by cID, for comparison with regression results in Figure~\ref{fig:scatter-fit-a}, and the fraction ``tiltable'' (proportional to displayed values in Figure~\ref{fig:num-tiltable})}%
+    \label{fig:math-fit-a}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{phys-fit-a.pdf}%
+    \caption[Population A: Parameter Estimates]{Parameter estimates for the centers whose regression converges to explain sample population A. Colors represent the base-$10$ logarithm of the inflation energy \acs{epv} expressed in joules. Centers with black circles represent inflation (positive \acs{epv}); plain circles represent deflation (negative \acs{epv}). Estimated depths are labeled, with shallower estimates corresponding to larger circles. Nonsensical results such as negative depth reflect the capacity for a regression to converge mathematically to physically meaningless parameter estimates.}%
+    \label{fig:phys-fit-a}
 \end{figure}
 
 \begin{figure}
     \includegraphics[width=\textwidth]{scatter-fit-a.pdf}%
-    \caption[Scatter Fit]{Scatter fit} 
+    \caption[Scatter Plot for Select Center Candidates: Population A]{Scatter fit}%
     \label{fig:scatter-fit-a}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{math-fit-c.pdf}
+    \caption[Population C: Goodness of Fit]{For population C, the regression converges for a slim majority (422) of the 781 center candidates. Almost all depth estimates reach an absolute error under 10, while energy estimates are mixed. Circle sizes are proportional to the number of ``tiltable'' samples included in the regression, the higher values of which are tightly concentrated around the population as for population A (Figure~\ref{fig:math-fit-a}).}%
+    \label{fig:math-fit-c}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{phys-fit-c.pdf}%
+    \caption[Population C: Parameter Estimates]{Parameter estimates for the centers whose regression converges to explain sample population C.}%
+    \label{fig:phys-fit-c}
 \end{figure}
 
 

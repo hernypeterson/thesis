@@ -157,7 +157,7 @@ where \acs{dP} is the simulated over- (positive) or under-pressure in the reserv
 
 The previous sections introduce some broad considerations and describe basic mechanics of data collection methods as they exist in isolation. However, the methods for \emph{analyzing} those data in light of those considerations are difficult to partition into ``mapping'' and ``modelling.'' Therefore, the sequence of methods in this section frequently transitions between map- and model-related data, functions, etc.
 
-To keep this process organized, I bring all data (map-derived attitude and position, model-derived displacement and position) into a Jupyter Notebook environment using the Python programming language (version 3.10.0). Python is an open-source, general purpose language whose large library of modules make it a popular choice for scientific computing applications.
+To keep this process organized, I bring all data (map-derived attitude and position, model-derived displacement and position) into a Jupyter Notebook environment using the Python programming language (version 3.10.9). Python is an open-source, general purpose language whose large library of modules make it a popular choice for scientific computing applications.
 
 In the body of this section, I describe conceptually and graphically the sequence of computations I would perform for a single analysis. The full source code I use to implement these operations for my entire dataset is included in Appendix~\ref{app:code}.
 
@@ -360,7 +360,7 @@ Then, I compute an analytical tilt solution to a deep, high-\acs{epv} inflation 
 
 \begin{figure}
     \includegraphics[width=\textwidth]{envelope.pdf}%
-    \caption[Tilt Plausibility Envelope]{Upper and lower plausibility bounds on tilt as a function of distance. This function is computer using a relatively deep and extremely high-\acs{epv} Mogi function to ensure appropriate breadth and width is included, keeping in mind that the true reservoir is likely to be oblate. Any computed tilt values outside this envelope are discarded on physical grounds.}%
+    \caption[Physically plausible tilt envelope]{Upper and lower plausibility bounds on tilt as a function of distance. This function is computer using a relatively deep and extremely high-\acs{epv} Mogi function to ensure appropriate breadth and width is included, keeping in mind that the true reservoir is likely to be oblate. Any computed tilt values outside this envelope are discarded on physical grounds.}%
     \label{fig:envelope}
 \end{figure}
 

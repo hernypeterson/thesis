@@ -8,34 +8,38 @@ Differentiated lava lows and channels do not uniformly cover the summit of Olymp
 
 \subsection{Mapping Coverage}
 
+% NEW FIGURE OF JUST MAPPED FEATURES
+
 \begin{figure}
     \includegraphics[width=\textwidth]{results-coverage.pdf}%
-    \caption[Mapping Coverage]{Polygon Flows and Linear Channels}%
+    \caption[Mapped topographic discordance]{Samples symbolized by topographic discordance.}%
     \label{fig:results-coverage}
 \end{figure}
 
-\begin{figure}
-    \includegraphics[width=\textwidth]{populations.pdf}%
-    \caption[Sample Populations for Inflation Center Evaluation]{I use three nearby populations of lava features from which to evaluate axisymmetric pressure change candidates. I chose these because they are among the most discordant features in the summit which are not at the immediate caldera rim. For reference, the flows shown in the center of Figure~\ref{fig:uphill-flows} are included in population B.}%
-    \label{fig:populations}
-\end{figure}
-
-\subsection{Paleo-Summit Evaluation}
+\subsection{Paleo-summit evaluation}
 \begin{figure}
     \includegraphics[width=\textwidth]{summit-score.pdf}%
-    \caption[Paleo-Summit Evaluation]{Summit Score is defined for each candidate point as the average value of \acs{beta1} for all sampled points relative to that candidate point. Since the scores vary smoothly over the candidates, I show only the central contour plots to identify the lowest (best) scoring region.}%
+    \caption[Paleo-summit evaluation]{Summit Score is defined for each candidate point as the average value of \acs{beta1} for all sampled points relative to that candidate point. Since the scores vary smoothly over the candidates, I show only the central contour plots to identify the lowest (best) scoring region.}%
     \label{fig:summit-score}
 \end{figure}
 
+
+% {NEW FIGURE HERE}!
 \begin{figure}
     \includegraphics[width=\textwidth]{beta1.pdf}%
-    \caption[Best Paleo-Summit Candidate]{Using the paleo-summit shown at the center of the green region in Figure~\ref{fig:summit-score}.}%
+    \caption[Distribution of \acs{beta1} for one paleo-summit candidate]{Using the paleo-summit shown at the center of the green region in Figure~\ref{fig:summit-score}.}%
     \label{fig:beta1}
 \end{figure}
 
 \subsection{Inflation Center Evaluation}
 
 Figure~\ref{fig:hugging} illustrates the degree to which estimated depth and energy parameters simply match those used to define the cutoff function.
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{populations.pdf}%
+    \caption[Sample populations for inflation center evaluation]{I use three nearby populations of lava features from which to evaluate axisymmetric pressure change candidates. I chose these because they are among the most discordant features in the summit which are not at the immediate caldera rim. For reference, the flows shown in the center of Figure~\ref{fig:uphill-flows} are included in population B.}%
+    \label{fig:populations}
+\end{figure}
 
 \begin{figure}
     \includegraphics[width=\textwidth]{hugging-a.pdf}
@@ -49,44 +53,43 @@ Figure~\ref{fig:hugging} illustrates the degree to which estimated depth and ene
      \includegraphics[width=.5\textwidth]{num-tiltable-a.pdf}\\
      \includegraphics[width=.5\textwidth]{num-tiltable-b.pdf}%
      \includegraphics[width=.5\textwidth]{num-tiltable-c.pdf}
-     \caption[Inflation Center Candidates by number of ``tiltable'' samples]{Center candidates symbolized by the number of samples from the given population for which the computed tilt (using Equation~\eqref{eq:tilt-from-map} with the \acs{az1} corrections illustrated in Figure~\ref{fig:az1-uncertainty}) is within the maximum realistic tilt envelope (Figure~\ref{fig:envelope}). \textbf{Top:} Population A; $n=13$. \textbf{Left:} Population B; $n=14$. \textbf{Right:} Population C; $n=12$. Note the change in color ramp interval for Population B.} 
+     \caption[Inflation center candidates by number of ``tiltable'' samples]{Center candidates symbolized by the number of samples from the given population for which the computed tilt (using Equation~\eqref{eq:tilt-from-map} with the \acs{az1} corrections illustrated in Figure~\ref{fig:az1-uncertainty}) is within the maximum realistic tilt envelope (Figure~\ref{fig:envelope}). \textbf{Top:} Population A; $n=13$. \textbf{Left:} Population B; $n=14$. \textbf{Right:} Population C; $n=12$. Note the change in color ramp interval for Population B.} 
      \label{fig:num-tiltable}
     \end{center}
 \end{figure}
 
 \begin{figure}
     \includegraphics[width=\textwidth]{math-fit-a.pdf}%
-    \caption[Population A: Goodness of Fit]{For population A, nonlinear regression using parameterized analytical function (Equation~\eqref{eq:mogi-tilt}) converges, i.e., successfully reaches an estimate within 80 function calls, for 10 of the 781 center candidates, all within \qty{\sim20}{\km} of the samples. The four purple circles represent those estimates where the relative error (standard deviation of estimate divided by value of estimate) of both the energy \acs{epv} and depth $d$ parameters are within a factor of ten. Scaled parameter error for the light grey circles are much higher, indicating a poor fit. Center candidates are labeled by cID, for comparison with regression results in Figure~\ref{fig:scatter-fit-a}, and the fraction ``tiltable'' (proportional to displayed values in Figure~\ref{fig:num-tiltable})}%
+    \caption[Population A: goodness of fit]{For population A, nonlinear regression using parameterized analytical function (Equation~\eqref{eq:mogi-tilt}) converges, i.e., successfully reaches an estimate within 80 function calls, for 10 of the 781 center candidates, all within \qty{\sim20}{\km} of the samples. The four purple circles represent those estimates where the relative error (standard deviation of estimate divided by value of estimate) of both the energy \acs{epv} and depth $d$ parameters are within a factor of ten. Scaled parameter error for the light grey circles are much higher, indicating a poor fit. Center candidates are labeled by cID, for comparison with regression results in Figure~\ref{fig:scatter-fit-a}, and the fraction ``tiltable'' (proportional to displayed values in Figure~\ref{fig:num-tiltable})}%
     \label{fig:math-fit-a}
 \end{figure}
 
 \begin{figure}
     \includegraphics[width=\textwidth]{phys-fit-a.pdf}%
-    \caption[Population A: Parameter Estimates]{Parameter estimates for the centers whose regression converges to explain sample population A. Colors represent the base-$10$ logarithm of the inflation energy \acs{epv} expressed in joules. Centers with black circles represent inflation (positive \acs{epv}); plain circles represent deflation (negative \acs{epv}). Estimated depths are labeled, with shallower estimates corresponding to larger circles. Nonsensical results such as negative depth reflect the capacity for a regression to converge mathematically to physically meaningless parameter estimates.}%
+    \caption[Population A: parameter estimates]{Parameter estimates for the centers whose regression converges to explain sample population A. Colors represent the base-$10$ logarithm of the inflation energy \acs{epv} expressed in joules. Centers with black circles represent inflation (positive \acs{epv}); plain circles represent deflation (negative \acs{epv}). Estimated depths are labeled, with shallower estimates corresponding to larger circles. Nonsensical results such as negative depth reflect the capacity for a regression to converge mathematically to physically meaningless parameter estimates.}%
     \label{fig:phys-fit-a}
 \end{figure}
 
 \begin{figure}
     \includegraphics[width=\textwidth]{scatter-fit-a.pdf}
     \includegraphics[width=\textwidth]{scatter-fit-a-outlier.pdf}
-    \caption[Population A: Scatter Plots \& Analytical Fit]{Scatter plots of calculated tilt and best analytical fit of Equation~\eqref{eq:mogi-tilt}. Black dotted lines represent the tilt envelope from Figure~\ref{fig:envelope}. Center 197 is plotted separately to illustrate that good mathematical fit can be reached even for physically implausible parameter estimates. Both figures also corroborates evidence in Figure~\ref{fig:hugging} that while the cutoff envelope constrains the data used for regression, the parameter estimates resulting from fitting that constrained dataset can vary widely.}%
+    \caption[Population A: scatter Plots \& analytical fit]{Scatter plots of calculated tilt and best analytical fit of Equation~\eqref{eq:mogi-tilt}. Black dotted lines represent the tilt envelope from Figure~\ref{fig:envelope}. Center 197 is plotted separately to illustrate that good mathematical fit can be reached even for physically implausible parameter estimates. Both figures also corroborates evidence in Figure~\ref{fig:hugging} that while the cutoff envelope constrains the data used for regression, the parameter estimates resulting from fitting that constrained dataset can vary widely.}%
     \label{fig:scatter-fit-a}
 \end{figure}
 
 \begin{figure}
     \includegraphics[width=\textwidth]{math-fit-c.pdf}
-    \caption[Population C: Goodness of Fit]{For population C, the regression converges for a slim majority (422) of the 781 center candidates. Almost all depth estimates reach an absolute error under 10, while energy error is mixed. Circle sizes are proportional to the number of ``tiltable'' samples included in the regression, the higher values of which are tightly concentrated around the population as for population A (Figure~\ref{fig:math-fit-a}).}%
+    \caption[Population C: goodness of fit]{For population C, the regression converges for a slim majority (422) of the 781 center candidates. Almost all depth estimates reach an absolute error under 10, while energy error is mixed. Circle sizes are proportional to the number of ``tiltable'' samples included in the regression, the higher values of which are tightly concentrated around the population as for population A (Figure~\ref{fig:math-fit-a}).}%
     \label{fig:math-fit-c}
 \end{figure}
 
 \begin{figure}
     \includegraphics[width=\textwidth]{phys-fit-c.pdf}%
-    \caption[Population C: Parameter Estimates]{Parameter estimates for the centers whose regression converges to explain sample population C.}%
+    \caption[Population C: parameter estimates]{Parameter estimates for the centers whose regression converges to explain sample population C.}%
     \label{fig:phys-fit-c}
 \end{figure}
 
 
-\section{Model Results}
-% figures with radial tilt plotted against radial distance
-    % scatter plot for each center point: channel points and flow points
-    % line plot with parameter combinations that most closely match scatter plot
+\section{Numerical Model Fitting}
+
+This section is time-permitting for the final draft. As I discuss in the following section, there are several issues to address before attempting to fit specific numerical model results to the identified inflation center candidates.

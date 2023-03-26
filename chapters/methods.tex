@@ -129,11 +129,11 @@ I use the \hlss{Generate Tesselation} and \hlss{Feature to Point} tools to gener
 
 In this section, I model pressure changes (either inflation or deflation) of a magma reservoir under the mapped study area.
 
-\subsection{Axisymmetric Elastic Model}
+\subsection{Axisymmetric Elastic Model [FINISH JSUTIFYING ELASTIC ASSUMPTION]}
 
 [NOTE: How much of this ``numerical modelling 101'' is appropriate?] 
 
-Figure~\ref{fig:axisymmetry} illustrates that the assumption of axisymmetry reduces the 3D edifice to a cross-sectional plane which is equivalent for modelling.
+Figure~\ref{fig:axisymmetry} illustrates that the assumption of axisymmetry reduces the 3D edifice to a cross-sectional plane which is equivalent for modelling. Importantly, this assumption requires a single axis to describe each aspect of the model; namely, the topographic surface and the magma reservoir. 
 
 TODO: describe Hookean elasticity assumption?
 
@@ -141,15 +141,15 @@ TODO: describe Hookean elasticity assumption?
 
 The \ac{FEM} is widely used to model phenomena ranging from fluid flow, heat transfer, and mechanical stress in engineering and geology. This method involves discretizing a continuous medium by constructing a \emph{mesh:} a network of nodes connected to their neighbors by edges. Polygons enclosed by these edges are called elements. Software then solves the chosen equations to compute the variables of interest only for the nodes, whose values can then be interpolated within each element to determine the solution for any point within the continuum.
 
-\subsection{Reservoir Pressure Change Model}
+\subsection{Reservoir Pressure Change Model [PALEO-EDIFICE CONTOUR FIG]}
 
 I use the numerical modelling software COMSOL Multiphysics 6.1 (COMSOL) to construct a numerical representation of Olympus Mons. The model is axisymmetric, about the center point discussed previously as the center of the \qty{19}{\km} contour.
 
-From this point, elevation transect due south from the study area center point to the base of the edifice \qty{\sim240}{\km} away. This particular center point is derived from the summit of a topographic spline: an interpolation of a hypothetical paleo-topography based on the existing topography outside the \qty{19}{\km} contour (Figure~\ref{fig:summit}). The topography of this outer region \emph{is} roughly axisymmetric and assumed to be relatively unaffected by subsequent caldera and reservoir activity.
+From this point, elevation transect due south from the study area center point to the base of the edifice \qty{\sim240}{\km} away. This particular center point is derived from the summit of a topographic spline: an interpolation of a hypothetical paleo-topography based on the existing topography outside the \qty{19}{\km} contour (Figure [NUMBER]; compare with Figure~\ref{fig:summit}). The topography of this outer region \emph{is} roughly axisymmetric and assumed to be relatively unaffected by subsequent caldera and reservoir activity.
 
-I use the \hlss{Parametric Sweep} tool to perform a sequence of analyses which are identical except for specifically controlled parameters: \ac{DtT}, \ac{Rr}, \ac{Rz}, and a \ac{mult}:
+I use the \hlss{Parametric Sweep} tool to perform a sequence of analyses which are identical except for specifically controlled parameters: depth to center $d$, reservoir radius $R$ (in plan view), aspect ratio (height divided by width) and a \ac{mult}:
 \begin{equation}
-    \acs{dP}=\acs{mult}\times\acs{rhor}\times\acs{g}\times\acs{DtT},
+    \acs{dP}=\acs{mult}\times\acs{rhor}\times\acs{g}\times d,
 \end{equation}
 where \acs{dP} is the simulated over- (positive) or under-pressure in the reservoir. For each numerical model, I output surface displacement in the radial and vertical direction as a function of distance from the inflation center. 
 
@@ -291,7 +291,7 @@ This discrete equation can be taken to the continuous limit by dividing each ter
     = \lim_{\acs{dr1}\to0} 
     -\arctan\left(\dfrac{\acs{ddisp_z}/\acs{dr1}}{\acs{dr1}/\acs{dr1}
     + \acs{ddisp_r}/\acs{dr1}}\right) = 
-    -\arctan\left(\dfrac{\acs{disp_z'}}{1+\acs{disp_r'}}\right),\label{eq:mogi-tilt}
+    -\arctan\left(\dfrac{\acs{disp_z'}}{1+\acs{disp_r'}}\right),\label{eq:analytical-tilt}
 \end{equation}
 where $'$ denotes the derivative with respect to $r_1$. The \textcite{mogi_relations_1958} solution provides the following displacement components:
 \begin{gather}
@@ -304,9 +304,9 @@ where $d$ is the depth to the center of the reservoir, $R$ is the reservoir radi
     \acs{epv} = \frac{4}{3}\pi R^3\Delta P=\frac{16\pi G}{9} \cdot k.\label{eq:epv}
 \end{equation}
 
-Differentiating Equations~\eqref{eq:uz_mogi} and~\eqref{eq:ur_mogi}, substituting into Equation~\eqref{eq:mogi-tilt}, and simplifying:
+Differentiating Equations~\eqref{eq:uz_mogi} and~\eqref{eq:ur_mogi}, substituting into Equation~\eqref{eq:analytical-tilt}, and simplifying:
 \begin{equation}
-    \acs{tilt} = \arctan\left(\frac{3kdr_1}{{(d^2+r_1^2)}^{2.5}+k(d^2-2r_1^2)}\right).\label{eq:tilt-from-mogi-model}
+    \acs{tilt} = \arctan\left(\frac{3kdr_1}{{(d^2+r_1^2)}^{2.5}+k(d^2-2r_1^2)}\right).\label{eq:mogi-tilt}
 \end{equation}
 This key equation relates the measured\footnote{or independently calculated.} variables \acs{tilt} and $r_1$ to physical parameters associated with reservoir pressure change: depth $d$ and energy \acs{epv}.
 

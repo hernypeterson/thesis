@@ -111,7 +111,7 @@
 
 % Lists
 \usepackage{paralist} % inline lists
-\usepackage{enumitem}
+\usepackage[inline]{enumitem}
 \setlist[itemize]{noitemsep,nolistsep}
 \setlist[enumerate]{noitemsep,nolistsep}
 
@@ -198,3 +198,6 @@
 \graphicspath{{figures/}} % image location
 
 \input{aux/tikz.tex}
+
+% body of jupyter output can be put in here as long as there are no figures
+\input{aux/code-setup.tex}

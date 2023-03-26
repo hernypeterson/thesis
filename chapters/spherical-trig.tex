@@ -1,4 +1,5 @@
 \chapter{Spherical Trigonometry}\label{app:spherical-trig}
+\section{Great Circle Distance}
 Let two poles be defined in attitude space $(\theta,\varphi,\rho)$ on the unit sphere $(\rho=1)$ by:
 \begin{equation}
     p=(\theta_p,\varphi_p,1)\qquad q=(\theta_q,\varphi_q,1).
@@ -44,13 +45,13 @@ Since $\|p\|=\|q\|=1$ by construction, Equation~\eqref{eq:dot-product} reduces t
 %         \label{fig:spherical-cosines}%
 %     \end{center}
 % \end{figure}
-
-For constant $\beta$ and $\varphi_q$, the value of $\varphi_p$ which minimizes $\alpha$ (great circle distance) can be calculated by setting:
+\section{Great Circle Projection}
+In Section~\ref{sec:tilt-from-map} (specifically Equation~\ref{eq:tilt-from-map}), I need to project a certain pole $q$ directly onto a certain vertically oriented great circle (constant $\theta$). Specifically, this projection is perpendicular to the great circle, so the distance between the great circle and the pole is minimized. This optimization problem can be solved for a given $\theta=\theta_p$ for the great circle and ($\varphi_q, \theta_q$) for the pole. Specically, for constant $\beta=|\theta_p-\theta_p|$ and $\varphi_q$, the value of $\varphi_p$ which minimizes $\alpha$ (great circle distance) can be calculated by setting:
 \begin{equation}
     \frac{\partial}{\partial \varphi_p}
     \arccos\left(\sin\varphi_p\sin\varphi_q\cos\beta
     +\cos\varphi_p\cos\varphi_q\right)
-    =0.\label{eq:mimimum}
+    =0.
 \end{equation}
 Differentiating using the chain rule,
 \begin{equation}
@@ -58,7 +59,7 @@ Differentiating using the chain rule,
     \cos\beta-\sin\varphi_p\cos\varphi_q)}
     {\sqrt{1-{(\sin\varphi_p\sin\varphi_q\cos\beta
     +\cos\varphi_p\cos\varphi_q)}^2}}
-    =0.\label{eq:derivative}
+    =0.
 \end{equation}
 Multiplying through by the denominator and rearranging to solve for $\varphi_p$:
 \begin{gather}
@@ -72,7 +73,6 @@ Multiplying through by the denominator and rearranging to solve for $\varphi_p$:
     \varphi_p
     =\arctan(\tan\varphi_q
     \cos\beta).
-    \label{eq:ze'}
 \end{gather}
 
 % \footnote{The denominator in Equation~\eqref{eq:derivative} is zero when \acs{tilt_min} is \ang{0} or \ang{180}, that is, when q and \acs{normal1} are equal or antipodal. The $q=\acs{normal1}$ case behaves as desired in Equation~\eqref{eq:robust-ze'} because $q=\acs{normal1}\implies\cos\beta=1\implies\varphi_p=\arctan(\tan\varphi_q\cdot1)=\varphi_q$. The antipodal case is unphysical.}

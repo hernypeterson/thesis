@@ -22,7 +22,7 @@ The goal of this thesis is to derive as much information as possible from the sp
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{uphill-flows.pdf}
-    \caption[Discordant lava flows]{Several lava flows (white) in the southern flank region appear to flow uphill toward the modern summit. \acs{CTX} mosaic basemap. Contours in \unit{\km}. After Figure 3 in \textcite{mouginis-mark_late-stage_2019}.}%
+    \caption[Discordant lava flows]{Several lava flows (white) in the southern flank region appear to flow uphill toward the modern summit. \acs{CTX} mosaic basemap. Contours in \unit{\km}. After Figure 3 in \textcite{mouginis-mark_late-stage_2019}. Note: for the contact basemap here (small inset of study area) and several subsequent figures I translate a subset of the feature class from \textcite{mouginis-mark_geologic_2021} roughly \qty{700}{\m} to the North to align with the \ac{CTX} mosaic.}%
     \label{fig:uphill-flows}
 \end{figure}
 
@@ -145,7 +145,13 @@ The \ac{FEM} is widely used to model phenomena ranging from fluid flow, heat tra
 
 I use the numerical modelling software COMSOL Multiphysics 6.1 (COMSOL) to construct a numerical representation of Olympus Mons. The model is axisymmetric, about the center point discussed previously as the center of the \qty{19}{\km} contour.
 
-From this point, elevation transect due south from the study area center point to the base of the edifice \qty{\sim240}{\km} away. This particular center point is derived from the summit of a topographic spline: an interpolation of a hypothetical paleo-topography based on the existing topography outside the \qty{19}{\km} contour (Figure [NUMBER]; compare with Figure~\ref{fig:summit}). The topography of this outer region \emph{is} roughly axisymmetric and assumed to be relatively unaffected by subsequent caldera and reservoir activity.
+From this point, elevation transect due south from the study area center point to the base of the edifice \qty{\sim240}{\km} away. This particular center point is derived from the summit of a topographic spline: an interpolation of a hypothetical paleo-topography based on the existing topography outside the \qty{19}{\km} contour (Figure~\ref{fig:paleo-topo}; compare with Figure~\ref{fig:summit}). The topography of this outer region \emph{is} roughly axisymmetric and assumed to be relatively unaffected by subsequent caldera and reservoir activity.
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{paleo-topo.pdf}
+    \caption[Spline-derived paleo-topography]{Paleo-topography estimated to have existed prior to caldera formation; interpolated from topography outside the \qty{19}{\km} contour.}%
+    \label{fig:paleo-topo}
+\end{figure}
 
 I use the \hlss{Parametric Sweep} tool to perform a sequence of analyses which are identical except for specifically controlled parameters: depth to center $d$, reservoir radius $R$ (in plan view), aspect ratio (height divided by width) and a \ac{mult}:
 \begin{equation}
@@ -371,5 +377,7 @@ Finally, I perform a non-linear least squares regression to fit an analytical ti
 This sequence of calculations is much more computationally expensive than the previous one, and a single realistic reservoir pressure change is unlikely to explain the entire dataset anyway. Therefore, I select smaller sample populations for this criterion, paying particular attention to the highly discordant flows near the southern summit region shown in Figure~\ref{fig:uphill-flows}.
 
 \subsection{Evaluating Reservoir Pressure Change Parameters}
+
+Note: for reasons presented in Chapter~\ref{cha:discussion}, this is a time-permitting element for the final submission of this thesis.
 
 Finally, I draw on the preliminary result shown in Figure~\ref{fig:mogi-test-shallow-oblate}: map data which are well fit by the analytical Mogi tilt solution are also likely to fit one or more numerical results. For the most promising center candidates, I examine these numerical results to identify which set of reservoir conditions most closely match the fitted analytical function, and more importantly the map-derived tilt dataset itself.

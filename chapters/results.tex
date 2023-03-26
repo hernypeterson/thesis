@@ -4,12 +4,13 @@ In this section, I summarize results from lava feature mapping, discordance meas
 
 \section{Mapping Coverage}
 
-Note: for the contact basemap in the follow figures I translated a subset of the contacts feature class from \textcite{mouginis-mark_geologic_2021} roughly \qty{700}{\m} to the North to align with the \ac{CTX} mosaic.
+Figure~\ref{fig:features} depicts all polygonal flows and linear channels I identify; Figure~\ref{fig:results-coverage} shows the samples derived from these features symbolized by discordance.
 
-Figure [NUM] depicts all polygonal flows and linear channels I identify.
-
-% NEW FIGURE OF JUST MAPPED FEATURES
-
+\begin{figure}
+    \includegraphics[width=\textwidth]{features.pdf}%
+    \caption[Mapped lava features]{Mapped polygonal lava flows and linear channels.}%
+    \label{fig:features}
+\end{figure}
 
 \begin{figure}
     \includegraphics[width=\textwidth]{results-coverage.pdf}%
@@ -17,35 +18,28 @@ Figure [NUM] depicts all polygonal flows and linear channels I identify.
     \label{fig:results-coverage}
 \end{figure}
 
-\section{Paleo-summit evaluation [REDO FIGURE WITH FLOWS AND CHANNELS SEPARATED AS WELL]}
+\section{Paleo-Summit Evaluation}
 
-Figure~\ref{fig:summit-score} shows the regions resulting in the lowest average value of \acs{beta1} for the sampled features. To illustrate an example, Figure~\ref{fig:beta1} depicts one of the most likely center candidates with the resulting values of \acs{beta1} for each sample.
+Figure~\ref{fig:summit-score} shows the regions resulting in the lowest average value of \acs{beta1} (degree to which a feature azimuth is offset from the azimuth away from the center: no topography/attitude data is considered in this calculation) for the sampled features, broken down by feature type.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{summit-score.pdf}%
-    \caption[Paleo-summit evaluation]{Summit Score is defined for each candidate point as the average value of \acs{beta1} for all sampled points relative to that candidate point. Since the scores vary smoothly over the candidates, I show only the central contour plots to identify the lowest (best) scoring region.}%
+    \caption[Paleo-summit evaluation]{Average value of \acs{beta1} for all sampled points relative to that candidate point. Since the scores vary smoothly over the candidates, I show the central minima of contour plots to identify the best scoring regions. These results show some differences depending on whether only flowpaths, only channels, or all features are considered.}%
     \label{fig:summit-score}
 \end{figure}
 
-
-% {REPLACE FIGURE HERE}!
-\begin{figure}
-    \includegraphics[width=\textwidth]{beta1.pdf}%
-    \caption[Distribution of \acs{beta1} for one paleo-summit candidate]{Using the paleo-summit shown at the center of the green region in Figure~\ref{fig:summit-score}.}%
-    \label{fig:beta1}
-\end{figure}
-
+\newpage
 \section{Inflation Center Evaluation}
 
-Figure~\ref{fig:populations} shows three highly discordant sample populations selected for inflation center analysis, which produces several results for each population. First, Next, Figure~\ref{fig:num-tiltable} illustrates the number of samples whose computed tilt values that fall within the tilt envelope for each center (Figure~\ref{fig:envelope}); this represents the size of the dataset on which the non-linear regression and parameter estimate takes place. Next, Figure~\ref{fig:hugging} illustrates the degree to which those fitted depth and energy parameters match those used to define the maximum tilt envelope, thus serving as a test for undue influence on the analysis by using that envelope.
+Figure~\ref{fig:populations} shows three sample populations selected within a highly discordant region for inflation center evaluation. Figure~\ref{fig:num-tiltable} shows the number of samples from within each population whose computed tilt values fall within the tilt envelope for each center (Figure~\ref{fig:envelope}); this represents the size of the dataset on which the non-linear regression and parameter estimate takes place. Figure~\ref{fig:hugging} illustrates the degree to which those fitted depth and energy parameters match those used to define the maximum tilt envelope, thus serving as a test for undue influence on the analysis by using that envelope.
 
-Next, the regression returns both estimates and errors for each parameter. Starting with Population A., I first display parameter error to assess the  \emph{mathematical goodness of fit} for each regression result (Figure~\ref{fig:math-fit-a}). Then, while keeping in mind the error introduced by potentially violating \textcite{mogi_relations_1958} assumptions, I illustrate the parameter estimates in Figure~\ref{fig:phys-fit-a} to assess the \emph{physical plausibility} of each result. Finally, I show the actual tilt scatter plots and associated best fit functions in Figure~\ref{fig:scatter-fit-a}. I show the same map results for Population C in Figures~\ref{fig:math-fit-c} and~\ref{fig:phys-fit-c}, respectively.
+Next, I present regression estimates and errors for each parameter. Starting with Population A, I display parameter error to assess the \emph{mathematical goodness of fit} for each regression result in Figure~\ref{fig:math-fit-a}. Then, bearing in mind the error introduced by potentially violating \textcite{mogi_relations_1958} assumptions (Figure~\ref{fig:mogi-test-shallow-oblate}), I illustrate the parameter estimates in Figure~\ref{fig:phys-fit-a} to assess to first order the \emph{physical plausibility} of each result. Finally, I show the actual tilt scatter plots and associated best fit functions in Figure~\ref{fig:scatter-fit-a}. I show the same map results for Population C in Figures~\ref{fig:math-fit-c} and~\ref{fig:phys-fit-c}, respectively.
 
-Note that the regression converges (very poorly) for only a single inflation center candidate with respect to Population B. This center ($\text{cID} = 125$) returned the parameter estimates $\acs{epv}=\qty{-2.82e-21}{\J}, d=\qty{18}{\km}$ with relative error terms $54$ and $24$, respectively. This location is shown in Figure [NUM].
+Note that the regression converges (very poorly) for only a single inflation center candidate with respect to Population B. This center ($\text{cID} = 125$) returned the parameter estimates $\acs{epv}=\qty{-2.82e-21}{\J}, d=\qty{18}{\km}$ with relative error terms $54$ and $24$, respectively. This location is shown in Figure~\ref{fig:pop-b}.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{populations.pdf}%
-    \caption[Sample populations for inflation center evaluation]{I use three nearby populations of lava features from which to evaluate axisymmetric pressure change candidates. I chose these because they are among the most discordant features in the summit which are not at the immediate caldera rim. For reference, the flows shown in the center of Figure~\ref{fig:uphill-flows} are included in population B.}%
+    \caption[Sample populations for inflation center evaluation]{I use three nearby populations of lava features from which to evaluate axisymmetric inflation candidates. I chose these because they are among the most discordant features in the summit which are not at the immediate caldera rim. For reference, the flows shown in the center of Figure~\ref{fig:uphill-flows} are included in population B.}%
     \label{fig:populations}
 \end{figure}
 
@@ -62,13 +56,13 @@ Note that the regression converges (very poorly) for only a single inflation cen
 \begin{figure}
     \includegraphics[width=\textwidth]{hugging-a.pdf}
     \includegraphics[width=\textwidth]{hugging-c.pdf}
-    \caption[Check for envelope ``hugging'']{Evaluating inadvertent influence from the tilt envelope (Figure~\ref{fig:envelope}) on the regression. Essentially, I want to see whether calculated parameters closely ``hug'' the values set to define the shallow high-\acs{epv} Mogi tilt cutoff. This is a kernel density estimate where this ``hugging'' issue would show up as steep clusters right at 0, particularly for \acs{epv}, since depth $d$ is much more constrained. Seeing variation in \acs{epv} over several orders of magnitude is encouraging. This is also weighted by the number of samples that are actually ``tiltable.'' The best fits are hopefully on the lower end of the \acs{epv} distribution\dots} 
+    \caption[Check for envelope ``hugging'']{Evaluating inadvertent influence from the tilt envelope (Figure~\ref{fig:envelope}) on the regression. I want to assess whether calculated parameters closely ``hug'' the values set to define that envelope. This is a kernel density estimate where the ``hugging'' issue would appear as steep clusters right at $1$ for $d$ or at $0$ ($\log1$) for \acs{epv}.} 
     \label{fig:hugging}
 \end{figure}
 
 \begin{figure}
     \includegraphics[width=\textwidth]{math-fit-a.pdf}%
-    \caption[Population A: goodness of fit]{For population A, nonlinear regression using parameterized analytical function (Equation~\eqref{eq:mogi-tilt}) converges, i.e., successfully reaches an estimate within 80 function calls, for 10 of the 781 center candidates, all within \qty{\sim20}{\km} of the samples. The four purple circles represent those estimates where the relative error (standard deviation of estimate divided by value of estimate) of both the energy \acs{epv} and depth $d$ parameters are within a factor of ten. Scaled parameter error for the light grey circles are much higher, indicating a poor fit. Center candidates are labeled by cID, for comparison with regression results in Figure~\ref{fig:scatter-fit-a}, and the fraction ``tiltable'' (proportional to displayed values in Figure~\ref{fig:num-tiltable})}%
+    \caption[Population A: goodness of fit]{For population A, nonlinear regression using the parameterized analytical function (Equation~\eqref{eq:mogi-tilt}) converges, i.e., successfully reaches an estimate within 80 function calls, for 10 of the 781 center candidates, all within \qty{\sim20}{\km} of the samples. The four purple circles represent those estimates where the relative error (standard deviation of estimate divided by value of estimate) of both the energy \acs{epv} and depth $d$ parameters are within a factor of ten. Scaled parameter error for the light grey circles are much higher, indicating a poor fit. Center candidates are labeled by cID, for comparison with regression results in Figure~\ref{fig:scatter-fit-a}, and the fraction ``tiltable'' (proportional to the ``number tiltable'' values displayed in Figure~\ref{fig:num-tiltable})}%
     \label{fig:math-fit-a}
 \end{figure}
 
@@ -81,7 +75,7 @@ Note that the regression converges (very poorly) for only a single inflation cen
 \begin{figure}
     \includegraphics[width=\textwidth]{scatter-fit-a.pdf}
     \includegraphics[width=\textwidth]{scatter-fit-a-outlier.pdf}
-    \caption[Population A: scatter Plots \& analytical fit]{Scatter plots of calculated tilt and best analytical fit of Equation~\eqref{eq:mogi-tilt}. Black dotted lines represent the tilt envelope from Figure~\ref{fig:envelope}. Center 197 is plotted separately to illustrate that good mathematical fit can be reached even for physically implausible parameter estimates. Both figures also corroborates evidence in Figure~\ref{fig:hugging} that while the cutoff envelope constrains the data used for regression, the parameter estimates resulting from fitting that constrained dataset can vary widely.}%
+    \caption[Population A: scatter Plots \& analytical fit]{Scatter plots of calculated tilt and best analytical fit of Equation~\eqref{eq:mogi-tilt}. Black dotted lines represent the tilt envelope from Figure~\ref{fig:envelope}. Center 197 is plotted separately to show that a good mathematical fit can be reached for physically implausible parameter estimates. Both figures also corroborate evidence in Figure~\ref{fig:hugging} that while the cutoff envelope constrains the data used for regression (as designed), the parameter estimates resulting from fitting that constrained dataset can vary widely.}%
     \label{fig:scatter-fit-a}
 \end{figure}
 
@@ -93,12 +87,13 @@ Note that the regression converges (very poorly) for only a single inflation cen
 
 \begin{figure}
     \includegraphics[width=\textwidth]{phys-fit-c.pdf}%
-    \caption[Population C: parameter estimates]{Parameter estimates for the centers whose regression converges to explain sample population C.}%
+    \caption[Population C: parameter estimates]{Parameter estimates for the centers whose regression converges to explain sample population C. Circle size is inversely proportional to depth, the vast majority of which (the small green circles throughout the study area) return an estimate of almost exactly \qty{20}{\km}, the initial guess used in the regression, suggesting that first guess was already near the best fit for those remote candidates.}%
     \label{fig:phys-fit-c}
 \end{figure}
 
-% SIMPLE FIG for POP B.
+\begin{figure}
+    \includegraphics[width=\textwidth]{pop-b.pdf}%
+    \caption[Population B: single center estimate]{Location of the single inflation center candidate for which the population B regression converged on an estimate. The numerical values associated with this (poorly fitting) estimate are presented in the text.}%
+    \label{fig:pop-b}
+\end{figure}
 
-\section{Numerical Model Fitting}
-
-This section is time-permitting for the final draft. As I discuss in the following section, there are several issues to address before attempting to fit specific numerical model results to the identified inflation center candidates.

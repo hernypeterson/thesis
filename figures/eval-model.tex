@@ -2,30 +2,16 @@
 
   \usetikzlibrary{positioning}
 
-\coordinate (ceval) at (0,-2);
-\coordinate (popA) at (-4,2.2);
-\coordinate (popB) at (-2,2.2);
-\coordinate (fcriteria) at (3,2.7);
-\coordinate (gcriteria) at (3,1.7);
-\coordinate (centersample) at (0,5.7);
-\coordinate (samples) at (-3,11);
-\coordinate (centers) at (3,11);
+\coordinate (ceval) at (0,0);
+\coordinate (centersample) at (0,5);
+\coordinate (samples) at (-3,10);
+\coordinate (centers) at (3,10);
 
-% \node [draw, shape=rectangle, align=center] at (samples) {ID, LAT, LON, \acs{az1}, \acs{az2}, \acs{sl2} \\ \phantom{hello}};
+\node [rotate=270] at (7, 10) {Input (from GIS)};
+\node [rotate=270] at (7, 5) {Intermediate list};
+\node [rotate=270] at (7, 0) {Output (back to GIS)};
 
-\draw (-6.5,14) rectangle (6.5,8.5);
-\fill[opacity=0.1] (-6.5,8.5) rectangle (6.5,1);
-
-% centers_eval rectangle
-\draw (-5.2,4) rectangle (5.2,8);
-
-\draw (-6.5,1) rectangle (6.5,-4.5);
-
-\node [rotate=270] at (7, 11.25) {Input (from ArcGIS)};
-\node [rotate=270] at (7, 4.75) {Defined \& Computed in Python};
-\node [rotate=270] at (7, -1.75) {Output (back into ArcGIS)};
-
-\draw[arrow,line width=1mm] (-7, 11) -- (-7, -2);
+\draw[arrow,line width=1mm] (6, 10) -- (6, 0);
 
 \node (samplestable) [draw, shape=rectangle, align=center] at (samples) {\begin{tabular}{c|c}
     sID & LAT, LON, \acs{az1}, \acs{az2}, \acs{sl2}\\
@@ -70,34 +56,13 @@
         &\\
       \end{tabular}};
 
-  \node (popAtable) [draw, shape=rectangle, align=center, fill=white, rounded corners=0.2cm] at (popA) {\begin{tabular}{c}
-    sID\\
-    \hline\\
-    \hline\\
-  \end{tabular}};
-
-  \node [above = 0mm of popAtable] {Pop. A};
-  
-  \node (popBtable) [draw, shape=rectangle, align=center, fill=white, rounded corners=0.2cm] at (popB) {\begin{tabular}{c}
-    sID\\
-    \hline\\
-    \hline\\
-  \end{tabular}};
-  
-  \node [above =0mm of popBtable] {Pop. B};
-  
-  \node (topcrit) [draw, shape=rectangle, align=center, fill=white, rounded corners=0.2cm] at (fcriteria) {$f:\text{Pop.}, \text{cID} \longrightarrow \text{score(s)}$};
-  \node [draw, shape=rectangle, align=center, fill=white, rounded corners=0.2cm] at (gcriteria) {$g:\text{Pop.}, \text{cID} \longrightarrow \text{score(s)}$};
-
-  \node [above = 0mm of topcrit] {Criteria};
-
   \node (centersevaltable) [draw, shape=rectangle, align=center] at (ceval) {\begin{tabular}{c|c|c}
-    cID & LAT, LON & $f(A), g(A)\cdots f(B), g(B)\cdots$\\
+    cID & LAT, LON & SCORES\\
     \hline
     &\\
     &\\
-    &copy of&calculated from\\
-    &\hltt{centers.csv}&populations \& criteria\\
+    &copy of&each row calculated from\\
+    &\hltt{centers.csv}&one item in \hltt{centers\_calc} \\
     &\\
     &\\
   \end{tabular}};

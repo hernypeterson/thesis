@@ -2,24 +2,18 @@
 
 \section{Overview}
 
-In this section, I first introduce fundamental geometric considerations which inform the derivation and implementation of each subsequent method (Section~\ref{sec:considerations}).
-
-Next, I outline a method for measuring surface \emph{attitude} data via topography and the orientation of discordant lava flow features (Section~\ref{sec:mapping}). While this dataset alone provides evidence of surface deformation \parencite[c.f.][]{mouginis-mark_late-stage_2019}, I show that it is insufficient for physically quantifying this deformation, i.e., estimating reservoir location (horizontal and vertical), volume, pressure change, etc. I also briefly discuss some limitations and necessary assumptions of this method. 
-
-Before describing a solution to this problem, it is necessary to introduce a method for gathering modelled \emph{displacement} data corresponding to Olympus Mons' elastic response to reservoir pressure change. I use this method to explore a wide space of model parameters including gravitational loading, paleo-topography, and magma reservoir depth, size, shape, and pressure change. Once again, I discuss limitations and criteria for assessing physical plausibility of these models.
-
-Finally, I develop a geometric framework to directly compare mapped attitude data and modelled displacement data. Key steps in this framework include:
-\begin{enumerate}
-    \item Letting the assumption of axisymmetry impose a unique solution to the under-determined discordance problem. Specifically, a given pair of points---one axisymmetric inflation center and one sample with incomplete attitude data---is sufficient to complete the attitude dataset for that point and calculate tilt.
-    \item Converting displacement data along an axisymmetric model surface into tilt. While this method is not used immediately, it sets up an important derivation: a simplified analytical solution providing tilt as a function of distance with two parameters linked to the physical characteristics of the underlying reservoir pressure change.
-    \item Evaluating the degree to which axisymmetric ``epicenter'' (map-view location) candidates can explain observed topographic discordance under the assumption of axisymmetric pressure change. For each center candidate, this involves determining the unique\footnote{if it exists at all.} tilt solution for each sampled point as a function of distance from that center, then fitting the general analytical tilt function to the resulting dataset (or sub-populations thereof). Each center is then evaluated on the goodness of fit and physical plausibility of these parameters, among other criteria.
-\end{enumerate}
+In this chapter, I first introduce important geometric considerations (Section~\ref{sec:considerations}) which inform the derivation and implementation of each subsequent method. Next, I introduce two data collection processes: mapping discordant lava features (Section~\ref{sec:mapping}) to gather surface \emph{attitude} data and numerically modelling magma reservoir pressure change (Section~\ref{sec:modelling}) to gather \emph{displacement} data. Finally, I develop a geometric framework of \emph{axisymmetric tilt} (Section~\ref{sec:synthesis}) which allows direct comparison between these two datasets. %Key steps in this framework include:
+%\begin{enumerate}
+%    \item Letting the assumption of axisymmetry impose a unique solution to the under-determined discordance problem. Specifically, a given pair of points---one axisymmetric inflation center and one sample with incomplete attitude data---is sufficient to complete the attitude dataset for that point and calculate tilt.
+%    \item Converting displacement data along an axisymmetric model surface into tilt. While this method is not used immediately, it sets up an important derivation: a simplified analytical solution providing tilt as a function of distance with two parameters linked to the physical characteristics of the underlying reservoir pressure change.
+%    \item Evaluating the degree to which axisymmetric ``epicenter'' (map-view location) candidates can explain observed topographic discordance under the assumption of axisymmetric pressure change. For each center candidate, this involves determining the unique\footnote{if it exists at all.} tilt solution for each sampled point as a function of distance from that center, then fitting the general analytical tilt function to the resulting dataset (or sub-populations thereof). Each center is then evaluated on the goodness of fit and physical plausibility of these parameters, among other criteria.
+%\end{enumerate}
 
 \section{Fundamental Considerations}\label{sec:considerations}
 
 \subsection{Topographic Discordance [REDO FIGURE]}
 
-Numerous lava flows around the summit caldera of Olympus Mons appear to flow uphill~\parencite[Figure~\ref{fig:uphill-flows}; after][]{mouginis-mark_late-stage_2019}. In this thesis, the term \ac{disc} is defined as the angular difference between a lava flow's downhill azimuthal direction and the local dip direction of the underlying surface. For example, a flow pointing directly uphill would have $\acs{disc}=\ang{180}$. 
+Numerous lava flows around the summit caldera of Olympus Mons appear to flow uphill~\parencite[Figure~\ref{fig:uphill-flows}; after][]{mouginis-mark_late-stage_2019}. In this thesis, the term \ac{disc} is defined as the angular difference between a lava flow's downhill azimuthal direction and the local azimuth of the underlying surface. For example, a flow pointing directly uphill would have $\acs{disc}=\ang{180}$. 
 
 Discordant lava features have long been used to infer surface deformation under the assumption that lava flows record the downhill direction at the time of their emplacement. This method has been applied at a regional scale to constrain flexural loading of the lithosphere from large volcanic edifices \parencite{mouginis-mark_ancient_1982,isherwood_volcanic_2013,chadwick_late_2015} and more recently to reservoir-scale processes at the summit of Olympus Mons \parencite{mouginis-mark_late-stage_2019}.
 
@@ -42,9 +36,9 @@ Numerical models are widely used by physical volcanologists to better understand
     \label{fig:axisymmetry}
 \end{figure}    
 
-In this thesis, I seek to compare surface tilt inferred at the summit with tilt resulting from pressure changes in an underlying magma reservoir. Since this thesis is an early component of a larger research program to assess late Amazonian magmatism at Olympus Mons, I use the simplified\footnote{I justify additional simplifying assumptions in Section~\ref{sec:modelling}.} axisymmetric condition in my numerical models. Therefore, I make the same assumption when estimating tilt from discordant lava flows at the summit.
+In this thesis, I seek to compare surface tilt inferred at the summit with tilt resulting from pressure changes in an underlying magma reservoir. Since this thesis is an early component of a larger research program to assess late Amazonian magmatism at Olympus Mons, I use the simplified\footnote{I justify additional assumptions in Section~\ref{sec:tilt-from-model}.} axisymmetric condition in my numerical models. Therefore, I make the same assumption when estimating tilt from discordant lava flows at the summit.
 
-\subsection{Attitude Data Representation [FINISH TEXT AND FIGURE]}
+\subsection{Attitude Data Representation}
 
 The data I collect, calculate, and analyze in this thesis refer to attitude: the 3D orientation (primarily of surfaces) in space. It is important to use a suitable and consistent graphical representation of these data. The most common such representation in geology is the lower-hemisphere stereographic projection, in which linear and planar features are represented by their intersections with a unit sphere whose center lies within the feature.
 
@@ -52,11 +46,11 @@ In this thesis, I use an orthographic (rather than stereographic) projection of 
 
 Additionally, planes are often plotted by their curvilinear intersection to help set them apart from linear features, whose intersections are points. However, I do not describe any linear attitudes in this thesis, and curvilinear intersections quickly become unwieldy. Therefore, I define all planes by their poles, or the unique linear attitude normal to any plane.
 
-Additionally, the projection I use is of the upper hemisphere, not the lower hemisphere.
+Finally, I use an upper rather than lower hemisphere projection to ensure that the projected pole has the same azimuth angle as the downhill direction of the surface.
 
 \begin{figure}
     \input{figures/surface.tex}%
-    \caption[Pole to plane]{Pole to Plane in an upper hemisphere orthographic projection.}%
+    \caption[Orthographic pole to plane]{Pole to plane in an upper hemisphere orthographic projection. \textbf{Left:} A sloped green surface compared to a flat grey surface. A single normal vector is perpendicular to the green surface. The zenith angle of this vector is the same as the slope of the surface $(\varphi)$. The unit vector in this direction is the pole (point). \textbf{Right:} When this pole is projected vertically (orthographic) onto the flat surface, the resulting point retains the downhill azimuth direction $(\theta)$ at a distance $\sin\varphi$ from the origin.}%
     \label{fig:surface}%
 \end{figure}
 
@@ -82,15 +76,7 @@ Where flow margins are not visible, I map channels directly as linear features. 
 
 \subsection{Paleo-Azimuth from Mapped Features}
 
-I use the \hlss{Calculate Geometry Attributes} tool to find the azimuthal orientation from the start to the end of each feature. This angle is the variable \ac{az1} to each feature, although the following section discussion explains why this variable is not quite ready for use in attitude analysis. While I maintain a consistent ``sense'' in my channel mapping (pointing away from rather than toward the caldera center), the \hlss{Polygon To Centerline} tool does not. Therefore, some flow centerlines need to be reversed using the \hlss{Flip Line} tool.
-
-To determine which centerlines must be reversed, I use the \hlss{Near} tool to determine the azimuth angle from each linear feature to the center of the study area \acs{center}. Here, I leverage my initial observation that all flows in the study area point generally \emph{away} from the caldera center. Therefore, a correctly oriented feature is one where \acs{az1} is \ang{\sim180} away from the calculated angle; at the very least, it should be \ang{90} away. Therefore I select features where this angular difference is less than \ang{90} to reverse using \hlss{Flip Line}, as shown in Figure~\ref{fig:flip-line}. With all features now correctly oriented away from the caldera center, I recalculate the true \ac{az1} value using \hlss{Calculate Geometry Attributes}.
-
-\begin{figure}
-    \includegraphics[width=\textwidth]{flip-line.jpeg}%
-    \caption{Flip Line}%
-    \label{fig:flip-line}
-\end{figure}
+While I maintain a consistent ``sense'' in my channel mapping (pointing away from rather than toward the caldera center), the \hlss{Polygon To Centerline} tool does not. Therefore, I use the \hlss{Flip Line} tool to reversed the orientation of any centerline features pointing in their paleo-uphill rather than paleo-downhill direction. Then I use the \hlss{Calculate Geometry Attributes} tool to find the azimuthal orientation from the start to the end of each feature. This angle is the variable \ac{az1} for each feature.
 
 \subsection{Modern Attitude from Topography}
 
@@ -119,7 +105,7 @@ Along each linear feature, I use the \hlss{Generate Points Along Line} tool samp
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{sampling.pdf}
-    \caption[Sampling site selection]{Each linear feature is assigned an average paleo-dip direction. Points are selected for sampling and calculations at \qty{5}{\km} and \qty{3}{\km} intervals for flows and channels, respectively. Paleo-dip direction is assigned to each point from its corresponding line; modern dip and dip direction is assigned to each point from its unique \ac{DEM} neighborhood.}%
+    \caption[Sampling site selection]{Each linear feature is assigned an average paleo-azimuth. Points are selected for sampling and calculations at \qty{5}{\km} and \qty{3}{\km} intervals for flows and channels, respectively. Paleo-azimuth is assigned to each point from its corresponding line; modern dip and azimuth is assigned to each point from its unique \ac{DEM} neighborhood.}%
     \label{fig:sampling}
 \end{figure}
 
@@ -131,7 +117,7 @@ Then, I use the \hlss{Surface Parameters} tool on the \ac{MOLA} \ac{DEM} to comp
 
 \subsection{Axisymmetric Center Candidate Locations}
 
-To identify the most likely center candidates I use the \hlss{Generate Tesselation} and \hlss{Feature to Point} tools to generate an evenly spaced array of points in the caldera vicinity as shown in Figure~\ref{fig:candidates}. Each of these 781 points is than \qty{4}{\km} from its six neighbors.
+I use the \hlss{Generate Tesselation} and \hlss{Feature to Point} tools to generate an evenly spaced array of points in the caldera vicinity as shown in Figure~\ref{fig:candidates}. Each of these 781 points is than \qty{4}{\km} from its six neighbors.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{candidates.pdf}%
@@ -167,7 +153,7 @@ I use the \hlss{Parametric Sweep} tool to perform a sequence of analyses which a
 \end{equation}
 where \acs{dP} is the simulated over- (positive) or under-pressure in the reservoir. For each numerical model, I output surface displacement in the radial and vertical direction as a function of distance from the inflation center. 
 
-\section{Synthesis}
+\section{Synthesis: Axisymmetric Tilt}\label{sec:synthesis}
 
 The previous sections introduce some broad considerations and describe basic mechanics of data collection methods as they exist in isolation. However, the methods for \emph{analyzing} those data in light of those considerations are difficult to partition into ``mapping'' and ``modelling.'' Therefore, the sequence of methods in this section frequently transitions between map- and model-related data, functions, etc.
 
@@ -200,7 +186,7 @@ Therefore, I make the following choices especially carefully. First, the bearing
 \begin{figure}
 \begin{center}
     \input{figures/tilt-from-map.tex}%
-    \caption[\Acl{tilt} from mapping]{\textbf{Left:} A quadrant of an upper hemisphere representing attitude space for a sampled point relative to a particular inflation center. The pole labeled $\left(\acs{az2},\acs{sl2}\right)$ represents the modern surface. The line of poles labeled \acs{az1} represents the family of possible paleo-surfaces with downhill direction given by the lava flow direction. The $r-$axis points in the azimuthal direction away from a modelled inflation center \acs{center}. The assumption of axisymmetry imposes a horizontal axis of tilt perpendicular to the $r-$axis. The red arrow labeled \acs{tilt} answers the question: how much tilt \emph{about this axis} bring some pole on line \acs{az1} to pole $\left(\acs{az2},\acs{sl2}\right)$? \textbf{Right:} Orthographic projection (plan view of sphere, \emph{not stereographic!}) labeled with important angles and distances for the tilt calculation. Corresponds to horizontal grey rectangle on the left.}%
+    \caption[\Acl{tilt} from mapping]{\textbf{Left:} A quadrant of an upper hemisphere representing attitude space for a sampled point relative to a particular inflation center. The pole labeled $\left(\acs{az2},\acs{sl2}\right)$ represents the modern surface. The line of poles labeled \acs{az1} represents the family of possible paleo-surfaces with downhill direction given by the lava flow direction. The $r-$axis points in the azimuthal direction away from a modelled inflation center \acs{center}. The assumption of axisymmetry imposes a horizontal axis of tilt perpendicular to the $r-$axis. The red arrow labeled \acs{tilt} answers the question: how much tilt \emph{about this axis} bring some pole on line \acs{az1} to pole $\left(\acs{az2},\acs{sl2}\right)$? \textbf{Right:} Orthographic projection labeled with important angles and distances for the tilt calculation, building on Figure~\ref{fig:surface}. This region corresponds to horizontal grey rectangle on the left.}%
     \label{fig:tilt-from-map}%
 \end{center}
 \end{figure}
@@ -233,7 +219,7 @@ Unlike Equation~\eqref{eq:sl1}, this calculations will not raise any domain erro
 
 Equation~\eqref{fig:tilt-from-map} could in principle be applied directly to a given center-sample pair to calculate up to one unique tilt value. However, this calculation is extremely sensitive to error in collected data. Even if attitude data could be collected with perfect precision, there are several reasons why the resulting tilt would be inaccurate. For example, a lava flow may have been heading at a slight offset from the regional downhill azimuth due to local topography or physical processes occurring within the lava. Therefore, I introduce an uncertainly term for the \acs{az1} term, $\pm\ang{7}$. 
 
-This uncertainty term provides some flexibility in the analysis, but at a cost. By definition, any flow feature whose modern underlying topography has a downhill azimuth within \ang{7} cannot be considered ``discordant'' and thus no tilt calculation can take place here.
+This uncertainty term provides some flexibility in the analysis, but at a cost. By definition, any flow feature whose modern underlying topography has a downhill azimuth within \ang{7} cannot be considered ``discordant'' and thus no non-zero tilt can be inferred here.
 
 However, samples taken from discordant features can now be explained by a range of tilts, as shown in Figure~\ref{fig:az1-uncertainty}.
 
@@ -243,7 +229,7 @@ However, samples taken from discordant features can now be explained by a range 
     \label{fig:az1-uncertainty}
 \end{figure}
 
-\subsection{Deriving Tilt from Modelled Displacement Data}
+\subsection{Deriving Tilt from Modelled Displacement Data}\label{sec:tilt-from-model}
 
 It is much more straightforward to derive tilt from the numerical model, since this is a direct simulation of a surface being deformed from an initial configuration to a displaced configuration. The only issue is that COMSOL produces displacement data corresponding to individual model nodes. Tilt is derived from the attitude of a surface, the smallest unit of which in the axisymmetric model is an edge defined by two adjacent nodes.
 
@@ -265,7 +251,7 @@ I define the distance value associated with this calculated tilt as the midpoint
 
 In Section~\ref{sec:modelling}, I explain that the axisymmetric numerical model edifice is constructed from a particular elevation transect measured from the summit of Olympus Mons. Relative to this point, surrounding topography is roughly axisymmetric, especially more than \qty{\sim50}{\km} away past the previously discussed \qty{19}{\km} contour.
 
-However, I do not assume that the subsequent reservoir pressure change was centered at this same location. Instead, my goal is to  determine this inflation center location on the basis of discordant flow data, wherever they may point.\footnote{In fact, I will show that the tendency of lava features to point away from this paleo-summit makes it a particularly \emph{unlikely} candidate for an identifiable inflation center}.
+However, I do not assume that the subsequent reservoir pressure change was centered at this same location. Instead, my goal is to  determine this inflation center location on the basis of discordant flow data, wherever they may point.
 
 Importantly, placing a reservoir inflation center anywhere off the axis of symmetry in the numerical model introduces some inaccuracy. To make progress I need to determine whether this error is negligible; if it is not, I need to be aware of its magnitude as I interpret results.
 
@@ -305,7 +291,7 @@ This discrete equation can be taken to the continuous limit by dividing each ter
     = \lim_{\acs{dr1}\to0} 
     -\arctan\left(\dfrac{\acs{ddisp_z}/\acs{dr1}}{\acs{dr1}/\acs{dr1}
     + \acs{ddisp_r}/\acs{dr1}}\right) = 
-    -\arctan\left(\dfrac{\acs{disp_z'}}{1+\acs{disp_r'}}\right),\label{eq:tilt-from-flat-analytical-model}
+    -\arctan\left(\dfrac{\acs{disp_z'}}{1+\acs{disp_r'}}\right),\label{eq:mogi-tilt}
 \end{equation}
 where $'$ denotes the derivative with respect to $r_1$. The \textcite{mogi_relations_1958} solution provides the following displacement components:
 \begin{gather}
@@ -318,7 +304,7 @@ where $d$ is the depth to the center of the reservoir, $R$ is the reservoir radi
     \acs{epv} = \frac{4}{3}\pi R^3\Delta P=\frac{16\pi G}{9} \cdot k.\label{eq:epv}
 \end{equation}
 
-Differentiating Equations~\eqref{eq:uz_mogi} and~\eqref{eq:ur_mogi}, substituting into Equation~\eqref{eq:tilt-from-flat-analytical-model}, and simplifying:
+Differentiating Equations~\eqref{eq:uz_mogi} and~\eqref{eq:ur_mogi}, substituting into Equation~\eqref{eq:mogi-tilt}, and simplifying:
 \begin{equation}
     \acs{tilt} = \arctan\left(\frac{3kdr_1}{{(d^2+r_1^2)}^{2.5}+k(d^2-2r_1^2)}\right).\label{eq:tilt-from-mogi-model}
 \end{equation}
@@ -344,29 +330,21 @@ More importantly, I show in Figure~\ref{fig:mogi-test-shallow-oblate} that even 
     \label{fig:mogi-test-shallow-oblate}
 \end{figure}
 
-\subsection{Evaluating Axisymmetry Center Candidates [Rewrite to avoid pop/crit suggesting cartesian product]}
+\subsection{Evaluating Center Candidates}
 
-In this section, I define a set of criteria by which to evaluate each of the center candidate points shown in Figure~\ref{fig:candidates} based on their spatial relationship with the sample data shown in Figure~\ref{fig:results-coverage}. Each criterion may be applied to the entire sample dataset or only a subpopulation, but in either case it yields a numerical score for each center point.
-
-\begin{figure}
-    \includegraphics[width=\textwidth]{populations.pdf}%
-    \caption[Sample Populations for Inflation Center Evaluation]{I use three nearby populations of lava features from which to evaluate axisymmetric pressure change candidates. I chose these because they are among the most discordant features in the summit which are not at the immediate caldera rim. For reference, the flows shown in the center of Figure~\ref{fig:uphill-flows} are included in population B.}%
-    \label{fig:populations}
-\end{figure}
-
-In general, these criteria answer the question ``how well does this location perform as an axisymmetric center point.'' Importantly, two different locations may each individually explain different aspects of the study area. Additionally, the answer to ``where is the most likely center location'' may have a different answer even based on the same criterion if different sample populations are considered. After all, my goal is not to construct a single axisymmetric model but to determine the best explanations for all observed data by more flexibly applying the axisymmetric framework.
+In this section, I define two broad criteria by which to evaluate the axisymmetric center candidates shown in Figure~\ref{fig:candidates} based on their spatial relationship with mapped sample data. Broadly speaking, these criteria are designed to answer the question ``is this candidate location reasonable as an axisymmetric center point?'' Importantly, two different locations may each individually explain different aspects of the study area. Additionally, the answer to ``where is the most likely center location'' may have a different answer even based on the same criterion if different sample populations are considered. After all, my goal is not to construct a single axisymmetric model but to determine the best explanations for all observed data by more flexibly applying the axisymmetric framework.
 
 I illustrate the flow of this iterative approach abstractly in Figure~\ref{fig:eval-model} and present the Python implementation in Appendix~\ref{app:code}. In the following sections, I describe the specific criteria used to evaluate different aspects of the summit's geometry and history.
 
 \begin{figure}
     \input{figures/eval-model.tex}%
-    \caption[Center evaluation workflow]{Schematic illustration of candidate center evaluation process. First I read data for samples and center candidates. Then I compute the tilt each center implies for each sample (and related variables.) Then I define sample populations to examine and criteria to evaluate centers. Finally I evaluate each center point using each criterion for each sample population.}%
+    \caption[Center evaluation workflow]{Schematic illustration of candidate center evaluation process. For each center (unique cID) in \hltt{centers.csv}, I make a copy of \hltt{samples.csv} and calculate variables for each sample (unique sID). This results in the ``intermediate list'' where each element corresponds to one cID. Then I evaluate each item in this list and write the resulting scores to one row of \hltt{centers\_eval.csv}.}%
     \label{fig:eval-model}
 \end{figure}
 
 \subsubsection{Paleo-Summit}
 
-The center location which best explains an axisymmetric paleo-edifice direction is the one for which flow features are pointing downhill away from the center as directly possible. In other words, this point is the one which minimizes the average value of $\beta_1$ for all the sampled points. For this criterion, I use both the full sample dataset and populations broken down by feature type (polygon flow and linear channel). Estimated paleo-summits differing by feature type could suggest that the features erupted under different topographic conditions and thus at different times, with regional deformation occurring between eruptive periods.
+The center location which best explains an axisymmetric paleo-edifice summit is the one for which flow features are pointing downhill away from the center as directly possible. In other words, this point is the one which minimizes the average value of $\beta_1$ for all the sampled points. For this criterion, I use both the full sample dataset and populations broken down by feature type (polygon flow and linear channel). Estimated paleo-summits differing by feature type could suggest that the features erupted under different topographic conditions and thus at different times, with regional deformation occurring between eruptive periods.
 
 \subsubsection{Inflation Center}
 
@@ -388,7 +366,7 @@ Then, I compute an analytical tilt solution to a deep, high-\acs{epv} inflation 
 
 During this process, I count the number of points discarded due either to mathematical or physical implausibility---this number itself is an important criterion for evaluating the inflation center candidate.
 
-Finally, I perform a non-linear least squares regression to fit an analytical tilt solution (Equation~\eqref{eq:tilt-from-flat-analytical-model}). Just as a linear regression computes the best-fitting slope and intercept, this process computes the best fit parameters $d$ and $k$, the latter of which is easily converted to \acs{epv} via Equation~\eqref{eq:epv}. I use these fitted values and crucially, their associated error terms, to determine the likelihood that surface tilt actually occurred in the direction radial to the given center candidate. This approach is supported by Figure~\ref{fig:mogi-test-shallow-oblate}, which illustrates that even tilt resulting from shallow, oblate reservoirs within a topographic edifice can be fit well to the analytical Mogi tilt function. At this stage, I pay closer attention to the parameter error estimates (similar to an $R^2$ value for a linear regression) to determine whether \emph{any} axisymmetric tilt is likely to have occured from this center, rather than the estimates themselves---although I treat any unrealistic parameter estimates with caution regardless of their goodness of fit.
+Finally, I perform a non-linear least squares regression to fit an analytical tilt solution (Equation~\eqref{eq:mogi-tilt}). Just as a linear regression computes the best-fitting slope and intercept, this process computes the best fit parameters $d$ and $k$, the latter of which is easily converted to \acs{epv} via Equation~\eqref{eq:epv}. I use these fitted values and crucially, their associated error terms, to determine the likelihood that surface tilt actually occurred in the direction radial to the given center candidate. This approach is supported by Figure~\ref{fig:mogi-test-shallow-oblate}, which illustrates that even tilt resulting from shallow, oblate reservoirs within a topographic edifice can be fit well to the analytical Mogi tilt function. At this stage, I pay closer attention to the parameter error estimates (similar to an $R^2$ value for a linear regression) to determine whether \emph{any} axisymmetric tilt is likely to have occured from this center, rather than the estimates themselves---although I treat any unrealistic parameter estimates with caution regardless of their goodness of fit.
 
 This sequence of calculations is much more computationally expensive than the previous one, and a single realistic reservoir pressure change is unlikely to explain the entire dataset anyway. Therefore, I select smaller sample populations for this criterion, paying particular attention to the highly discordant flows near the southern summit region shown in Figure~\ref{fig:uphill-flows}.
 

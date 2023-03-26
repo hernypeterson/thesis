@@ -7,13 +7,18 @@ Note: for map figures I translated the contacts feature class from SIM 3470 roug
 Differentiated lava lows and channels do not uniformly cover the summit of Olympus Mons. Immediately beyond the caldera rim, distinguishable flows are limited mostly to the south-east (e.g., Figure~\ref{fig:uphill-flows}) and north-west margins. Notably, there are essentially zero flows immediately south of the caldera, closer to the modern summit. [FIGURE of all mapped lobate lava flows]. Lava channels are more widespread than lobate flows, especially further from the caldera rim 
 
 \subsection{Mapping Coverage}
+
 \begin{figure}
     \includegraphics[width=\textwidth]{results-coverage.pdf}%
     \caption[Mapping Coverage]{Polygon Flows and Linear Channels}%
     \label{fig:results-coverage}
 \end{figure}
-% map with polygons for entire study area
-% smaller map with polygons, centerlines, and sampled points - points labels with arrows downhill and scaled by color
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{populations.pdf}%
+    \caption[Sample Populations for Inflation Center Evaluation]{I use three nearby populations of lava features from which to evaluate axisymmetric pressure change candidates. I chose these because they are among the most discordant features in the summit which are not at the immediate caldera rim. For reference, the flows shown in the center of Figure~\ref{fig:uphill-flows} are included in population B.}%
+    \label{fig:populations}
+\end{figure}
 
 \subsection{Paleo-Summit Evaluation}
 \begin{figure}
@@ -30,13 +35,13 @@ Differentiated lava lows and channels do not uniformly cover the summit of Olymp
 
 \subsection{Inflation Center Evaluation}
 
-Figure~\ref{fig:cutoff} illustrates the degree to which estimated depth and energy parameters simply match those used to define the cutoff function.
+Figure~\ref{fig:hugging} illustrates the degree to which estimated depth and energy parameters simply match those used to define the cutoff function.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{hugging-a.pdf}
     \includegraphics[width=\textwidth]{hugging-c.pdf}
     \caption[Check for envelope ``hugging'']{Evaluating inadvertent influence from the tilt envelope (Figure~\ref{fig:envelope}) on the regression. Essentially, I want to see whether calculated parameters closely ``hug'' the values set to define the shallow high-\acs{epv} Mogi tilt cutoff. This is a kernel density estimate where this ``hugging'' issue would show up as steep clusters right at 0, particularly for \acs{epv}, since depth $d$ is much more constrained. Seeing variation in \acs{epv} over several orders of magnitude is encouraging. This is also weighted by the number of samples that are actually ``tiltable.'' The best fits are hopefully on the lower end of the \acs{epv} distribution\dots} 
-    \label{fig:cutoff}
+    \label{fig:hugging}
 \end{figure}
 
  \begin{figure}
@@ -51,7 +56,7 @@ Figure~\ref{fig:cutoff} illustrates the degree to which estimated depth and ener
 
 \begin{figure}
     \includegraphics[width=\textwidth]{math-fit-a.pdf}%
-    \caption[Population A: Goodness of Fit]{For population A, nonlinear regression using parameterized analytical function (Equation~\eqref{eq:tilt-from-flat-analytical-model}) converges, i.e., successfully reaches an estimate within 800 function calls, for 10 of the 781 center candidates, all within \qty{\sim20}{\km} of the samples. The four purple circles represent those estimates where the relative error (standard deviation divided by estimate) of both the energy \acs{epv} and depth $d$ parameters are within a factor of ten. Scaled parameter error for the light grey circles are much higher, indicating a poor fit. Center candidates are labeled by cID, for comparison with regression results in Figure~\ref{fig:scatter-fit-a}, and the fraction ``tiltable'' (proportional to displayed values in Figure~\ref{fig:num-tiltable})}%
+    \caption[Population A: Goodness of Fit]{For population A, nonlinear regression using parameterized analytical function (Equation~\eqref{eq:mogi-tilt}) converges, i.e., successfully reaches an estimate within 80 function calls, for 10 of the 781 center candidates, all within \qty{\sim20}{\km} of the samples. The four purple circles represent those estimates where the relative error (standard deviation of estimate divided by value of estimate) of both the energy \acs{epv} and depth $d$ parameters are within a factor of ten. Scaled parameter error for the light grey circles are much higher, indicating a poor fit. Center candidates are labeled by cID, for comparison with regression results in Figure~\ref{fig:scatter-fit-a}, and the fraction ``tiltable'' (proportional to displayed values in Figure~\ref{fig:num-tiltable})}%
     \label{fig:math-fit-a}
 \end{figure}
 
@@ -62,14 +67,15 @@ Figure~\ref{fig:cutoff} illustrates the degree to which estimated depth and ener
 \end{figure}
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{scatter-fit-a.pdf}%
-    \caption[Scatter Plot for Select Center Candidates: Population A]{Scatter fit}%
+    \includegraphics[width=\textwidth]{scatter-fit-a.pdf}
+    \includegraphics[width=\textwidth]{scatter-fit-a-outlier.pdf}
+    \caption[Population A: Scatter Plots \& Analytical Fit]{Scatter plots of calculated tilt and best analytical fit of Equation~\eqref{eq:mogi-tilt}. Black dotted lines represent the tilt envelope from Figure~\ref{fig:envelope}. Center 197 is plotted separately to illustrate that good mathematical fit can be reached even for physically implausible parameter estimates. Both figures also corroborates evidence in Figure~\ref{fig:hugging} that while the cutoff envelope constrains the data used for regression, the parameter estimates resulting from fitting that constrained dataset can vary widely.}%
     \label{fig:scatter-fit-a}
 \end{figure}
 
 \begin{figure}
     \includegraphics[width=\textwidth]{math-fit-c.pdf}
-    \caption[Population C: Goodness of Fit]{For population C, the regression converges for a slim majority (422) of the 781 center candidates. Almost all depth estimates reach an absolute error under 10, while energy estimates are mixed. Circle sizes are proportional to the number of ``tiltable'' samples included in the regression, the higher values of which are tightly concentrated around the population as for population A (Figure~\ref{fig:math-fit-a}).}%
+    \caption[Population C: Goodness of Fit]{For population C, the regression converges for a slim majority (422) of the 781 center candidates. Almost all depth estimates reach an absolute error under 10, while energy error is mixed. Circle sizes are proportional to the number of ``tiltable'' samples included in the regression, the higher values of which are tightly concentrated around the population as for population A (Figure~\ref{fig:math-fit-a}).}%
     \label{fig:math-fit-c}
 \end{figure}
 

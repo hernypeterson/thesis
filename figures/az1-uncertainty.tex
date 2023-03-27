@@ -1,34 +1,41 @@
-\begin{tikzpicture}[scale=1]
+\begin{tikzpicture}[scale=1.4]
 
     \coordinate (orig) at (0,0);
     \coordinate (s2) at (-60:1);
 
+    \draw[green!70!black,ultra thick] (s2) + (83:.3) arc (83:120:.3);
+
     \draw (orig) circle (\flatradius);
 
-    \draw[arrow, ultra thick] (orig) -- (70:\flatradius);
-    \fill (s2) circle (1mm);
+    \draw[arrow, ultra thick] (orig) -- (70:\flatradius) node[anchor=south] {\acs{az1}};
+    \fill (s2) circle (1mm) node[anchor=north] {$(\acs{az2},\acs{sl2})$};
 
-    \draw[very thin] (s2) -- (orig);
-    \draw[very thin] (s2) -- (70:\flatradius);
+    \draw[] (s2) -- (orig);
+    \draw[] (s2) -- (70:\flatradius);
 
 
 \end{tikzpicture}%
-\hspace{1.5cm}%
-\begin{tikzpicture}[scale=1]
+\hspace{5mm}%
+\begin{tikzpicture}[scale=1.4]
 
     \coordinate (orig) at (0,0);
     \coordinate (s2) at (-60:1);
 
+    \draw[dashed] (s2) -- (70:\flatradius);
+
+    \draw[green!70!black,ultra thick] (s2) + (64:.3) arc (64:120:.3);
+
     \fill[opacity=0.1] (orig) -- (70+\uncert:\flatradius) arc (70+\uncert:70-\uncert:\flatradius) -- (orig);
-    \fill (s2) circle (1mm);
-
+    
     \draw (orig) circle (\flatradius);
-
-    \draw[arrow, ultra thick] (orig) -- (70:\flatradius);
+    
+    \draw[arrow, ultra thick] (orig) -- (70:\flatradius) node[anchor=south] {\acs{az1} range};
     \draw[arrow, blue] (orig) -- (70-\uncert:\flatradius);
     \draw[arrow, blue] (orig) -- (70+\uncert:\flatradius);
-    \fill (s2) circle (1mm);
+    \fill (s2) circle (1mm) node[anchor=north] {$(\acs{az2},\acs{sl2})$};
+    
+    \draw[blue] (s2) -- (orig);
+    \draw[blue] (s2) -- (70-\uncert:\flatradius);
 
-    \draw[very thin, blue] (s2) -- (orig);
-    \draw[very thin, blue] (s2) -- (70-\uncert:\flatradius);
+    \fill (s2) circle (1mm);
 \end{tikzpicture}%

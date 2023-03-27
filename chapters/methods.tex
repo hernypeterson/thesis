@@ -1,23 +1,8 @@
 \chapter{Methods}\label{cha:methods}
 
-\section{Overview}
-
 In this chapter, I first introduce important geometric considerations (Section~\ref{sec:considerations}) which inform the derivation and implementation of each subsequent method. Next, I introduce two data collection processes: mapping discordant lava features (Section~\ref{sec:mapping}) to gather surface \emph{attitude} data and numerically modelling magma reservoir pressure change (Section~\ref{sec:modelling}) to gather \emph{displacement} data. Finally, I develop a geometric framework of \emph{axisymmetric tilt} (Section~\ref{sec:synthesis}) which allows direct comparison between these two datasets.
 
 \section{Fundamental Considerations}\label{sec:considerations}
-
-\subsection{Topographic Discordance}\label{sec:discordance}
-
-Numerous lava flows around the summit caldera of Olympus Mons appear to flow uphill~\parencite[Figure~\ref{fig:uphill-flows}; after][]{mouginis-mark_late-stage_2019}. In this thesis, the term \ac{disc} is defined as the angular difference between a lava flow's downhill azimuthal direction and the local azimuth of the underlying surface. For example, a flow pointing directly uphill would have $\acs{disc}=\ang{180}$. 
-
-Discordant lava features have long been used to infer surface deformation under the assumption that lava flows record the downhill direction at the time of their emplacement. This method has been applied at a regional scale to constrain flexural loading of the lithosphere from large volcanic edifices \parencite{mouginis-mark_ancient_1982,isherwood_volcanic_2013,chadwick_late_2015} and more recently to reservoir-scale processes at the summit of Olympus Mons \parencite{mouginis-mark_late-stage_2019}. In this thesis, I use topographic discordance as a starting point but acknowledge the fundamental limitation that downhill azimuth of a lava feature is insufficient for fully describing the attitude of the surface upon which it was emplaced.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{uphill-flows.pdf}
-    \caption[Discordant lava flows]{Discordant lava flows (white) in the southern flank region. Basemap is the \acf{CTX} mosaic produced by \textcite{Dickson2018AGB}. Contours in \unit{\km}. After Figure 3 in \textcite{mouginis-mark_late-stage_2019}. Note: for the caldera contact basemap here (inset) and several subsequent figures I use a subset of the feature class from \textcite{mouginis-mark_geologic_2021}.}%
-    \label{fig:uphill-flows}
-\end{figure}
 
 \subsection{Axisymmetry}
 
@@ -43,7 +28,7 @@ Finally, I use an upper rather than lower hemisphere projection to ensure that t
 
 \begin{figure}
     \input{figures/surface.tex}%
-    \caption[Orthographic pole to plane]{Pole to plane in an upper hemisphere orthographic projection. \textbf{Left:} A sloped green surface compared to a flat grey surface. A single normal vector is perpendicular to the green surface. The zenith angle of this vector is the same as the slope of the surface $(\varphi)$. The unit vector in this direction is the pole (point). \textbf{Right:} When this pole is projected vertically (orthographic) onto the flat surface, the resulting point retains the downhill azimuth direction $(\theta)$ at a distance $\sin\varphi$ from the origin.}%
+    \caption[Orthographic pole to plane]{Pole to plane in an upper hemisphere orthographic projection. \textbf{Left:} A sloped green surface compared to a flat grey surface. A single normal vector within the upper hemisphere is perpendicular to the green surface. The zenith angle of this vector is the same as the slope of the surface $(\varphi)$. The unit vector in this direction is the pole (point). \textbf{Right:} When this pole is projected vertically (orthographic) onto the flat surface, the resulting point retains the downhill azimuth direction $(\theta)$ at a distance $\sin\varphi$ from the origin.}%
     \label{fig:surface}%
 \end{figure}
 
@@ -212,7 +197,7 @@ However, samples taken from discordant features can now be explained by a range 
 
 \begin{figure}
     \include{figures/az1-uncertainty.tex}%
-    \caption[Paleo-azimuth uncertainty]{Paleo-azimuth uncertainty introduces tilt flexibility. \textbf{Left:} With \acs{az1} treated as an exact quantity, there are a narrow range of radial directions which can translate the line to meet the point, and for many of those angles the tilt required is large. \textbf{Right:} With a wider range of possible \acs{az1} values, more radial directions are possible to translate somewhere in the shaded region to the point. Additionally, the tilt required to reach the boundary will always be less. However, points within the shaded region can only evaluate to $\acs{tilt}=\ang{0}$. Therefore, the choice of uncertainty value is a tradeoff between incorporating more data points and explaining discordance using smaller, more realistic tilts.}%
+    \caption[Paleo-azimuth uncertainty]{Paleo-azimuth uncertainty introduces tilt flexibility. \textbf{Left:} With \acs{az1} treated as an exact quantity, there are a narrow range of radial directions (colored green) which can translate the line to meet the point, and for many of those angles the tilt required is unrealistically large. \textbf{Right:} With a wider range of possible \acs{az1} values, more radial directions are possible to translate some point in the shaded region to the $(\acs{az2},\acs{sl2})$ point. Additionally, the tilt required to reach the boundary will always be less. However, points within the shaded region must have $\acs{tilt}=\ang{0}$. Therefore, the choice of uncertainty value is a tradeoff between incorporating more data points and explaining discordance using smaller, more realistic tilts.}%
     \label{fig:az1-uncertainty}
 \end{figure}
 

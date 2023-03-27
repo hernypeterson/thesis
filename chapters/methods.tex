@@ -150,7 +150,7 @@ It turns out that error in the calculated \acs{bearing} value is much more signi
 
 Therefore, since all the calculations take place at the sampled point, I define \acs{bearing} as the geographic azimuth angle at that point directly \emph{away} from \acs{center}.\footnote{It is worth noting that this numerical bearing is different from the azimuth from the center to the sample, although they represent the same physical direction.} This is to ensure that the horizontal \acs{bearing}-axis points in the same direction as positive \acs{dist}. This equation \parencite{williams_aviation, veness_calculate} has the form:
 \begin{equation}
-    \acs{bearing} = \ang{180} + \arctan\left(\frac{\sin(\acs{lonC}-\acs{lon})\cos\acs{latC}} {\cos\acs{lat} \sin\acs{latC}-\sin\acs{lat}\cos\acs{latC}\cos(\acs{lonC}-\acs{lon})}\right).
+    \acs{bearing} = \ang{180} + \arctan\left(\frac{\sin(\acs{lonC}-\acs{lon})\cos\acs{latC}} {\cos\acs{lat} \sin\acs{latC}-\sin\acs{lat}\cos\acs{latC}\cos(\acs{lonC}-\acs{lon})}\right).\label{eq:bearing}
 \end{equation} 
 
 \subsubsection{Paleo-Slope Equation}\label{sec:paleo-slope}

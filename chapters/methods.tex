@@ -64,7 +64,7 @@ I load these two data sources in an equal-area sinusoidal Mars projection\footno
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{summit.pdf}
-    \caption[Study area: Olympus Mons summit]{Study area at the summit of Olympus Mons (inset). Sinusoidal Martian Projection. Contours in \unit{km}. Square is \qtyproduct{200 x 200}{\km}, centered at the midpoint of the outermost \qty{19}{\km} contour.}\label{fig:summit}
+    \caption[Summit study area]{Study area at the summit of Olympus Mons (inset). Sinusoidal Martian Projection. Contours in \unit{km}. Square is \qtyproduct{200 x 200}{\km}, centered at the midpoint of the outermost \qty{19}{\km} contour.}\label{fig:summit}
 \end{figure}
 
 \subsection{Preliminary Observations}
@@ -163,7 +163,7 @@ To calculate \acf{dist}, I use the spherical law of cosines\footnote{Also known 
 
 It turns out that error in the calculated \acs{bearing} value is much more significant than error in \acs{dist}. That's because I use \acs{bearing} to define the axis of tilt and thus the value of tilt for a given center-sample pair, and this computation is very sensitive to minor variations.
 
-Therefore, since all the calculations take place at the sampled point, I define \acs{bearing} as the geographic azimuth angle at that point directly \emph{away} from \acs{center}.\footnote{It is worth noting that this numerical bearing is different from the azimuth from the center to the sample, although they represent the same physical direction.} This is to ensure that the horizontal \acs{bearing}-axis points in the same direction as positive \acs{dist}.
+Therefore, since all the calculations take place at the sampled point, I define \acs{bearing} as the geographic azimuth angle at that point directly \emph{away} from \acs{center}.\footnote{It is worth noting that this numerical bearing is different from the azimuth from the center to the sample, although they represent the same physical direction.} This is to ensure that the horizontal \acs{bearing}-axis points in the same direction as positive \acs{dist}. This equation \parencite{williams_aviation, veness_calculate} has the form:
 \begin{equation}
     \acs{bearing} = \ang{180} + \arctan\left(\frac{\sin(\acs{lonC}-\acs{lon})\cos\acs{latC}} {\cos\acs{lat} \sin\acs{latC}-\sin\acs{lat}\cos\acs{latC}\cos(\acs{lonC}-\acs{lon})}\right).
 \end{equation} 

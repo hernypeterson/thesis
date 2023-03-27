@@ -73,7 +73,7 @@ Figure~\ref{fig:summit} shows important topographic patterns at the summit of Ol
 
 \subsection{Mapping Lava Features}
 
-I use the \ac{CTX} mosaic to visually identify lava flows near the summit of Olympus Mons. Following \textcite{mouginis-mark_geologic_2021}, I map lobate flow outlines as polygons where possible. From these polygons, I derive centerline features using the \hlss{Polygon To Centerline} tool, as shown in Figure~\ref{fig:flow}. Where flow margins are not visible, I map channels directly as linear features. I include discontinuous regions where I infer partial collapse of lava tubes yielding skylight chains,\footnote{This assumption of underlying continuity follows, e.g., \textcite{bleacher_olympus_2007,carr_geologic_2010,peters_lava_2021}.} as shown in Figure~\ref{fig:channel}.
+I use the \ac{CTX} mosaic to visually identify lava flows near the summit of Olympus Mons. Following \textcite{mouginis-mark_geologic_2021}, I map lobate flow outlines as polygons where possible. From these polygons, I derive centerline features using the \hlss{Polygon To Centerline} tool, as shown in Figure~\ref{fig:linear-features}. Where flow margins are not visible, I map channels directly as linear features. I include discontinuous regions where I infer partial collapse of lava tubes yielding skylight chains,\footnote{This assumption of underlying continuity follows, e.g., \textcite{bleacher_olympus_2007,carr_geologic_2010,peters_lava_2021}.} as shown in Figure~\ref{fig:linear-features}.
 
 \subsection{Sampling Paleo-Azimuth from Mapped Features}
 
@@ -86,28 +86,10 @@ While I maintain a consistent ``sense'' in my channel mapping (pointing away fro
 Along each linear feature, I use the \hlss{Generate Points Along Line} tool with sampling interval \samplinginterval\ to create a series of point features where further attitude data collection and analysis will take place. The reason for this choice is that while \acf{az1} is relatively uncertain being derived solely from flow features, modern topography can be measured to much higher precision using the \ac{MOLA} \ac{DEM}. More importantly, the analysis described later in Section~\ref{sec:tilt-from-map} is extremely sensitive to position (different locations within the same feature will yield different results even if they have the identical attitude variables). Note that features with length $<\samplinginterval$ are not sampled at all, on the grounds that especially short features are less likely than long ones to accurately record the regional paleo-topographic downhill azimuth.
 
 \begin{figure}
-    \centering
-    \begin{subfigure}{\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{flow.pdf}
-        \caption[Mapped lava flow \& centerline]{A flow with lobate boundaries at each margin is mapped as a polygon (white) from which a linear centerline is derived for sampling.}%
-        \label{fig:flow}
-    \end{subfigure}
-    \begin{subfigure}{\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{channel.pdf}
-        \caption[Mapped lava channel]{A lava channel is mapped as a linear feature, including regions of discontinuity which are inferred to be collapsed skylight chains over lava tubes.}%
-        \label{fig:channel}
-    \end{subfigure}
+    \includegraphics[width=\textwidth]{linear-features.pdf}
+    \includegraphics[width=\textwidth]{linear-features-mapped.pdf}
     \caption{Mapping linear features}%
-    \label{fig:mapping-linear}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{sampling.pdf}
-    \caption[Sampling site selection]{Each linear feature is assigned an average paleo-azimuth. Points are selected for sampling and calculations at \qty{5}{\km} and \qty{3}{\km} intervals for flows and channels, respectively. Paleo-azimuth is assigned to each point from its corresponding line; modern dip and azimuth is assigned to each point from its unique \ac{DEM} neighborhood.}%
-    \label{fig:sampling}
+    \label{fig:linear-features}
 \end{figure}
 
 \newcommand{\neighborhood}{\qty{2}{\km}}
@@ -181,7 +163,7 @@ To calculate \acf{dist}, I use the spherical law of cosines\footnote{Also known 
 
 It turns out that error in the calculated \acs{bearing} value is much more significant than error in \acs{dist}. That's because I use \acs{bearing} to define the axis of tilt and thus the value of tilt for a given center-sample pair, and this computation is very sensitive to minor variations.
 
-Therefore, I make the following choices especially carefully. First, the bearing of a great circle segment is not constant. Since all the calculations take place at the sampled point, I define \acs{bearing} as the geographic azimuth angle directly \emph{away} from \acs{center}. This is to ensure that the horizontal \acs{bearing}-axis points in the same direction as positive \acs{dist}.
+Therefore, since all the calculations take place at the sampled point, I define \acs{bearing} as the geographic azimuth angle at that point directly \emph{away} from \acs{center}.\footnote{It is worth noting that this numerical bearing is different from the azimuth from the center to the sample, although they represent the same physical direction.} This is to ensure that the horizontal \acs{bearing}-axis points in the same direction as positive \acs{dist}.
 \begin{equation}
     \acs{bearing} = \ang{180} + \arctan\left(\frac{\sin(\acs{lonC}-\acs{lon})\cos\acs{latC}} {\cos\acs{lat} \sin\acs{latC}-\sin\acs{lat}\cos\acs{latC}\cos(\acs{lonC}-\acs{lon})}\right).
 \end{equation} 

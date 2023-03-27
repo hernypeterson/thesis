@@ -2,27 +2,28 @@
   short = \ensuremath{\delta_S},
   long = latitude of sample,
   tag = sym,
-  code = lat
+  code = lat1
 }
 
 \DeclareAcronym{lon}{
   short = \ensuremath{\lambda_S},
   long = longitude of sample,
   tag = sym,
-  code = lon
+  code = lon1
 }
+
 \DeclareAcronym{latC}{
   short = \ensuremath{\delta_C},
-  long = latitude of \acs{center},
+  long = latitude of center,
   tag = sym,
-  code = latC
+  code = lat2
 }
 
 \DeclareAcronym{lonC}{
   short = \ensuremath{\lambda_C},
-  long = longitude of \acs{center},
+  long = longitude of center,
   tag = sym,
-  code = lonC
+  code = lon2
 }
 
 \DeclareAcronym{az1}{
@@ -57,7 +58,6 @@
   short = \ensuremath{\Delta\theta},
   long = topographic discordance,
   tag = sym,
-  code = disc
 }
 
 \DeclareAcronym{center}{
@@ -68,7 +68,7 @@
 
 \DeclareAcronym{bearing}{
   short = \ensuremath{\Theta},
-  long = bearing from \acs{center},
+  long = bearing from sample away from center,
   tag = sym,
   code = theta
 }
@@ -95,15 +95,13 @@
 \DeclareAcronym{axsl2}{
   short = \ensuremath{\Phi_2},
   long = slope of displaced model surface,
-  tag = sym,
-  code = axsl2
+  tag = sym
 }
 
 \DeclareAcronym{axsl1}{
   short = \ensuremath{\Phi_1},
   long = slope of initial model surface,
-  tag = sym,
-  code = axsl1
+  tag = sym
 }
 
 \DeclareAcronym{tilt}{
@@ -222,7 +220,6 @@
   short = \ensuremath{g},
   long = gravity of mars,
   tag = sym,
-  code = GRAV
 }
 \DeclareAcronym{mult}{
   short = \ensuremath{pmult},
@@ -259,5 +256,12 @@
   short = \ensuremath{E_{PV}},
   long = inflation energy,
   tag = sym,
-  code = pv
+  code = epv
+}
+
+\DeclareAcronym{depth}{
+  short = \ensuremath{d},
+  long = depth to center of reservoir,
+  tag = sym,
+  code = d
 }

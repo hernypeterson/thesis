@@ -1,14 +1,12 @@
 \chapter{Discussion}\label{cha:discussion}
 
-Differentiated lava lows and channels do not uniformly cover the summit of Olympus Mons. Immediately beyond the caldera rim, distinguishable flows are limited mostly to the south-east (e.g., Figure~\ref{fig:uphill-flows}) and north-west margins. Notably, there are essentially zero flows immediately south of the caldera, closer to the modern summit. [FIGURE of all mapped lobate lava flows]. Lava channels are more widespread than lobate flows, especially further from the caldera rim 
+In this thesis, I focus on developing and I implementing a method which ultimately involves a fairly long sequence of calculations including several iterative elements. Most of the associated computational and organization expense is introduced with the large array of axisymmetric center candidate points. I contend that this complexity is a fair price to pay for the flexibility it affords in the analysis. After all, the summit of Olympus Mons is \emph{not} axisymmetric either at the surface or (presumably) in its interior, and if such a simplification is to be applied I should at least be confident that the choice of vertical axis position is appropriate to the question at hand.
 
-\section{Fundamental Considerations}
-
-In Section~\ref{sec:considerations}, I introduce the important geometric considerations guiding this thesis. The first of these is topographic discordance, the simple observation that lava features at the summit of Olympus Mons are oriented differently from the local downhill direction. The spatial distribution of these features constitutes the single dataset from which I attempt to derive as much information as possible about the underlying processes responsible. To make progress with this interpretation, I show that certain assumptions must be made; the first and most important of these assumptions is one of axisymmetric geometry.
-
-Wherever possible, I attempt to 
+Beyond this point, I need to make certain choices somewhat arbitrarily to make forward progress in the analysis. For example, I choose a paleo-azimuth uncertainty term of \ang{7} (Figure~\ref{fig:az1-uncertainty}) not by measurement or calculation but simply because a choice needs to be made: the analysis was failing to produce any results without an uncertainty term here. The maximum tilt envelope (Figure~\ref{fig:envelope}) is borne similarly out of necessity. Without it, the vast majority of computed tilts vary widely across the approximate range from \ang{-90} to \ang{90}. These decisions, together with the largely unpredictable (on the spatial scale of the center candidate spacing) and poorly-fitting results presented in Chapter~\ref{cha:results}, suggests that the method I present is much more sensitive than I originally anticipated. In my view, the results are consistent enough with my expectations to rule out the possibility of a major mathematical error, but not yet refined enough to proceed with fitting actual numerical model results based on specific reservoir geometries and inflation energies.
 
 \section{Future Directions}
+
+My first priority for the following weeks,
 
 \subsection{Crater Counting}
 \textcite{kneissl_map-projection-independent_2011,robbins_volcanic_2011,

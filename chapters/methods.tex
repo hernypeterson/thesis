@@ -141,7 +141,7 @@ Mars' rotation about an essentially fixed axis provides a convenient coordinate 
 
 Points mapped in GIS are automatically expressed in \ac{lat} and \ac{lon}; I need to convert this into polar coordinates $(\acs{dist},\acs{bearing})$ with the axisymmetric center as the origin. And because one goal of the project is to evaluate an array of candidate center points, I need an equation that takes any set of center coordinates $(\acs{latC}, \acs{lonC})$ and any set of sample point coordinates and returns a $(\acs{dist},\acs{bearing})$ pair.
 
-To calculate \acf{dist}, I use the spherical law of cosines\footnote{Also known as the great circle distance formula, derived in Appendix~\ref{app:spherical-trig}.} scaled by the martian equatorial radius since Olympus Mons is close to the equator:
+To calculate \acf{dist}, I use the spherical law of cosines\footnote{Also known as the great circle distance formula, derived in Appendix~\ref{app:gcd}.} scaled by the martian equatorial radius since Olympus Mons is close to the equator:
 \begin{equation}
     \acs{dist}=\arccos(\cos\acs{latC}\cos\acs{lat}\cos(\acs{lonC}-\acs{lon}) + \sin\acs{latC}\sin\acs{lat})\cdot\qty{3396.2}{\km}.
 \end{equation}
@@ -181,7 +181,7 @@ because the resulting argument in Equation~\eqref{eq:sl1} is outside the domain 
 
 \subsubsection{Tilt Equation}
 
-In Figure~\ref{fig:tilt-from-map}, the arrow which translates the \acs{az1} line onto $\left(\acs{az2},\acs{sl2}\right)$ is a segment of a small circle about the tilt axis. To determine the true angle of tilt I translate this small circle onto the corresponding great circle along the blue and green great circle segments, respectively. I include this derivation in Appendix~\ref{app:spherical-trig}. The difference between these two transformations is the tilt: 
+In Figure~\ref{fig:tilt-from-map}, the arrow which translates the \acs{az1} line onto $\left(\acs{az2},\acs{sl2}\right)$ is a segment of a small circle about the tilt axis. To determine the true angle of tilt I translate this small circle onto the corresponding great circle along the blue and green great circle segments, respectively. I include this derivation in Appendix~\ref{app:proj}. The difference between these two transformations is the tilt: 
 \begin{equation}
     \acs{tilt} = \arctan(\tan\acs{sl2}\cos\acs{beta2}) - \arctan(\tan\acs{sl1}\cos\acs{beta1}).\label{eq:tilt-from-map}
 \end{equation}

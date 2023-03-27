@@ -18,8 +18,9 @@
     % list/display=all,
     list/heading=chapter,
     list/template=tabularray,
+    list/sort=false,
     pages/display=all,
-    pages/seq/use=false,
+    pages/seq/use=false
 }
 
 % only if intro is included
@@ -31,7 +32,7 @@
 % only include if methods section is included
 \printacronyms[
     name={List of Symbols},
-    preamble={Numerically computed variables are listed with their text name alongside their symbol.},
+    preamble={Variables used in Python are listed with their name in code (highlighted) alongside the symbol used in the text.},
     include=sym
 ]
 
@@ -52,4 +53,5 @@
 \appendix % lettering
 \input{chapters/spherical-trig.tex}
 \input{chapters/code.tex}
+\input{chapters/tables.tex}
 \end{document}

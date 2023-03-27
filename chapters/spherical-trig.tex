@@ -1,5 +1,5 @@
 \chapter{Spherical Trigonometry}\label{app:spherical-trig}
-\section{Great Circle Distance}
+\section{Great Circle Distance}\label{app:gcd}
 Let two poles be defined in attitude space $(\theta,\varphi,\rho)$ on the unit sphere $(\rho=1)$ by:
 \begin{equation}
     p=(\theta_p,\varphi_p,1)\qquad q=(\theta_q,\varphi_q,1).
@@ -45,7 +45,7 @@ Since $\|p\|=\|q\|=1$ by construction, Equation~\eqref{eq:dot-product} reduces t
 %         \label{fig:spherical-cosines}%
 %     \end{center}
 % \end{figure}
-\section{Great Circle Projection}
+\section{Great Circle Projection}\label{app:proj}
 In Section~\ref{sec:tilt-from-map} (specifically Equation~\ref{eq:tilt-from-map}), I need to project a certain pole $q$ directly onto a certain vertically oriented great circle (constant $\theta$). Specifically, this projection is perpendicular to the great circle, so the distance between the great circle and the pole is minimized. This optimization problem can be solved for a given $\theta=\theta_p$ for the great circle and ($\varphi_q, \theta_q$) for the pole. Specically, for constant $\beta=|\theta_p-\theta_p|$ and $\varphi_q$, the value of $\varphi_p$ which minimizes $\alpha$ (great circle distance) can be calculated by setting:
 \begin{equation}
     \frac{\partial}{\partial \varphi_p}

@@ -1,0 +1,60 @@
+% Abbreviations
+\usepackage{supertabular}
+\usepackage{tabularray}
+\DefTblrTemplate{caption-tag}{normal}{}
+\SetTblrTemplate{caption-tag}{normal}
+\DefTblrTemplate{caption-sep}{normal}{}
+\SetTblrTemplate{caption-sep}{normal}
+\DefTblrTemplate{conthead-text}{normal}{}
+\SetTblrTemplate{conthead-text}{normal}
+
+% vertically align perfectly with textwidth
+\DefTblrTemplate{width}{normal}{1.1\textwidth}
+\SetTblrTemplate{width}{normal}
+
+\usepackage{acro}
+\acsetup{make-links=true}
+% customize list format with an extra column for alt (code)
+\DeclareAcroProperty{code}
+
+\input{aux/abbrev.tex}
+\input{aux/symbol.tex}
+
+\RenewAcroTemplate [list] {tabularray}
+  {
+    \AcroNeedPackage {tabularray}
+    \acronymsmapF
+      {
+        \AcroAddRow
+          {
+            \acrowrite {short}
+            & 
+            \acroifT{code}{\hltt{\acrowrite{code}}}
+            &
+            \acrowrite {list}
+            \acroifanyT {foreign,extra} {~(}
+            \acrowrite {foreign}
+            \acroifallT {foreign,extra} {,~}
+            \acrowrite {extra}
+            \acroifanyT {foreign,extra} {)}
+            \acropagefill
+            \acropages
+              { \acrotranslate {page} \nobreakspace }
+              { \acrotranslate {pages} \nobreakspace }
+            \strut \\
+          }
+      }
+      { \AcroRerun }
+    \acroheading
+    \acropreamble
+    \par \noindent
+    \begin{actblr}{
+        column{1} = {leftsep=-2pt},
+        column{3} = {rightsep=-2pt},
+        width=\textwidth,
+        colspec = {llX[l]},
+        column{1} = { font = \bfseries }
+        }
+      \AcronymTable
+    \end{actblr}
+  }

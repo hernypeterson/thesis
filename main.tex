@@ -1,4 +1,73 @@
-\input{aux/preamble.tex}
+% Document Structure
+\documentclass[12pt, oneside]{book}
+\usepackage{geometry} % 1 inch margins
+
+% Encoding
+\usepackage[T1]{fontenc}
+
+% Color
+\usepackage[table,xcdraw,dvipsnames]{xcolor}
+
+% Table of Contents and Lists
+\usepackage[nottoc]{tocbibind} % don't list ToC itself in ToC
+\usepackage[titles]{tocloft}
+\cftsetindents{figure}{0em}{1.5em}
+\setcounter{lofdepth}{2} % list subfigures in LoF
+
+% \renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}} % dotted line for all depths
+
+% typefaces
+\usepackage{lmodern}
+\usepackage[tt=false,oldstyle,proportional,semibold]{libertine}
+\usepackage{libertinust1math}
+
+\input{aux/format.tex}
+
+% Internal References
+\usepackage{hyperref}
+\hypersetup{pdfborder = {0 0 0}} % no boxes around links
+\usepackage[all]{hypcap} % link to figure (not caption)
+
+% Continuous numbering (not by section)
+\usepackage{chngcntr}
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+\counterwithout{equation}{chapter}
+
+% Lists
+\usepackage{paralist} % inline lists
+\usepackage[inline]{enumitem}
+\setlist[itemize]{noitemsep,nolistsep}
+\setlist[enumerate]{noitemsep,nolistsep}
+
+% Technical
+\usepackage{amsmath}
+\renewcommand\theequation{\liningnums{\arabic{equation}}} % use full height (not old style) numbers for equation tags
+\usepackage[separate-uncertainty=true]{siunitx}
+\usepackage{wasysym}
+
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage[labelfont={bf}]{caption} % captions
+\usepackage[listformat=simple]{subcaption} % figure subparts [would love to have list=true here without extremely deep indents]
+
+\input{aux/acro-setup.tex}
+
+% GSA Citations & Bibliography
+\input{aux/gsa.tex}
+
+% Figures & Tables
+\usepackage{floatrow} % figures with side captions
+
+% Graphics
+\usepackage{graphicx} % include images
+\graphicspath{{figures/}} % image location
+
+% settings and variables defined 
+\input{aux/tikz.tex}
+
+% use jupyter tex output (body, no figures)
+\input{aux/code-setup.tex}
 
 \begin{document}
 
@@ -10,7 +79,6 @@
 
 \input{chapters/abstract}
 
-% \markboth{Contents}{Contents}
 \tableofcontents
 \listoffigures
 
@@ -46,7 +114,6 @@
 \input{chapters/acknowledgements.tex}
 
 \begin{flushleft}
-    % \markboth{References Cited}{References Cited}
     \printbibliography[heading=bibintoc]
 \end{flushleft}
 

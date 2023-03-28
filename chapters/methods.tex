@@ -54,7 +54,7 @@ I load these two data sources in an equal-area sinusoidal Mars projection\footno
 
 \subsection{Preliminary Observations}
 
-Figure~\ref{fig:summit} shows important topographic patterns at the summit of Olympus Mons. More than \qty{50}{\km} from the center of the figure, topographic contours (\qtyrange{12}{19}{\km}) are fairly regular concentric rings. Closer to the caldera, this axisymmetry breaks down: the caldera complex itself consists of six intersecting collapse pits. On the southern flank, we see a prominent arcuate \qty{20}{\km} contour with the topographic summit (within the \qty{21}{\km} contour) over \qty{20}{\km} from the southern caldera rim. Thus, my first task is to determine the degree to which axisymmetric inflation can apply to an edifice which is not entirely axisymmetric. It is important to point out, however, that the asymmetry inherent to the region is crucial for the discordant flow method to function, as I describe in subsequent sections. 
+Figure~\ref{fig:summit} shows important topographic patterns at the summit of Olympus Mons. More than \qty{50}{\km} from the center of the figure, topographic contours (\qtyrange{12}{19}{\km}) are fairly regular concentric rings. Closer to the caldera, this axisymmetry breaks down: the caldera complex itself consists of six intersecting collapse pits. On the southern flank, we see a prominent arcuate \qty{20}{\km} contour with the topographic summit (within the \qty{21}{\km} contour) over \qty{20}{\km} from the southern caldera rim. Thus, my first task is to determine the degree to which axisymmetric inflation can apply to an edifice which is not entirely axisymmetric. It is important to point out, however, that the \emph{asymmetry} inherent to the region is crucial for the discordant flow method to function, as I describe in subsequent sections. 
 
 \subsection{Mapping Lava Features}
 
@@ -73,13 +73,13 @@ Along each linear feature, I use the \hlss{Generate Points Along Line} tool with
 \begin{figure}
     \includegraphics[width=\textwidth]{linear-features.pdf}
     \includegraphics[width=\textwidth]{linear-features-mapped.pdf}
-    \caption{Mapping linear features}%
+    \caption[Mapping linear features]{\textbf{Top:} Lobate flows and linear channel features identified from the \acs{CTX} basemap. \textbf{Bottom:} Point samples derived along the linear channel and lobate flow centerlines.}%
     \label{fig:linear-features}
 \end{figure}
 
 \newcommand{\neighborhood}{\qty{2}{\km}}
 
-Finally, I collect three attitude variables for each sampled point. The first  of these is \ac{az1}, which each point inherits directly from its parent linear feature. Note that since \ac{az1} is defined but \acf{sl1} is unknown, a graphical representation of this surface will be a line corresponding to a family of poles rather than a single pole.
+Finally, I collect three attitude variables for each sampled point. The first  of these is \ac{az1}, which each point inherits directly from its parent linear feature. Note that since \ac{az1} is defined but \acf{sl1} is unknown, a graphical representation of this family of possible surfaces will be a line corresponding to a family of poles rather than a single pole.
 
 Then, I use the \hlss{Surface Parameters} tool on the \ac{MOLA} \ac{DEM} to compute average topographic \hlss{Slope} and \hlss{Aspect} (downhill azimuth) rasters across the entire study area. To avoid capturing local topographic anomalies, these values are averaged over a ``neighborhood'' with radius \neighborhood. I use the \hlss{Extract Multi Values to Points} tool to assign \ac{sl2} and \ac{az2} to each sample point based on the value of the corresponding raster value at that location. Unlike the paleo-attitude, the modern attitude is fully defined by a single pole in attitude space, as in Figure~\ref{fig:surface}.
 

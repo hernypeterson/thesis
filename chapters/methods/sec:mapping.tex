@@ -1,0 +1,60 @@
+\section{Mapping Discordant Features}\label{sec:mapping}
+
+In this section, I map the spatial distribution of topographic discordance at the summit of Olympus Mons and define candidate axisymmetric center points to ultimately explain this discordance.
+
+\subsection{Preparation of Published Data}
+
+The \acf{CTX}\footnote{aboard the \ac{MRO} spacecraft launched in 2005 by \acs{NASA}.} captures \qty{\sim30}{\km} swaths across the entire martian surface in visible $(\lambda=\qtyrange{500}{800}{\nm})$ greyscale at \qty{\sim6}{\m} spatial resolution. \textcite{Dickson2018AGB} blended these swaths to produce a raster mosaic product (hereafter, ``\ac{CTX} mosaic'') which I use to visually identify and map lava flows and flow channels.
+
+The \acf{MOLA}\footnote{aboard the now-retired \ac{MGS} spacecraft launched in 1996 by \acs{NASA}.} returned topography data with horizontal resolution of \qtyproduct{300 x 1000}{\m} at the equator (better at high latitudes) and elevation uncertainty of \qty{\sim3}{\m}~\parencite{smith_mars_2001}. To improve spatial resolution, additional elevation data from the \ac{HRSC}\footnote{aboard the \ac{MEX} spacecraft launched in 2003 by the \ac{ESA}} was blended to product a \ac{DEM} with \qty{200}{\m} pixel resolution. Each pixel's vertical uncertainty is \qty{\sim1}{\m}, with an additional global uncertainty of \qty{\sim1.8}{\m} in the martian areoid (martian equivalent of Earth's geoid). In this project, the global areoid uncertainty is not a concern because only one region (the summit of Olympus Mons) is considered.
+
+\subsection{Study Area Definition}
+
+I load these two data sources in an equal-area sinusoidal Mars projection\footnote{I originally used an equal-area projection with a plan to perform crater-counting calculations, which are area-dependent. I discuss in Chapter~\ref{cha:discussion} why this projection may introduce minor reliability concerns for the analysis I end up performing in the current version of this project.} in ArcGIS Pro. I define the study area as a square (in this projection) \qtyproduct{200 x 200}{\km} around at the centroid of the outermost \qty{19}{\km} contour,\footnote{This is the highest integer \unit{km} which is roughly circular and completely encloses the caldera complex, implying that it largely records the conical shape of the shield edifice without influence from subsequent caldera collapse or reservoir inflation.} as seen in Figure~\ref{fig:summit}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{summit.pdf}
+    \caption[Summit study area]{Study area at the summit of Olympus Mons (inset). Sinusoidal Martian Projection. Contours in \unit{km}. Square is \qtyproduct{200 x 200}{\km}, centered at the midpoint of the outermost \qty{19}{\km} contour.}\label{fig:summit}
+\end{figure}
+
+\subsection{Preliminary Observations}
+
+Figure~\ref{fig:summit} shows important topographic patterns at the summit of Olympus Mons. More than \qty{50}{\km} from the center of the figure, topographic contours (\qtyrange{12}{19}{\km}) are fairly regular concentric rings. Closer to the caldera, this axisymmetry breaks down: the caldera complex itself consists of six intersecting collapse pits. On the southern flank, we see a prominent arcuate \qty{20}{\km} contour with the topographic summit (within the \qty{21}{\km} contour) over \qty{20}{\km} from the southern caldera rim. Thus, my first task is to determine the degree to which axisymmetric inflation can apply to an edifice which is not entirely axisymmetric. It is important to point out, however, that the \emph{asymmetry} inherent to the region is crucial for the discordant flow method to function, as I describe in subsequent sections. 
+
+\subsection{Mapping Lava Features}
+
+I use the \ac{CTX} mosaic to visually identify lava flows near the summit of Olympus Mons. Following \textcite{mouginis-mark_geologic_2021}, I map lobate flow outlines as polygons where possible. From these polygons, I derive centerline features using the \hlss{Polygon To Centerline} tool, as shown in Figure~\ref{fig:linear-features}. Where flow margins are not visible, I map channels directly as linear features. I include discontinuous regions where I infer partial collapse of lava tubes yielding skylight chains,\footnote{This assumption of underlying continuity follows, e.g., \textcite{bleacher_olympus_2007,carr_geologic_2010,peters_lava_2021}.} as shown in Figure~\ref{fig:linear-features}.
+
+\subsection{Sampling Paleo-Azimuth from Mapped Features}
+
+While I maintain a consistent ``sense'' in my channel mapping (pointing away from rather than toward the caldera center), the \hlss{Polygon To Centerline} tool does not. Therefore, I use the \hlss{Flip Line} tool to reverse the orientation of any centerline features pointing in their paleo-uphill rather than paleo-downhill direction. Then I use the \hlss{Calculate Geometry Attributes} tool to find the azimuthal orientation from the start to the end of each linear feature. This result defines \acf{az1} for each feature.
+
+\subsection{Sampling Modern Attitude from Topography}
+
+\newcommand{\samplinginterval}{\qty{3}{\km}}
+
+Along each linear feature, I use the \hlss{Generate Points Along Line} tool with sampling interval \samplinginterval\ to create a series of point features where further attitude data collection and analysis will take place. The reason for this choice is that while \acf{az1} is relatively uncertain being derived solely from flow features, modern topography can be measured to much higher precision using the \ac{MOLA} \ac{DEM}. More importantly, the analysis described later in Section~\ref{sec:tilt-from-map} is extremely sensitive to position (different locations within the same feature will yield different results even if they have the identical attitude variables). Note that features with length $<\samplinginterval$ are not sampled at all, on the grounds that especially short features are less likely than long ones to accurately record the regional paleo-topographic downhill azimuth.
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{linear-features.pdf}
+    \includegraphics[width=\textwidth]{linear-features-mapped.pdf}
+    \caption[Mapping linear features]{\textbf{Top:} Lobate flows and linear channel features identified from the \acs{CTX} basemap. \textbf{Bottom:} Point samples derived along the linear channel and lobate flow centerlines.}%
+    \label{fig:linear-features}
+\end{figure}
+
+\newcommand{\neighborhood}{\qty{2}{\km}}
+
+Finally, I collect three attitude variables for each sampled point. The first  of these is \ac{az1}, which each point inherits directly from its parent linear feature. Note that since \ac{az1} is defined but \acf{sl1} is unknown, a graphical representation of this family of possible surfaces will be a line corresponding to a family of poles rather than a single pole.
+
+Then, I use the \hlss{Surface Parameters} tool on the \ac{MOLA} \ac{DEM} to compute average topographic \hlss{Slope} and \hlss{Aspect} (downhill azimuth) rasters across the entire study area. To avoid capturing local topographic anomalies, these values are averaged over a ``neighborhood'' with radius \neighborhood. I use the \hlss{Extract Multi Values to Points} tool to assign \ac{sl2} and \ac{az2} to each sample point based on the value of the corresponding raster value at that location. Unlike the paleo-attitude, the modern attitude is fully defined by a single pole in attitude space, as in Figure~\ref{fig:surface}.
+
+\subsection{Axisymmetric Center Candidate Locations}\label{sec:candidates}
+
+Ultimately, I seek to identify one or more suitable vertical axes to explain the observed discordance in the summit region under an axisymmetric framework. I present the full discussion of this method in Section~\ref{sec:synthesis}, but the first step is generating a set of candidate center points to evaluate. To do this, I use the \hlss{Generate Tesselation} and \hlss{Feature to Point} tools to generate an evenly spaced array of points in the caldera vicinity as shown in Figure~\ref{fig:candidates}. I choose the extent of this array to capture most of the ``interesting'' topography, namely, the caldera and southern summit bulge, to capture discordance resulting from pressure change centered in this region. Each of these 781 points is less than \qty{4}{\km} from its six neighbors to ensure spatial resolution similar to the sampling interval (\samplinginterval) for \acl{az1} and modern topographic ``neighborhood'' (\neighborhood) for modern attitude measurements, without creating unnecessary computational expense.
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{candidates.pdf}%
+    \caption{Axisymmetric center location candidates}%
+    \label{fig:candidates}
+\end{figure}

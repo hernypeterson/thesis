@@ -1,0 +1,31 @@
+\section{Numerically Modeling Reservoir Pressure Change}\label{sec:modeling}
+
+In this section, I model surface displacement resulting from pressure changes (inflation or deflation) of an ellipsoidal magma reservoir within an axisymmetric reconstruction of an inferred paleo-edifice.
+
+\subsection{Axisymmetric Elastic Model}
+
+Two important simplifying assumptions are worth introducing immediately to provide context for numerical modeling. Having already introduced one of these, the axisymmetric assumption, the only point to emphasize here is that each aspect of a numerically constructed model must share the same axis of symmetry. In other words, the ellipsoidal magma reservoir must be centered directly underneath the center of the modeled edifice. Importantly, this assumption requires a single axis to describe each aspect of the model; namely, the topographic surface and the magma reservoir. Thus the model construction is similar to the plane shown in Figure~\ref{fig:axisymmetry}.
+
+The second of these assumptions is that I treat the edifice rock material as an elastic material only. An elastic model can capture a major component of the rheologic property of rock, with one notable exception being time-dependent behavior such as viscous relaxation. This is an especially important limitation to keep in mind for Olympus Mons which has been under construction for billions of years; even the most recent episodes of intrusive and eruptive activity are only constrained to the order of a few hundred million years.
+
+\subsection{Finite Element Method}
+
+The \ac{FEM} is widely used to model phenomena ranging from fluid flow, heat transfer, and mechanical stress in engineering and geology. This method involves discretizing a continuous medium by constructing a \emph{mesh:} a network of nodes connected to their neighbors by edges. Polygons enclosed by these edges are called elements. Software then solves the chosen equations to compute the variables of interest only for the nodes, whose values can then be interpolated within each element to determine the solution for any point within the continuum. Relevant to this inquiry, the solution to an elastic model is a set of \emph{displacement} vectors by which to translate each node such that all forces are balanced and mechanical equilibrium is reached.
+
+\subsection{Reservoir Pressure Model}
+
+I use the numerical modeling software COMSOL Multiphysics 6.1 (COMSOL) to construct a numerical representation of Olympus Mons. The axis of symmetry for this model is the vertical line through the center point discussed previously as the center of the \qty{19}{\km} contour.
+
+From this point, elevation transect due south from the study area center point to the base of the edifice \qty{\sim240}{\km} away. This particular center point is derived from the summit of a topographic spline: an interpolation of a hypothetical paleo-topography based on the existing topography outside the \qty{19}{\km} contour (Figure~\ref{fig:paleo-topo}; compare with Figure~\ref{fig:summit}). The topography of this outer region \emph{is} roughly axisymmetric and assumed to be relatively unaffected by subsequent caldera and reservoir activity.
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{paleo-topo.pdf}
+    \caption[Spline-derived paleo-topography]{Paleo-topography estimated to have existed prior to caldera formation; interpolated from topography outside the \qty{19}{\km} contour.}%
+    \label{fig:paleo-topo}
+\end{figure}
+
+I use the \hlss{Parametric Sweep} tool to perform a sequence of analyses which are identical except for specifically controlled parameters: depth to center $d$, reservoir radius $R$ (in plan view), aspect ratio (height divided by width) and a \ac{mult}:
+\begin{equation}
+    \acs{dP}=\acs{mult}\times\acs{rhor}\times\acs{g}\times d,
+\end{equation}
+where \acs{dP} is the simulated over- (positive) or under-pressure in the reservoir. For each numerical model, I output surface displacement in the radial and vertical direction as a function of distance from the inflation center. 

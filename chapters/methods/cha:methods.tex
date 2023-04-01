@@ -8,3 +8,45 @@ In this chapter, I first introduce important geometric considerations (Section~\
 \input{chapters/methods/sec:synthesis.tex}
 
 
+% NEW ORGANIZATION:
+
+% what can we measure? change in attitude, not change in position: tilt, not displacement. precise definition to follow
+    % suitable attitude representation
+% what could cause tilt here? pressure change in subsurface reservoir
+    % would like to quantify this geometry: size, shape, position, pressure
+% to model tilt quantitatively, need to make simplifying assumptions
+    % homogeneous elastic edifice: discuss plausibility
+    % homogeneous ellipsoidal reservoir pressure change: discuss applicability to a wide range of circumstances
+    % big one: axisymmetry:
+        % allows for reducing the 2D surface to a single radial transect.
+        % imposes a unique axis of tilt: surface can only tilt directly toward or away from the center, so the tilt axis is horizontal and perpendicular to the radial direction away from the axis of symmetry. (Figure?)
+        % easier to model numerically and analytically
+
+
+% Modeling Tilt by Distance:
+    % numerical: can capture mechanical response to a wide array of initial conditions (any depth, size, aspect ratio, pressure, surface effects), output is a large _displacement_ dataset
+        % displacement to tilt
+    % analytical: can capture only a narrow range of initial conditions (depth, inflation energy (pressure times volume), no free surface effects) BUT the equation is much more convenient than an array of data.
+        % displacement to tilt 
+    % results from this section: tilt as a f(distance) for any combination of depth/energy (analytical), plus a way to refine these estimates (numerical)
+
+
+% Mapping Tilt by Distance
+    % reducing mapped features to points
+    % choosing a center: for any discordant feature, both distance and tilt depend on the location of a hypothetical inflation center point
+        % distance obviously, looking at previous tilt = f(dist) functions we can see that 3 degrees of tilt for a given surface would have very different implications if that surface was 10 km or 100 km laterally from the inflation center.
+        % more subtly, the amount of tilt calculated for a surface also depends on the location of the inflation center. That's because the axis of tilt has to be perpendicular to the direction away from the center to ensure that tilt occurs toward or away from the center.
+        % but I can't tell where the inflation center is just by looking at the surface.
+        % not only that, different centers might better explain different discordant feature populations
+        % so therefore I make a large array of inflation center candidates.
+    % calculating tilt for a single sample relative to a single inflation center
+
+
+% Inflation Center Evaluation
+    % handling mathematical and physical errors from map-tilt equation
+    % fraction ``tiltable'' (math and phys)
+    % non-linear least squares regression using the analytical tilt function. Instead of estimating slope and intercept (two parameters in a linear equation) I estimate depth and inflation energy, the two parameters in Mogi tilt equation.
+        % goodness of fit
+        % depth and energy estimates
+    % assessing the spatial distribution of inflation center evaluations for each sample population
+            

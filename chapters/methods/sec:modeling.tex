@@ -39,12 +39,10 @@ I use the \hlss{Parametric Sweep} tool to perform a sequence of analyses which a
 \end{equation}
 where \acs{dP} is the simulated over- (positive) or under-pressure in the reservoir. For each numerical model, I output surface displacement in the radial and vertical direction as a function of distance from the inflation center. 
 
-\subsection{Deriving Tilt from Modeled Displacement Data}\label{sec:tilt-from-model}
-
-It is much more straightforward to derive tilt from the numerical model, since this is a direct simulation of a surface being deformed from an initial configuration to a displaced configuration. The only issue is that COMSOL produces displacement data corresponding to individual model nodes. Tilt is derived from the attitude of a surface, the smallest unit of which in the axisymmetric model is an edge defined by two adjacent nodes.
+\subsection{Numerical Tilt-Distance Solution}\label{sec:tilt-from-model}
 
 \subsubsection{Tilt Equation}
-Figure~\ref{fig:tilt-from-model} shows the surface edge of a single model element before (initial) and after (displaced) modeled pressure change. The corresponding tilt equation is:
+COMSOL produces displacement data corresponding to individual model nodes. Figure~\ref{fig:tilt-from-model} shows how to derive tilt from the surface edge of an element before (initial) and after (displaced) modeled pressure change. The corresponding tilt equation is:
 \begin{equation}
     \acs{tilt} = \arctan\left({\acs{dz1}}/{\acs{dr1}}\right) - \arctan\left(\dfrac{\acs{dz1}+\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right).\label{eq:tilt-from-model}
 \end{equation}
@@ -57,7 +55,7 @@ I define the distance value associated with this calculated tilt as the midpoint
     \label{fig:tilt-from-model}%
 \end{figure}
 
-\subsubsection{Additional Model Considerations}
+\subsubsection{Physical Considerations}
 
 In Section~\ref{sec:modeling}, I explain that the axisymmetric numerical model edifice is constructed from a particular elevation transect measured from the summit of Olympus Mons. Relative to this point, surrounding topography is roughly axisymmetric, especially more than \qty{\sim50}{\km} away past the previously discussed \qty{19}{\km} contour.
 
@@ -84,7 +82,7 @@ If gravitational loading is in fact insignificant, displacement in case~\ref{g0p
 
 As expected for the flat model, gravitational loading has no effect on surface displacement and thus the subsequently calculated tilt is identical. The topographically accurate model shows the same pattern with respect to gravitational loading. There is a small but noticeable difference in tilt between the flat and topographic models, which ranges between ($0\%-10\%$) for the parameters I examined. This result places a reassuring upper bound on the magnitude of error that could be introduced by varying the horizontal location of a modeled inflation center within the summit region---likely much less than error introduced elsewhere.
 
-\subsection{Analytical Tilt Solution}
+\subsection{Analytical Tilt-Distance Solution}
 
 In this section, I draw on the widely cited analytical \emph{displacement} solution developed by \textcite{mogi_relations_1958} to derive an analytical \emph{tilt} solution as a counterpart to the numerical method described by Equation~\eqref{eq:tilt-from-model}. This so-called Mogi model assumes a deep spherical reservoir within a flat (``topo = False'') elastic half-space.
 

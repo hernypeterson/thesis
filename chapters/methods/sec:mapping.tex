@@ -10,27 +10,7 @@
         % so therefore I make a large array of inflation center candidates.
     % calculating tilt for a single sample relative to a single inflation center
 
-In this section, I map the spatial distribution of topographic discordance at the summit of Olympus Mons and define candidate axisymmetric center points to ultimately explain this discordance.
-
-\subsection{Preparation of Published Data}
-
-The \acf{CTX}\footnote{aboard the \ac{MRO} spacecraft launched in 2005 by \acs{NASA}.} captures \qty{\sim30}{\km} swaths across the entire martian surface in visible $(\lambda=\qtyrange{500}{800}{\nm})$ greyscale at \qty{\sim6}{\m} spatial resolution. \textcite{Dickson2018AGB} blended these swaths to produce a raster mosaic product (hereafter, ``\ac{CTX} mosaic'') which I use to visually identify and map lava flows and flow channels.
-
-The \acf{MOLA}\footnote{aboard the now-retired \ac{MGS} spacecraft launched in 1996 by \acs{NASA}.} returned topography data with horizontal resolution of \qtyproduct{300 x 1000}{\m} at the equator (better at high latitudes) and elevation uncertainty of \qty{\sim3}{\m}~\parencite{smith_mars_2001}. To improve spatial resolution, additional elevation data from the \ac{HRSC}\footnote{aboard the \ac{MEX} spacecraft launched in 2003 by the \ac{ESA}} was blended to product a \ac{DEM} with \qty{200}{\m} pixel resolution. Each pixel's vertical uncertainty is \qty{\sim1}{\m}, with an additional global uncertainty of \qty{\sim1.8}{\m} in the martian areoid (martian equivalent of Earth's geoid). In this project, the global areoid uncertainty is not a concern because only one region (the summit of Olympus Mons) is considered.
-
-\subsection{Study Area Definition}
-
-I load these two data sources in an equal-area sinusoidal Mars projection\footnote{I originally used an equal-area projection with a plan to perform crater-counting calculations, which are area-dependent. I discuss in Chapter~\ref{cha:discussion} why this projection may introduce minor reliability concerns for the analysis I end up performing in the current version of this project.} in ArcGIS Pro. I define the study area as a square (in this projection) \qtyproduct{200 x 200}{\km} around at the centroid of the outermost \qty{19}{\km} contour,\footnote{This is the highest integer \unit{km} which is roughly circular and completely encloses the caldera complex, implying that it largely records the conical shape of the shield edifice without influence from subsequent caldera collapse or reservoir inflation.} as seen in Figure~\ref{fig:summit}.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{summit.pdf}
-    \caption[Summit study area]{Study area at the summit of Olympus Mons (inset). Sinusoidal Martian Projection. Contours in \unit{km}. Square is \qtyproduct{200 x 200}{\km}, centered at the midpoint of the outermost \qty{19}{\km} contour.}\label{fig:summit}
-\end{figure}
-
-\subsection{Preliminary Observations}
-
-Figure~\ref{fig:summit} shows important topographic patterns at the summit of Olympus Mons. More than \qty{50}{\km} from the center of the figure, topographic contours (\qtyrange{12}{19}{\km}) are fairly regular concentric rings. Closer to the caldera, this axisymmetry breaks down: the caldera complex itself consists of six intersecting collapse pits. On the southern flank, we see a prominent arcuate \qty{20}{\km} contour with the topographic summit (within the \qty{21}{\km} contour) over \qty{20}{\km} from the southern caldera rim. Thus, my first task is to determine the degree to which axisymmetric inflation can apply to an edifice which is not entirely axisymmetric. It is important to point out, however, that the \emph{asymmetry} inherent to the region is crucial for the discordant flow method to function, as I describe in subsequent sections. 
+In this section, I first map the spatial distribution of topographic discordance at the summit of Olympus Mons and define candidate axisymmetric center points to ultimately explain this discordance. Next, I begin the process of translating discordance into tilt-distance datasets for comparison with solutions from Section~\ref{sec:modeling}. For each sampled location at the surface, both tilt and distance depend on the horizontal position of the axisymmetric inflation center. Since I don't know where this center is, I construct a large spatial array of candidate center points to test. For each pair of points (one center candidate and one discordant sample location) I calculate the tilt necessary to explain the discordance of the sample location about the horizontal axis imposed by the chosen center candidate. This results in a tilt-distance dataset for each center candidate.
 
 \subsection{Mapping Lava Features}
 

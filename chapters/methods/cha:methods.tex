@@ -1,6 +1,6 @@
 \chapter{Methods}\label{cha:methods}
 
-In this chapter, I first introduce important geometric considerations (Section~\ref{sec:considerations}) which inform the derivation and implementation of each subsequent method.
+In this chapter, I first define the study area (Section~\ref{sec:study-area}) and introduce important geometric considerations (Section~\ref{sec:considerations}) which inform the derivation and implementation of each subsequent method.
 
 Next, I introduce the surface deformation signature of a magma reservoir pressure change event (Section~\ref{sec:modeling}). I pay particular attention to representing surface displacement in terms of \emph{attitude} (orientation) change for direct comparison with topographically discordant features. The intermediate product of this section is a framework for estimating surface tilt as a function of distance from the reservoir inflation center. Importantly, this tilt-distance function is parameterized in terms of relevant physical parameters including reservoir depth and mechanical energy of displacement. This framework includes a simplified analytical component for preliminary inverse modeling\footnote{estimating reservoir parameters directly from a tilt-distance dataset.} and a general numerical component for fine-tuning via forward modeling.\footnote{manually choosing additional parameters and assessing their effect on tilt-distance data.}
 
@@ -8,6 +8,7 @@ Next, I construct analogous tilt-distance datasets for discordant features (Sect
 
 Finally, I evaluate (Section~\ref{sec:evaluation}) each center point by the degree to which its associated tilt-distance dataset (Section~\ref{sec:mapping}) aligns mathematically with a physically plausible tilt-distance solution from Section~\ref{sec:modeling}. I use the spatial distribution of these evaluation results to assess the subsurface conditions most likely responsible for discordant features at the surface.
 
+\input{chapters/methods/sec:study-area.tex}
 \input{chapters/methods/sec:considerations.tex}
 \input{chapters/methods/sec:modeling.tex}
 \input{chapters/methods/sec:mapping.tex}

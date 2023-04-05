@@ -16,13 +16,17 @@
 \fill[tdplot_rotated_coords, color = green!40!black, opacity=0.4] (0,0) circle (0.4*\radius);
 
 % downhill line
-\draw[arrow, tdplot_rotated_coords] (0,0) -- (0:0.4*\radius);
+\draw[arrow, tdplot_rotated_coords, green!40!black] (0,0) -- (0:0.4*\radius);
 
 % horizontal surface (front right)
 \fill[color = gray!10!white, opacity=0.6] (\az:.7*\radius) arc (\az:\az+90:.7*\radius) -- (0,0);
 
-% perpendicular corners
+% perpendicular corners (origin)
 \draw[tdplot_rotated_coords] (0.25,0,0) -- (0.25,0,0.25) -- (0,0,0.25) -- (0,-0.25,0.25) -- (0,-0.25,0);
+
+% perpendicular corners (projection) FIXME
+% \draw[] (Pxy) + (0.25,0,0) --+ (0.25,0,0.25) --+ (0,0,0.25) --+ (0,-0.25,0.25) --+ (0,-0.25,0);
+
 
 % horizontal surface (front left)
 \fill[color = gray!10!white, opacity=0.6] (\az-90:.7*\radius) arc (\az-90:\az:.7*\radius) -- (0,0);
@@ -32,6 +36,8 @@
 
 % line az surface
 \draw[very thin, dashed,green!40!black] (P) -- (Pxy) -- (O);
+\fill (Pxy) circle (.2mm);
+
 \draw[ultra thick, green!40!black] (O) -- (P) node[anchor = south west] {};
 \fill[green!40!black] (P) circle (.2mm);
 
@@ -45,10 +51,14 @@
 \tdplotsetthetaplanecoords{\az}
 
 % ze angle label
-\tdplotdrawarc[tdplot_rotated_coords]{(O)}{0.4*\radius}{0}{\ze}{coordinate, pin={[pin edge={black},-]80:$\varphi$}}{}
+\tdplotdrawarc[tdplot_rotated_coords]{(O)}{0.4*\radius}{0}{\ze}{}{}
+
+% sl angle label
+\tdplotdrawarc[tdplot_rotated_coords]{(P)}{0.4*\radius}{180}{180+\ze}{coordinate, pin={[pin edge={black},-]0:$\varphi$}}{}
 
 % ze angle label
 \tdplotdrawarc[tdplot_rotated_coords]{(O)}{0.4*\radius}{90}{90+\ze}{coordinate, pin={[pin edge={black},-]180:$\varphi$}}{}
+
 
 \fill[black] (O) circle (0.2pt);
 

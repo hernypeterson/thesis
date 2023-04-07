@@ -1,0 +1,17 @@
+\begin{tikzpicture}[scale=.7]
+
+    \coordinate (orig) at (0,0);
+    \coordinate (s2) at (-60:1);
+
+    %\draw[green!70!black,ultra thick] (s2) + (83:.3) arc (83:120:.3);
+
+    \draw (orig) circle (\flatradius);
+
+    \draw[arrow, ultra thick] (orig) -- (70:\flatradius) node[anchor=south] {\acs{az1}};
+    \fill (s2) circle (1mm) node[anchor=north] {$(\acs{az2},\acs{sl2})$};
+
+    %\draw[] (s2) -- (orig);
+    %\draw[] (s2) -- (70:\flatradius);
+
+
+\end{tikzpicture}%

@@ -6,9 +6,7 @@ The goal of this thesis is to explain discordant flows in terms of subsurface ma
 
 The central role of surface attitude warrants a graphical representation suitable for both conceptual illustration and geometrically-grounded calculation. The most common such representation is the stereonet: planar surfaces are represented by their stereographically\footnote{from the top of the sphere onto a plane tangent to the bottom of the sphere.} projected intersections with the lower hemisphere of a unit sphere.
 
-I instead use an orthographic\footnote{from directly above; orthogonal to the plane.} projection to send small circles\footnote{whose axis lies on the primitive (horizontal) great circle} to straight lines. These small circles are crucial for the derivation in Section~\ref{sec:paleo-slope} because they represent the paths swept out by rotation about a horizontal axis. I also represent planes by their unique perpendicular ``poles,'' not their curvilinear intersections. Finally, I use an upper hemisphere projection so each pole has the same azimuth as the corresponding \emph{downhill} direction. I illustrate this surface attitude representation in Figure~\ref{fig:surface}.
-
-% FIGURE HERE OF ORTHOGRAPHIC VS STEREO?
+I instead use an orthographic\footnote{from directly above; orthogonal to the plane.} projection to send small circles\footnote{whose axis lies on the primitive (horizontal) great circle} to straight lines. These small circles are crucial for the derivation in Section~\ref{sec:tilt-from-map} because they represent the paths swept out by rotation about a horizontal axis. I also represent planes by their unique perpendicular ``poles,'' not their curvilinear intersections. Finally, I use an upper hemisphere projection so each pole has the same azimuth as the corresponding \emph{downhill} direction. I illustrate this surface attitude representation in Figure~\ref{fig:surface}.
 
 \begin{figure}
     \input{figures/surface.tex}%
@@ -22,20 +20,17 @@ While I observe discordant features via satellite-derived imagery and topography
 
 \subsubsection{Physical Properties}
 
-I model the Olympus Mons edifice material as a single homogeneous basalt. The low profile of Olympus Mons (like most martian volcanoes) is analogous to terrestrial basaltic shield such as Hawai'i. %plausibility: compositional -- no evidence for extensive differentiation or major I treat the edifice rock material as an elastic material only. An elastic model can capture a major component of the rheologic property of rock, with one notable exception being time-dependent behavior such as viscous relaxation. This is an especially important limitation to keep in mind for Olympus Mons which has been under construction for billions of years; even the most recent episodes of intrusive and eruptive activity are only constrained to the order of a few hundred million years.
-I use a linear elastic rheology which allows for computationally inexpensive modeling and analytical surface deformation solutions \parencite{mogi_relations_1958} without sacrificing accuracy for a wide range of volcanic processes \parencite{grosfils_elastic_2015}. Similarly, I treat the magma reservoir as an ellipsoidal body exerting a uniform pressure on the surrounding edifice for similar reasons. Despite the simplification, this configuration could describe a wide range of plausible and relevant circumstances (Figure~\ref{fig:reservoir-configs}). %plausibility
+I model the Olympus Mons edifice material as a single homogeneous basalt. The low profile of Olympus Mons (like most martian volcanoes) is analogous to terrestrial basaltic shield such as Hawai'i. In the absence of geochemical or geophysical data pertaining to the internal edifice structure, I assume uniform basaltic flow material. I use a linear elastic rheology which allows for computationally inexpensive modeling and analytical surface deformation solutions \parencite{mogi_relations_1958} without sacrificing accuracy for a wide range of volcanic processes \parencite{grosfils_elastic_2015}. Similarly, I treat the magma reservoir as an ellipsoidal body exerting a uniform pressure on the surrounding edifice for similar reasons. Despite the simplification, this configuration could describe a wide range of plausible and relevant circumstances (Figure~\ref{fig:reservoir-configs}).
 
 \begin{figure}
     \includegraphics[width=\textwidth]{caldera-collapse.pdf}\\
     \vspace{2cm}
     \includegraphics[width=\textwidth]{flank-inflation.pdf}
-    \caption{Reservoir configurations whose surface deformation signature is roughly consistent with a homogeneous ellipsoidal reservoir.}
+    \caption[Ellipsoidal reservoir configurations]{Reservoir configurations whose surface deformation signature is roughly consistent with a homogeneous ellipsoidal reservoir experiencing pressure change within an elastic edifice. Note that caldera collapse (top) could be associated with elastic response outside the collapse region itself, which could be captured in this model.}
     \label{fig:reservoir-configs}
 \end{figure}
 
 \subsubsection{Axisymmetric Geometry}
-
-% plausibility.
 
 The assumption of axisymmetry (rotational symmetry about a vertical axis) is widely used to model volcanic and magmatic systems at a range of spatial and temporal scales \parencite[c.f.,][]{redmond_numerical_2004,ogawa_four-stage_2021,mogi_relations_1958,mctigue_elastic_1987}. As shown in Figure~\ref{fig:axisymmetry}, this geometry decreases computational and analytical complexity by reducing a 3D edifice to a 2D vertical cross-section. Additionally, I show in Section~\ref{sec:tilt-from-map} that the axisymmetry assumption solves the attitude data incompleteness problem described in Section~\ref{sec:discordance}.
 

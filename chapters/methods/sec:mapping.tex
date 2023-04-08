@@ -1,18 +1,8 @@
 \section{Mapping Discordant Features}\label{sec:mapping}
 
-% Mapping Tilt by Distance
-    % reducing mapped features to points
-    % choosing a center: for any discordant feature, both distance and tilt depend on the location of a hypothetical inflation center point
-        % distance obviously, looking at previous tilt = f(dist) functions we can see that 3 degrees of tilt for a given surface would have very different implications if that surface was 10 km or 100 km laterally from the inflation center.
-        % more subtly, the amount of tilt calculated for a surface also depends on the location of the inflation center. That's because the axis of tilt has to be perpendicular to the direction away from the center to ensure that tilt occurs toward or away from the center.
-        % but I can't tell where the inflation center is just by looking at the surface.
-        % not only that, different centers might better explain different discordant feature populations
-        % so therefore I make a large array of inflation center candidates.
-    % calculating tilt for a single sample relative to a single inflation center
-
 In this section, I first map the spatial distribution of topographic discordance at the summit of Olympus Mons and define candidate axisymmetric inflation center locations to explain this discordance. Next, I begin the process of translating discordance into tilt-distance datasets for comparison with solutions from Section~\ref{sec:modeling}. For each sampled location at the surface, both tilt and distance depend on the horizontal position of the axisymmetric inflation center. Since I don't know where this center is, I construct a large spatial array of candidate center points to test. For each pair of points (one center candidate and one discordant sample location) I calculate the tilt necessary to explain the discordance of the sample location about the horizontal axis imposed by the chosen center candidate. This results in a tilt-distance dataset for each center candidate (and for each population of discordant features evaluated).
 
-\subsection{Sampling Attitude Data from Mapped Features}
+\subsection{Attitude Data from Discordant Features}\label{sec:attitude-data}
 
 I use the \ac{CTX} mosaic to visually identify lava flows in the study area. Following \textcite{mouginis-mark_geologic_2021}, I map lobate flow outlines as polygons where possible. From these polygons, I derive centerline features using the \hlss{Polygon To Centerline} tool in ArcGIS Pro, as shown in Figure~\ref{fig:linear-features}. Where flow margins are not visible, I map lava channels directly as linear features. I include discontinuous regions where I infer partial collapse of lava tubes yielding skylight chains,\footnote{This assumption of underlying continuity follows, e.g., \textcite{bleacher_olympus_2007,carr_geologic_2010,peters_lava_2021}.} as shown in Figure~\ref{fig:linear-features}.
 
@@ -53,21 +43,25 @@ These measurements (\acf{az1}, \acf{az2}, and \acf{sl2}) for each sample point c
 Using this calculation I identify regions of highly discordant flows to target for matching with tilt solutions from Section~\ref{sec:modeling}. From preliminary analysis I suspect many discordant features will cluster closely around the caldera rim, recoding proximal collapse effects. % PUT STUFF HERE ABOUT WHAT THOSE EFFECTS ARE 
 For assessing elastic response, I thus focus on discordant regions away from the rim.
 
-\subsection{Deriving Tilt from Mapped Attitude Data}\label{sec:tilt-from-map}
+\subsection{Tilt-Distance Datasets from Attitude Data}\label{sec:tilt-from-map}
 
-In this section I convert the mapped discordance dataset into a tilt-distance dataset for direct comparison and with the solutions from Section~\ref{sec:modeling}. After showing why this tilt construction depends on the (unknown) position of the axisymmetric center, I define a spatial grid of candidate center points to evaluate. Next, I convert position and attitude data for a sample point into distance and tilt relative to a particular candidate center. I repeat this conversion for each sample (within a discordant population of interest) to produce a tilt-distance dataset corresponding to one center candidate. Finally, I repeat the full tilt-distance dataset generation for each center candidate.
+In this section I translate mapped attitude data from Section~\ref{sec:attitude-data} into tilt-distance datasets for direct comparison with the solutions from Section~\ref{sec:modeling}. After showing why this dataset construction depends on the (unknown) position of the axisymmetric center, I define a spatial grid of candidate center points to evaluate. Next, I convert position and attitude data for a sample point into distance and tilt relative to a particular candidate center. I repeat this conversion for each sample (within a discordant population of interest) to produce a tilt-distance dataset corresponding to one center candidate. Finally, I repeat the full tilt-distance dataset generation for each center candidate.
 
-\subsubsection{Axisymmetric Center Candidates}\label{sec:candidates}
+\subsubsection{Axisymmetric Center Candidates}
 
-In Section~\ref{sec:modeling}, the choice of center location plays only a limited role in the model analysis. For the numerical solution, I choose this position such that the modeled edifice reproduces the large-scale topography of Olympus Mons to first order. However, I show that the this topography minimally influence surface tilt. The analytical model takes this a step further by eliminating topography, eliminating position-dependent considerations altogether.
+In Section~\ref{sec:modeling}, the particular center location plays only a limited role in the model analysis. In the numerical solution (Section~\ref{sec:numerical-tilt-solution}) this position reproduces the large-scale topography of Olympus Mons to first order. However, the edifice topography minimally influences surface tilt resulting from subsurface pressure change (Figure~\ref{fig:grav-topo-test}). The analytical model (Section~\ref{sec:analytical-tilt-solution}) eliminates dependence on center position (within the edifice) altogether by treating the host rock as a flat infinite half-space.
 
-However, to fit a particular spatial distribution of map data into this framework I need to decide on a particular center point. center location is a much more tricky decision with very unpredictable consequences. remember ultimately I want to get a center relative to which the sampled points form a nice tilt-distance dataset. Well, change the center point a little bit and the distances to all the samples change in a much more complex way that depends on their spatial distribution and how that distribution "collapses" under the axisymmetry.
+However, fitting a particular spatial distribution of attitude data into this framework requires a particular center point. Expressing the coordinates of mapped features as a distance from a center point clearly depends on the location of that center point. Less obviously, the choice of center position also determines the amount of tilt necessary to account for a topographically discordant feature by imposing a particular \emph{axis of tilt}. Since all displacement in an axisymmetric model is confined to a vertical cross-section, rotation (tilt) can only occur about the axis perpendicular to the vertical cross-sectional plane (the white surface in Figure~\ref{fig:axisymmetry}). This tilt axis is horizontal and perpendicular to the line from sample point to center. Importantly, the magnitude of surface tilt implied by a discordant sample depends on the orientation of the tilt axis. The role of center point location in calculating both tilt and distance for a particular sample point is illustrated schematically in Figure~\ref{fig:center-significance}.
 
-% but that's just the start. if distance is unpredictable, tilt is completely opaque. that's because the azimuthal direction from each sample point away from the choice of center position defines a unique horizontal axis of tilt. changing that axis of tilt even by a little bit can have major implications for the amount of tilt necessary to explain the discordance. for one sample point, a small change in center point position can be the difference between 2 degrees of tilt necessary to explain discordance and a physically impossible value like 80 degrees, or even being mathematically impossible altogether. And again, it's not just one sample point (with it's highly sensitive tilt and distance values) but a whole suite of sample points I'm trying to match to the idealized functions from section modelling.
+\begin{figure}
+    \input{figures/center-significance.tex}%
+    \caption[Significance of center position for tilt, distance calculations]{Schematic map view illustrating the role of inflation center position in expressing a discordant sample point ($S$) in terms of distance and tilt. Clearly, different center points ($C_1, C_2$) are different distances ($\acs{dist}_{C_1},\acs{dist}_{C_2}$) from the sample. More subtly, the azimuth orientation of each center imposes a different tilt axis (solid colored line), which influences the subsequent tilt calculation.}%
+    \label{fig:center-significance}
+\end{figure}
 
-% but of course, "where is the reservoir in map view" is one of the key questions I'm trying to answer in the first place. I don't know where it is and if I'm even a little bit off I might not even recognize it with a slightly-off tilt calculation.
+However, the position of magma reservoir(s) within/below the Olympus Mons edifice is one of the central unanswered questions driving this thesis. Since inflation center position controls the magnitude of surface tilt implied by discordant features, it is worth assessing the plausibility of a wide range of potential inflation centers.
 
-Ultimately, I seek to identify one or more axisymmetric reservoir pressure change events consistent with observed discordance in the summit region. The first step is generating a set of candidate center points to evaluate. To do this, I use the \hlss{Generate Tesselation} and \hlss{Feature to Point} tools to generate an evenly spaced array of points in the caldera vicinity as shown in Figure~\ref{fig:candidates}. I choose the extent of this array to capture most of the ``interesting'' topography, namely, the caldera and southern summit bulge, to capture discordance resulting from pressure change centered in this region. Each of these 781 points is less than \qty{4}{\km} from its six neighbors to ensure spatial resolution similar to the sampling interval (\samplinginterval) for \acl{az1} and modern topographic ``neighborhood'' (\neighborhood) for modern attitude measurements, without creating unnecessary computational expense.
+To define this array of inflation center candidates, I use the \hlss{Generate Tesselation} and \hlss{Feature to Point} tools in ArcGIS Pro to generate an evenly spaced array in the caldera vicinity as shown in Figure~\ref{fig:candidates}. This array includes the caldera and southern summit bulge, the two regions I suspect to be most responsible for discordant features. Each of 781 points is less than \qty{4}{\km} from its six neighbors to ensure spatial resolution similar to the sampling interval (\samplinginterval) for \acl{az1} and modern topographic ``neighborhood'' (\neighborhood) for modern attitude measurements, without creating unnecessary computational expense.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{candidates.pdf}%
@@ -77,48 +71,44 @@ Ultimately, I seek to identify one or more axisymmetric reservoir pressure chang
 
 \subsubsection{Spatial Description of Sampled Points}
 
-Mars' rotation about an essentially fixed axis provides a convenient coordinate system of \ac{lat} and \ac{lon} for describing surface position. However, an \emph{axis}ymmetric model imposes a different coordinate system---one defined with respect to the axis of rotational symmetry.
+In this section I express the position of a sample point by its distance (\acs{dist}) and azimuth angle (\acs{bearing}) \emph{away} from a center candidate. The former is used directly in constructing the tilt-distance dataset; the latter is necessary to define an axis for calculating tilt. These calculations quantify the key spatial relationships introduced in Figure~\ref{fig:center-significance}.
 
-Points mapped in GIS are automatically expressed in \ac{lat} and \ac{lon}; I need to convert this into polar coordinates $(\acs{dist},\acs{bearing})$ with the axisymmetric center as the origin. And because one goal of the project is to evaluate an array of candidate center points, I need an equation that takes any set of center coordinates $(\acs{latC}, \acs{lonC})$ and any set of sample point coordinates and returns a $(\acs{dist},\acs{bearing})$ pair.
-
-To calculate \acf{dist}, I use the spherical law of cosines\footnote{Also known as the great circle distance formula, derived in Appendix~\ref{app:gcd}.} scaled by the martian equatorial radius since Olympus Mons is close to the equator:
+To calculate distance (\acs{dist}), I use the spherical law of cosines\footnote{Also known as the great circle distance formula, derived in Appendix~\ref{app:gcd}.} scaled by the martian equatorial radius since Olympus Mons is close to the equator:
 \begin{equation}
-    \acs{dist}=\arccos(\cos\acs{latC}\cos\acs{lat}\cos(\acs{lonC}-\acs{lon}) + \sin\acs{latC}\sin\acs{lat})\cdot\qty{3396.2}{\km}.
+    \acs{dist}=\arccos(\cos\acs{latC}\cos\acs{lat}\cos(\acs{lonC}-\acs{lon}) + \sin\acs{latC}\sin\acs{lat})\cdot\qty{3396.2}{\km},
 \end{equation}
+where \acs{latC} and \acs{lonC} are the latitude and longitude of the center; \acs{lat} and \acs{lon} are the latitude and longitude of the sample.
 
-It turns out that error in the calculated \acs{bearing} value is much more significant than error in \acs{dist}. That's because I use \acs{bearing} to define the axis of tilt and thus the value of tilt for a given center-sample pair, and this computation is very sensitive to minor variations.
-
-Therefore, since all the calculations take place at the sampled point, I define \acs{bearing} as the geographic azimuth angle at that point directly \emph{away} from the center.\footnote{It is worth noting that this numerical bearing is different from the azimuth from the center to the sample, although they represent the same physical direction.} This is to ensure that the horizontal \acs{bearing}-axis points in the same direction as positive \acs{dist}. This equation \parencite{williams_aviation, veness_calculate} has the form:
+To calculate the azimuth angle from a sample directly \emph{away}\footnote{This ensures the horizontal \acs{bearing}-axis points in the same direction as increasing \acs{dist}.} from the center (\acs{bearing}),\footnote{This value is different from the azimuth from the center to the sample, although they represent the same physical direction.} I use the following equation from \textcite{williams_aviation, veness_calculate}:
 \begin{equation}
     \acs{bearing} = \ang{180} + \arctan\left(\frac{\sin(\acs{lonC}-\acs{lon})\cos\acs{latC}} {\cos\acs{lat} \sin\acs{latC}-\sin\acs{lat}\cos\acs{latC}\cos(\acs{lonC}-\acs{lon})}\right).\label{eq:bearing}
 \end{equation} 
 
-\subsubsection{Paleo-Slope Equation}\label{sec:paleo-slope}
+\subsubsection{Paleo-Slope Equation}
 
 \begin{figure}
 \begin{center}
     \input{figures/tilt-from-map.tex}%
-    \caption[\Acl{tilt} from mapping]{\textbf{Left:} A quadrant of an upper hemisphere representing attitude space for a sampled point relative to a particular inflation center. The pole labeled $\left(\acs{az2},\acs{sl2}\right)$ represents the modern surface. The line of poles labeled \acs{az1} represents the family of possible paleo-surfaces with downhill direction given by the lava flow direction. The $r-$axis points in the azimuthal direction away from a modeled inflation center. The assumption of axisymmetry imposes a horizontal axis of tilt perpendicular to the $r-$axis. The red arrow labeled \acs{tilt} answers the question: how much tilt \emph{about this axis} bring some pole on line \acs{az1} to pole $\left(\acs{az2},\acs{sl2}\right)$? \textbf{Right:} Orthographic projection labeled with important angles and distances for the tilt calculation, building on Figure~\ref{fig:surface}. This region corresponds to horizontal grey rectangle on the left.}%
+    \caption[\Acl{tilt} from mapping]{\textbf{Left:} A quadrant of an upper hemisphere representing attitude space for a sampled point relative to a particular inflation center. The pole labeled $\left(\acs{az2},\acs{sl2}\right)$ represents the modern surface. The line of poles labeled \acs{az1} represents the family of possible paleo-surfaces with downhill direction given by the lava flow direction. The $r-$axis points in the azimuthal direction away from a modeled inflation center. Axisymmetry imposes a horizontal axis of tilt perpendicular to the $r-$axis, which is defined in turn by \acs{bearing}: the azimuth direction from the sample away from the center. The red arrow labeled \acs{tilt} answers the question: how much tilt \emph{about this axis} bring some pole on line \acs{az1} to pole $\left(\acs{az2},\acs{sl2}\right)$? \textbf{Right:} Orthographic projection labeled with important angles and distances for the tilt calculation, building on Figure~\ref{fig:surface}. This region corresponds to horizontal grey rectangle on the left.}%
     \label{fig:tilt-from-map}%
 \end{center}
 \end{figure}
-While the modern topographic surface attitude is fully characterized by \acs{az2} and \acs{sl2}, only the \acf{az1} can be inferred directly from mapped surface features. The axisymmetric model imposes a circumferential tilt axis, that is, modeled tilt is always directly toward or away from the inflation center. I denote the direction away from the inflation center by \acs{bearing}. Figure~\ref{fig:tilt-from-map} illustrates my method for calculating \acf{sl1} under this assumption. The horizontal segment labeled $\delta$ can be defined in two ways:
+While the modern topographic surface attitude is fully characterized by \acf{az2} and \acf{sl2}, only the \acf{az1} can be inferred directly from mapped surface features. The axisymmetric model imposes a circumferential (horizontal, perpendicular to \acs{bearing}) tilt axis, that is, modeled tilt is always in the vertical plane directly toward or away from the inflation center. Figure~\ref{fig:tilt-from-map} illustrates that this tilt axis imposes a unique estimate for \acf{sl1}. To calculate this estimate, notice that the horizontal segment labeled $\alpha$ can be defined in two ways:
 \begin{equation*}
-    \delta = \sin\acs{beta1}\sin\acs{sl1};\qquad
-    \delta = \sin\acs{beta2}\sin\acs{sl2},
+    \alpha = \sin\acs{beta1}\sin\acs{sl1};\qquad
+    \alpha = \sin\acs{beta2}\sin\acs{sl2},
 \end{equation*}
 where $\acs{beta1} = \acl{beta1}$ and $\acs{beta2} = \acl{beta2}$. Thus,
 \begin{equation}
     \acs{sl1} = \arcsin\left(\frac{\sin\acs{beta2}\sin\acs{sl2}}{\sin\acs{beta1}}\right).\label{eq:sl1}
 \end{equation}
+Results from Equation~\eqref{eq:sl1} can handle a few challenges inherent to the geometry of the problem. First, for some combinations of surface characteristics and center point choice, it is impossible to tilt the once-downhill lava flow about the imposed axis and reach the observed surface attitude. In Figure~\ref{fig:tilt-from-map} a single quadrant contains both $\left(\acs{az2},\acs{sl2}\right)$ and \acs{az1}, but if these fall on opposing sides of the \acs{dist}-axis line (one on the left, one on the right) there will be no possible translation between the two. Mathematically, this problem manifests as negative \acf{sl1} calculations, which must be removed before subsequent analysis.
 
-Equation~\eqref{eq:sl1} can naturally handle some issues inherent to the geometry of the problem. First, for some combinations of surface characteristics and center point choice, it is impossible to tilt the once-downhill lava flow about the imposed axis and reach the observed surface attitude. In Figure~\ref{fig:tilt-from-map} a single quadrant contains both $\left(\acs{az2},\acs{sl2}\right)$ and \acs{az1}, but if these fall on opposing sides of the \acs{bearing} line (one on the left, one on the right) there will be no possible vertical translation between the two. Mathematically, this case will arise as a negative value for \acs{sl1}, which is unphysical and must therefore be removed from the subsequent analysis. When a large fraction of sampled points are subject to this error, it signals that the chosen axisymmetric inflation center is inaccurate.
-
-Another problem occurs even in the single-handed (both left or both right) case when:
+After removing these mathematically impossible results, another problem arises in the remaining samples when:
 \begin{equation}
      |\sin\acs{beta2}\sin\acs{sl2}| > |\sin\acs{beta1}|,\label{eq:domain-error}
 \end{equation}
-because the resulting argument in Equation~\eqref{eq:sl1} is outside the domain of the arcsin function. Physically this case occurs when the lava flow is close to parallel to the radial direction for the modeled inflation center. Additionally, when $|\sin\acs{beta1}|$ is only slightly greater than $|\sin\acs{beta2}\sin\acs{sl2}|$, the calculated \acs{sl1} will be unrealistically large. Both of these cases reflect the difficulty of changing the downhill azimuth of a flow by tipping it roughly in the direction it is already pointing. The quantity of these undefined or unrealistic tilt values provide an additional test on the validity of each axisymmetric inflation center.
+because the resulting argument in Equation~\eqref{eq:sl1} is outside the domain of the arcsin function. Physically this case occurs when the lava feature is nearly parallel to the radial direction for the modeled inflation center $(\acs{az1}\approx\acs{bearing}; \acs{beta1}\approx\ang{0})$. This case represents another mathematically impossible configuration and must be removed. In a similar vein, when $|\sin\acs{beta1}|$ is only slightly greater than $|\sin\acs{beta2}\sin\acs{sl2}|$, the calculated \acs{sl1} will be unrealistically large.\footnote{I define ``unrealistically large'' in Section~\ref{sec:inflation-center}} Physically, this issue reflects the difficulty in changing the azimuth of a flow by tilting it in the direction it is already pointing.
 
 \subsubsection{Tilt Equation}
 
@@ -126,18 +116,25 @@ In Figure~\ref{fig:tilt-from-map}, the arrow which translates the \acs{az1} line
 \begin{equation}
     \acs{tilt} = \arctan(\tan\acs{sl2}\cos\acs{beta2}) - \arctan(\tan\acs{sl1}\cos\acs{beta1}).\label{eq:tilt-from-map}
 \end{equation}
-Unlike Equation~\eqref{eq:sl1}, this calculations will not raise any domain errors. The only regions of high numerical sensitivity are near the poles of the tilt axis, but this occurs only for near-vertical observed surfaces (to yield high values of $\delta$ in Figure~\ref{fig:tilt-from-map}) which is unphysical.
 
 \subsubsection{Physical Considerations}
 
-Equation~\eqref{fig:tilt-from-map} could in principle be applied directly to a given center-sample pair to calculate up to one unique tilt value. However, this calculation is extremely sensitive to error in collected data. Even if attitude data could be collected with perfect precision, there are several reasons why the resulting tilt would be inaccurate. For example, a lava flow may have been heading at a slight offset from the regional downhill azimuth due to local topography or physical processes occurring within the lava. Therefore, I introduce an uncertainly term for the \acs{az1} term, $\pm\ang{7}$. 
+Equation~\eqref{fig:tilt-from-map} could in principle be applied directly to a given center-sample pair to calculate a unique tilt value (if one exists). However, this calculation is extremely sensitive to error in collected data. Even if attitude data could be collected with perfect precision, there are several reasons why the resulting tilt would be inaccurate. For example, a lava flow may have been heading at a slight offset from the regional downhill azimuth due to local topography or physical processes occurring within the lava. Therefore, I introduce an uncertainly term for the \acs{az1} term, $\pm\ang{7}$. 
 
 This uncertainty term provides some flexibility in the analysis, but at a cost. By definition, any flow feature whose modern underlying topography has a downhill azimuth within \ang{7} cannot be considered ``discordant'' and thus no non-zero tilt can be inferred here.
 
-However, samples taken from discordant features can now be explained by a range of tilts, as shown in Figure~\ref{fig:az1-uncertainty}.
+However, samples taken from discordant features can now be explained by a range of tilts, as shown in Figure~\ref{fig:az1-uncertainty}. For these features, I calculate the minimum tilt necessary to translate \emph{any} region within the uncertainty interval to match the modern attitude.
 
 \begin{figure}
     \include{figures/az1-uncertainty.tex}%
     \caption[Paleo-azimuth uncertainty]{Paleo-azimuth uncertainty introduces tilt flexibility. \textbf{Left:} With \acs{az1} treated as an exact quantity, there are a narrow range of radial directions (colored green) which can translate the line to meet the point, and for many of those angles the tilt required is unrealistically large. \textbf{Right:} With a wider range of possible \acs{az1} values, more radial directions are possible to translate some point in the shaded region to the $(\acs{az2},\acs{sl2})$ point. Additionally, the tilt required to reach the boundary will always be less. However, points within the shaded region must have $\acs{tilt}=\ang{0}$. Therefore, the choice of uncertainty value is a tradeoff between incorporating more data points and explaining discordance using smaller, more realistic tilts.}%
     \label{fig:az1-uncertainty}
 \end{figure}
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{test-tilt1.pdf}%
+    \caption[Tilt equation verification]{Verification of the sequence of calculations culminating in Equation~\eqref{eq:tilt-from-map} with uncertainty corrections (Figure~\ref{fig:az1-uncertainty}) and a physical plausibility criterion (Figure~\ref{fig:envelope}). Position along the colorful rim represents the direction toward a hypothetical inflation center, which defines the tilt axis (Figure~\ref{fig:center-significance}). Colors represent tilt necessary to explain the discordant feature. Blank regions cannot explain the feature at a distance of \qty{10}{\km} (maximum tilt magnitude \ang{\sim3}). The rim is antisymmetric: positive tilt from one direction is equivalent to negative tilt from the opposite direction. Minimum tilt is necessary when the direction toward the center is perpendicular (approximately) to the \acs{az1} uncertainty boundary.}
+    \label{fig:test-tilt}
+\end{figure}
+
+The final product of this section is a transformation from mapped attitude data (Figure~\ref{fig:attitude-data}) at a particular location $(\acs{lat}, \acs{lon})$ to a tilt-distance data point corresponding to a single inflation center candidate $(\acs{latC}, \acs{lonC})$. While the distance calculation involves a single equation, the tilt calculation involves a sequence of manipulations with several opportunities to introduce error. Figure~\ref{fig:test-tilt} verifies that the final result of this sequence is correct for a test sample point relative to all possible center candidate locations. With this confirmation in place, I repeating the tilt and distance calculations for each sample (within a discordant population of interest) to produce a full tilt-distance dataset corresponding to a single center candidate. Finally, repeating this dataset construction for each center allows the full array of candidates to be evaluated and compared.

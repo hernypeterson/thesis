@@ -1,0 +1,30 @@
+\begin{tikzpicture}[scale=1]
+    
+    % origin
+    \coordinate (c1) at (0,0);
+    \coordinate (c2) at (9,3);
+    
+    \coordinate (s1) at (3,3);
+    
+    \draw[red, thick] (s1) + (-45:1) --+ (135:1);
+    \draw[blue, thick] (s1) + (-90:1) --+ (90:1);
+
+    \draw[thick, -latex, rotate around={90:(s1)}] (s1) + (8 mm,0) arc (0:360:1 mm and 3 mm);
+    
+    \draw[thick, -latex, rotate around={-45:(s1)}] (s1) + (8 mm,0) arc (0:360:1 mm and 3 mm);
+    
+    \draw[white, line width = 1 mm] (s1) --+ (-45:0.65);
+    \draw[white, line width = 1 mm] (s1) --+ (90:0.65);
+    \draw[red, thick] (s1) --+ (-45:0.7);
+    \draw[blue, thick] (s1) --+ (90:0.7);
+    
+    
+    \fill[red] (c1) circle (1mm) node[anchor = north east] {$C_1$};
+    \fill[blue] (c2) circle (1mm) node[anchor = south] {$C_2$};
+    
+    \draw[red, dotted] (c1) -- node[sloped, fill=white] {$\acs{dist}_{C_1}$} (s1);
+    \draw[blue, dotted] (c2) -- node[fill=white] {$\acs{dist}_{C_2}$} (s1);
+    
+    \fill (s1) circle (1mm) node[anchor = south west] {$S$};
+
+\end{tikzpicture}

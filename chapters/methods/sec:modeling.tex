@@ -23,7 +23,7 @@ Despite these drawbacks, the equation form of this analytical solution can be fi
 
 % Two important simplifying assumptions are worth introducing immediately to provide context for numerical modeling. Having already introduced one of these, the axisymmetric assumption, the only point to emphasize here is that each aspect of a numerically constructed model must share the same axis of symmetry. In other words, the ellipsoidal magma reservoir must be centered directly underneath the center of the modeled edifice. Importantly, this assumption requires a single axis to describe each aspect of the model; namely, the topographic surface and the magma reservoir. Thus the model construction is similar to the plane shown in Figure~\ref{fig:axisymmetry}.
 
-\subsection{Numerical Tilt Solution}\label{sec:tilt-from-model}
+\subsection{Numerical Tilt Solution}\label{sec:numerical-tilt-solution}
 
 % REORDER - HAS NOT BEEN MENTIONED YET
 
@@ -85,7 +85,7 @@ If gravitational loading is in fact insignificant, displacement in case~\ref{g0p
 
 As expected for the flat model, gravitational loading has no effect on surface displacement and thus the subsequently calculated tilt is identical. The topographically accurate model shows the same pattern with respect to gravitational loading. There is a small but noticeable difference in tilt between the flat and topographic models, which ranges between ($0\%-10\%$) for the parameters I examined. This result places a reassuring upper bound on the magnitude of error that could be introduced by varying the horizontal location of a modeled inflation center within the summit region---likely much less than error introduced elsewhere.
 
-\subsection{Analytical Tilt Solution}
+\subsection{Analytical Tilt Solution}\label{sec:analytical-tilt-solution}
 
 In this section, I draw on the widely cited analytical \emph{displacement} solution developed by \textcite{mogi_relations_1958} to derive an analytical \emph{tilt} solution as a counterpart to the numerical method described by Equation~\eqref{eq:tilt-from-model}. This so-called Mogi model assumes a deep spherical reservoir within a flat (``topo = False'') elastic half-space. Equation~\eqref{eq:tilt-from-model} in such a half-space ($\acs{dz1} = 0$) reduces to:
 \begin{equation}

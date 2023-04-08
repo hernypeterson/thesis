@@ -34,7 +34,7 @@ The \ac{FEM} is widely used to model phenomena ranging from fluid flow, heat tra
 From this point, elevation transect due south from the study area center point to the base of the edifice \qty{\sim240}{\km} away. This particular center point is derived from the summit of a topographic spline: an interpolation of a hypothetical paleo-topography based on the existing topography outside the \qty{19}{\km} contour (Figure~\ref{fig:paleo-topo}; compare with Figure~\ref{fig:summit}). The topography of this outer region \emph{is} roughly axisymmetric and assumed to be relatively unaffected by subsequent caldera and reservoir activity.
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{paleo-topo.pdf}
+    \includegraphics[width=\textwidth]{methods/paleo-topo.pdf}
     \caption[Spline-derived paleo-topography]{Paleo-topography estimated to have existed prior to caldera formation; interpolated from topography outside the \qty{19}{\km} contour.}%
     \label{fig:paleo-topo}
 \end{figure}
@@ -53,7 +53,7 @@ COMSOL produces displacement data corresponding to individual model nodes. Figur
 I define the distance value associated with this calculated tilt as the midpoint of the displaced edge. In practice, the horizontal scale for this edge (both before and after displacement) is negligible compared to the scale of the edifice, so another choice of distance within the edge (e.g., the midpoint of the initial surface) would produce indistinguishable results.
 
 \begin{figure}
-    \input{figures/tilt-from-model.tex}%
+    \input{figures/methods/tilt-from-model.tex}%
     \caption[Tilt from numerical modeling]{Cross-sectional view of a surface edge in the axisymmetric numerical model. As in Figure~\ref{fig:tilt-from-map}, the $r-$axis points away from the inflation center. During the model, the two nodes $A_1$ and $B_1$ of a surface element are displaced along \acs{disp_a} and \acs{disp_b} to reach a final position at $A_2$ and $B_2$, respectively. I illustrate the difference $\acs{disp_b} - \acs{disp_a} = \acs{ddisp}$ in terms of its components \acs{ddisp_r} and \acs{ddisp_z}. Notice that $z-$component terms are negative to ensure that tilt away from the inflation center yields a positive tilt \acs{tilt}, as shown in red. To calculate \acs{tilt}, I determine the slopes of segments $\overline{A_1B_1}$ and $\overline{A_2'B_1}$ using the labeled horizontal and vertical segments, convert these slopes to angles, and take their difference.}%
     \label{fig:tilt-from-model}%
 \end{figure}
@@ -77,8 +77,8 @@ Additionally, \textcite{grosfils_magma_2007} showed that incorporating gravitati
 If gravitational loading is in fact insignificant, displacement in case~\ref{g0p1} should match the component of remaining in case~\ref{g1p1} after the gravitational component from case~\ref{g1p0} is subtracted out. The reason I need to subtract out this component is that the modeled edifice is not perfectly flat. Therefore, vertical loading is not initially in equilibrium under the reservoir and some ``slumping'' occurs to accommodate this imbalance. I present preliminary test results in Figure~\ref{fig:grav-topo-test}.
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{grav-topo-test.pdf}
-    \includegraphics[width=\textwidth]{grav-topo-test-zoom.pdf}%
+    \includegraphics[width=\textwidth]{methods/grav-topo-test.pdf}
+    \includegraphics[width=\textwidth]{methods/grav-topo-test-zoom.pdf}%
     \caption[Numerical model sensitivity to topography and gravity]{Comparison between topographic and flat model with and without gravitational loading. Patterns are consistent across a range of model parameters tested; a single representative case is plotted above, with the peak shown in more detail below. Gravitational loadings makes essentially no difference, while the flat model (topo = False) tends to underestimate tilt by a few percent.}%
     \label{fig:grav-topo-test}%
 \end{figure}
@@ -124,7 +124,7 @@ The conditions assumed in this analytical model are not necessarily met even wit
 First, when the assumptions \emph{are} upheld\footnote{to the greatest extent possible; a reservoir of finite width and depth can never completely eliminate edge effects from the free surface above} in the numerical model, the analytical solution confirms that the model is working correctly. I show a representative example confirming this in Figure~\ref{fig:mogi-test}.
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{mogi-test.pdf}%
+    \includegraphics[width=\textwidth]{methods/mogi-test.pdf}%
     \caption[Analytical solution verification]{Verification that the analytical tilt solution derived from \textcite{mogi_relations_1958} matches the numerical result for a deep, small, spherical reservoir in a flat half-space. ``Mogi (calc)'' uses parameters $d$ and \acs{epv} identical (or calculated directly from) those in the numerical model; ``Mogi (fit)'' uses a non-linear least squares regression to fit the numerical model data to the parameterized tilt function. All three results are essentially identical; the estimated parameters are very close to the true parameters.}%
     \label{fig:mogi-test}
 \end{figure}
@@ -132,7 +132,7 @@ First, when the assumptions \emph{are} upheld\footnote{to the greatest extent po
 More importantly, I show in Figure~\ref{fig:mogi-test-shallow-oblate} that even conditions which violate the analytical solution assumptions produce tilt functions of similar qualitative shapes, although the associated parameters are incorrect. A non-linear least squares regression can be applied to find the combination of depth and inflation energy that best explains any tilt-distance dataset. 
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{mogi-test-shallow-oblate.pdf}%
+    \includegraphics[width=\textwidth]{methods/mogi-test-shallow-oblate.pdf}%
     \caption[Analytical model sensitivity to reservoir geometry]{Illustration of the error introduced by violating analytical assumption of a deep, point-like reservoir in a flat half-space. Specifically, this numerically modeled reservoir is oblate and close to the surface relative to its size; it also lies within a model of the Olympus Mons edifice rather than a flat half-space. Despite these factors, an analytical solution can fit the shape of this numerical data well, albeit by overestimating the depth and inflation energy responsible.}%
     \label{fig:mogi-test-shallow-oblate}
 \end{figure}

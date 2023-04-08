@@ -13,7 +13,7 @@ In this section, I define two broad criteria by which to evaluate the axisymmetr
 I illustrate the flow of this iterative approach abstractly in Figure~\ref{fig:eval-model} and present the Python implementation in Appendix~\ref{app:code}. In the following sections, I describe the specific criteria used to evaluate different aspects of the summit's geometry and history.
 
 \begin{figure}
-    \input{figures/eval-model.tex}%
+    \input{figures/methods/eval-model.tex}%
     \caption[Center evaluation workflow]{Schematic illustration of candidate center evaluation process. For each center (unique cID) in \hltt{centers.csv}, I make a copy of \hltt{samples.csv} and calculate variables for each sample (unique sID). This results in the ``intermediate list'' where each element corresponds to one cID. Then I evaluate each item in this list and write the resulting scores to one row of \hltt{centers\_eval.csv}.}%
     \label{fig:eval-model}
 \end{figure}
@@ -35,7 +35,7 @@ The next best option is to discard any calculations which \emph{must} be erroneo
 Then, I compute an analytical tilt solution to a deep, high-\acs{epv} inflation (or deflation), as shown Figure~\ref{fig:envelope}. This is designed to place an upper bound on realistic tilt at each distance from the center, so any computed tilt values which exceed this envelope are discarded due to physical implausibility. This function needs an especially high \acs{epv} in light of Figure~\ref{fig:mogi-test-shallow-oblate}; shallow oblate reservoirs are best approximated by slightly deeper and \emph{much} more energetic inflations, and I want to be confident that the cutoff envelope exceeds any realistic conditions.
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{envelope.pdf}%
+    \includegraphics[width=\textwidth]{methods/envelope.pdf}%
     \caption[Physically plausible tilt envelope]{Upper and lower plausibility bounds on tilt as a function of distance. This function is computer using a relatively deep and extremely high-\acs{epv} Mogi function to ensure appropriate breadth and width is included, keeping in mind that the true reservoir is likely to be oblate. Any computed tilt values outside this envelope are discarded on physical grounds.}%
     \label{fig:envelope}
 \end{figure}

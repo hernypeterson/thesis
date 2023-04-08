@@ -15,8 +15,8 @@ Along each feature, I use the \hlss{Generate Points Along Line} tool with sampli
 I use a point-based sampling approach for a few reasons. First, modern topographic attitude can be measured to high precision using the \ac{MOLA} \ac{DEM} and may vary across the length of lava features, so a single value is not appropriate.\footnote{\Acf{az1} is much less certain since lava does not always flow exactly in the regional downhill direction.} More importantly, the analysis described later in Section~\ref{sec:tilt-from-map} is extremely sensitive to position---different locations even with identical paleo- and modern attitude can imply vastly different tilt and distance relative to an axisymmetric inflation center. Finally, discrete points are necessary for the tilt-distance regression analysis in Section~\ref{sec:evaluation}.
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{linear-features.pdf}
-    \includegraphics[width=\textwidth]{linear-features-mapped.pdf}
+    \includegraphics[width=\textwidth]{methods/linear-features.pdf}
+    \includegraphics[width=\textwidth]{methods/linear-features-mapped.pdf}
     \caption[Mapping linear features]{\textbf{Top:} Lobate flows and linear channel features identified from the \acs{CTX} basemap. \textbf{Bottom:} Point samples derived along the linear channel and lobate flow centerlines.}%
     \label{fig:linear-features}
 \end{figure}
@@ -32,7 +32,7 @@ For the modern surface attitude, I use the \hlss{Surface Parameters} tool on the
     {\caption[Sample point attitude dataset]{
         Example dataset associated with a single point sampled from a discordant feature. The line labeled \acs{az1} represents the family of paleo-attitudes consistent with a mapped feature pointing downhill in the same direction as the arrow. The point labeled $(\acs{az2},\acs{sl2})$ represents the modern attitude based on \ac{MOLA} topography.
     }\label{fig:attitude-data}}
-    {\input{figures/attitude-data.tex}}
+    {\input{figures/methods/attitude-data.tex}}
 \end{figure}
 
 These measurements (\acf{az1}, \acf{az2}, and \acf{sl2}) for each sample point constitute the first intermediate product of this section. In particular, I calculate \acl{disc} as the difference between the modern and paleo- downhill azimuths. To express \ac{disc} in the range \ang{-180} to \ang{180}, I use the explicit equation:
@@ -54,7 +54,7 @@ In Section~\ref{sec:modeling}, the particular center location plays only a limit
 However, fitting a particular spatial distribution of attitude data into this framework requires a particular center point. Expressing the coordinates of mapped features as a distance from a center point clearly depends on the location of that center point. Less obviously, the choice of center position also determines the amount of tilt necessary to account for a topographically discordant feature by imposing a particular \emph{axis of tilt}. Since all displacement in an axisymmetric model is confined to a vertical cross-section, rotation (tilt) can only occur about the axis perpendicular to the vertical cross-sectional plane (the white surface in Figure~\ref{fig:axisymmetry}). This tilt axis is horizontal and perpendicular to the line from sample point to center. Importantly, the magnitude of surface tilt implied by a discordant sample depends on the orientation of the tilt axis. The role of center point location in calculating both tilt and distance for a particular sample point is illustrated schematically in Figure~\ref{fig:center-significance}.
 
 \begin{figure}
-    \input{figures/center-significance.tex}%
+    \input{figures/methods/center-significance.tex}%
     \caption[Significance of center position for tilt, distance calculations]{Schematic map view illustrating the role of inflation center position in expressing a discordant sample point ($S$) in terms of distance and tilt. Clearly, different center points ($C_1, C_2$) are different distances ($\acs{dist}_{C_1},\acs{dist}_{C_2}$) from the sample. More subtly, the azimuth orientation of each center imposes a different tilt axis (solid colored line), which influences the subsequent tilt calculation.}%
     \label{fig:center-significance}
 \end{figure}
@@ -64,7 +64,7 @@ However, the position of magma reservoir(s) within/below the Olympus Mons edific
 To define this array of inflation center candidates, I use the \hlss{Generate Tesselation} and \hlss{Feature to Point} tools in ArcGIS Pro to generate an evenly spaced array in the caldera vicinity as shown in Figure~\ref{fig:candidates}. This array includes the caldera and southern summit bulge, the two regions I suspect to be most responsible for discordant features. Each of 781 points is less than \qty{4}{\km} from its six neighbors to ensure spatial resolution similar to the sampling interval (\samplinginterval) for \acl{az1} and modern topographic ``neighborhood'' (\neighborhood) for modern attitude measurements, without creating unnecessary computational expense.
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{candidates.pdf}%
+    \includegraphics[width=\textwidth]{methods/candidates.pdf}%
     \caption{Axisymmetric center location candidates}%
     \label{fig:candidates}
 \end{figure}
@@ -88,7 +88,7 @@ To calculate the azimuth angle from a sample directly \emph{away}\footnote{This 
 
 \begin{figure}
 \begin{center}
-    \input{figures/tilt-from-map.tex}%
+    \input{figures/methods/tilt-from-map.tex}%
     \caption[\Acl{tilt} from mapping]{\textbf{Left:} A quadrant of an upper hemisphere representing attitude space for a sampled point relative to a particular inflation center. The pole labeled $\left(\acs{az2},\acs{sl2}\right)$ represents the modern surface. The line of poles labeled \acs{az1} represents the family of possible paleo-surfaces with downhill direction given by the lava flow direction. The $r-$axis points in the azimuthal direction away from a modeled inflation center. Axisymmetry imposes a horizontal axis of tilt perpendicular to the $r-$axis, which is defined in turn by \acs{bearing}: the azimuth direction from the sample away from the center. The red arrow labeled \acs{tilt} answers the question: how much tilt \emph{about this axis} bring some pole on line \acs{az1} to pole $\left(\acs{az2},\acs{sl2}\right)$? \textbf{Right:} Orthographic projection labeled with important angles and distances for the tilt calculation, building on Figure~\ref{fig:surface}. This region corresponds to horizontal grey rectangle on the left.}%
     \label{fig:tilt-from-map}%
 \end{center}
@@ -126,13 +126,13 @@ This uncertainty term provides some flexibility in the analysis, but at a cost. 
 However, samples taken from discordant features can now be explained by a range of tilts, as shown in Figure~\ref{fig:az1-uncertainty}. For these features, I calculate the minimum tilt necessary to translate \emph{any} region within the uncertainty interval to match the modern attitude.
 
 \begin{figure}
-    \include{figures/az1-uncertainty.tex}%
+    \include{figures/methods/az1-uncertainty.tex}%
     \caption[Paleo-azimuth uncertainty]{Paleo-azimuth uncertainty introduces tilt flexibility. \textbf{Left:} With \acs{az1} treated as an exact quantity, there are a narrow range of radial directions (colored green) which can translate the line to meet the point, and for many of those angles the tilt required is unrealistically large. \textbf{Right:} With a wider range of possible \acs{az1} values, more radial directions are possible to translate some point in the shaded region to the $(\acs{az2},\acs{sl2})$ point. Additionally, the tilt required to reach the boundary will always be less. However, points within the shaded region must have $\acs{tilt}=\ang{0}$. Therefore, the choice of uncertainty value is a tradeoff between incorporating more data points and explaining discordance using smaller, more realistic tilts.}%
     \label{fig:az1-uncertainty}
 \end{figure}
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{test-tilt1.pdf}%
+    \includegraphics[width=\textwidth]{methods/test-tilt1.pdf}%
     \caption[Tilt equation verification]{Verification of the sequence of calculations culminating in Equation~\eqref{eq:tilt-from-map} with uncertainty corrections (Figure~\ref{fig:az1-uncertainty}) and a physical plausibility criterion (Figure~\ref{fig:envelope}). Position along the colorful rim represents the direction toward a hypothetical inflation center, which defines the tilt axis (Figure~\ref{fig:center-significance}). Colors represent tilt necessary to explain the discordant feature. Blank regions cannot explain the feature at a distance of \qty{10}{\km} (maximum tilt magnitude \ang{\sim3}). The rim is antisymmetric: positive tilt from one direction is equivalent to negative tilt from the opposite direction. Minimum tilt is necessary when the direction toward the center is perpendicular (approximately) to the \acs{az1} uncertainty boundary.}
     \label{fig:test-tilt}
 \end{figure}

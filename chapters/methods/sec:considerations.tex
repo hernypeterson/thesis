@@ -9,7 +9,7 @@ The central role of surface attitude warrants a graphical representation suitabl
 I instead use an orthographic\footnote{from directly above; orthogonal to the plane.} projection to send small circles\footnote{whose axis lies on the primitive (horizontal) great circle} to straight lines. These small circles are crucial for the derivation in Section~\ref{sec:tilt-from-map} because they represent the paths swept out by rotation about a horizontal axis. I also represent planes by their unique perpendicular ``poles,'' not their curvilinear intersections. Finally, I use an upper hemisphere projection so each pole has the same azimuth as the corresponding \emph{downhill} direction. I illustrate this surface attitude representation in Figure~\ref{fig:surface}.
 
 \begin{figure}
-    \input{figures/surface.tex}%
+    \input{figures/methods/surface.tex}%
     \caption[Orthographic pole to plane]{Pole to plane in an upper hemisphere orthographic projection. \textbf{Left:} A sloped green surface compared to a flat grey surface. A single normal vector within the upper hemisphere is perpendicular to the green surface. The zenith angle of this vector is the same as the slope of the surface $(\varphi)$. The unit vector in this direction is the pole (point). \textbf{Right:} When this pole is projected vertically (orthographic) onto the flat surface, the resulting point retains the downhill azimuth direction $(\theta)$ at a distance $\sin\varphi$ from the origin.}%
     \label{fig:surface}%
 \end{figure}
@@ -23,9 +23,9 @@ While I observe discordant features via satellite-derived imagery and topography
 I model the Olympus Mons edifice material as a single homogeneous basalt. The low profile of Olympus Mons (like most martian volcanoes) is analogous to terrestrial basaltic shield such as Hawai'i. In the absence of geochemical or geophysical data pertaining to the internal edifice structure, I assume uniform basaltic flow material. I use a linear elastic rheology which allows for computationally inexpensive modeling and analytical surface deformation solutions \parencite{mogi_relations_1958} without sacrificing accuracy for a wide range of volcanic processes \parencite{grosfils_elastic_2015}. Similarly, I treat the magma reservoir as an ellipsoidal body exerting a uniform pressure on the surrounding edifice for similar reasons. Despite the simplification, this configuration could describe a wide range of plausible and relevant circumstances (Figure~\ref{fig:reservoir-configs}).
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{caldera-collapse.pdf}\\
+    \includegraphics[width=\textwidth]{methods/caldera-collapse.pdf}\\
     \vspace{2cm}
-    \includegraphics[width=\textwidth]{flank-inflation.pdf}
+    \includegraphics[width=\textwidth]{methods/flank-inflation.pdf}
     \caption[Ellipsoidal reservoir configurations]{Reservoir configurations whose surface deformation signature is roughly consistent with a homogeneous ellipsoidal reservoir experiencing pressure change within an elastic edifice. Note that caldera collapse (top) could be associated with elastic response outside the collapse region itself, which could be captured in this model.}
     \label{fig:reservoir-configs}
 \end{figure}
@@ -35,7 +35,7 @@ I model the Olympus Mons edifice material as a single homogeneous basalt. The lo
 The assumption of axisymmetry (rotational symmetry about a vertical axis) is widely used to model volcanic and magmatic systems at a range of spatial and temporal scales \parencite[c.f.,][]{redmond_numerical_2004,ogawa_four-stage_2021,mogi_relations_1958,mctigue_elastic_1987}. As shown in Figure~\ref{fig:axisymmetry}, this geometry decreases computational and analytical complexity by reducing a 3D edifice to a 2D vertical cross-section. Additionally, I show in Section~\ref{sec:tilt-from-map} that the axisymmetry assumption solves the attitude data incompleteness problem described in Section~\ref{sec:discordance}.
 
 \begin{figure}
-    \input{figures/axisymmetry.tex}%
+    \input{figures/methods/axisymmetry.tex}%
     \caption[Axisymmetry]{Schematic illustration of an axisymmetric model. A 3D feature with rotational symmetry about a vertical axis is fully described by a single cross-section (white). Conceptually this surface can be swept around the axis of symmetry (red arrow) to reconstruct the 3D shape. Radial $(r)$ and vertical $(z)$ coordinates describe position within the model.}%
     \label{fig:axisymmetry}
 \end{figure}

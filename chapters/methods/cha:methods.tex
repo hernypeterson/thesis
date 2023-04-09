@@ -1,6 +1,6 @@
 \chapter{Methods}\label{cha:methods}
 
-In this chapter, I first define the study area (Section~\ref{sec:study-area}) and introduce important geometric considerations (Section~\ref{sec:considerations}) which inform the derivation and implementation of each subsequent method.
+In this chapter, I introduce key considerations which inform subsequent methods (Section~\ref{sec:considerations}) and define the study area (Section~\ref{sec:study-area}).
 
 Next, I introduce the surface deformation signature of a magma reservoir pressure change event (Section~\ref{sec:modeling}). I pay particular attention to representing surface displacement in terms of \emph{attitude} (orientation) change for direct comparison with topographically discordant features. The intermediate products of this section are two surface tilt solutions modeled as a function of distance from the reservoir inflation center. I use an analytical solution for preliminary inverse modeling\footnote{estimating reservoir depth and inflation energy directly from a tilt-distance dataset.} and a numerical solution for fine-tuning via forward modeling.\footnote{assessing additional parameters by their effect on predicted tilt-distance data.}
 
@@ -8,8 +8,8 @@ With idealized tilt solutions prepared, I construct analogous tilt-distance data
 
 Finally, I analyze and evaluate (Section~\ref{sec:evaluation}) each candidate center by the degree to which its associated tilt-distance dataset (Section~\ref{sec:mapping}) aligns mathematically with a physically plausible tilt-distance solution from Section~\ref{sec:modeling}. I use the spatial distribution of these evaluation results to assess the subsurface conditions most likely responsible for discordant features at the surface.
 
-\input{chapters/methods/sec:study-area.tex}
 \input{chapters/methods/sec:considerations.tex}
+\input{chapters/methods/sec:study-area.tex}
 \input{chapters/methods/sec:modeling.tex}
 \input{chapters/methods/sec:mapping.tex}
 \input{chapters/methods/sec:evaluation.tex}

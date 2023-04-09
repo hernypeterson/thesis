@@ -1,44 +1,52 @@
 \section{Fundamental Considerations}\label{sec:considerations}
 
-The ultimate goal of this thesis is to investigate the magma system below the summit of Olympus Mons. Practically speaking, this means explaining the peculiar geometry and spatial distribution of discordant flows in terms of subsurface magma reservoir pressure change. I approach this inquiry under the assumption that discordant lava features and subsurface pressurization each imply net change in surface attitude (orientation). In this section I lay the foundations for a quantitative treatment of surface attitude change.
+The ultimate goal of this thesis is to investigate the magma system below the summit of Olympus Mons. Practically speaking, this means explaining the peculiar geometry and spatial distribution of discordant flows in terms of subsurface magma reservoir pressure change. I approach this inquiry under the assumption that discordant lava features and subsurface pressurization each imply net change in surface attitude (orientation). 
 
-\begin{figure}
-    \input{figures/methods/discordance-concept.tex}%
-    \caption{Discordance Concept}%
-    \label{fig:discordance-concept}
-\end{figure}
+In this section, I introduce important considerations pertaining to mapping (Section~\ref{sec:mapping-considerations}) and modeling (Section~\ref{sec:modeling-considerations}) which inform their quantitative treatments in Sections~\ref{sec:mapping} and~\ref{sec:modeling}, respectively.
+
+\subsection{Mapping}\label{sec:mapping-considerations}
+
+\subsubsection{Discordance \& Surface Attitude}\label{sec:downhill-flows}
+
+Figure~\ref{fig:discordance-concept} illustrates that under certain circumstances, regional surface attitude change can cause once-downhill flows to become discordant. However, deformation which causes only a change in slope (not downhill azimuth) cannot be inferred from the relationship between flows and the surrounding topography. Of course, the history of surface deformation at the Summit of Olympus Mons is not confined to either of these two endmembers. Only the final configuration can be observed; this final state could have arisen from a wide variety of surface deformation events. For example, in Figure~\ref{fig:discordance-concept} the discordant flow on the final (green) surface could have been emplaced downhill on either the blue or grey surfaces; each of these initial states correspond to a different net attitude change and surface deformation history.
 
 % This would be a great place to add a figure that we've discussed for a while -- a conceptual depiction of how a reservoir change that introduces tilt variation can be measured using a difference in lava flow attitude. This would be a schematic diagram, not one that uses actual data. Part A would show a topographic surface upon which a lava flow is emplaced downhill. Part B would then show an event that changes the surface tilt such that the lava flow attitude is changed. If you wanted to make the figure more powerful, you could include instead B and C, where you illustrate a change that introduces only vertical tilt change (basically, one where the center of axisymmetry remains unadjusted) and one where both vertical and horizontal change has been induced (presumably because the details of the inflation are not axisymmetric or because the center of axisymmetry has shifted).
 
-\subsection{Attitude Representation}\label{sec:attitude-representation}
+\begin{figure}
+    \input{figures/methods/discordance-concept.tex}%
+    \caption[Discordance \& attitude change]{Schematic illustration of topographic discordance resulting from two stages of surface deformation. First, a lava flow (symbolized by an arrow) is emplaced downhill on a surface. Notice it is perpendicular to the blue contour lines; the feature is not discordant. The middle (grey) surface represents the result of displacement which causes the slope to increase but does not change the downhill azimuth direction. Notice the flow is still perpendicular to the grey contour lines; it is not discordant. Solely on the basis of the lava flow on grey surface (with no knowledge of the original blue surface) it would be impossible to infer surface attitude change. Notice also that the surface deformation responsible is symmetrical across the vertical plane containing the flow. The green surface represents the result of asymmetric deformation which changes the downhill azimuth of the surface. Notice now the flow arrow is now \emph{parallel} to the contour lines; it is discordant and deformation can be inferred solely by observing the green surface.}%
+    \label{fig:discordance-concept}
+\end{figure}
 
-The central role of surface attitude warrants a graphical representation suitable for both conceptual illustration and geometrically-grounded calculation. The most common such representation is the stereonet: planar surfaces are represented by their stereographically\footnote{from the top of the sphere onto a plane tangent to the bottom of the sphere.} projected intersections with the lower hemisphere of a unit sphere.
+Fundamentally, the ``discordance problem'' is the unknown slope of the paleo-surface (when the flow was first emplaced) which prevents directly inferring net attitude change at a discordant feature.\footnote{Technically, paleo-slope alone is still insufficient for a full description of attitude change, even for a single deformation event (a sequence of multiple ``steps'' in the same direction would of course be indistinguishable from a single event). This is because two endpoints in attitude space do not define a unique path between them. This subtlety is addressed in Section~\ref{sec:mapping}.} Interpreting an inherently incomplete empirical dataset ultimately requires reinforcement from a complimentary approach (Section~\ref{sec:modeling-considerations}) which introduces precision and completeness under an idealized set of assumptions.
+
+\subsubsection{Attitude Representation}\label{sec:attitude-representation}
+
+The central role of surface attitude in this thesis warrants a graphical representation suitable for both conceptual illustration and geometrically-grounded calculation. The most common such representation is the stereonet: planar surfaces are represented by their stereographically\footnote{from the top of the sphere onto a plane tangent to the bottom of the sphere.} projected intersections with the lower hemisphere of a unit sphere.
 
 I instead use an orthographic\footnote{from directly above; orthogonal to the plane.} projection to send small circles\footnote{whose axis lies on the primitive (horizontal) great circle} to straight lines. These small circles are crucial for the derivation in Section~\ref{sec:tilt-from-map} because they represent the paths swept out by rotation about a horizontal axis. I also represent planes by their unique perpendicular ``poles,'' not their curvilinear intersections. Finally, I use an upper hemisphere projection so each pole has the same azimuth as the corresponding \emph{downhill} direction. I illustrate this surface attitude representation in Figure~\ref{fig:surface}.
 
 \begin{figure}
     \input{figures/methods/surface.tex}%
-    \caption[Orthographic pole to plane]{Pole to plane in an upper hemisphere orthographic projection. \textbf{Left:} A sloped green surface compared to a flat grey surface. A single normal vector within the upper hemisphere is perpendicular to the green surface. The zenith angle of this vector is the same as the slope of the surface $(\varphi)$. The unit vector in this direction is the pole (point). \textbf{Right:} When this pole is projected vertically (orthographic) onto the flat surface, the resulting point retains the downhill azimuth direction $(\theta)$ at a distance $\sin\varphi$ from the origin.}%
+    \caption[Orthographic pole to plane]{Pole to plane in an upper hemisphere orthographic projection. \textbf{Left:} A sloped green surface compared to a flat grey surface. The line normal to the plane (green) intersects the upper hemisphere at unit length (green dot, full hemisphere not shown for clarity). \textbf{Right:} The orthographic projection of this intersection is the ``pole'' (black dot) at a distance $\sin\varphi$ from the origin with the same azimuth $\theta$ as the downhill direction as the green surface.}%
     \label{fig:surface}%
 \end{figure}
 
-\subsection{Simplifying Assumptions}
+\subsection{Modeling}\label{sec:modeling-considerations}
 
-While I observe discordant features via satellite-derived imagery and topography, I can only infer subsurface pressure change. To introduce a hypothetical reservoir and model surface attitude change resulting from its activity, I need to answer several questions. To name just a few: Where is the reservoir in map view? How deep within/below the Olympus Mons edifice? How big? What shape? How much pressure change has occurred? Inflation or deflation? Several simplifying assumptions are necessary to make these questions tractable.
+While I observe discordant features via satellite-derived imagery and topography, I can only infer subsurface pressure change. To introduce a hypothetical magma reservoir and model surface attitude change resulting from its pressure change activity, I need to answer several questions. To name just a few: Where is the reservoir in map view? How deep within/below the Olympus Mons edifice? How big? What shape? How much pressure change has occurred? Inflation or deflation? Several simplifying assumptions are necessary to make these questions tractable. Compared to the mapping approach, what the modeling approach lacks in empirical grounding is compensated by a precise and complete description of associated surface attitude change.
 
 \subsubsection{Physical Properties}
 
-I model the Olympus Mons edifice material as a single homogeneous basalt. The low profile of Olympus Mons (like most martian volcanoes) is analogous to terrestrial basaltic shield volcano such as Hawai'i. In the absence of geochemical or geophysical data pertaining to the internal edifice structure, I assume uniform basaltic flow material. I use a linear elastic rheology which allows for computationally inexpensive modeling and analytical surface deformation solutions \parencite{mogi_relations_1958} without sacrificing accuracy for a wide range of volcanic processes \parencite{grosfils_elastic_2015}. Similarly, I treat the magma reservoir as an ellipsoidal body exerting a uniform pressure on the surrounding edifice for similar reasons. % repeats. you could note that this geometry, though idealized, is defensible on 
-  % - field (e.g., commonality of smooth margins, geometries seem in plan view),
-  % - mechanical (e.g., to consistently feed central eruptions, to emplace radial dike swarms, and to explain caldera ring fault geometries) and 
-  % - thermal (irregular shapes and protuberances grade toward a heat-conserving ellipsoidal geometry over time) grounds.
-Despite the simplification, this configuration could describe a wide range of plausible and relevant circumstances (Figure~\ref{fig:reservoir-configs}).
+I model the Olympus Mons edifice material as a single homogeneous basalt. The low profile of Olympus Mons (like most martian volcanoes) is analogous to terrestrial basaltic shield volcano such as Hawai'i. In the absence of geochemical or geophysical data pertaining to the internal edifice structure, I assume uniform basaltic flow material. I use a linear elastic rheology which allows for computationally inexpensive modeling and analytical surface deformation solutions \parencite{mogi_relations_1958} without sacrificing accuracy for a wide range of volcanic processes \parencite{grosfils_elastic_2015}. I treat the magma reservoir as an ellipsoidal body exerting a uniform pressure on the surrounding edifice for similar reasons. Terrestrial pluton contacts with surrounding country rock are often smoothly curving at spatial scales of tens to hundreds of meters, consistent with the tendency for complex thermal distributions to evolve toward simpler ellipsoidal geometries. Thus, an ellipsoidal reservoir within an elastic edifice is consistent to first order with a wide range of plausible and relevant circumstances (Figure~\ref{fig:reservoir-configs}).
 
 \begin{figure}
     \includegraphics[width=\textwidth]{methods/caldera-collapse.pdf}\\
-    \vspace{2cm}
+    \vspace{1cm}
+    \hrule
+    \vspace{1cm}
     \includegraphics[width=\textwidth]{methods/flank-inflation.pdf}
-    \caption[Ellipsoidal reservoir configurations]{Reservoir configurations whose surface deformation signature is roughly consistent with a homogeneous ellipsoidal reservoir experiencing pressure change within an elastic edifice. Note that caldera collapse (top) could be associated with elastic response outside the collapse region itself, which could be captured in this model.} % make the elastic rim thing more clear
+    \caption[Ellipsoidal reservoir configurations]{Reservoir configuration endmembers whose surface deformation signature is roughly consistent with a homogeneous ellipsoidal reservoir experiencing pressure change within an elastic edifice. For the caldera collapse (top), note that an elastic model can capture distributed subsidence (arrows) outside the reservoir surface ``footprint,'' but not the permanent deformation within the collapse region itself.}
     \label{fig:reservoir-configs}
 \end{figure}
 

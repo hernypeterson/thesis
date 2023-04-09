@@ -48,7 +48,7 @@ Figure~\ref{fig:populations} shows three sample populations selected within a hi
     \includegraphics[width=0.5\textwidth]{results/rmse-a.pdf}\\
     \includegraphics[width=0.5\textwidth]{results/depth-a.pdf}%
     \includegraphics[width=0.5\textwidth]{results/epv-a.pdf}%
-    \caption[Pop. A]{Results for population A}%
+    \caption[Pop. A]{Results for population A. Notice the coherent distribution of \acs{epv} estimates on either side of the features.}%
     \label{fig:results-a}
 \end{figure}
 
@@ -57,7 +57,7 @@ Figure~\ref{fig:populations} shows three sample populations selected within a hi
     \includegraphics[width=0.5\textwidth]{results/rmse-b.pdf}\\
     \includegraphics[width=0.5\textwidth]{results/depth-b.pdf}%
     \includegraphics[width=0.5\textwidth]{results/epv-b.pdf}%
-    \caption[Pop. B]{Results for population B}%
+    \caption[Pop. B]{Results for population B. Notice the distribution of \acs{epv} estimates is roughly analogous to those for population A, i.e., positive immediately to the south west and negative immediately to the north east. However, here we see a consistent positive-\acs{epv} signal west of population C, outside the main cluster surrounding population B itself. This absolute position also converges for population A, albeit with shallower depth estimates consistent with a more proximal tilt signal.}%
     \label{fig:results-b}
 \end{figure}
 
@@ -66,8 +66,15 @@ Figure~\ref{fig:populations} shows three sample populations selected within a hi
     \includegraphics[width=0.5\textwidth]{results/rmse-c.pdf}\\
     \includegraphics[width=0.5\textwidth]{results/depth-c.pdf}%
     \includegraphics[width=0.5\textwidth]{results/epv-c.pdf}%
-    \caption[Pop. C]{Results for population C}%
+    \caption[Pop. C]{Results for population C. Notice that the distribution of \acs{epv} and $d$ estimates are the least coherent of the three populations. Also notice the large gingko-leaf shaped region in the north with essentially perfect convergence. This anomalous result is a mathematical artifact explained in Section~\ref{sec:convergence}.}%
     \label{fig:results-c}
+\end{figure}
+
+Of all the centers which converge for \emph{any} of the three populations, only two converge on a consistent \acs{epv} sign (inflation vs. deflation) for all three. Center 76, west of population C, converged for all three populations as an inflation center (positive \acs{epv}). Center 311, north of population B, converged for all three as a deflation center (negative \acs{epv}).
+
+\begin{figure}
+    \includegraphics[width=.7\textwidth]{results/convergent-centers.pdf}%
+    \caption[Convergent center locations]{Center candidate locations which converged for at least one population, labeled by cID. Two candidates with consistent convergence estimates for all three populations highlighted in green. Gingko-leaf shaped convergence pattern from Pop. C excluded, see Section~\ref{sec:convergence}.}
 \end{figure}
 
 % \begin{figure}

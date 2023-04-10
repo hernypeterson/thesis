@@ -184,6 +184,98 @@ def is_tiltable(tilt, dist_m):
 
     return True
 
+## PRELIMINARY TESTS
+
+def tilt_check(az1: float, az2: float, sl2: float, resolution: float = 3, size: float = 5, legend_position: tuple = (0.5, 0.5)):  # type: ignore
+
+    test_bearing = np.arange(360 * resolution) / resolution
+
+    plot_radius = 0.1
+    test_rim = 0.9 * plot_radius * np.ones(len(test_bearing))
+
+    test_az1 = az1
+    test_az2 = az2
+    test_sl2 = sl2
+
+    test_tilt = []
+
+    for bearing in test_bearing:
+        this_beta1 = signed_angular_difference(ang2_deg=test_az1, ang1_deg=bearing)
+        this_beta2 = signed_angular_difference(ang2_deg=test_az2, ang1_deg=bearing)
+        this_tilt = minimum_tilt(beta1_deg=this_beta1,
+                         beta2_deg=this_beta2, slope_deg=test_sl2,)
+        if is_tiltable(tilt=this_tilt, dist_m=10_000):
+            test_tilt.append(this_tilt)
+        else:
+            test_tilt.append(np.nan)
+
+    nptest_tilt = np.array(test_tilt)
+
+    f, ax = plt.subplots(
+        subplot_kw={'projection': 'polar'}, figsize=(size, size), dpi=400)
+
+    ax.set_theta_direction(-1)  # type: ignore
+    ax.set_theta_offset(np.pi/2.0)  # type: ignore
+
+    # radial limit
+    plt.ylim(0, plot_radius)
+
+    # plot az1 uncertainty range
+    ax.vlines(x=np.radians((test_az1+AZ1_UNCERTAINTY, test_az1-AZ1_UNCERTAINTY)),
+              ymin=0, ymax=plot_radius, label=f"$\\theta_1 \pm$" + f"{AZ1_UNCERTAINTY}", color='red')
+    
+    # plot measured az1
+    ax.vlines(x=np.radians(test_az1), ymin=0, ymax=plot_radius,
+              colors=['black'], label=f"$\\theta_1=$" + f"{az1}")
+
+    # plot modern topographic attitude
+    sns.scatterplot(x=[np.radians(test_az2)], y=[np.sin(np.radians(test_sl2))],
+                    label='$\\theta_2=$' + f'{az2}, \n' + '$\\varphi_2=$' + f'{sl2}', color='black', s=100)
+
+    # nice radial ticks
+    ax.set_yticks(np.linspace(0, plot_radius, 3)[1:])
+
+    # plot calculated tilt by color around the rim. bearing + 180 to show direction TOWARD the center
+    for i in np.linspace(.85,1,15):
+        if i == .85:
+            sns.scatterplot(
+                x = np.radians(test_bearing + 180),
+                y = test_rim,
+                hue = nptest_tilt,
+                linewidth = 0,
+                palette='RdYlGn',
+                size=1,
+                # legend=False
+            )
+        else:
+            sns.scatterplot(
+                x=np.radians(test_bearing + 180),
+                y= i * test_rim,
+                hue=nptest_tilt,
+                linewidth=0,
+                palette='RdYlGn',
+                size=1,
+                legend=False # type: ignore
+            )
+
+    # plt.title("Tilt required to explain a discordant sample \n by direction toward the center. All angles in degrees.")
+    # plt.legend(, loc='upper left')
+    handles, labels = ax.get_legend_handles_labels()
+
+    # this is a hack to remove the "1" that appears randomly in the legend in the for loop implementation of thick rim
+    handles = handles[:-1]
+    labels = labels[:-1]
+
+    ax.legend(
+        handles[::-1],
+        labels[::-1],
+        loc='center',
+        framealpha=1,
+        bbox_to_anchor=legend_position
+    )
+
+    ax.set_axisbelow(True)
+
 
 # CLASSES ______________
 
@@ -362,3 +454,164 @@ class Criterion:
 def evaluate_center(center: Center, crit: Criterion):
     pop_subset = center.data.loc[crit.pop.sIDs]
     return crit.func(pop_subset)
+
+
+# MODEL - RELATED CLASSES -------
+
+@dataclass
+class Node:
+    pos1: tuple
+    disp: tuple
+
+    def __post_init__(self):
+        self.pos2 = self.pos1 + self.disp
+
+
+@dataclass
+class Edge:
+    proximal: Node  # (A in text)
+    distal: Node  # (B in text)
+
+    def __post_init__(self):
+        # relative dimensions [r, z] of initial and displaced segments
+        self.shape1 = self.distal.pos1 - self.proximal.pos1  # type: ignore
+        self.shape2 = self.distal.pos2 - self.proximal.pos2  # type: ignore
+
+        # mean position of initial and displaced segments
+        self.pos1 = (self.distal.pos1 + self.proximal.pos1) / 2 # type: ignore
+        self.pos2 = (self.distal.pos2 + self.proximal.pos2) / 2 # type: ignore
+        self.disp = (self.distal.disp + self.proximal.disp) / 2 # type: ignore
+
+        self.disp_r = self.disp[0]
+        self.disp_z = self.disp[1]
+
+        # radial distances for plotting
+        self.dist = self.pos2[0]  # type: ignore
+        self.dist_km = self.dist / 1000
+
+        # initial and displaced slopes (positive downward from center)
+        # index [1] is z component; [0] is r component
+        self.slope1 = deg(arctan2(-self.shape1[1], self.shape1[0]))
+        self.slope2 = deg(arctan2(-self.shape2[1], self.shape2[0]))
+
+        self.tilt = self.slope2 - self.slope1
+
+
+model_path = "../GEOL192-Model/data/"
+
+
+def set_model_path(path: str):
+    model_path = str
+
+
+# paleo-edifice spline data
+topo = np.genfromtxt(f'{model_path}z1.csv', delimiter=",").T
+
+
+def model_pos1_from_csv(name: str):
+    r = np.genfromtxt(model_path + "rdisp_" + name, delimiter=",")[:, 0]
+    z = np.interp(r, *topo, right=0)  # interpolate z1 into topography
+    return np.array([r, z]).T
+
+
+def model_disp_from_csv(name: str):
+    r = np.genfromtxt(f'{model_path}rdisp_{name}', delimiter=",")[:, 1]
+    z = np.genfromtxt(f'{model_path}zdisp_{name}', delimiter=",")[:, 1]
+    return np.array([r, z]).T
+
+
+def read_model_data(params: dict):
+
+    filename = f"depth_{params['depth']}_radius_{params['radius']}_aspect_{params['aspect']}_pmult_{params['pmult']}_grav_{int(params['grav'])}_topo_{int(params['topo'])}.csv"
+
+    pos1 = model_pos1_from_csv(filename)
+    disp = model_disp_from_csv(filename)
+
+    # make z1 flat for flat model
+    if not params['topo']:
+        pos1[1] = np.zeros(len(pos1[1]))
+
+    # subtract out gravitational component (from no overpressure)
+    if params['grav']:
+        filename_p0 = filename.replace(
+            f"pmult_{params['pmult']}", "pmult_0")
+        disp -= model_disp_from_csv(filename_p0)
+
+    return {'disp': disp, 'pos1': pos1}
+
+
+@dataclass
+class NumericalModel:
+    params: dict
+    pos1: np.array  # type: ignore
+    disp: np.array  # type: ignore
+
+    def __post_init__(self):
+
+        self.set_params()
+        self.build_nodes()
+        self.build_edges()
+
+    def set_params(self):
+        self.radius = self.params['radius']
+        self.half_height = self.radius * self.params['aspect']
+
+        self.over_pressure = self.params['pmult'] * \
+            self.params['depth'] * ROCK_DENSITY * MARS_GRAVITY
+
+        self.res_vol = (4 / 3) * np.pi * self.radius**2 * self.half_height
+
+        self.epv = self.over_pressure * self.res_vol
+        self.depth = self.params['depth'] + self.half_height
+
+    def build_nodes(self):
+        self.nodes = [
+            Node(self.pos1[i], self.disp[i]) for i in range(len(self.pos1))
+        ]
+
+    def build_edges(self):
+        self.consecutive_node_pairs = zip(self.nodes[:-1], self.nodes[1:])
+        self.edges = [
+            Edge(*pair) for pair in self.consecutive_node_pairs
+        ]
+
+        # put edge attributes into dict of lists
+        self.data = pd.DataFrame(
+            [vars(edge) for edge in self.edges]
+        )
+
+        # self.attributes = self.data.to_dict("list")
+
+    def plot_numerical_tilt(self):
+        sns.lineplot(data=self.data, x='dist_km', y='tilt')
+
+    def plot_numerical_displacement(self):
+        sns.lineplot(data=self.data, x='dist_km', y='disp_r', label = 'r')
+        sns.lineplot(data=self.data, x='dist_km', y='disp_z', label = 'z')
+
+
+def unpack_param_combinations(dict_of_lists):
+    keys = dict_of_lists.keys()
+    all_vals = list(itertools.product(*dict_of_lists.values()))
+    list_of_dicts = [dict(zip(keys, vals)) for vals in all_vals]
+    return list_of_dicts
+
+
+def make_numerical_model(params):
+    model = NumericalModel(
+        params=params,
+        pos1=read_model_data(params)['pos1'],
+        disp=read_model_data(params)['disp']
+    )
+    return model
+
+
+@dataclass
+class ParamSweep:
+    all_params: list[dict]
+
+    def __post_init__(self):
+
+        self.models = [
+            make_numerical_model(params) for params in self.all_params
+        ]

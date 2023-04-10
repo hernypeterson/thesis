@@ -20,15 +20,13 @@ warnings.simplefilter("error", OptimizeWarning)
 
 
 SHEAR_MODULUS = 2.4e10  # Pa
+
 ROCK_DENSITY = 2700  # kg / m^3
 MAGMA_DENSITY = 2700  # kg / m^3
 MARS_GRAVITY = 3.72  # m / s^2
 MARS_EQ_RADIUS = 3_396_200  # m
 
 AZ1_UNCERTAINTY = 7  # degrees
-
-# for plotting numerical
-PLOT_WIDTH = 200_000
 
 # scale length dimensions to prevent overflow
 LENGTH_SCALE_MULT = 1_000_000
@@ -597,7 +595,7 @@ def unpack_param_combinations(dict_of_lists):
     return list_of_dicts
 
 
-def make_numerical_model(params):
+def make_numerical_model(params: dict):
     model = NumericalModel(
         params=params,
         pos1=read_model_data(params)['pos1'],

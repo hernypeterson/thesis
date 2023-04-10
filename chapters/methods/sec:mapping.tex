@@ -84,7 +84,7 @@ To calculate the azimuth angle from a sample directly \emph{away}\footnote{This 
     \acs{bearing} = \ang{180} + \arctan\left(\frac{\sin(\acs{lonC}-\acs{lon})\cos\acs{latC}} {\cos\acs{lat} \sin\acs{latC}-\sin\acs{lat}\cos\acs{latC}\cos(\acs{lonC}-\acs{lon})}\right).\label{eq:bearing}
 \end{equation} 
 
-\subsubsection{Paleo-Slope Equation}
+\subsubsection{Paleo-Slope Equation}\label{sec:paleo-slope}
 
 \begin{figure}
 \begin{center}
@@ -100,15 +100,15 @@ While the modern topographic surface attitude is fully characterized by \acf{az2
 \end{equation*}
 where $\acs{beta1} = \acl{beta1}$ and $\acs{beta2} = \acl{beta2}$. Thus,
 \begin{equation}
-    \acs{sl1} = \arcsin\left(\frac{\sin\acs{beta2}\sin\acs{sl2}}{\sin\acs{beta1}}\right).\label{eq:sl1}
+    \acs{sl1} = \arcsin\left(\frac{\sin\acs{beta2}\sin\acs{sl2}}{\sin\acs{beta1}}\right).\label{eq:paleo-slope}
 \end{equation}
-Results from Equation~\eqref{eq:sl1} can handle a few challenges inherent to the geometry of the problem. First, for some combinations of surface characteristics and center point choice, it is impossible to tilt the once-downhill lava flow about the imposed axis and reach the observed surface attitude. In Figure~\ref{fig:tilt-from-map} a single quadrant contains both $\left(\acs{az2},\acs{sl2}\right)$ and \acs{az1}, but if these fall on opposing sides of the \acs{dist}-axis line (one on the left, one on the right) there will be no possible translation between the two. Mathematically, this problem manifests as negative \acf{sl1} calculations, which must be removed before subsequent analysis.
+Results from Equation~\eqref{eq:paleo-slope} can handle a few challenges inherent to the geometry of the problem. First, for some combinations of surface characteristics and center point choice, it is impossible to tilt the once-downhill lava flow about the imposed axis and reach the observed surface attitude. In Figure~\ref{fig:tilt-from-map} a single quadrant contains both $\left(\acs{az2},\acs{sl2}\right)$ and \acs{az1}, but if these fall on opposing sides of the \acs{dist}-axis line (one on the left, one on the right) there will be no possible translation between the two. Mathematically, this problem manifests as negative \acf{sl1} calculations, which must be removed before subsequent analysis.
 
 After removing these mathematically impossible results, another problem arises in the remaining samples when:
 \begin{equation}
      |\sin\acs{beta2}\sin\acs{sl2}| > |\sin\acs{beta1}|,\label{eq:domain-error}
 \end{equation}
-because the resulting argument in Equation~\eqref{eq:sl1} is outside the domain of the arcsin function. Physically this case occurs when the lava feature is nearly parallel to the radial direction for the modeled inflation center $(\acs{az1}\approx\acs{bearing}; \acs{beta1}\approx\ang{0})$. This case represents another mathematically impossible configuration and must be removed. In a similar vein, when $|\sin\acs{beta1}|$ is only slightly greater than $|\sin\acs{beta2}\sin\acs{sl2}|$, the calculated \acs{sl1} will be unrealistically large.\footnote{I define ``unrealistically large'' in Section~\ref{sec:inflation-center}} Physically, this issue reflects the difficulty in changing the azimuth of a flow by tilting it in the direction it is already pointing (Figure~\ref{fig:discordance-concept}).
+because the resulting argument in Equation~\eqref{eq:paleo-slope} is outside the domain of the arcsin function. Physically this case occurs when the lava feature is nearly parallel to the radial direction for the modeled inflation center $(\acs{az1}\approx\acs{bearing}; \acs{beta1}\approx\ang{0})$. This case represents another mathematically impossible configuration and must be removed. In a similar vein, when $|\sin\acs{beta1}|$ is only slightly greater than $|\sin\acs{beta2}\sin\acs{sl2}|$, the calculated \acs{sl1} will be unrealistically large.\footnote{I define ``unrealistically large'' in Section~\ref{sec:inflation-center}} Physically, this issue reflects the difficulty in changing the azimuth of a flow by tilting it in the direction it is already pointing (Figure~\ref{fig:discordance-concept}).
 
 \subsubsection{Tilt Equation}
 
@@ -132,7 +132,8 @@ However, samples taken from discordant features can now be explained by a range 
 \end{figure}
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{methods/test-tilt1.pdf}%
+    \includegraphics[width=.5\textwidth]{methods/test-tilt1.pdf}%
+    \includegraphics[width=.5\textwidth]{methods/test-tilt2.pdf}%
     \caption[Tilt equation verification]{Verification of the sequence of calculations culminating in Equation~\eqref{eq:tilt-from-map} with uncertainty corrections (Figure~\ref{fig:az1-uncertainty}) and a physical plausibility criterion (Figure~\ref{fig:envelope}). Position along the colorful rim represents the direction toward a hypothetical inflation center, which defines the tilt axis (Figure~\ref{fig:center-significance}). Colors represent tilt necessary to explain the discordant feature. Blank regions cannot explain the feature at a distance of \qty{10}{\km} (maximum tilt magnitude \ang{\sim3}). The rim is antisymmetric: positive tilt from one direction is equivalent to negative tilt from the opposite direction. Minimum tilt is necessary when the direction toward the center is perpendicular (approximately) to the \acs{az1} uncertainty boundary.}
     \label{fig:test-tilt}
 \end{figure}

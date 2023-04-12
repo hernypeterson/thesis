@@ -9,7 +9,7 @@ from numpy import degrees as deg
 from numpy import sin, cos, tan, arcsin, arccos, arctan, arctan2, mean
 
 import pandas as pd
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import itertools
 
 import warnings
@@ -182,7 +182,15 @@ def is_tiltable(tilt, dist_m):
 
     return True
 
-## PRELIMINARY TESTS
+def nan_if_untiltable(row):
+
+    if is_tiltable(row['tilt'], row['dist']):
+        return row['tilt']
+    else:
+        return np.nan
+
+# PRELIMINARY TESTS
+
 
 def tilt_check(az1: float, az2: float, sl2: float, resolution: float = 3, size: float = 5, legend_position: tuple = (0.5, 0.5)):  # type: ignore
 
@@ -198,10 +206,12 @@ def tilt_check(az1: float, az2: float, sl2: float, resolution: float = 3, size: 
     test_tilt = []
 
     for bearing in test_bearing:
-        this_beta1 = signed_angular_difference(ang2_deg=test_az1, ang1_deg=bearing)
-        this_beta2 = signed_angular_difference(ang2_deg=test_az2, ang1_deg=bearing)
+        this_beta1 = signed_angular_difference(
+            ang2_deg=test_az1, ang1_deg=bearing)
+        this_beta2 = signed_angular_difference(
+            ang2_deg=test_az2, ang1_deg=bearing)
         this_tilt = minimum_tilt(beta1_deg=this_beta1,
-                         beta2_deg=this_beta2, slope_deg=test_sl2,)
+                                 beta2_deg=this_beta2, slope_deg=test_sl2,)
         if is_tiltable(tilt=this_tilt, dist_m=10_000):
             test_tilt.append(this_tilt)
         else:
@@ -221,7 +231,7 @@ def tilt_check(az1: float, az2: float, sl2: float, resolution: float = 3, size: 
     # plot az1 uncertainty range
     ax.vlines(x=np.radians((test_az1+AZ1_UNCERTAINTY, test_az1-AZ1_UNCERTAINTY)),
               ymin=0, ymax=plot_radius, label=f"$\\theta_1 \pm$" + f"{AZ1_UNCERTAINTY}", color='red')
-    
+
     # plot measured az1
     ax.vlines(x=np.radians(test_az1), ymin=0, ymax=plot_radius,
               colors=['black'], label=f"$\\theta_1=$" + f"{az1}")
@@ -234,13 +244,13 @@ def tilt_check(az1: float, az2: float, sl2: float, resolution: float = 3, size: 
     ax.set_yticks(np.linspace(0, plot_radius, 3)[1:])
 
     # plot calculated tilt by color around the rim. bearing + 180 to show direction TOWARD the center
-    for i in np.linspace(.85,1,15):
-        if i == .85:
+    for i in np.linspace(0.9, 1.1, 20):
+        if i == 0.9:
             sns.scatterplot(
-                x = np.radians(test_bearing + 180),
-                y = test_rim,
-                hue = nptest_tilt,
-                linewidth = 0,
+                x=np.radians(test_bearing + 180),
+                y=test_rim,
+                hue=nptest_tilt,
+                linewidth=0,
                 palette='RdYlGn',
                 size=1,
                 # legend=False
@@ -248,12 +258,12 @@ def tilt_check(az1: float, az2: float, sl2: float, resolution: float = 3, size: 
         else:
             sns.scatterplot(
                 x=np.radians(test_bearing + 180),
-                y= i * test_rim,
+                y=i * test_rim,
                 hue=nptest_tilt,
                 linewidth=0,
                 palette='RdYlGn',
                 size=1,
-                legend=False # type: ignore
+                legend=False  # type: ignore
             )
 
     # plt.title("Tilt required to explain a discordant sample \n by direction toward the center. All angles in degrees.")
@@ -276,6 +286,42 @@ def tilt_check(az1: float, az2: float, sl2: float, resolution: float = 3, size: 
 
 
 # CLASSES ______________
+
+def plot_envelope(max_dist_km: float = 100_000, has_label: bool = True, color: str = 'black'):
+    dist_m = np.arange(max_dist_km)
+    max_tilt = mogi_tilt(dist_m, MAX_EPV, TEST_D)
+    min_tilt = mogi_tilt(dist_m, -MAX_EPV, TEST_D)
+    dist_km = dist_m / 1000
+
+    label = 'log$|E_{PV}\ /\ J|: $' + f'{np.round(np.log10(MAX_EPV), 1)}, ' + '$d: $' + f'{TEST_D/1000} km'
+
+    sns.lineplot(x=dist_km,y=max_tilt, c=color, label=label)
+    sns.lineplot(x=dist_km,y=min_tilt, c=color)
+
+def plot_tilt_distance_dataset(df: pd.DataFrame, color=None, name: str = ''):
+
+    sns.scatterplot(
+        x=df['dist_km'],
+        y=np.zeros(len(df)),
+        marker='|',
+        s=200,
+        color=color,
+    )
+
+    sns.scatterplot(
+        data=df,
+        x='dist_km',
+        y='tilt',
+        color=color,
+        label=name
+    )
+
+
+@dataclass
+class Population:
+    name: str
+    sIDs: list
+
 
 @dataclass
 class Center:
@@ -346,6 +392,28 @@ class Center:
             axis=1
         )
 
+    def plot_tilt(
+        self,
+        pops: list[Population],
+        exclude_untiltable: bool = True
+    ):
+
+        colors = itertools.cycle(sns.color_palette())  # type: ignore
+
+        for pop in pops:
+
+            next_color = next(colors)
+
+            spot_check = self.get_data_subset(pop.sIDs)
+            if exclude_untiltable:
+                spot_check['tilt'] = spot_check.apply(nan_if_untiltable, axis=1)
+
+            plot_tilt_distance_dataset(
+                spot_check,
+                next_color,
+                name=f"Pop. {pop.name}"
+            )
+
 
 def make_center(cID, centers, samples):
     return Center(
@@ -382,7 +450,6 @@ def fit_mogi_function(df: pd.DataFrame, full_output: bool = False):
     )
 
     return fit
-
 
 def inflation_score(df: pd.DataFrame) -> dict:
 
@@ -438,12 +505,6 @@ def inflation_score(df: pd.DataFrame) -> dict:
 
 
 @dataclass
-class Population:
-    name: str
-    sIDs: list
-
-
-@dataclass
 class Criterion:
     func: Callable
     pop: Population
@@ -476,9 +537,9 @@ class Edge:
         self.shape2 = self.distal.pos2 - self.proximal.pos2  # type: ignore
 
         # mean position of initial and displaced segments
-        self.pos1 = (self.distal.pos1 + self.proximal.pos1) / 2 # type: ignore
-        self.pos2 = (self.distal.pos2 + self.proximal.pos2) / 2 # type: ignore
-        self.disp = (self.distal.disp + self.proximal.disp) / 2 # type: ignore
+        self.pos1 = (self.distal.pos1 + self.proximal.pos1) / 2  # type: ignore
+        self.pos2 = (self.distal.pos2 + self.proximal.pos2) / 2  # type: ignore
+        self.disp = (self.distal.disp + self.proximal.disp) / 2  # type: ignore
 
         self.disp_r = self.disp[0]
         self.disp_z = self.disp[1]
@@ -541,8 +602,9 @@ def read_model_data(params: dict):
 @dataclass
 class NumericalModel:
     params: dict
-    pos1: np.array  # type: ignore
-    disp: np.array  # type: ignore
+    pos1: np.array = field(repr=False)  # type: ignore
+    disp: np.array = field(repr=False) # type: ignore
+    rmse: float = np.nan
 
     def __post_init__(self):
 
@@ -584,8 +646,8 @@ class NumericalModel:
         sns.lineplot(data=self.data, x='dist_km', y='tilt')
 
     def plot_numerical_displacement(self):
-        sns.lineplot(data=self.data, x='dist_km', y='disp_r', label = 'r')
-        sns.lineplot(data=self.data, x='dist_km', y='disp_z', label = 'z')
+        sns.lineplot(data=self.data, x='dist_km', y='disp_r', label='r')
+        sns.lineplot(data=self.data, x='dist_km', y='disp_z', label='z')
 
 
 def unpack_param_combinations(dict_of_lists):
@@ -604,6 +666,33 @@ def make_numerical_model(params: dict):
     return model
 
 
+def numerical_model_rmse(
+        model: NumericalModel,
+        map_tilt_df: pd.DataFrame
+    ) -> float:
+
+    possible_subset = map_tilt_df[map_tilt_df['tilt'].notnull()]
+
+    tilt_map = possible_subset['tilt'].tolist()
+    dist_km_map = possible_subset['dist_km'].tolist()
+
+    tilt_numerical_model = model.data['tilt'].tolist()
+    dist_km_numerical_model = model.data['dist_km'].tolist()
+
+    tilt_predicted = np.interp(
+        x=dist_km_map, # type: ignore
+        xp=dist_km_numerical_model,
+        fp=tilt_numerical_model
+    )
+
+    rmse = np.sqrt(mean_squared_error(
+        y_true=tilt_map,
+        y_pred=tilt_predicted
+    ))
+
+    return rmse # type: ignore
+
+
 @dataclass
 class ParamSweep:
     all_params: list[dict]
@@ -613,3 +702,30 @@ class ParamSweep:
         self.models = [
             make_numerical_model(params) for params in self.all_params
         ]
+
+    def sort_models_by_rmse(
+        self,
+        center: Center,
+        pops: list[Population],
+        tiltable_only: bool = True,
+    ) -> None:
+
+        sIDs = []
+        for pop in pops:
+            for sID in pop.sIDs:
+                sIDs.append(sID)
+
+        data = center.data.loc[sIDs]
+
+        if tiltable_only:
+            data['tilt'] = data.apply(nan_if_untiltable, axis=1)
+
+        data_no_nulls = data[data['tilt'].notnull()]
+
+        for model in self.models:
+            try:
+                model.rmse = numerical_model_rmse(model, data_no_nulls)
+            except:
+                pass
+
+        self.models.sort(key=lambda model: model.rmse)

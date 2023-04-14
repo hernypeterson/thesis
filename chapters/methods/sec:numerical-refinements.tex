@@ -1,0 +1,17 @@
+\subsection{Evaluating Reservoir Pressure Change Parameters}
+
+After narrowing down the set of plausible inflation center locations (map view) in Section~\ref{sec:evaluation}, I use numerical model results to refine estimates for reservoir size, depth, shape, and pressure change.
+
+\subsubsection{Analytical Model Limitations}
+
+Section~\ref{sec:evaluation} narrows down the plausible horizontal position of the reservoir center, but it can only play a limited role in identifying veolcanologically plausible configurations.
+
+Figure~\ref{fig:mogi-test-shallow-oblate} illustrates a key preliminary finding: map data which are well explained by an analytical Mogi tilt solutions are also likely to fit one or numerical results which approximate the deep, point-like reservoir assumed by \textcite{mogi_relations_1958}. Disagreement between numerical and anlytical increases with the degree of analytical assumption violations.
+
+The magmatic system below the summit of Olympus Mons is likely shallow and oblate. 
+
+\subsubsection{Numerical Model Approach}
+
+I use the same iterative optimization method (minimizing \acs{RMSE}) described in Section~\ref{sec:inflation-center}. In the absence of an explicit tilt equation parameterized by reservoir size, depth, shape, and pressure change, I perform a brute-force search through an array of numerical solutions at each iteration.
+
+For each dataset (corresponding to a center candidate of interest) this process begins with a very coarse set of numerical model parameters. I use the \hlss{Parametric Sweep} tool in COMSOL to define a list of values to test for each parameter; the software produces and exports a displacement solution for each one. After

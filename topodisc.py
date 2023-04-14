@@ -34,7 +34,7 @@ LENGTH_SCALE_MULT = 1_000_000
 # for cutoff envelope and first guess in non-linear regression
 MAX_EPV = 7e22  # J
 TEST_D = 20_000  # m
-MAX_ITERATIONS = 80
+MAX_ITERATIONS = 500
 
 # parameter conversion factor
 EPV_OVER_K = 16 * np.pi * SHEAR_MODULUS / 9
@@ -126,10 +126,10 @@ def great_circle_projection(beta_deg, slope_deg):
 
 
 def minimum_tilt(
-    beta1_deg,
-    beta2_deg,
-    slope_deg,
-    paleo_azimuth_uncertainty=AZ1_UNCERTAINTY
+    beta1_deg: float,
+    beta2_deg: float,
+    slope_deg: float,
+    paleo_azimuth_uncertainty: float
 ):
 
     # already within uncertainty -> tilt = 0
@@ -192,16 +192,21 @@ def nan_if_untiltable(row):
 # PRELIMINARY TESTS
 
 
-def tilt_check(az1: float, az2: float, sl2: float, resolution: float = 3, size: float = 5, legend_position: tuple = (0.5, 0.5)):  # type: ignore
+def tilt_check(
+        test_az1: float,
+        test_az2: float,
+        test_sl2: float,
+        paleo_azimuth_uncertainty: float = 7,
+        max_abs_tilt: float = 5,
+        plot_resolution: float = 3,
+        plot_size: float = 5,
+        plot_radius: float = 0.1,
+        legend_position: tuple = (0.5, 0.5)
+    ):  # type: ignore
 
-    test_bearing = np.arange(360 * resolution) / resolution
+    test_bearing = np.arange(360 * plot_resolution) / plot_resolution
 
-    plot_radius = 0.1
     test_rim = 0.9 * plot_radius * np.ones(len(test_bearing))
-
-    test_az1 = az1
-    test_az2 = az2
-    test_sl2 = sl2
 
     test_tilt = []
 
@@ -210,9 +215,12 @@ def tilt_check(az1: float, az2: float, sl2: float, resolution: float = 3, size: 
             ang2_deg=test_az1, ang1_deg=bearing)
         this_beta2 = signed_angular_difference(
             ang2_deg=test_az2, ang1_deg=bearing)
-        this_tilt = minimum_tilt(beta1_deg=this_beta1,
-                                 beta2_deg=this_beta2, slope_deg=test_sl2,)
-        if is_tiltable(tilt=this_tilt, dist_m=10_000):
+        this_tilt = minimum_tilt(
+            beta1_deg=this_beta1,
+            beta2_deg=this_beta2,
+            slope_deg=test_sl2, paleo_azimuth_uncertainty=paleo_azimuth_uncertainty
+        )
+        if np.abs(this_tilt) < max_abs_tilt:
             test_tilt.append(this_tilt)
         else:
             test_tilt.append(np.nan)
@@ -220,7 +228,7 @@ def tilt_check(az1: float, az2: float, sl2: float, resolution: float = 3, size: 
     nptest_tilt = np.array(test_tilt)
 
     f, ax = plt.subplots(
-        subplot_kw={'projection': 'polar'}, figsize=(size, size), dpi=400)
+        subplot_kw={'projection': 'polar'}, figsize=(plot_size, plot_size), dpi=400)
 
     ax.set_theta_direction(-1)  # type: ignore
     ax.set_theta_offset(np.pi/2.0)  # type: ignore
@@ -229,16 +237,24 @@ def tilt_check(az1: float, az2: float, sl2: float, resolution: float = 3, size: 
     plt.ylim(0, plot_radius)
 
     # plot az1 uncertainty range
-    ax.vlines(x=np.radians((test_az1+AZ1_UNCERTAINTY, test_az1-AZ1_UNCERTAINTY)),
-              ymin=0, ymax=plot_radius, label=f"$\\theta_1 \pm$" + f"{AZ1_UNCERTAINTY}", color='red')
+    ax.vlines(
+        x=np.radians((
+            test_az1 + paleo_azimuth_uncertainty,
+            test_az1 - paleo_azimuth_uncertainty
+        )),
+        ymin=0,
+        ymax=plot_radius,
+        label=f"$\\theta_1 \pm$" + f"{paleo_azimuth_uncertainty}",
+        color='red'
+    )
 
     # plot measured az1
     ax.vlines(x=np.radians(test_az1), ymin=0, ymax=plot_radius,
-              colors=['black'], label=f"$\\theta_1=$" + f"{az1}")
+              colors=['black'], label=f"$\\theta_1=$" + f"{test_az1}")
 
     # plot modern topographic attitude
     sns.scatterplot(x=[np.radians(test_az2)], y=[np.sin(np.radians(test_sl2))],
-                    label='$\\theta_2=$' + f'{az2}, \n' + '$\\varphi_2=$' + f'{sl2}', color='black', s=100)
+                    label='$\\theta_2=$' + f'{test_az2}, \n' + '$\\varphi_2=$' + f'{test_sl2}', color='black', s=100)
 
     # nice radial ticks
     ax.set_yticks(np.linspace(0, plot_radius, 3)[1:])
@@ -293,7 +309,10 @@ def plot_envelope(max_dist_km: float = 100_000, has_label: bool = True, color: s
     min_tilt = mogi_tilt(dist_m, -MAX_EPV, TEST_D)
     dist_km = dist_m / 1000
 
-    label = 'log$|E_{PV}\ /\ J|: $' + f'{np.round(np.log10(MAX_EPV), 1)}, ' + '$d: $' + f'{TEST_D/1000} km'
+    if has_label:
+        label = 'log$|E_{PV}\ /\ J|: $' + f'{np.round(np.log10(MAX_EPV), 1)}, ' + '$d: $' + f'{TEST_D/1000} km'
+    else:
+        label = None
 
     sns.lineplot(x=dist_km,y=max_tilt, c=color, label=label)
     sns.lineplot(x=dist_km,y=min_tilt, c=color)
@@ -329,6 +348,7 @@ class Center:
     lat: float
     lon: float
     data: pd.DataFrame
+    paleo_azimuth_uncertainty: float = 7
 
     def __post_init__(self) -> None:
 
@@ -380,6 +400,7 @@ class Center:
                 beta1_deg=row['beta1'],
                 beta2_deg=row['beta2'],
                 slope_deg=row['SL2'],
+                paleo_azimuth_uncertainty=self.paleo_azimuth_uncertainty
             ),
             axis=1
         )
@@ -411,16 +432,17 @@ class Center:
             plot_tilt_distance_dataset(
                 spot_check,
                 next_color,
-                name=f"Pop. {pop.name}"
+                name=f"Pop: {pop.name}"
             )
 
 
-def make_center(cID, centers, samples):
+def make_center(cID, centers, samples, paleo_azimuth_uncertainty):
     return Center(
         cID=cID,
         lat=centers.loc[cID, 'LAT'],
         lon=centers.loc[cID, 'LON'],
-        data=samples.copy())
+        data=samples.copy(),
+        paleo_azimuth_uncertainty=paleo_azimuth_uncertainty)
 
 
 def summit_score(df: pd.DataFrame) -> dict:
@@ -451,17 +473,23 @@ def fit_mogi_function(df: pd.DataFrame, full_output: bool = False):
 
     return fit
 
+def frac_tiltable(df: pd.DataFrame) -> dict:
+    score = {'frac_tiltable': np.nan}
+    try:
+        num_samples = len(df)
+        num_tiltable = len(df[df['tilt'].notnull()])
+        score['frac_tiltable'] = num_tiltable / num_samples
+    except:
+        pass
+    return score
+
 def inflation_score(df: pd.DataFrame) -> dict:
 
-    # get size of population before taking tiltable subset
-    pop_size = len(df)
-
-    df_subset = df.loc[df['is_tiltable']]
+    # df_subset = df.loc[df['is_tiltable']]
+    df_subset = df.loc[df['tilt'].notnull()] # no envelope version
 
     # initialize output
     scores = {
-        # doesn't depend on fit results
-        'frac_tiltable': len(df_subset) / pop_size,
         'log10_epv': np.nan,
         'epv_is_positive': np.nan,
         'depth': np.nan,
@@ -724,7 +752,7 @@ class ParamSweep:
 
         for model in self.models:
             try:
-                model.rmse = numerical_model_rmse(model, data_no_nulls)
+                model.rmse = numerical_model_rmse(model, data_no_nulls) # type: ignore
             except:
                 pass
 

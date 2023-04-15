@@ -132,10 +132,24 @@ However, samples taken from discordant features can now be explained by a range 
 \end{figure}
 
 \begin{figure}
-    \includegraphics[width=.5\textwidth]{methods/test-tilt1.pdf}%
-    \includegraphics[width=.5\textwidth]{methods/test-tilt2.pdf}%
-    \caption[Tilt equation verification]{Verification of the sequence of calculations culminating in Equation~\eqref{eq:tilt-from-map} with uncertainty corrections (Figure~\ref{fig:az1-uncertainty}) and a physical plausibility criterion (Figure~\ref{fig:envelope}). Position along the colorful rim represents the direction toward a hypothetical inflation center, which defines the tilt axis (Figure~\ref{fig:center-significance}). Colors represent tilt necessary to explain the discordant feature. Blank regions cannot explain the feature at a distance of \qty{10}{\km} (maximum tilt magnitude \ang{\sim3}). The rim is antisymmetric: positive tilt from one direction is equivalent to negative tilt from the opposite direction. Minimum tilt is necessary when the direction toward the center is perpendicular (approximately) to the \acs{az1} uncertainty boundary.}
-    \label{fig:test-tilt}
+    \vspace{-19pt}
+    \includegraphics[width=.5\textwidth]{methods/tilt-check-blank.pdf}%
+    \includegraphics[width=.5\textwidth]{methods/tilt-check-example.pdf}\\
+    \includegraphics[width=.5\textwidth]{methods/tilt-check-example-rim.pdf}%
+    \includegraphics[width=.5\textwidth]{methods/tilt-check-rim.pdf}%
+    \caption[Tilt calculation example]{Worked example of tilt calculation (Equation~\eqref{eq:tilt-from-map}; Figure~\ref{fig:az1-uncertainty}). \textbf{Top Left:} A discordant feature in an upper hemisphere orthographic projection. Unit circle shown up to radius $0.2$. \textbf{Top Right:} A candidate inflation center to the SSW (North is \ang{0}) implies \ang{+3.2} degrees of tilt about the dashed tilt axis to sweep a paleo-attitude ($\times$) across the blue tilt-path (projected small circle) to reach the modern attitude. Note the blue tilt path is perpendicular to the tilt axis and parallel to the center direction, as in Figure~\ref{fig:tilt-from-map}. \textbf{Bottom Left:} Repeating this calculation, for all ``directions to center.'' Note, e.g., \ang{3.2} matches the light green at the example center direction (solid grey line). Tilts exceeding \ang{10} excluded here (not in analysis) to highlight variation in lower tilt regions; compare with Figure~\ref{fig:tilt-behavior}. \textbf{Bottom Right:} Example removed for clarity.}
+    \label{fig:tilt-example}
 \end{figure}
 
-The final product of this section is a transformation from mapped attitude data (Figure~\ref{fig:attitude-data}) at a particular location $(\acs{lat}, \acs{lon})$ to a tilt-distance data point corresponding to a single inflation center candidate $(\acs{latC}, \acs{lonC})$. While the distance calculation involves a single equation, the tilt calculation involves a sequence of manipulations with several opportunities to introduce error. Figure~\ref{fig:test-tilt} verifies that the final result of this sequence is correct for a test sample point relative to all possible center candidate locations. With this confirmation in place, I repeating the tilt and distance calculations for each sample (within a discordant population of interest) to produce a full tilt-distance dataset corresponding to a single center candidate. Finally, repeating this dataset construction for each center allows the full array of candidates to be evaluated and compared.
+% new figs here
+\begin{figure}
+    \vspace{-19pt}
+    \includegraphics[width=.5\textwidth]{methods/tilt-behavior-high-max.pdf}%
+    \includegraphics[width=.5\textwidth]{methods/tilt-behavior-non-discordant.pdf}\\
+    \includegraphics[width=.5\textwidth]{methods/tilt-behavior-opposite.pdf}%
+    \includegraphics[width=.5\textwidth]{methods/tilt-behavior-opposite-high-uncertainty.pdf}%
+    \caption[Tilt calculation behavior]{Tilt calculation behavior under a variety of circumstances. \textbf{Top Left:} Full range of center directions for the example geometry in Figure~\ref{fig:tilt-example}. Note that a) necessary tilt increases rapidly as center direction approaches the feature orientation (in Figure~\ref{fig:tilt-from-map}, as $\acs{beta1}\to\ang{0}$ or $\acs{beta1}\to\pm\ang{180}$) and b) some orientations are impossible, as discussed in Section~\ref{sec:paleo-slope}. \textbf{Top Right:} Non-discordant features ($\acs{disc} < \ang{7}$) cannot imply non-zero tilt in any orientation. \textbf{Bottom Left:} The most discordant features ($\acs{disc}\approx\pm\ang{180}$; flows point directly uphill) imply a narrow range of tilt orientations. \textbf{Bottom Right:} Possible tilt configurations for highly discordant features are strongly influenced by the choice of \acs{az1}-uncertainty (compare with bottom left).}
+    \label{fig:tilt-behavior}
+\end{figure}
+
+The final product of this section is a transformation from mapped attitude data (Figure~\ref{fig:attitude-data}) at a particular location $(\acs{lat}, \acs{lon})$ to a tilt-distance data point corresponding to a single inflation center candidate $(\acs{latC}, \acs{lonC})$. While the distance calculation involves a single equation, the tilt calculation involves a sequence of manipulations with several opportunities to introduce error. Figure~\ref{fig:tilt-example} verifies that the final result of this sequence is correct for a test sample point relative to all possible center candidate locations. With this confirmation in place, I repeating the tilt and distance calculations for each sample (within a discordant population of interest) to produce a full tilt-distance dataset corresponding to a single center candidate. Finally, repeating this dataset construction for each center allows the full array of candidates to be evaluated and compared.

@@ -1,6 +1,12 @@
-\section{Evaluating Center Candidates}\label{sec:evaluation}
+\section{Assessing Reservoir Conditions}\label{sec:evaluation}
 
-I illustrate the flow of this iterative approach abstractly in Figure~\ref{fig:eval-model} and present the Python implementation in Appendix~\ref{app:code}. In the following sections, I describe the specific criteria used to evaluate different aspects of the summit's geometry and history.
+In this section I evaluate map-derived tilt-distance datasets generated in Section~\ref{sec:mapping} by comparison with model tilt-distance solutions from Section~\ref{sec:modeling}. The ultimate goal is to estimate an array of magma reservoir parameters---center position (map view), depth, radius (map view), aspect ratio, and pressure change---most consistent with the discordant flows at the surface. 
+
+Among these five parameters of interest, reservoir center position must be assessed first because it alone dictates the tilt-distance dataset implied by a discordant set of features. This derived tilt-distance dataset can then be compared with an array of tilt-distance solutions derived from numerical models incorporating the other four parameters.
+
+\subsection{Center Position}
+
+Figure~\ref{fig:candidates} illustrates the array of candidates to be assessed as possible reservoir center locations. Section~\ref{sec:mapping} introduces the construction of a single tilt-distance data point from one discordant sample point relative to one center location. Repeating this calculation for all sample points relative to one center yields a full tilt-distance dataset corresponding to that center.\footnote{Figure~\ref{fig:tilt-example} illustrates instead repeating this calculation for a single sample point relative to all possible centers.} By repeating this construction, each center candidate can finally be evaluated on the basis of its associated tilt-distance dataset. In general, this means each dataset is reduced to a small set of numerical scores. This approach is outlined in Figure~\ref{fig:eval-model} and implemented in Appendix~\ref{app:code}.
 
 \begin{figure}
     \input{figures/methods/eval-model.tex}%
@@ -8,29 +14,28 @@ I illustrate the flow of this iterative approach abstractly in Figure~\ref{fig:e
     \label{fig:eval-model}
 \end{figure}
 
-Discordant features at the summit of Olympus Mons have a particular spatial distribution which is independent of any surface deformation or subsurface pressure change history constructed to explain them. However, even the most basic questions involved in constructing such an interpretation require extensive transformations to the dataset. For example, each possible inflation center location ``sees'' discordant features only in terms of distance-tilt pairs.
-
-The previous sections describe a method for expressing discordant features in terms of tilt-distance datasets which are specific to each center candidate, under the axisymmetric pressure change condition which imposes a particular horizontal tilt axis, etc. To make progress with these datasets, it is necessary to determine which ones are most consistent with volcanologically plausible processes.
-
-This evaluation process is broken into two steps, each of which is broken into two broad questions asked of each dataset:
+Two broad questions inform the numerical scores assigned to each center based on its associated tilt-distance dataset:
 \begin{enumerate}
     \item How well does the dataset capture the mapped discordant features?
     \item How well does the dataset capture a plausible modeled reservoir change event?
 \end{enumerate}
-Each of these questions is divided into more specific components in its respective section.
+Naturally, the best centers are the ones whose datasets can explain both the discordant features and a plausible reservoir change event. The following sections provide specific answers to these two questions. 
 
-\subsection{Does it capture Mapped Discordance?}
+\subsubsection{Valid Fraction (Tiltable \& Offset)}\label{sec:valid-fraction}
+
+Consider a single discordant sample, e.g., the one illustrated in Figure~\ref{fig:tilt-example}. For some inflation centers, it is impossible to tilt any paleo-attitude to reach the modern attitude about the imposed tilt axis. The directions to these impossible centers are illustrated as the blank gaps in the colorful rims of Figures~\ref{fig:tilt-example} and~\ref{fig:tilt-behavior} and described quantitatively in Section~\ref{sec:paleo-slope} (esp. Equation~\ref{eq:paleo-slope}).
 
 In the tilt-distance dataset corresponding to each center, discordant sample points are first expressed in terms of distance from the center. This calculation, shown in Equation~\eqref{eq:dist}, works for any pair of points given their coordinates. Next, Section~\ref{sec:tilt-from-map} discusses the series of calculations involved in expressing the tilt necessary to explain each discordant feature via rotation about the tilt axis imposed by the relationship between sample location and center locations. One important result from this discussion is that not every configuration can yield a tilt estimate at all. So the first important characteristic of a tilt-distance dataset is: what fraction of the samples can be explained by the corresponding center. I call this the ``tiltable'' fraction.
 
-Another consideration is: can I be confident that a particular calculation is accurate? One way to see this visually is in Figure [NEW FIG].
+Put another way, one degree of azimuth change (discordance) takes much more tilt as the tilt axis approaches perpendicular to the flow orientation. Since discordant measurements are uncertain (flows do not perfectly record paleo-azimuth) uncertainty in calculated tilt dramatically increases as \acs{beta1} approaches \ang{0} or \ang{\pm180}.
 
-\subsection{Inflation Center}\label{sec:inflation-center}
+For example, one could state that ``relative to center \#300, sample \#100 is tiltable but not offset.'' This statement means a quantitative tilt estimate for this sample can be derived (tiltable), but this estimate is likely inaccurate because the center is roughly colinear (not offset) with the flow itself. 
 
+\subsubsection{Goodness of Analytical Fit}\label{sec:inflation-center}
 
-Instead, I need to consider a larger population of tilt-distance data points together. This increases the likelihood of recognizing a tilt pattern consistent with reservoir pressure change, i.e., a shape similar to those shown in Figures~\ref{fig:grav-topo-test},~\ref{fig:mogi-test}, and~\ref{fig:mogi-test-shallow-oblate}. % However, this alone does not address the second issue, that erroneously calculated tilt values will often be present alongside any true tilt patterns consistent with axisymmetric tilt from the inflation center in question. Of course, identifying these erroneous calculations as such would require independent knowledge of the axis and degree of tilt responsible, which is exactly what I am trying to determine.
+Instead, I need to consider a larger population of tilt-distance data points together. This increases the likelihood of recognizing a tilt pattern consistent with reservoir pressure change, i.e., a shape similar to those shown in Figures~\ref{fig:grav-topo-test},~\ref{fig:mogi-test}, and~\ref{fig:mogi-test-shallow-oblate}.
 
-Finally, I perform a non-linear least-squares regression using the \hltt{curve\_fit} function from the \hltt{scipy.optimize} Python module \parencite{2020SciPy-NMeth} to fit Equation~\eqref{eq:mogi-tilt} (the analytical tilt solution) to the tilt-distance dataset. Just as a linear regression computes the best-fitting slope and intercept, this process computes the best-fitting depth and energy parameters. In both cases, the best fit minimizes the mean square error:
+Finally, I perform a least-squares regression\footnote{Implemented using the \hltt{curve\_fit} function from the \hltt{scipy.optimize} Python module \parencite{2020SciPy-NMeth}} to fit an analytical tilt solution (Equation~\ref{eq:mogi-tilt}) to the valid sample subset (tiltable \& offset). Just as a linear regression computes the best-fitting slope and intercept, this process computes the best-fitting depth and energy parameters. In both cases, the best fit minimizes the mean square error:
 \begin{equation}
     \frac{1}{n}\sum_{i}^{n}{\left[\acs{tilt}_i-\hat{\acs{tilt}}_i\right]}^2\label{eq:mse}
 \end{equation}
@@ -48,19 +53,15 @@ I use these fitted values and crucially, their associated error terms, to determ
 
 This sequence of calculations is much more computationally expensive than the previous one, and a single realistic reservoir pressure change is unlikely to explain the entire dataset anyway. Therefore, I select smaller sample populations for this criterion, paying particular attention to the highly discordant flows near the southern summit region shown in Figure~\ref{fig:uphill-flows}.
 
-\subsection{Evaluating Reservoir Pressure Change Parameters}
+\subsection{Depth, Radius, Aspect Ratio, \& Pressure Change}
 
 After narrowing down the set of plausible inflation center locations (map view) in Section~\ref{sec:evaluation}, I use numerical model results to refine estimates for reservoir size, depth, shape, and pressure change.
-
-\subsubsection{Analytical Model Limitations}
 
 Section~\ref{sec:evaluation} narrows down the plausible horizontal position of the reservoir center, but it can only play a limited role in identifying volcanologically plausible configurations.
 
 Figure~\ref{fig:mogi-test-shallow-oblate} illustrates a key preliminary finding: map data which are well explained by an analytical Mogi tilt solutions are also likely to fit one or numerical results which approximate the deep, point-like reservoir assumed by \textcite{mogi_relations_1958}. Disagreement between numerical and analytical increases with the degree of analytical assumption violations.
 
 The magmatic system below the summit of Olympus Mons is likely shallow and oblate. 
-
-\subsubsection{Numerical Model Approach}
 
 I use the same iterative optimization method (minimizing \acs{RMSE}) described in Section~\ref{sec:inflation-center}. In the absence of an explicit tilt equation parameterized by reservoir size, depth, shape, and pressure change, I perform a brute-force search through an array of numerical solutions at each iteration.
 

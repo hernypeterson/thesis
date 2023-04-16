@@ -4,12 +4,6 @@
 
 \subsection{Tiltable Fraction}\label{sec:tiltable-fraction}
 
-% Butterfly pattern. As shown in Figure~\ref{fig:test-tilt}, the magnitude of tilt necessary to explain a discordant feature is minimized when the direction toward the inflation center is perpendicular to the paleo-azimuth direction. Since the physical plausibility envelope is a maximum cutoff threshold, it makes sense that the center candidates in the orientation that minimizes tilt result in the highest tiltable fraction. However, the distribution tiltable fraction for each population does not depend only on azimuth direction between population features and center location; there is clearly a distance-dependent component as well. Notice for each feature that the greenest regions tend to be roughly \qtyrange{10}{20}{\km} from the population center. This corresponds to the distance where the tilt envelope (Figure~\ref{fig:envelope}) has its maximum value of \ang{\sim3}. However, a number of additional factors influence the distribution for each population. As the center candidate location approaches the population midpoint, its orientation relative to the samples at extremes of each population approaches parallel to the paleo-azimuth direction, making the center less likely to explain those features. None of these considerations depend on the particular distribution of discordant samples, they are inherent to the method itself.
-
-% Of course, the actual spatial distribution of discordance within the sample has the final word in the distribution of tiltable fraction score. For example, notice in Figures~\ref{fig:results-a} and \ref{fig:results-b} that the two regions of maximum tiltable fraction are rotated clockwise relative to their expected position along the perpendicular bisector of their respective populations.
-
-% conceptual figure?
-
 \subsection{Analytical Convergence}\label{sec:convergence}
 
 \subsubsection{\acs{RMSE}}\label{sec:rmse}
@@ -18,17 +12,11 @@
 
 \section{Limitations}
 
-The process I develop in this thesis involves a long sequence of calculations, the intermediate products of which can be difficult to interpret and physically verify. Additionally, I introduce computational and organization expense by iterating the sequence of calculations over an array of axisymmetric center candidate points. I contend that this complexity is a fair price for the flexibility it affords in the analysis. After all, the summit of Olympus Mons is \emph{not} axisymmetric at the surface or (presumably) in its interior, and if such a simplification is to be applied I should be confident that the choice of vertical axis position is appropriate to the question at hand.
+The empirical basis of this thesis relies on inferring paths through attitude space.
 
 % Beyond this point, however, several concrete choices are necessary to make forward progress in the analysis; exhaustively analyzing the effect of tweaking each numerical value is unrealistic. For example, I choose a paleo-azimuth uncertainty term of \ang{7} (Figure~\ref{fig:az1-uncertainty}) not by any measurement or calculation but simply because a choice needs to be made: the analysis had failed to produce any interpretable results without an uncertainty term here due to the sensitivity of Equation~\eqref{eq:paleo-slope}. The maximum tilt envelope (Figure~\ref{fig:envelope}) is borne similarly out of necessity. Without it, the vast majority of computed tilts vary widely across the unrealistic range of roughly \ang{-90} to \ang{90}. I explain why this wide variation is to be expected (it does not represent a mathematical error) but it does require precisely defining a single plausibility criterion which could just as easily be defined slightly differently. Finally, varying the initial guess and maximum number of iterations in the non-linear regression analysis can affect the results, including whether the solution converges at all for particularly messy tilt data. These concrete decisions, together with the unpredictable (at the spatial resolution of the center candidate array) results presented in Chapter~\ref{cha:results}, suggests that the method I present is more spatially sensitive than I anticipated. In my view, the results are broadly plausible enough with my expectations to rule out the possibility of a major mathematical error, but not yet refined enough to proceed with fitting actual numerical model results based on specific reservoir geometries and inflation energies.
 
-Additionally, it will be necessary to probe every component of the setup carefully, since even small errors introduced by faulty assumptions that in another analysis would be negligible here prove to be important. For example, I suspect that the \hlss{Calculate Geometry Attributes} tool in ArcGIS Pro may be introducing noticeable error in my \acl{az1} measurement. As I discuss in the setup for the \acs{bearing} calculation (Equation~\eqref{eq:bearing}), bearing azimuth is not constant along a linear feature. Nonetheless, I assign a single value of \acs{az1} to each point sampled from a feature, which could introduce small but significant systematic error, especially for longer lava features.
-
-In my view, the logical next step for this inquiry to address these concerns is to focus on a smaller region with much higher spatial resolution in the center candidate array. It will be clear when sufficient spatial resolution is achieved because the inflation center evaluation should approach spatial continuity the way the paleo-summit estimate (Figure~\ref{fig:summit-score}) already has.
-
 \section{Future Directions}
-
-Once this method is refined to produce more convincing analytical and numerical fits, it will be possible to derive a number of results for comparison with additional methods.
 
 \subsection{Crater Counting}
 Important progress has been made toward constraining the timeline of Late Amazonian volcanic activity using crater counting \parencite{kneissl_map-projection-independent_2011,robbins_volcanic_2011,

@@ -222,6 +222,7 @@ def tilt_check(
     legend_position: tuple = (0.5, 0.5),
     full_tilt: bool = True,
     example_bearing=None,
+    radial_ticks: bool = True
 ):  # type: ignore
 
     is_discordant = angular_difference(
@@ -289,7 +290,10 @@ def tilt_check(
         zorder=4)
 
     # nice radial ticks
-    ax.set_yticks(np.linspace(0, plot_radius, 3)[1:])
+    if radial_ticks:
+        ax.set_yticks(np.linspace(0, plot_radius, 3)[1:])
+    else:
+        ax.set_yticks([])
 
     if is_discordant:
         palette = 'RdYlGn'
@@ -377,23 +381,24 @@ def tilt_check(
             example_paleo_slope, test_sl2
         ]))
 
-        sns.lineplot(
-            x=tilt_path_az,
-            y=tilt_path_sl,
-            label=f'Tilt: {round(example_tilt, 1)}'
-        )
+        if not np.isnan(example_tilt):
+            sns.lineplot(
+                x=tilt_path_az,
+                y=tilt_path_sl,
+                label=f'Tilt: {round(example_tilt, 1)}'
+            )
 
-        sns.scatterplot(
-            x=[np.radians(example_az1_boundary)],
-            y=[np.sin(np.radians(example_paleo_slope))],
-            label='$\\theta_1=$'
-            + f'{test_az1}, \n'
-            + '$\\varphi_1=$'
-            + f'{round(example_paleo_slope, 1)}',
-            color='black',
-            s=100,
-            marker='X',
-            zorder=5)
+            sns.scatterplot(
+                x=[np.radians(example_az1_boundary)],
+                y=[np.sin(np.radians(example_paleo_slope))],
+                label='$\\theta_1=$'
+                + f'{test_az1}, \n'
+                + '$\\varphi_1=$'
+                + f'{round(example_paleo_slope, 1)}',
+                color='black',
+                s=100,
+                marker='X',
+                zorder=5)
 
     handles, labels = ax.get_legend_handles_labels()
 

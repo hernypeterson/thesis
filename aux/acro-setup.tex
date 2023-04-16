@@ -20,41 +20,41 @@
 \input{aux/abbrev.tex}
 \input{aux/symbol.tex}
 
-\RenewAcroTemplate [list] {tabularray}
-  {
-    \AcroNeedPackage {tabularray}
-    \acronymsmapF
-      {
-        \AcroAddRow
-          {
-            \acrowrite {short}
-            & 
-            \acroifT{code}{\hltt{\acrowrite{code}}}
-            &
-            \acrowrite {list}
-            \acroifanyT {foreign,extra} {~(}
-            \acrowrite {foreign}
-            \acroifallT {foreign,extra} {,~}
-            \acrowrite {extra}
-            \acroifanyT {foreign,extra} {)}
-            \acropagefill
-            \acropages
-              { \acrotranslate {page} \nobreakspace }
-              { \acrotranslate {pages} \nobreakspace }
-            \strut \\
-          }
-      }
-      { \AcroRerun }
-    \acroheading
-    \acropreamble
-    \par \noindent
-    \begin{actblr}{
-        column{1} = {leftsep=-2pt},
-        column{3} = {rightsep=-2pt},
-        width=\textwidth,
-        colspec = {llX[l]},
-        column{1} = { font = \bfseries }
-        }
-      \AcronymTable
-    \end{actblr}
-  }
+% \RenewAcroTemplate [list] {tabularray}
+%   {
+%     \AcroNeedPackage {tabularray}
+%     \acronymsmapF
+%       {
+%         \AcroAddRow
+%           {
+%             \acrowrite {short}
+%             & 
+%             \acroifT{code}{\hltt{\acrowrite{code}}}
+%             &
+%             \acrowrite {list}
+%             \acroifanyT {foreign,extra} {~(}
+%             \acrowrite {foreign}
+%             \acroifallT {foreign,extra} {,~}
+%             \acrowrite {extra}
+%             \acroifanyT {foreign,extra} {)}
+%             \acropagefill
+%             \acropages
+%               { \acrotranslate {page} \nobreakspace }
+%               { \acrotranslate {pages} \nobreakspace }
+%             \strut \\
+%           }
+%       }
+%       { \AcroRerun }
+%     \acroheading
+%     \acropreamble
+%     \par \noindent
+%     \begin{actblr}{
+%         column{1} = {leftsep=-2pt},
+%         column{3} = {rightsep=-2pt},
+%         width=\textwidth,
+%         colspec = {llX[l]},
+%         column{1} = { font = \bfseries }
+%         }
+%       \AcronymTable
+%     \end{actblr}
+%   }

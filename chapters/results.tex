@@ -1,10 +1,8 @@
 \chapter{Results}\label{cha:results}
 
-In this section, I summarize results from lava feature mapping, discordance measurements, and center candidate evaluation. 
-
 \section{Mapping Coverage}
 
-Figure~\ref{fig:features} depicts all polygonal flows and linear channels I identify; Figure~\ref{fig:results-coverage} shows the samples derived from these features symbolized by discordance.
+Figure~\ref{fig:features} depicts all polygonal flows and linear channels I identify; Figure~\ref{fig:samples} shows the samples derived from these features symbolized by discordance.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{results/features.pdf}%
@@ -15,27 +13,12 @@ Figure~\ref{fig:features} depicts all polygonal flows and linear channels I iden
 \begin{figure}
     \includegraphics[width=\textwidth]{results/samples.pdf}%
     \caption[Mapped topographic discordance]{Samples symbolized by topographic discordance.}%
-    \label{fig:results-coverage}
+    \label{fig:samples}
 \end{figure}
 
-\section{Paleo-Summit Evaluation}
-
-Figure~\ref{fig:summit-score} shows the regions resulting in the lowest average value of \acs{beta1} (degree to which a feature azimuth is offset from the azimuth away from the center: no topography/attitude data is considered in this calculation) for the sampled features, broken down by feature type.
-
-\begin{figure}
-    \includegraphics[width=\textwidth]{results/summit-score.pdf}%
-    \caption[Paleo-summit evaluation]{Average sample value of \acs{beta1} for each candidate point. Since these values vary smoothly over the candidates, I show the central regions of contour spline plots to identify the best scoring regions. These results differ depending on whether only flowpaths, only channels, or all features are considered.}%
-    \label{fig:summit-score}
-\end{figure}
-
-\newpage
 \section{Inflation Center Evaluation}
 
-Figure~\ref{fig:populations} shows three sample populations selected within a highly discordant region for inflation center evaluation. % Figure~\ref{fig:num-tiltable} shows the number of samples from within each population whose computed tilt values fall within the tilt envelope for each center (Figure~\ref{fig:envelope}); this represents the size of the dataset on which the non-linear regression and parameter estimate takes place. Figure~\ref{fig:hugging} illustrates the degree to which those fitted depth and energy parameters match those used to define the maximum tilt envelope, thus serving as a test for undue influence on the analysis by using that envelope.
-
-% Next, I present regression estimates and errors for each parameter. Starting with Population A, I display parameter error to assess the \emph{mathematical goodness of fit} for each regression result in Figure~\ref{fig:math-fit-a}. Then, bearing in mind the error introduced by potentially violating \textcite{mogi_relations_1958} assumptions (Figure~\ref{fig:mogi-test-shallow-oblate}), I illustrate the parameter estimates in Figure~\ref{fig:phys-fit-a} to assess to first order the \emph{physical plausibility} of each result. Finally, I show the actual tilt scatter plots and associated best fit functions in Figure~\ref{fig:scatter-fit-a}. I show the same map results for Population C in Figures~\ref{fig:math-fit-c} and~\ref{fig:phys-fit-c}, respectively.
-
-% Note that the regression converges (very poorly) for only a single inflation center candidate with respect to Population B. This center ($\text{cID} = 125$) returned the parameter estimates $\acs{epv}=\qty{-2.82e-21}{\J}, d=\qty{18}{\km}$ with relative error terms $54$ and $24$, respectively. This location is shown in Figure~\ref{fig:pop-b}.
+Figure~\ref{fig:populations} shows three sample populations selected within a highly discordant region for inflation center evaluation.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{results/populations.pdf}%
@@ -44,90 +27,13 @@ Figure~\ref{fig:populations} shows three sample populations selected within a hi
 \end{figure}
 
 \begin{figure}
-    \includegraphics[width=0.5\textwidth]{results/frac-tiltable-a.pdf}%
-    \includegraphics[width=0.5\textwidth]{results/rmse-a.pdf}\\
-    \includegraphics[width=0.5\textwidth]{results/depth-a.pdf}%
-    \includegraphics[width=0.5\textwidth]{results/epv-a.pdf}%
-    \caption[Pop. A]{Results for population A. Notice the coherent distribution of \acs{epv} estimates on either side of the features.}%
-    \label{fig:results-a}
+    \includegraphics[width=\textwidth]{results/tiltable-offset-abc.pdf}%
+    \caption[Centers by tiltable/offset fraction]{These are the centers which yield a quantitative tilt estimate (tiltable) which is well constrained (offset) for the highest proportion of the discordant features in the southeast summit.}%
+    \label{fig:tiltable-offset-abc}
 \end{figure}
 
 \begin{figure}
-    \includegraphics[width=0.5\textwidth]{results/frac-tiltable-b.pdf}%
-    \includegraphics[width=0.5\textwidth]{results/rmse-b.pdf}\\
-    \includegraphics[width=0.5\textwidth]{results/depth-b.pdf}%
-    \includegraphics[width=0.5\textwidth]{results/epv-b.pdf}%
-    \caption[Pop. B]{Results for population B. Notice the distribution of \acs{epv} estimates is roughly analogous to those for population A, i.e., positive immediately to the south west and negative immediately to the north east. However, here we see a consistent positive-\acs{epv} signal west of population C, outside the main cluster surrounding population B itself. This absolute position also converges for population A, albeit with shallower depth estimates consistent with a more proximal tilt signal.}%
-    \label{fig:results-b}
+    \includegraphics[width=\textwidth]{results/rmse-abc.pdf}%
+    \caption[Centers by analytical convergence]{These are the centers for which the tiltable/offset subset (Figure~\ref{fig:tiltable-offset-abc}) converge to an analytical tilt solution. Blank regions either do not converge at all or converge to a physically meaningless solution; see Figure [Next] for examples.}%
+    \label{fig:rmse-abc}
 \end{figure}
-
-\begin{figure}
-    \includegraphics[width=0.5\textwidth]{results/frac-tiltable-c.pdf}%
-    \includegraphics[width=0.5\textwidth]{results/rmse-c.pdf}\\
-    \includegraphics[width=0.5\textwidth]{results/depth-c.pdf}%
-    \includegraphics[width=0.5\textwidth]{results/epv-c.pdf}%
-    \caption[Pop. C]{Results for population C. Notice that the distribution of \acs{epv} and $d$ estimates are the least coherent of the three populations. Also notice the large gingko-leaf shaped region in the north with essentially perfect convergence. This anomalous result is a mathematical artifact explained in Section~\ref{sec:convergence}.}%
-    \label{fig:results-c}
-\end{figure}
-
-Of all the centers which converge for \emph{any} of the three populations, only two converge on a consistent \acs{epv} sign (inflation vs. deflation) for all three. Center 76, west of population C, converged for all three populations as an inflation center (positive \acs{epv}). Center 311, north of population B, converged for all three as a deflation center (negative \acs{epv}).
-
-\begin{figure}
-    \includegraphics[width=.7\textwidth]{results/convergent-centers.pdf}%
-    \caption[Convergent center locations]{Center candidate locations which converged for at least one population, labeled by cID. Two candidates with consistent convergence estimates for all three populations highlighted in green. Gingko-leaf shaped convergence pattern from Pop. C excluded, see Section~\ref{sec:convergence}.}
-\end{figure}
-
-% \begin{figure}
-%     \begin{center}
-%      \includegraphics[width=.5\textwidth]{num-tiltable-a.pdf}\\
-%      \includegraphics[width=.5\textwidth]{num-tiltable-b.pdf}%
-%      \includegraphics[width=.5\textwidth]{num-tiltable-c.pdf}
-%      \caption[Inflation center candidates by number of ``tiltable'' samples]{Center candidates symbolized by the number of samples from the given population for which the computed tilt (using Equation~\eqref{eq:tilt-from-map} with the \acs{az1} corrections illustrated in Figure~\ref{fig:az1-uncertainty}) is within the tilt envelope (Figure~\ref{fig:envelope}). \textbf{Top:} Population A; $n=13$. \textbf{Left:} Population B; $n=14$. \textbf{Right:} Population C; $n=12$. Note the change in interval for Population B.} 
-%      \label{fig:num-tiltable}
-%     \end{center}
-% \end{figure}
-
-% \begin{figure}
-%     \includegraphics[width=\textwidth]{hugging-a.pdf}
-%     \includegraphics[width=\textwidth]{hugging-c.pdf}
-%     \caption[Check for envelope ``hugging'']{Evaluating inadvertent influence from the tilt envelope (Figure~\ref{fig:envelope}) on the regression. I want to assess whether calculated parameters closely ``hug'' the values set to define that envelope. This is a kernel density estimate where the ``hugging'' issue would appear as steep clusters right at $1$ for $d$ or at $0$ ($\log1$) for \acs{epv}.} 
-%     \label{fig:hugging}
-% \end{figure}
-
-% \begin{figure}
-%     \includegraphics[width=\textwidth]{math-fit-a.pdf}%
-%     \caption[Population A: goodness of fit]{For population A, nonlinear regression using the parameterized analytical function (Equation~\eqref{eq:mogi-tilt}) converges, i.e., successfully reaches an estimate within 80 function calls, for 10 of the 781 center candidates, all within \qty{\sim20}{\km} of the samples. The four purple circles represent those estimates where the relative error (standard deviation of estimate divided by value of estimate) of both the energy \acs{epv} and depth $d$ parameters are within a factor of ten. Scaled parameter error for the light grey circles are much higher, indicating a poor fit. Center candidates are labeled by cID, for comparison with regression results in Figure~\ref{fig:scatter-fit-a}, and the fraction ``tiltable'' (proportional to the ``number tiltable'' values displayed in Figure~\ref{fig:num-tiltable})}%
-%     \label{fig:math-fit-a}
-% \end{figure}
-
-% \begin{figure}
-%     \includegraphics[width=\textwidth]{phys-fit-a.pdf}%
-%     \caption[Population A: parameter estimates]{Parameter estimates for the centers whose regression converges to explain sample population A. Colors represent the base-$10$ logarithm of the inflation energy \acs{epv} expressed in joules. Centers with black circles represent inflation (positive \acs{epv}); plain circles represent deflation (negative \acs{epv}). Estimated depths are labeled, with shallower estimates corresponding to larger circles. Nonsensical results such as negative depth reflect the capacity for a regression to converge mathematically to physically meaningless parameter estimates.}%
-%     \label{fig:phys-fit-a}
-% \end{figure}
-
-% \begin{figure}
-%     \includegraphics[width=\textwidth]{scatter-fit-a.pdf}
-%     \includegraphics[width=\textwidth]{scatter-fit-a-outlier.pdf}
-%     \caption[Population A: scatter Plots \& analytical fit]{Scatter plots of calculated tilt and best analytical fit of Equation~\eqref{eq:mogi-tilt}. Black dotted lines represent the tilt envelope from Figure~\ref{fig:envelope}. Center 197 is plotted separately to show that a good mathematical fit can be reached for physically implausible parameter estimates. Both figures also corroborate evidence in Figure~\ref{fig:hugging} that while the cutoff envelope constrains the data used for regression (as designed), the parameter estimates resulting from fitting that constrained dataset can vary widely.}%
-%     \label{fig:scatter-fit-a}
-% \end{figure}
-
-% \begin{figure}
-%     \includegraphics[width=\textwidth]{math-fit-c.pdf}
-%     \caption[Population C: goodness of fit]{For population C, the regression converges for a slim majority (422) of the 781 center candidates. Almost all depth estimates reach an absolute error under 10, while energy error is mixed. Circle sizes are proportional to the number of ``tiltable'' samples included in the regression, the higher values of which are tightly concentrated around the population as for population A (Figure~\ref{fig:math-fit-a}).}%
-%     \label{fig:math-fit-c}
-% \end{figure}
-
-% \begin{figure}
-%     \includegraphics[width=\textwidth]{phys-fit-c.pdf}%
-%     \caption[Population C: parameter estimates]{Parameter estimates for the centers whose regression converges to explain sample population C. Circle size is inversely proportional to depth, the vast majority of which (the small green circles throughout the study area) return an estimate of almost exactly \qty{20}{\km}, the initial guess used in the regression, suggesting that first guess was already near the best fit for those remote candidates.}%
-%     \label{fig:phys-fit-c}
-% \end{figure}
-
-% \begin{figure}
-%     \includegraphics[width=\textwidth]{pop-b.pdf}%
-%     \caption[Population B: single center estimate]{Location of the single inflation center candidate for which the population B regression converged on an estimate. The numerical values associated with this (poorly fitting) estimate are presented in the text.}%
-%     \label{fig:pop-b}
-% \end{figure}
-

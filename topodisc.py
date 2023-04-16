@@ -36,6 +36,11 @@ MAX_EPV = 7e22  # J
 TEST_D = 20_000  # m
 MAX_ITERATIONS = 500
 
+regression_initial_guess = {
+    'epv_J': 7e19,
+    'depth_m': 20_000
+}
+
 # parameter conversion factor
 EPV_OVER_K = 16 * np.pi * SHEAR_MODULUS / 9
 
@@ -58,7 +63,6 @@ def mogi_tilt(dist, epv, d, length_scale_mult=LENGTH_SCALE_MULT):
 
 
 def epv_numerical_model(depth, radius, aspect, pmult) -> float:
-
     volume = (4/3) * np.pi * radius**3 * aspect
     pressure = ROCK_DENSITY * MARS_GRAVITY * depth * pmult
     return volume * pressure
@@ -152,15 +156,15 @@ def best_beta1(
             )
             for beta1 in beta1_possible
         ])
-        possible_tilts = np.array([great_circle_projection(beta2_deg, slope_deg) \
-        - great_circle_projection(*paleo_pair) for paleo_pair in zip(beta1_possible, possible_paleo_slopes)])
+        possible_tilts = np.array([great_circle_projection(beta2_deg, slope_deg)
+                                   - great_circle_projection(*paleo_pair) for paleo_pair in zip(beta1_possible, possible_paleo_slopes)])
 
         best_beta1 = beta1_possible[np.nanargmin(np.abs(possible_tilts))]
     except RuntimeWarning:  # raised if all NaNs
         return np.nan
     except ValueError:
         return np.nan
-    
+
     return best_beta1
 
 
@@ -192,8 +196,8 @@ def minimum_tilt(
             )
             for beta1 in beta1_possible
         ])
-        possible_tilts = np.array([great_circle_projection(beta2_deg, slope_deg) \
-        - great_circle_projection(*paleo_pair) for paleo_pair in zip(beta1_possible, possible_paleo_slopes)])
+        possible_tilts = np.array([great_circle_projection(beta2_deg, slope_deg)
+                                   - great_circle_projection(*paleo_pair) for paleo_pair in zip(beta1_possible, possible_paleo_slopes)])
 
         best_tilt = possible_tilts[np.nanargmin(np.abs(possible_tilts))]
     except RuntimeWarning:  # raised if all NaNs
@@ -202,31 +206,6 @@ def minimum_tilt(
         return np.nan
 
     return best_tilt
-
-
-def is_tiltable(tilt, dist_m):
-    '''check whether a given tilt-distance pair is within the tilt envelope'''
-
-    if np.isnan(tilt):
-        return False
-
-    max_tilt = mogi_tilt(dist=dist_m, epv=MAX_EPV, d=TEST_D)
-    min_tilt = mogi_tilt(dist=dist_m, epv=-MAX_EPV, d=TEST_D)
-
-    if tilt > max_tilt:
-        return False
-    if tilt < min_tilt:
-        return False
-
-    return True
-
-
-def nan_if_untiltable(row):
-
-    if is_tiltable(row['tilt'], row['dist']):
-        return row['tilt']
-    else:
-        return np.nan
 
 # PRELIMINARY TESTS
 
@@ -244,8 +223,9 @@ def tilt_check(
     full_tilt: bool = True,
     example_bearing=None,
 ):  # type: ignore
-    
-    is_discordant = angular_difference(test_az1, test_az2) > paleo_azimuth_uncertainty
+
+    is_discordant = angular_difference(
+        test_az1, test_az2) > paleo_azimuth_uncertainty
 
     bearing_range = np.arange(360 * plot_resolution) / plot_resolution
 
@@ -280,16 +260,17 @@ def tilt_check(
     plt.ylim(0, plot_radius)
 
     # plot az1 uncertainty range
-    ax.vlines(
-        x=np.radians((
-            test_az1 + paleo_azimuth_uncertainty,
-            test_az1 - paleo_azimuth_uncertainty
-        )),
-        ymin=0,
-        ymax=plot_radius,
-        label=f"$\\theta_1 \pm$" + f"{paleo_azimuth_uncertainty}",
-        color='red'
-    )
+    if paleo_azimuth_uncertainty !=0:
+        ax.vlines(
+            x=np.radians((
+                test_az1 + paleo_azimuth_uncertainty,
+                test_az1 - paleo_azimuth_uncertainty
+            )),
+            ymin=0,
+            ymax=plot_radius,
+            label=f"$\\theta_1 \pm$" + f"{paleo_azimuth_uncertainty}",
+            color='red'
+        )
 
     # plot measured az1
     ax.vlines(x=np.radians(test_az1), ymin=0, ymax=plot_radius,
@@ -424,43 +405,24 @@ def tilt_check(
 
     if full_tilt:
         if is_discordant:
-            del(handles[8])
-            del(labels[8])
+            del (handles[7])
+            del (labels[7])
         else:
-            del(handles[-1])
-            del(labels[-1])
+            del (handles[-1])
+            del (labels[-1])
 
     ax.legend(
         handles,
         labels,
         loc='center',
-        framealpha=1,
+        framealpha=0.8,
         bbox_to_anchor=legend_position
     )
 
     ax.set_axisbelow(True)
 
 
-# CLASSES ______________
-
-def plot_envelope(max_dist_km: float = 100_000, has_label: bool = True, color: str = 'black'):
-    dist_m = np.arange(max_dist_km)
-    max_tilt = mogi_tilt(dist_m, MAX_EPV, TEST_D)
-    min_tilt = mogi_tilt(dist_m, -MAX_EPV, TEST_D)
-    dist_km = dist_m / 1000
-
-    if has_label:
-        label = 'log$|E_{PV}\ /\ J|: $' + \
-            f'{np.round(np.log10(MAX_EPV), 1)}, ' + \
-            '$d: $' + f'{TEST_D/1000} km'
-    else:
-        label = None
-
-    sns.lineplot(x=dist_km, y=max_tilt, c=color, label=label)
-    sns.lineplot(x=dist_km, y=min_tilt, c=color)
-
-
-def plot_tilt_distance_dataset(df: pd.DataFrame, color=None, name: str = ''):
+def plot_tilt_distance_dataset(df: pd.DataFrame, color=None, size = None, name: str = ''): # 
 
     sns.scatterplot(
         x=df['dist_km'],
@@ -474,9 +436,12 @@ def plot_tilt_distance_dataset(df: pd.DataFrame, color=None, name: str = ''):
         data=df,
         x='dist_km',
         y='tilt',
+        size=size,
         color=color,
-        label=name
+        label=name,
     )
+
+# MAP CLASSES ______________
 
 
 @dataclass
@@ -494,8 +459,6 @@ class Center:
     paleo_azimuth_uncertainty: float = 7
 
     def __post_init__(self) -> None:
-
-        # this of course only works for unique self.cIDs
         self.calculate()
 
     def get_data_subset(self, sIDs: list) -> pd.DataFrame:
@@ -503,7 +466,7 @@ class Center:
 
     def calculate(self):
 
-        self.data['dist'] = self.data.apply(
+        self.data['dist_m'] = self.data.apply(
             lambda row: great_circle_distance(
                 lat1_deg=row['LAT'], lon1_deg=row['LON'],
                 lat2_deg=self.lat, lon2_deg=self.lon
@@ -512,7 +475,7 @@ class Center:
         )
 
         self.data['dist_km'] = self.data.apply(
-            lambda row: row['dist'] / 1000,
+            lambda row: row['dist_m'] / 1000,
             axis=1
         )
 
@@ -528,6 +491,11 @@ class Center:
             lambda row: signed_angular_difference(
                 ang2_deg=row['AZ1'], ang1_deg=row['bearing']
             ),
+            axis=1
+        )
+
+        self.data['alignment'] = self.data.apply(
+            lambda row: np.cos(np.radians(row['beta1'])),
             axis=1
         )
 
@@ -548,35 +516,32 @@ class Center:
             axis=1
         )
 
-        self.data['is_tiltable'] = self.data.apply(
-            lambda row: is_tiltable(
-                tilt=row['tilt'],
-                dist_m=row['dist']
-            ),
-            axis=1
-        )
-
     def plot_tilt(
         self,
         pops: list[Population],
-        exclude_untiltable: bool = True
+        max_alignment: float = 1,
+        min_alignment: float = -1,
+        size = None
     ):
 
         colors = itertools.cycle(sns.color_palette())  # type: ignore
 
         for pop in pops:
-
             next_color = next(colors)
 
-            spot_check = self.get_data_subset(pop.sIDs)
-            if exclude_untiltable:
-                spot_check['tilt'] = spot_check.apply(
-                    nan_if_untiltable, axis=1)
+            subset = self.data.loc[pop.sIDs]
+
+            below_max = subset['alignment'] <= max_alignment
+            above_min = subset['alignment'] >= min_alignment
+            alignment_subset = subset[below_max & above_min]
+
+            num_tiltable_in_alignment_subset = len(alignment_subset[alignment_subset['tilt'].notnull()])
 
             plot_tilt_distance_dataset(
-                spot_check,
+                alignment_subset,
                 next_color,
-                name=f"Pop: {pop.name}"
+                name=f"Pop: {pop.name}. $f = ${num_tiltable_in_alignment_subset} : {len(alignment_subset)} : {len(subset)}",
+                size=size
             )
 
 
@@ -586,7 +551,8 @@ def make_center(cID, centers, samples, paleo_azimuth_uncertainty):
         lat=centers.loc[cID, 'LAT'],
         lon=centers.loc[cID, 'LON'],
         data=samples.copy(),
-        paleo_azimuth_uncertainty=paleo_azimuth_uncertainty)
+        paleo_azimuth_uncertainty=paleo_azimuth_uncertainty
+    )
 
 
 def summit_score(df: pd.DataFrame) -> dict:
@@ -599,7 +565,7 @@ def summit_score(df: pd.DataFrame) -> dict:
 
 def fit_mogi_function(df: pd.DataFrame, full_output: bool = False):
 
-    # initial guess lower than envelope
+    # initial guess
     if np.mean(df['tilt']) < 0:
         p0 = -MAX_EPV / 1000, TEST_D
     else:
@@ -607,7 +573,7 @@ def fit_mogi_function(df: pd.DataFrame, full_output: bool = False):
 
     fit = curve_fit(
         f=mogi_tilt,
-        xdata=df['dist'],
+        xdata=df['dist_m'],
         ydata=df['tilt'],
         p0=p0,
         maxfev=MAX_ITERATIONS,
@@ -617,65 +583,92 @@ def fit_mogi_function(df: pd.DataFrame, full_output: bool = False):
 
     return fit
 
+# criteria functions to return subset_sizes and analytical regression results. These ultimately need to be passed as functions df -> dict of scores. But since both criteria depend on a alignment threshold, each df -> dict function is wrapped in a float -> Callabe function
 
-def frac_tiltable(df: pd.DataFrame) -> dict:
-    score = {'frac_tiltable': np.nan}
-    try:
-        num_samples = len(df)
-        num_tiltable = len(df[df['tilt'].notnull()])
-        score['frac_tiltable'] = num_tiltable / num_samples
-    except:
-        pass
-    return score
+def prepend_dict_keys(dict, prefix):
+    return {prefix + str(key): val for key, val in dict.items()}
 
+def subset_sizes(alignment_threshold_degrees: float = 0) -> Callable[[pd.DataFrame], dict]:
+    def func(df: pd.DataFrame) -> dict:
+        
+        alignment_threshold = np.cos(np.radians(alignment_threshold_degrees))
+        offset = df[np.abs(df['alignment']) < alignment_threshold]
 
-def inflation_score(df: pd.DataFrame) -> dict:
+        tiltable = df[df['tilt'].notnull()]
+        tiltable_offset = offset[offset['tilt'].notnull()]
+        
+        scores = {
+            f'tiltable': len(tiltable) / len(df),
+            f'offset': len(offset) / len(df),
+            f'tiltable_offset': len(tiltable_offset) / len(df),
+        }
 
-    # df_subset = df.loc[df['is_tiltable']]
-    df_subset = df.loc[df['tilt'].notnull()]  # no envelope version
+        scores = prepend_dict_keys(scores, f'{alignment_threshold_degrees}_')
 
-    # initialize output
-    scores = {
-        'log10_epv': np.nan,
-        'epv_is_positive': np.nan,
-        'depth': np.nan,
-        'rmse': np.nan,
-    }
+        return scores
+    return func
 
-    # attempt regression
-    try:
-        params, _, infodict, _, _ = fit_mogi_function(
-            df_subset,
-            full_output=True
-        )
+def inflation_score(alignment_threshold_degrees: float = 0) -> Callable[[pd.DataFrame], dict]:
+    def func(df: pd.DataFrame) -> dict:
 
-        # unpack param estimate and root mean squared error
-        epv, depth = params
-        rmse = np.sqrt(mean_squared_error(
-            y_pred=infodict['fvec'],
-            y_true=df_subset['tilt']
-        ))
+        alignment_threshold = np.cos(np.radians(alignment_threshold_degrees))
+        
+        offset = df[np.abs(df['alignment']) < alignment_threshold]
+        tiltable = offset[offset['tilt'].notnull()]
 
-        # rewrite scores in dict
-        scores['log10_epv'] = np.log10(np.abs(epv))
-        scores['epv_is_positive'] = epv > 0  # boolean
-        scores['depth'] = depth
-        scores['rmse'] = rmse  # type: ignore
+        # initialize output
+        scores = {
+            'log10_epv': np.nan,
+            'epv_is_positive': np.nan,
+            'depth': np.nan,
+            'max_tilt': np.nan,
+            'rmse': np.nan,
+        }
 
-    # catch regression failure
-    except OptimizeWarning:  # does not converge
-        pass
+        # attempt regression
+        try:
+            params, _, infodict, _, _ = fit_mogi_function(
+                tiltable,
+                full_output=True #ignore
+            )
 
-    except RuntimeError:
-        pass
+            # unpack param estimate and root mean squared error
+            epv, depth = params
+            rmse = np.sqrt(mean_squared_error(
+                y_pred=infodict['fvec'],
+                y_true=tiltable['tilt']
+            ))
 
-    except ValueError:
-        pass
+            dist_m_interval = np.arange(0, 100_000, 1000)
+            tilt_over_interval = [
+                mogi_tilt(dist=dist, epv=epv, d=depth) for dist in dist_m_interval
+            ]
+            max_tilt = tilt_over_interval[np.argmax(np.abs(tilt_over_interval))]
 
-    except TypeError:  # 'func input vector length N=2 must not exceed func output vector length M=1'
-        pass
+            # rewrite scores in dict
+            scores['log10_epv'] = np.log10(np.abs(epv))
+            scores['epv_is_positive'] = epv > 0  # boolean
+            scores['depth'] = depth
+            scores['max_tilt'] = max_tilt
+            scores['rmse'] = rmse  # type: ignore
 
-    return scores
+        # catch regression failure
+        except OptimizeWarning:  # does not converge
+            pass
+
+        except RuntimeError:
+            pass
+
+        except ValueError:
+            pass
+
+        except TypeError:  # 'func input vector length N=2 must not exceed func output vector length M=1'
+            pass
+
+        scores = prepend_dict_keys(scores, f'{alignment_threshold_degrees}_')
+
+        return scores
+    return func
 
 
 @dataclass
@@ -731,10 +724,6 @@ class Edge:
 
 
 model_path = "../GEOL192-Model/data/"
-
-
-def set_model_path(path: str):
-    model_path = str
 
 
 # paleo-edifice spline data
@@ -814,8 +803,6 @@ class NumericalModel:
             [vars(edge) for edge in self.edges]
         )
 
-        # self.attributes = self.data.to_dict("list")
-
     def plot_numerical_tilt(self):
         sns.lineplot(data=self.data, x='dist_km', y='tilt')
 
@@ -824,7 +811,7 @@ class NumericalModel:
         sns.lineplot(data=self.data, x='dist_km', y='disp_z', label='z')
 
 
-def unpack_param_combinations(dict_of_lists):
+def unpack_param_combinations(dict_of_lists: dict[str, list]) -> list[dict[str, float]]:
     keys = dict_of_lists.keys()
     all_vals = list(itertools.product(*dict_of_lists.values()))
     list_of_dicts = [dict(zip(keys, vals)) for vals in all_vals]
@@ -840,7 +827,7 @@ def make_numerical_model(params: dict):
     return model
 
 
-def numerical_model_rmse(
+def numerical_rmse(
     model: NumericalModel,
     map_tilt_df: pd.DataFrame
 ) -> float:
@@ -869,38 +856,68 @@ def numerical_model_rmse(
 
 @dataclass
 class ParamSweep:
-    all_params: list[dict]
+    params: list[dict]
 
     def __post_init__(self):
 
         self.models = [
-            make_numerical_model(params) for params in self.all_params
+            make_numerical_model(model_params) for model_params in self.params
         ]
 
-    def sort_models_by_rmse(
-        self,
-        center: Center,
-        pops: list[Population],
-        tiltable_only: bool = True,
-    ) -> None:
-
-        sIDs = []
-        for pop in pops:
-            for sID in pop.sIDs:
-                sIDs.append(sID)
-
+    def sort_models_by_rmse(self, center: Center, sIDs: list) -> None:
+        '''sort numerical models in place'''
         data = center.data.loc[sIDs]
-
-        if tiltable_only:
-            data['tilt'] = data.apply(nan_if_untiltable, axis=1)
-
         data_no_nulls = data[data['tilt'].notnull()]
-
         for model in self.models:
             try:
-                model.rmse = numerical_model_rmse(
-                    model, data_no_nulls)  # type: ignore
+                model.rmse = numerical_rmse(
+                    model, data_no_nulls
+                )  # type: ignore
             except:
                 pass
 
         self.models.sort(key=lambda model: model.rmse)
+
+
+# DEPRECATED ---------- ---------- ---------- ---------- ----------
+
+def plot_envelope(max_dist_km: float = 100_000, has_label: bool = True, color: str = 'black'):
+    dist_m = np.arange(max_dist_km)
+    max_tilt = mogi_tilt(dist_m, MAX_EPV, TEST_D)
+    min_tilt = mogi_tilt(dist_m, -MAX_EPV, TEST_D)
+    dist_km = dist_m / 1000
+
+    if has_label:
+        label = 'log$|E_{PV}\ /\ J|: $' + \
+            f'{np.round(np.log10(MAX_EPV), 1)}, ' + \
+            '$d: $' + f'{TEST_D/1000} km'
+    else:
+        label = None
+
+    sns.lineplot(x=dist_km, y=max_tilt, c=color, label=label)
+    sns.lineplot(x=dist_km, y=min_tilt, c=color)
+
+
+def is_tiltable(tilt, dist_m):
+    '''check whether a given tilt-distance pair is within the tilt envelope'''
+
+    if np.isnan(tilt):
+        return False
+
+    max_tilt = mogi_tilt(dist=dist_m, epv=MAX_EPV, d=TEST_D)
+    min_tilt = mogi_tilt(dist=dist_m, epv=-MAX_EPV, d=TEST_D)
+
+    if tilt > max_tilt:
+        return False
+    if tilt < min_tilt:
+        return False
+
+    return True
+
+
+def nan_if_untiltable(row):
+
+    if is_tiltable(row['tilt'], row['dist_m']):
+        return row['tilt']
+    else:
+        return np.nan

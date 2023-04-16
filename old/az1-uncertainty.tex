@@ -1,0 +1,13 @@
+% \subsubsection{Physical Considerations}
+
+% Equation~\eqref{eq:tilt-from-map} could in principle be applied directly to a given center-sample pair to calculate a unique tilt value (if one exists). However, this calculation is extremely sensitive to error in collected data. Even if attitude data could be collected with perfect precision, there are several reasons why the resulting tilt would be inaccurate. For example, a lava flow may have been heading at a slight offset from the regional downhill azimuth due to local topography or physical processes occurring within the lava. Therefore, I introduce an uncertainly term for the \acs{az1} term, $\pm\ang{7}$. 
+
+% This uncertainty term provides some flexibility in the analysis, but at a cost. By definition, any flow feature whose modern underlying topography has a downhill azimuth within \ang{7} cannot be considered ``discordant'' and thus no non-zero tilt can be inferred here.
+
+% However, samples taken from discordant features can now be explained by a range of tilts, as shown in Figure~\ref{fig:az1-uncertainty}. For these features, I calculate the minimum tilt necessary to translate \emph{any} region within the uncertainty interval to match the modern attitude.
+
+% \begin{figure}
+%     \include{figures/methods/az1-uncertainty.tex}%
+%     \caption[Paleo-azimuth uncertainty]{Paleo-azimuth uncertainty introduces tilt flexibility. \textbf{Left:} With \acs{az1} treated as an exact quantity, there are a narrow range of radial directions (colored green) which can translate the line to meet the point, and for many of those angles the tilt required is unrealistically large. \textbf{Right:} With a wider range of possible \acs{az1} values, more radial directions are possible to translate some point in the shaded region to the $(\acs{az2},\acs{sl2})$ point. Additionally, the tilt required to reach the boundary will always be less. However, points within the shaded region must have $\acs{tilt}=\ang{0}$. Therefore, the choice of uncertainty value is a tradeoff between incorporating more data points and explaining discordance using smaller, more realistic tilts.}%
+%     \label{fig:az1-uncertainty}
+% \end{figure}

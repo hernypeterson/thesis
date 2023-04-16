@@ -75,7 +75,7 @@ In this section I express the position of a sample point by its distance (\acs{d
 
 To calculate distance (\acs{dist}), I use the spherical law of cosines\footnote{Also known as the great circle distance formula, derived in Appendix~\ref{app:gcd}.} scaled by the martian equatorial radius since Olympus Mons is close to the equator:
 \begin{equation}
-    \acs{dist}=\arccos(\cos\acs{latC}\cos\acs{lat}\cos(\acs{lonC}-\acs{lon}) + \sin\acs{latC}\sin\acs{lat})\cdot\qty{3396.2}{\km},
+    \acs{dist}=\arccos(\cos\acs{latC}\cos\acs{lat}\cos(\acs{lonC}-\acs{lon}) + \sin\acs{latC}\sin\acs{lat})\cdot\qty{3396.2}{\km},\label{eq:dist}
 \end{equation}
 where \acs{latC} and \acs{lonC} are the latitude and longitude of the center; \acs{lat} and \acs{lon} are the latitude and longitude of the sample.
 
@@ -108,7 +108,7 @@ After removing these mathematically impossible results, another problem arises i
 \begin{equation}
      |\sin\acs{beta2}\sin\acs{sl2}| > |\sin\acs{beta1}|,\label{eq:domain-error}
 \end{equation}
-because the resulting argument in Equation~\eqref{eq:paleo-slope} is outside the domain of the arcsin function. Physically this case occurs when the lava feature is nearly parallel to the radial direction for the modeled inflation center $(\acs{az1}\approx\acs{bearing}; \acs{beta1}\approx\ang{0})$. This case represents another mathematically impossible configuration and must be removed. In a similar vein, when $|\sin\acs{beta1}|$ is only slightly greater than $|\sin\acs{beta2}\sin\acs{sl2}|$, the calculated \acs{sl1} will be unrealistically large.\footnote{I define ``unrealistically large'' in Section~\ref{sec:inflation-center}} Physically, this issue reflects the difficulty in changing the azimuth of a flow by tilting it in the direction it is already pointing (Figure~\ref{fig:discordance-concept}).
+because the resulting argument in Equation~\eqref{eq:paleo-slope} is outside the domain of the arcsin function. Physically this case occurs when the lava feature is nearly parallel to the radial direction for the modeled inflation center $(\acs{az1}\approx\acs{bearing}; \acs{beta1}\approx\ang{0})$. This case represents another mathematically impossible configuration and must be removed. In a similar vein, when $|\sin\acs{beta1}|$ is only slightly greater than $|\sin\acs{beta2}\sin\acs{sl2}|$, the calculated \acs{sl1} will be unrealistically large. Physically, this issue reflects the difficulty in changing the azimuth of a flow by tilting it in the direction it is already pointing (Figure~\ref{fig:discordance-concept}).
 
 \subsubsection{Tilt Equation}
 
@@ -117,31 +117,16 @@ In Figure~\ref{fig:tilt-from-map}, the arrow which translates the \acs{az1} line
     \acs{tilt} = \arctan(\tan\acs{sl2}\cos\acs{beta2}) - \arctan(\tan\acs{sl1}\cos\acs{beta1}).\label{eq:tilt-from-map}
 \end{equation}
 
-\subsubsection{Physical Considerations}
-
-Equation~\eqref{eq:tilt-from-map} could in principle be applied directly to a given center-sample pair to calculate a unique tilt value (if one exists). However, this calculation is extremely sensitive to error in collected data. Even if attitude data could be collected with perfect precision, there are several reasons why the resulting tilt would be inaccurate. For example, a lava flow may have been heading at a slight offset from the regional downhill azimuth due to local topography or physical processes occurring within the lava. Therefore, I introduce an uncertainly term for the \acs{az1} term, $\pm\ang{7}$. 
-
-This uncertainty term provides some flexibility in the analysis, but at a cost. By definition, any flow feature whose modern underlying topography has a downhill azimuth within \ang{7} cannot be considered ``discordant'' and thus no non-zero tilt can be inferred here.
-
-However, samples taken from discordant features can now be explained by a range of tilts, as shown in Figure~\ref{fig:az1-uncertainty}. For these features, I calculate the minimum tilt necessary to translate \emph{any} region within the uncertainty interval to match the modern attitude.
-
-\begin{figure}
-    \include{figures/methods/az1-uncertainty.tex}%
-    \caption[Paleo-azimuth uncertainty]{Paleo-azimuth uncertainty introduces tilt flexibility. \textbf{Left:} With \acs{az1} treated as an exact quantity, there are a narrow range of radial directions (colored green) which can translate the line to meet the point, and for many of those angles the tilt required is unrealistically large. \textbf{Right:} With a wider range of possible \acs{az1} values, more radial directions are possible to translate some point in the shaded region to the $(\acs{az2},\acs{sl2})$ point. Additionally, the tilt required to reach the boundary will always be less. However, points within the shaded region must have $\acs{tilt}=\ang{0}$. Therefore, the choice of uncertainty value is a tradeoff between incorporating more data points and explaining discordance using smaller, more realistic tilts.}%
-    \label{fig:az1-uncertainty}
-\end{figure}
-
 \begin{figure}
     \vspace{-19pt}
     \includegraphics[width=.5\textwidth]{methods/tilt-check-blank.pdf}%
     \includegraphics[width=.5\textwidth]{methods/tilt-check-example.pdf}\\
     \includegraphics[width=.5\textwidth]{methods/tilt-check-example-rim.pdf}%
     \includegraphics[width=.5\textwidth]{methods/tilt-check-rim.pdf}%
-    \caption[Tilt calculation example]{Worked example of tilt calculation (Equation~\eqref{eq:tilt-from-map}; Figure~\ref{fig:az1-uncertainty}). \textbf{Top Left:} A discordant feature in an upper hemisphere orthographic projection. Unit circle shown up to radius $0.2$. \textbf{Top Right:} A candidate inflation center to the SSW (North is \ang{0}) implies \ang{+3.2} degrees of tilt about the dashed tilt axis to sweep a paleo-attitude ($\times$) across the blue tilt-path (projected small circle) to reach the modern attitude. Note the blue tilt path is perpendicular to the tilt axis and parallel to the center direction, as in Figure~\ref{fig:tilt-from-map}. \textbf{Bottom Left:} Repeating this calculation, for all ``directions to center.'' Note, e.g., \ang{3.2} matches the light green at the example center direction (solid grey line). Tilts exceeding \ang{10} excluded here (not in analysis) to highlight variation in lower tilt regions; compare with Figure~\ref{fig:tilt-behavior}. \textbf{Bottom Right:} Example removed for clarity.}
+    \caption[Tilt calculation example]{Worked example of tilt calculation (Equation~\ref{eq:tilt-from-map}). \textbf{Top Left:} A discordant feature in an upper hemisphere orthographic projection. Unit circle shown up to radius $0.2$. \textbf{Top Right:} A candidate inflation center to the SSW (North is \ang{0}) implies \ang{+3.2} degrees of tilt about the dashed tilt axis to sweep a paleo-attitude ($\times$) across the blue tilt-path (projected small circle) to reach the modern attitude. Note the blue tilt path is perpendicular to the tilt axis and parallel to the center direction, as in Figure~\ref{fig:tilt-from-map}. \textbf{Bottom Left:} Repeating this calculation, for all ``directions to center.'' Note, e.g., \ang{3.2} matches the light green at the example center direction (solid grey line). Tilts exceeding \ang{10} excluded here (not in analysis) to highlight variation in lower tilt regions; compare with Figure~\ref{fig:tilt-behavior}. \textbf{Bottom Right:} Example removed for clarity.}
     \label{fig:tilt-example}
 \end{figure}
 
-% new figs here
 \begin{figure}
     \vspace{-19pt}
     \includegraphics[width=.5\textwidth]{methods/tilt-behavior-high-max.pdf}%
@@ -152,4 +137,4 @@ However, samples taken from discordant features can now be explained by a range 
     \label{fig:tilt-behavior}
 \end{figure}
 
-The final product of this section is a transformation from mapped attitude data (Figure~\ref{fig:attitude-data}) at a particular location $(\acs{lat}, \acs{lon})$ to a tilt-distance data point corresponding to a single inflation center candidate $(\acs{latC}, \acs{lonC})$. While the distance calculation involves a single equation, the tilt calculation involves a sequence of manipulations with several opportunities to introduce error. Figure~\ref{fig:tilt-example} verifies that the final result of this sequence is correct for a test sample point relative to all possible center candidate locations. With this confirmation in place, I repeating the tilt and distance calculations for each sample (within a discordant population of interest) to produce a full tilt-distance dataset corresponding to a single center candidate. Finally, repeating this dataset construction for each center allows the full array of candidates to be evaluated and compared.
+The final product of this section is a transformation from mapped attitude data (Figure~\ref{fig:attitude-data}) at a particular location $(\acs{lat}, \acs{lon})$ to a tilt-distance data point corresponding to a single inflation center candidate $(\acs{latC}, \acs{lonC})$. Figure~\ref{fig:tilt-example} illustrates the final results. Repeating the tilt and distance calculations for each sample (within a discordant population of interest) to produce a full tilt-distance dataset corresponding to a single center candidate. Finally, repeating this dataset construction for each center allows the full array of candidates to be evaluated and compared.

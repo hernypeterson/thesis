@@ -215,6 +215,7 @@ def tilt_check(
     test_az2: float,
     test_sl2: float,
     paleo_azimuth_uncertainty: float = 7,
+    minimum_offset: float = 7,
     max_abs_tilt: float = 5,
     plot_resolution: int = 3,
     plot_size: float = 5,
@@ -261,15 +262,24 @@ def tilt_check(
     plt.ylim(0, plot_radius)
 
     # plot az1 uncertainty range
-    if paleo_azimuth_uncertainty !=0:
+    if minimum_offset !=0:
         ax.vlines(
             x=np.radians((
-                test_az1 + paleo_azimuth_uncertainty,
-                test_az1 - paleo_azimuth_uncertainty
+                test_az1 + minimum_offset,
+                test_az1 - minimum_offset
             )),
             ymin=0,
             ymax=plot_radius,
-            label=f"$\\theta_1 \pm$" + f"{paleo_azimuth_uncertainty}",
+            label=f"$\\theta_1 \pm$" + f"{minimum_offset}",
+            color='red'
+        )
+        ax.vlines(
+            x=np.radians((
+                test_az1 + 180 - minimum_offset,
+                test_az1 + 180 + minimum_offset
+            )),
+            ymin=0,
+            ymax=plot_radius,
             color='red'
         )
 
@@ -409,7 +419,7 @@ def tilt_check(
     # this is a hack to remove the "1" that appears randomly in the legend in the for loop implementation of thick rim
 
     if full_tilt:
-        if is_discordant:
+        if is_discordant and (example_bearing != None):
             del (handles[7])
             del (labels[7])
         else:

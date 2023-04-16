@@ -37,7 +37,7 @@ For the modern surface attitude, I use the \hlss{Surface Parameters} tool on the
 
 These measurements (\acf{az1}, \acf{az2}, and \acf{sl2}) for each sample point constitute the first intermediate product of this section. In particular, I calculate \acl{disc} as the difference between the modern and paleo- downhill azimuths. To express \ac{disc} in the range \ang{-180} to \ang{180}, I use the explicit equation:
 \begin{equation}
-    \acs{disc} = (\acs{az2} - \acs{az1} + \ang{180} \mod \ang{360}) - 180.
+    \acs{disc} = ([\acs{az2} - \acs{az1} + \ang{180}] \text{ mod } \ang{360}) - 180.
 \end{equation}
 
 Using this calculation I identify regions of highly discordant flows to target for matching with tilt solutions from Section~\ref{sec:modeling}. From preliminary analysis I suspect many discordant features will cluster closely around the caldera rim, recoding proximal collapse effects. % PUT STUFF HERE ABOUT WHAT THOSE EFFECTS ARE 
@@ -103,7 +103,7 @@ where $\acs{beta1} = \acl{beta1}$ and $\acs{beta2} = \acl{beta2}$. Thus,
     \acs{sl1} = \arcsin\left(\frac{\sin\acs{beta2}\sin\acs{sl2}}{\sin\acs{beta1}}\right).\label{eq:paleo-slope}
 \end{equation}
 
-\subsubsection{Sample Criteria: Tiltable \& Offset}
+\subsubsection{Tiltable Sample Criterion}\label{sec:tiltable}
 
 Results from Equation~\eqref{eq:paleo-slope} can handle a few challenges inherent to the geometry of the problem. Specifically, for some combinations of surface characteristics and center point choice, it is impossible (or implausible) to tilt the once-downhill lava flow about the imposed axis and reach the observed surface attitude. 
 

@@ -253,7 +253,7 @@ def tilt_check(
     nptest_tilt = np.array(test_tilt)
 
     f, ax = plt.subplots(
-        subplot_kw={'projection': 'polar'}, figsize=(plot_size, plot_size), dpi=400)
+        subplot_kw={'projection': 'polar'}, figsize=(plot_size, plot_size), dpi=800)
 
     ax.set_theta_direction(-1)  # type: ignore
     ax.set_theta_offset(np.pi/2.0)  # type: ignore
@@ -312,7 +312,7 @@ def tilt_check(
 
     # plot calculated tilt by color around the rim. bearing + 180 to show direction TOWARD the center
     if full_tilt:
-        for i, r in enumerate(np.linspace(0.9, 1.2, 20 * plot_resolution)):
+        for i, r in enumerate(np.linspace(0.9, 1.2, 60 * plot_resolution)):
             if i == 0:
                 sns.scatterplot(
                     x=np.radians(bearing_range + 180),

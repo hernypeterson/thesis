@@ -2,11 +2,11 @@
 
 The ultimate goal of this thesis is to investigate the magma system below the summit of Olympus Mons. Practically speaking, this means explaining the peculiar geometry and spatial distribution of discordant flows in terms of subsurface magma reservoir pressure change. I approach this inquiry under the assumption that discordant lava features and subsurface pressurization each imply net change in surface attitude (orientation). 
 
-In this section, I introduce important considerations pertaining to mapping (Section~\ref{sec:mapping-considerations}) and modeling (Section~\ref{sec:modeling-considerations}) which inform their quantitative treatments in Sections~\ref{sec:mapping} and~\ref{sec:modeling}, respectively.
+In this section, I introduce important considerations pertaining to mapping and modeling which inform their quantitative treatments in Sections~\ref{sec:mapping} and~\ref{sec:modeling}, respectively.
 
-\subsection{Mapping}\label{sec:mapping-considerations}
+% \subsection{Mapping}\label{sec:mapping-considerations}
 
-\subsubsection{Discordance \& Surface Attitude}\label{sec:downhill-flows}
+\subsection{Discordance \& Surface Attitude}\label{sec:downhill-flows}
 
 Figure~\ref{fig:discordance-concept} illustrates that under certain circumstances, regional surface attitude change can cause once-downhill flows to become discordant. However, deformation which causes only a change in slope (not downhill azimuth) cannot be inferred from the relationship between flows and the surrounding topography. Of course, the history of surface deformation at the Summit of Olympus Mons is not confined to either of these two endmembers. Only the final configuration can be observed; this final state could have arisen from a wide variety of surface deformation events. For example, in Figure~\ref{fig:discordance-concept} the discordant flow on the final (green) surface could have been emplaced downhill on either the blue or grey surfaces; each of these initial states correspond to a different net attitude change and surface deformation history.
 
@@ -18,9 +18,9 @@ Figure~\ref{fig:discordance-concept} illustrates that under certain circumstance
     \label{fig:discordance-concept}
 \end{figure}
 
-Fundamentally, the ``discordance problem'' is the unknown slope of the paleo-surface (when the flow was first emplaced) which prevents directly inferring net attitude change at a discordant feature.\footnote{Technically, paleo-slope alone is still insufficient for a full description of attitude change, even for a single deformation event (a sequence of multiple ``steps'' in the same direction would of course be indistinguishable from a single event). This is because two endpoints in attitude space do not define a unique path between them. This subtlety is addressed in Section~\ref{sec:mapping}.} Interpreting an inherently incomplete empirical dataset ultimately requires reinforcement from a complimentary approach (Section~\ref{sec:modeling-considerations}) which introduces precision and completeness under an idealized set of assumptions.
+Fundamentally, the ``discordance problem'' is the unknown slope of the paleo-surface (when the flow was first emplaced) which prevents directly inferring net attitude change at a discordant feature.\footnote{Technically, paleo-slope alone is still insufficient for a full description of attitude change, even for a single deformation event (a sequence of multiple ``steps'' in the same direction would of course be indistinguishable from a single event). This is because two endpoints in attitude space do not define a unique path between them. This subtlety is addressed in Section~\ref{sec:mapping}.} Interpreting an inherently incomplete empirical dataset ultimately requires reinforcement from a complimentary approach (Section~\ref{sec:modeling}) which introduces precision and completeness under an idealized set of assumptions.
 
-\subsubsection{Attitude Representation}\label{sec:attitude-representation}
+\subsection{Attitude Representation}\label{sec:attitude-representation}
 
 The central role of surface attitude in this thesis warrants a graphical representation suitable for both conceptual illustration and geometrically-grounded calculation. The most common such representation is the stereonet: planar surfaces are represented by their stereographically\footnote{from the top of the sphere onto a plane tangent to the bottom of the sphere.} projected intersections with the lower hemisphere of a unit sphere.
 
@@ -32,11 +32,11 @@ I instead use an orthographic\footnote{from directly above; orthogonal to the pl
     \label{fig:surface}%
 \end{figure}
 
-\subsection{Modeling}\label{sec:modeling-considerations}
+% \subsection{Modeling}\label{sec:modeling-considerations}
 
 While I observe discordant features via satellite-derived imagery and topography, I can only infer subsurface pressure change. To introduce a hypothetical magma reservoir and model surface attitude change resulting from its pressure change activity, I need to answer several questions. To name just a few: Where is the reservoir in map view? How deep within/below the Olympus Mons edifice? How big? What shape? How much pressure change has occurred? Inflation or deflation? Several simplifying assumptions are necessary to make these questions tractable. Compared to the mapping approach, what the modeling approach lacks in empirical grounding is compensated by a precise and complete description of associated surface attitude change.
 
-\subsubsection{Physical Properties}
+\subsection{Physical Properties}
 
 I model the Olympus Mons edifice material as a single homogeneous basalt. The low profile of Olympus Mons (like most martian volcanoes) is analogous to terrestrial basaltic shield volcano such as Hawai'i. In the absence of geochemical or geophysical data pertaining to the internal edifice structure, I assume uniform basaltic flow material. I use a linear elastic rheology which allows for computationally inexpensive modeling and analytical surface deformation solutions \parencite{mogi_relations_1958} without sacrificing accuracy for a wide range of volcanic processes \parencite{grosfils_elastic_2015}. I treat the magma reservoir as an ellipsoidal body exerting a uniform pressure on the surrounding edifice for similar reasons. Terrestrial pluton contacts with surrounding country rock are often smoothly curving at spatial scales of tens to hundreds of meters, consistent with the tendency for complex thermal distributions to evolve toward simpler ellipsoidal geometries. Thus, an ellipsoidal reservoir within an elastic edifice is consistent to first order with a wide range of plausible and relevant circumstances (Figure~\ref{fig:reservoir-configs}).
 
@@ -50,7 +50,7 @@ I model the Olympus Mons edifice material as a single homogeneous basalt. The lo
     \label{fig:reservoir-configs}
 \end{figure}
 
-\subsubsection{Axisymmetric Geometry}
+\subsection{Axisymmetric Geometry}
 
 The assumption of axisymmetry (rotational symmetry about a vertical axis) is widely incorporated in models of magmatic systems across spatial and temporal scales \parencite[c.f.,][]{redmond_numerical_2004,ogawa_four-stage_2021,mogi_relations_1958,mctigue_elastic_1987}. As shown in Figure~\ref{fig:axisymmetry}, this geometry decreases computational and analytical complexity by reducing a 3D edifice to a representative 2D cross-section. In this thesis, I use the assumption of axisymmetry to model surface deformation resulting from subsurface pressure change. Numerical and analytical models with this geometry each appear throughout the analysis. Additionally, I show in Section~\ref{sec:tilt-from-map} that the axisymmetry assumption solves the attitude data incompleteness problem described in Section~\ref{sec:discordance}.
 

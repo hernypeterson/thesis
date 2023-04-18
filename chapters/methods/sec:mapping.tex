@@ -103,7 +103,7 @@ where $\acs{beta1} = \acl{beta1}$ and $\acs{beta2} = \acl{beta2}$. Thus,
     \acs{sl1} = \arcsin\left(\frac{\sin\acs{beta2}\sin\acs{sl2}}{\sin\acs{beta1}}\right).\label{eq:paleo-slope}
 \end{equation}
 
-\subsubsection{Tiltable Sample Criterion}\label{sec:tiltable}
+\subsubsection{Tiltable Criterion}\label{sec:tiltable}
 
 Results from Equation~\eqref{eq:paleo-slope} can handle a few challenges inherent to the geometry of the problem. Specifically, for some combinations of surface characteristics and center point choice, it is impossible (or implausible) to tilt the once-downhill lava flow about the imposed axis and reach the observed surface attitude. 
 
@@ -115,7 +115,7 @@ As another example, consider the case when:
 \end{equation}
 The resulting argument in Equation~\eqref{eq:paleo-slope} is outside the domain of the arcsin function. Physically, this case occurs when the lava feature is nearly colinear with the modeled inflation center $(\acs{az1}\approx\acs{bearing}; \acs{beta1}\approx\ang{0})$. As with the previous case, such samples are removed on ``non-tiltable'' grounds.
 
-In a similar vein, when $|\sin\acs{beta1}|$ is only slightly greater than $|\sin\acs{beta2}\sin\acs{sl2}|$, the calculated \acs{sl1} will be unrealistically large. Although the mathematical solution is well-defined, this issue reflects the aforementioned difficulty in changing the azimuth of a flow by tilting it in the direction it is already pointing (Figure~\ref{fig:discordance-concept}). This issue is discussed in more detail in Section~\ref{sec:valid-fraction} following the conclusion of this derivation in Section~\ref{sec:map-tilt-equation}.
+In a similar vein, when $|\sin\acs{beta1}|$ is only slightly greater than $|\sin\acs{beta2}\sin\acs{sl2}|$, the calculated \acs{sl1} will be unrealistically large. Although the mathematical solution is well-defined, this issue reflects the aforementioned difficulty in changing the azimuth of a flow by tilting it in the direction it is already pointing (Figure~\ref{fig:discordance-concept}). This issue is discussed in more detail in Section~\ref{sec:offset} following the conclusion of this derivation in Section~\ref{sec:map-tilt-equation}.
 
 \subsubsection{Tilt Equation}\label{sec:map-tilt-equation}
 
@@ -135,4 +135,16 @@ Figure~\ref{fig:tilt-example} illustrates a complete worked example for this cal
     \label{fig:tilt-example}
 \end{figure}
 
-The final product of this section is a transformation from mapped attitude data (Figure~\ref{fig:attitude-data}) at a particular location $(\acs{lat}, \acs{lon})$ to a tilt-distance data point corresponding to a single inflation center candidate $(\acs{latC}, \acs{lonC})$. Figure~\ref{fig:tilt-example} illustrates the final results. Repeating the tilt and distance calculations for each sample (within a discordant population of interest) to produce a full tilt-distance dataset corresponding to a single center candidate. Finally, repeating this dataset construction for each center allows the full array of candidates to be evaluated and compared.
+\subsubsection{Offset Criterion}\label{sec:offset}
+
+Section~\ref{sec:tiltable} introduces the ``tiltable'' criterion for samples with respect to a particular inflation center location. In particular, tilt estimates can only be obtained for certain values of the ``direction-away-from-center'' (\acs{bearing}) variable. The directions \emph{toward} these impossible centers are illustrated as the blank gaps in the colorful rims of Figure~\ref{fig:tilt-example} and described quantitatively in Section~\ref{sec:paleo-slope} (esp. Equation~\ref{eq:paleo-slope}).
+
+However, even among the tiltable centers for a particular center, it is also important to consider the reliability of the calculated tilt values. Notice in Figure~\ref{fig:tilt-example} that the highest-magnitude tilt calculations are densely clustered along one side of the \acs{bearing} line. The steep color gradient in this region indicates that tilt is sensitive to small variation in azimuth measurements of modern attitude, flow orientation, or center position. This unpredictable behavior approaches the undefined solution where the flow feature is colinear with the center candidate ($\beta1=\ang{0}$ or $\beta1=\pm\ang{180}$): no amount of tilt about the imposed axis can change the azimuth of the flow, so no tilt can be inferred from discordance (also illustrated in Figure~\ref{fig:discordance-concept}).
+
+To avoid error-prone results captured by this phenomenon, I introduce an ``offset'' boolean criterion to complement the tiltable criterion. This criterion is simply a minimum cutoff value of \acs{beta1} of \ang{7}, chosen to capture most of the unstable behavior for typical attitude data in this thesis. More precisely, an ``offset'' sample relative to a particular center candidate is one where the absolute value of \acs{beta1} is greater than \ang{7} and less than $\ang{180} - \ang{7}=\ang{173}$. The tiltable and offset criteria are illustrated in Figure~\ref{fig:tiltable-offset}.
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{methods/tiltable-offset.png}%
+    \caption[Sample Criteria: Tiltable \& Offset]{Two boolean criteria---tiltable and offset---used to assess how well a particular center describes a particular sample. For this sample, tiltable centers are those with a colorful rim (not the blank regions), where a tilt calculation can occur. Offset centers are those which are not within \ang{7} of colinear with the flow orientation; this region is bounded with red lines. Note that only direction-to-center matters for these criteria (not distance-to-center), since direction imposes the particular tilt axis (Figure~\ref{fig:tilt-example}). Note that center-sample pair can be tiltable, offset, both, or neither, all of which are illustrated here.}
+    \label{fig:tiltable-offset}
+\end{figure}

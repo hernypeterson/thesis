@@ -789,8 +789,10 @@ class NumericalModel:
     def __post_init__(self):
 
         self.set_params()
-        self.build_nodes()
-        self.build_edges()
+        self.nodes = [Node(*node) for node in zip(self.pos1, self.disp)]
+        self.consecutive_node_pairs = zip(self.nodes[:-1], self.nodes[1:])
+        self.edges = [Edge(*pair) for pair in self.consecutive_node_pairs]
+        self.data = pd.DataFrame([vars(edge) for edge in self.edges])
 
     def set_params(self):
         self.radius = self.params['radius']
@@ -804,24 +806,8 @@ class NumericalModel:
         self.epv = self.over_pressure * self.res_vol
         self.depth = self.params['depth'] + self.half_height
 
-    def build_nodes(self):
-        self.nodes = [
-            Node(self.pos1[i], self.disp[i]) for i in range(len(self.pos1))
-        ]
-
-    def build_edges(self):
-        self.consecutive_node_pairs = zip(self.nodes[:-1], self.nodes[1:])
-        self.edges = [
-            Edge(*pair) for pair in self.consecutive_node_pairs
-        ]
-
-        # put edge attributes into dict of lists
-        self.data = pd.DataFrame(
-            [vars(edge) for edge in self.edges]
-        )
-
-    def plot_numerical_tilt(self):
-        sns.lineplot(data=self.data, x='dist_km', y='tilt')
+    def plot_numerical_tilt(self, label: str = None): # type: ignore
+        sns.lineplot(data=self.data, x='dist_km', y='tilt', label=label)
 
     def plot_numerical_displacement(self):
         sns.lineplot(data=self.data, x='dist_km', y='disp_r', label='r')
@@ -888,8 +874,8 @@ class ParamSweep:
         for model in self.models:
             try:
                 model.rmse = numerical_rmse(
-                    model, data_no_nulls
-                )  # type: ignore
+                    model, data_no_nulls # type: ignore
+                )  
             except:
                 pass
 

@@ -2,7 +2,7 @@
 
 \section{Mapping Coverage}
 
-Figure~\ref{fig:features} depicts all polygonal flows and linear channels I identify; Figure~\ref{fig:samples} shows the samples derived from these features symbolized by discordance.
+Figure~\ref{fig:features} depicts all mapped polygonal flows and linear channels; Figure~\ref{fig:samples} shows the samples derived from these features symbolized by discordance (\acs{disc}).
 
 \begin{figure}
     \includegraphics[width=\textwidth]{results/features.pdf}%
@@ -42,10 +42,64 @@ Figure~\ref{fig:populations} shows three sample populations selected within a hi
 
 \begin{enumerate}
     \item Southeast Caldera Rim
+    % 598: 2.77
+    % 650: 2.79,
+    % 624: 2.81,
+    % 698: 2.82,
+    % 370: 2.92
+    % 572: 3.72,
+    % 695: 4.63,
+    % 540: 5.74
+    % 313,
+    % 342,
+    % 369,
+    % 341,
+    % 398,
+    % 426
+    % 454 next
     \item East of Caldera Rim
-    \item Northeast Caldera Rim
-    \item Within Discordant Features
+        432: 2.00
+        403: 2.03
+        549: 2.04
+        520: 2.06
+        490: 2.09
     \item Southern Summit
+        17: 1.63 
+        4: 1.65
+        5: 1.73
+        24: 3.13
+
+    \item Within Discordant Features
     \item Southeast Caldera Rim (Low Tiltable/Offset Fraction; Poor Fit)
     \item Northwest Caldera Rim (High Tiltable/Offset Fraction; Poor Fit)
 \end{enumerate}
+
+\begin{figure}
+    \vspace{-15pt}
+    \includegraphics[width=\textwidth]{results/428-analytical.pdf}\\
+    \includegraphics[width=\textwidth]{results/486-analytical.pdf}\\
+    \includegraphics[width=\textwidth]{results/544-analytical.pdf}%
+    \caption[Southeast Caldera Rim: analytical fit]{Representative datasets for centers in region 1 (southeast caldera rim). Vertical tick marks represent distances to all samples. Scatter points represent tilt computed for the tiltable/offset samples. The analytical fit for each dataset is labeled with its \acs{RMSE}, \ang{\sim2.7} for the best fits. Despite high error, note the tilt signature is consistently negative, i.e., represents deflation.}
+    \label{fig:region1-analytical}
+\end{figure}
+
+\begin{figure}
+    \vspace{-15pt}
+    \includegraphics[width=\textwidth]{results/403-analytical.pdf}\\
+    \includegraphics[width=\textwidth]{results/432-analytical.pdf}\\
+    \includegraphics[width=\textwidth]{results/549-analytical.pdf}%
+    \caption[East of Caldera Rim: analytical fit]{Representative datasets for centers in region 2 (east of caldera rim).}
+    \label{fig:region2-analytical}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{results/17-analytical.pdf}\\
+    \includegraphics[width=\textwidth]{results/24-analytical.pdf}\\
+    \includegraphics[width=\textwidth]{results/151-analytical.pdf}%
+    \caption[East of Caldera Rim: analytical fit]{Representative datasets for centers in region 3 (southern summit).}
+    \label{fig:region34-analytical}
+\end{figure}
+
+\section{Depth, Radius, Aspect Ratio, \& Pressure Change}
+
+Can a plausible numerical tilt solution match or exceed the \acs{RMSE} for the dataset at the identified center(s)?

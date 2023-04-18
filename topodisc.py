@@ -544,20 +544,22 @@ class Center:
         for pop in pops:
             next_color = next(colors)
 
-            subset = self.data.loc[pop.sIDs]
+            subset = self.data.loc[pop.sIDs].copy()
 
-            below_max = subset['alignment'] <= max_alignment
-            above_min = subset['alignment'] >= min_alignment
-            alignment_subset = subset[below_max & above_min]
+            above_max = subset['alignment'] >= max_alignment
+            below_min = subset['alignment'] <= min_alignment
 
-            num_tiltable_in_alignment_subset = len(alignment_subset[alignment_subset['tilt'].notnull()])
+            subset.loc[(above_max & below_min), 'tilt'] = np.nan
+
+            num_tiltable_offset = len(subset[subset['tilt'].notnull()])
 
             plot_tilt_distance_dataset(
-                alignment_subset,
+                subset,
                 next_color,
-                name=f"Pop: {pop.name}. $f = ${num_tiltable_in_alignment_subset} : {len(alignment_subset)} : {len(subset)}",
+                name=f"Pop: {pop.name}. $f = ${num_tiltable_offset}/{len(subset)}",
                 size=size
             )
+
 
 
 def make_center(cID, centers, samples, paleo_azimuth_uncertainty):

@@ -579,7 +579,7 @@ def summit_score(df: pd.DataFrame) -> dict:
     return score
 
 
-def fit_mogi_function(df: pd.DataFrame, full_output: bool = False):
+def fit_mogi_function(df: pd.DataFrame, full_output: bool = False) -> tuple:
 
     # initial guess
     if np.mean(df['tilt']) < 0:
@@ -732,8 +732,8 @@ class Edge:
         self.disp_z = self.disp[1]
 
         # radial distances for plotting
-        self.dist = self.pos2[0]  # type: ignore
-        self.dist_km = self.dist / 1000
+        self.dist_m = self.pos2[0]  # type: ignore
+        self.dist_km = self.dist_m / 1000
 
         # initial and displaced slopes (positive downward from center)
         # index [1] is z component; [0] is r component

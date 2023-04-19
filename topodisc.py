@@ -262,7 +262,7 @@ def tilt_check(
     plt.ylim(0, plot_radius)
 
     # plot az1 uncertainty range
-    if minimum_offset !=0:
+    if minimum_offset != 0:
         ax.vlines(
             x=np.radians((
                 test_az1 + minimum_offset,
@@ -437,7 +437,7 @@ def tilt_check(
     ax.set_axisbelow(True)
 
 
-def plot_tilt_distance_dataset(df: pd.DataFrame, color=None, size = None, name: str = ''): # 
+def plot_tilt_distance_dataset(df: pd.DataFrame, color=None, size=None, name: str = ''):
 
     sns.scatterplot(
         x=df['dist_km'],
@@ -536,7 +536,7 @@ class Center:
         pops: list[Population],
         max_alignment: float = 1,
         min_alignment: float = -1,
-        size = None
+        size=None
     ):
 
         colors = itertools.cycle(sns.color_palette())  # type: ignore
@@ -559,7 +559,6 @@ class Center:
                 name=f"Pop: {pop.name}. $f = ${num_tiltable_offset}/{len(subset)}",
                 size=size
             )
-
 
 
 def make_center(cID, centers, samples, paleo_azimuth_uncertainty):
@@ -602,18 +601,20 @@ def fit_mogi_function(df: pd.DataFrame, full_output: bool = False):
 
 # criteria functions to return subset_sizes and analytical regression results. These ultimately need to be passed as functions df -> dict of scores. But since both criteria depend on a alignment threshold, each df -> dict function is wrapped in a float -> Callabe function
 
+
 def prepend_dict_keys(dict, prefix):
     return {prefix + str(key): val for key, val in dict.items()}
 
+
 def subset_sizes(alignment_threshold_degrees: float = 0) -> Callable[[pd.DataFrame], dict]:
     def func(df: pd.DataFrame) -> dict:
-        
+
         alignment_threshold = np.cos(np.radians(alignment_threshold_degrees))
         offset = df[np.abs(df['alignment']) < alignment_threshold]
 
         tiltable = df[df['tilt'].notnull()]
         tiltable_offset = offset[offset['tilt'].notnull()]
-        
+
         scores = {
             f'tiltable': len(tiltable) / len(df),
             f'offset': len(offset) / len(df),
@@ -625,65 +626,67 @@ def subset_sizes(alignment_threshold_degrees: float = 0) -> Callable[[pd.DataFra
         return scores
     return func
 
+
+def mogi_maximum(
+        epv_J: float,
+        depth_m: float,
+        dist_m_interval: tuple[float, float]) -> dict[str, float]:
+
+    dist_m_array = np.linspace(*dist_m_interval, 1000)
+    tilt_array = [mogi_tilt(dist, epv_J, depth_m) for dist in dist_m_array]
+    max_index = np.argmax(np.abs(tilt_array))
+    max_tilt_dist_m = dist_m_array[max_index]
+    max_tilt = tilt_array[max_index]
+
+    return {'tilt': max_tilt, 'dist_m': max_tilt_dist_m}
+
+
 def inflation_score(alignment_threshold_degrees: float = 0) -> Callable[[pd.DataFrame], dict]:
     def func(df: pd.DataFrame) -> dict:
-
         alignment_threshold = np.cos(np.radians(alignment_threshold_degrees))
-        
         offset = df[np.abs(df['alignment']) < alignment_threshold]
         tiltable = offset[offset['tilt'].notnull()]
+        dist_m_interval = (min(tiltable['dist_m']), max(tiltable['dist_m']))
 
-        # initialize output
         scores = {
+            'inflation': np.nan,
+            'depth_m': np.nan,
             'log10_epv': np.nan,
-            'epv_is_positive': np.nan,
-            'depth': np.nan,
             'max_tilt': np.nan,
             'rmse': np.nan,
         }
 
-        # attempt regression
         try:
             params, _, infodict, _, _ = fit_mogi_function(
-                tiltable,
-                full_output=True #ignore
+                df=tiltable,
+                full_output=True
             )
-
-            # unpack param estimate and root mean squared error
-            epv, depth = params
+            epv_J, depth_m = params
             rmse = np.sqrt(mean_squared_error(
                 y_pred=infodict['fvec'],
                 y_true=tiltable['tilt']
             ))
 
-            dist_m_interval = np.arange(0, 100_000, 1000)
-            tilt_over_interval = [
-                mogi_tilt(dist=dist, epv=epv, d=depth) for dist in dist_m_interval
-            ]
-            max_tilt = tilt_over_interval[np.argmax(np.abs(tilt_over_interval))]
+            max_tilt = mogi_maximum(epv_J, depth_m, dist_m_interval)
 
             # rewrite scores in dict
-            scores['log10_epv'] = np.log10(np.abs(epv))
-            scores['epv_is_positive'] = epv > 0  # boolean
-            scores['depth'] = depth
-            scores['max_tilt'] = max_tilt
+            scores['inflation'] = epv_J > 0
+            scores['log10_epv'] = np.log10(np.abs(epv_J))
+            scores['depth_m'] = depth_m
+            scores['max_tilt'] = max_tilt['tilt']
             scores['rmse'] = rmse  # type: ignore
 
         # catch regression failure
         except OptimizeWarning:  # does not converge
             pass
-
         except RuntimeError:
             pass
-
         except ValueError:
             pass
-
-        except TypeError:  # 'func input vector length N=2 must not exceed func output vector length M=1'
+        except TypeError:
             pass
 
         scores = prepend_dict_keys(scores, f'{alignment_threshold_degrees}_')
-
         return scores
     return func
 
@@ -747,23 +750,23 @@ model_path = "../GEOL192-Model/data/"
 topo = np.genfromtxt(f'{model_path}z1.csv', delimiter=",").T
 
 
-def model_pos1_from_csv(name: str):
+def model_pos1_from_csv(name: str, topo: np.ndarray) -> np.ndarray:
     r = np.genfromtxt(model_path + "rdisp_" + name, delimiter=",")[:, 0]
     z = np.interp(r, *topo, right=0)  # interpolate z1 into topography
     return np.array([r, z]).T
 
 
-def model_disp_from_csv(name: str):
+def model_disp_from_csv(name: str) -> np.ndarray:
     r = np.genfromtxt(f'{model_path}rdisp_{name}', delimiter=",")[:, 1]
     z = np.genfromtxt(f'{model_path}zdisp_{name}', delimiter=",")[:, 1]
     return np.array([r, z]).T
 
 
-def read_model_data(params: dict):
+def read_model_data(params: dict, topo: np.ndarray) -> dict[str, np.ndarray]:
 
     filename = f"depth_{params['depth']}_radius_{params['radius']}_aspect_{params['aspect']}_pmult_{params['pmult']}_grav_{int(params['grav'])}_topo_{int(params['topo'])}.csv"
 
-    pos1 = model_pos1_from_csv(filename)
+    pos1 = model_pos1_from_csv(filename, topo)
     disp = model_disp_from_csv(filename)
 
     # make z1 flat for flat model
@@ -786,7 +789,7 @@ class NumericalModel:
     disp: np.array = field(repr=False)  # type: ignore
     rmse: float = np.nan
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
 
         self.set_params()
         self.nodes = [Node(*node) for node in zip(self.pos1, self.disp)]
@@ -794,7 +797,7 @@ class NumericalModel:
         self.edges = [Edge(*pair) for pair in self.consecutive_node_pairs]
         self.data = pd.DataFrame([vars(edge) for edge in self.edges])
 
-    def set_params(self):
+    def set_params(self) -> None:
         self.radius = self.params['radius']
         self.half_height = self.radius * self.params['aspect']
 
@@ -806,12 +809,32 @@ class NumericalModel:
         self.epv = self.over_pressure * self.res_vol
         self.depth = self.params['depth'] + self.half_height
 
-    def plot_numerical_tilt(self, label: str = None): # type: ignore
+    def plot_numerical_tilt(self, label: str = None) -> None:  # type: ignore
         sns.lineplot(data=self.data, x='dist_km', y='tilt', label=label)
 
-    def plot_numerical_displacement(self):
-        sns.lineplot(data=self.data, x='dist_km', y='disp_r', label='r')
-        sns.lineplot(data=self.data, x='dist_km', y='disp_z', label='z')
+    def plot_numerical_displacement(
+            self,
+            r_label: str = None,  # type: ignore
+            z_label: str = None  # type: ignore
+    ) -> None:
+        sns.lineplot(data=self.data, x='dist_km', y='disp_r', label=r_label)
+        sns.lineplot(data=self.data, x='dist_km', y='disp_z', label=z_label)
+
+    def plot_section(self, label: str, max_elev_m: float = 23_000) -> None:
+        depth_m = self.params['depth']
+        radius_m = self.params['radius']
+        aspect = self.params['aspect']
+
+        center_z_km = (max_elev_m - depth_m) / 1000
+        radius_km = radius_m / 1000
+        half_height_km = radius_m*aspect / 1000
+
+        t = np.linspace(-np.pi/2, np.pi/2, 100)
+        plt.plot(
+            radius_km * np.cos(t),
+            center_z_km + half_height_km * np.sin(t),
+            label=label
+        )
 
 
 def unpack_param_combinations(dict_of_lists: dict[str, list]) -> list[dict[str, float]]:
@@ -821,11 +844,11 @@ def unpack_param_combinations(dict_of_lists: dict[str, list]) -> list[dict[str, 
     return list_of_dicts
 
 
-def make_numerical_model(params: dict):
+def make_numerical_model(params: dict[str, list], topo: np.ndarray) -> NumericalModel:
     model = NumericalModel(
         params=params,
-        pos1=read_model_data(params)['pos1'],
-        disp=read_model_data(params)['disp']
+        pos1=read_model_data(params, topo)['pos1'],
+        disp=read_model_data(params, topo)['disp']
     )
     return model
 
@@ -860,22 +883,24 @@ def numerical_rmse(
 @dataclass
 class ParamSweep:
     params: list[dict]
+    topo: np.ndarray
 
-    def __post_init__(self):
-
-        self.models = [
-            make_numerical_model(model_params) for model_params in self.params
-        ]
+    def __post_init__(self) -> None:
+        self.models = []
+        for model_params in self.params:
+            try:
+                self.models.append(make_numerical_model(model_params, topo))
+            except:
+                pass
 
     def sort_models_by_rmse(self, center: Center, sIDs: list) -> None:
-        '''sort numerical models in place'''
         data = center.data.loc[sIDs]
         data_no_nulls = data[data['tilt'].notnull()]
         for model in self.models:
             try:
                 model.rmse = numerical_rmse(
-                    model, data_no_nulls # type: ignore
-                )  
+                    model, data_no_nulls  # type: ignore
+                )
             except:
                 pass
 

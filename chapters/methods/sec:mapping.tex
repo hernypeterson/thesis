@@ -12,12 +12,12 @@ While I maintain a consistent ``sense'' in mapping channels (pointing \emph{away
 
 Along each feature, I use the \hlss{Generate Points Along Line} tool with sampling interval \samplinginterval\ to create a series of point features for further attitude data collection and analysis. Note that features shorter than $<\samplinginterval$ are not sampled at all on the grounds that they are unlikely to accurately record regional paleo-topographic downhill azimuth.
 
-I use a point-based sampling approach for a few reasons. First, modern topographic attitude can be measured to high precision using the \ac{MOLA} \ac{DEM} and may vary across the length of lava features, so a single value is not appropriate.\footnote{\Acf{az1} is much less certain since lava does not always flow exactly in the regional downhill direction.} More importantly, the analysis described later in Section~\ref{sec:tilt-from-map} is extremely sensitive to position---different locations even with identical paleo- and modern attitude can imply vastly different tilt and distance relative to an axisymmetric inflation center. Finally, discrete points are necessary for the tilt-distance regression analysis in Section~\ref{sec:evaluation}.
+I use a point-based sampling approach for a few reasons. First, modern topographic attitude can be measured to high precision using the \ac{MOLA} \ac{DEM} and may vary across the length of lava features, so a single value is not appropriate. More importantly, the analysis described later in Section~\ref{sec:tilt-from-map} is extremely sensitive to position---different locations even with identical paleo- and modern attitude can imply vastly different tilt and distance relative to an axisymmetric inflation center. Finally, discrete points are necessary for the tilt-distance regression analysis in Section~\ref{sec:evaluation}.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{methods/linear-features.pdf}
     \includegraphics[width=\textwidth]{methods/linear-features-mapped.pdf}
-    \caption[Mapping linear features]{\textbf{Top:} Lobate flows and linear channel features identified from the \acs{CTX} basemap. \textbf{Bottom:} Point samples derived along the linear channel and lobate flow centerlines.}%
+    \caption[Mapping linear features]{\textbf{Top:} Lobate flows and linear channel features seen in the \acs{CTX} basemap. \textbf{Bottom:} Point samples derived along the linear channel and lobate flow centerlines mapped in the top image.}%
     \label{fig:linear-features}
 \end{figure}
 
@@ -40,7 +40,7 @@ These measurements (\acf{az1}, \acf{az2}, and \acf{sl2}) for each sample point c
     \acs{disc} = ([\acs{az2} - \acs{az1} + \ang{180}] \text{ mod } \ang{360}) - 180.
 \end{equation}
 
-Using this calculation I identify regions of highly discordant flows to target for matching with tilt solutions from Section~\ref{sec:modeling}. From preliminary analysis I suspect many discordant features will cluster closely around the caldera rim, recoding proximal collapse effects. % PUT STUFF HERE ABOUT WHAT THOSE EFFECTS ARE 
+Using this calculation I identify regions of highly discordant flows to target for matching with tilt solutions from Section~\ref{sec:modeling}. From preliminary analysis I suspect many discordant features will cluster closely around the caldera rim, recording proximal collapse effects. % TODO: PUT STUFF HERE ABOUT WHAT THOSE EFFECTS ARE 
 For assessing elastic response, I thus focus on discordant regions away from the rim.
 
 \subsection{Tilt-Distance Datasets from Attitude Data}\label{sec:tilt-from-map}
@@ -107,7 +107,7 @@ where $\acs{beta1} = \acl{beta1}$ and $\acs{beta2} = \acl{beta2}$. Thus,
 
 Results from Equation~\eqref{eq:paleo-slope} can handle a few challenges inherent to the geometry of the problem. Specifically, for some combinations of surface characteristics and center point choice, it is impossible (or implausible) to tilt the once-downhill lava flow about the imposed axis and reach the observed surface attitude. 
 
-For example, In Figure~\ref{fig:tilt-from-map} a single quadrant contains both $\left(\acs{az2},\acs{sl2}\right)$ and \acs{az1}, but if these fall on opposing sides of the \acs{dist}-axis line (one on the left, one on the right) there will be no possible translation between the two. Mathematically, this problem results in a negative \acf{sl1} calculation. Any such sample is considered ``non-tiltable'' and must be removed from consideration as a mathematical impossibility for the associated center point.
+For example, in Figure~\ref{fig:tilt-from-map} a single quadrant contains both $\left(\acs{az2},\acs{sl2}\right)$ and \acs{az1}, but if these fall on opposing sides of the \acs{dist}-axis line (one on the left, one on the right) there will be no possible translation between the two. Mathematically, this problem results in a negative \acf{sl1} calculation. Any such sample is considered ``non-tiltable'' and must be removed from consideration as a mathematical impossibility for the associated center point.
 
 As another example, consider the case when:
 \begin{equation}
@@ -115,7 +115,7 @@ As another example, consider the case when:
 \end{equation}
 The resulting argument in Equation~\eqref{eq:paleo-slope} is outside the domain of the arcsin function. Physically, this case occurs when the lava feature is nearly colinear with the modeled inflation center $(\acs{az1}\approx\acs{bearing}; \acs{beta1}\approx\ang{0})$. As with the previous case, such samples are removed on ``non-tiltable'' grounds.
 
-In a similar vein, when $|\sin\acs{beta1}|$ is only slightly greater than $|\sin\acs{beta2}\sin\acs{sl2}|$, the calculated \acs{sl1} will be unrealistically large. Although the mathematical solution is well-defined, this issue reflects the aforementioned difficulty in changing the azimuth of a flow by tilting it in the direction it is already pointing (Figure~\ref{fig:discordance-concept}). This issue is discussed in more detail in Section~\ref{sec:offset} following the conclusion of this derivation in Section~\ref{sec:map-tilt-equation}.
+% In a similar vein, when $|\sin\acs{beta1}|$ is only slightly greater than $|\sin\acs{beta2}\sin\acs{sl2}|$, the calculated \acs{sl1} will be unrealistically large (see, e.g., bottom right of Figure~\ref{fig:tilt-example}). Although the mathematical solution is well-defined, this issue reflects the aforementioned difficulty in changing the azimuth of a flow by tilting it in the direction it is already pointing (Figure~\ref{fig:discordance-concept}). This issue is discussed in more detail in Section~\ref{sec:offset} following the conclusion of this derivation in Section~\ref{sec:map-tilt-equation}.
 
 \subsubsection{Tilt Equation}\label{sec:map-tilt-equation}
 
@@ -139,12 +139,12 @@ Figure~\ref{fig:tilt-example} illustrates a complete worked example for this cal
 
 Section~\ref{sec:tiltable} introduces the ``tiltable'' criterion for samples with respect to a particular inflation center location. In particular, tilt estimates can only be obtained for certain values of the ``direction-away-from-center'' (\acs{bearing}) variable. The directions \emph{toward} these impossible centers are illustrated as the blank gaps in the colorful rims of Figure~\ref{fig:tilt-example} and described quantitatively in Section~\ref{sec:paleo-slope} (esp. Equation~\ref{eq:paleo-slope}).
 
-However, even among the tiltable centers for a particular center, it is also important to consider the reliability of the calculated tilt values. Notice in Figure~\ref{fig:tilt-example} that the highest-magnitude tilt calculations are densely clustered along one side of the \acs{bearing} line. The steep color gradient in this region indicates that tilt is sensitive to small variation in azimuth measurements of modern attitude, flow orientation, or center position. This unpredictable behavior approaches the undefined solution where the flow feature is colinear with the center candidate ($\beta1=\ang{0}$ or $\beta1=\pm\ang{180}$): no amount of tilt about the imposed axis can change the azimuth of the flow, so no tilt can be inferred from discordance (also illustrated in Figure~\ref{fig:discordance-concept}).
+However, it is also important to consider the reliability of these calculated tilt values. Notice in Figure~\ref{fig:tilt-example} that the highest-magnitude tilt calculations are densely clustered along one side of the \acs{bearing} line. The steep color gradient in this region indicates that tilt is sensitive to small variations in azimuth measurements of modern attitude, flow orientation, or center position. This unpredictable behavior approaches the undefined solution where the flow feature is colinear with the center candidate ($\beta1=\ang{0}$ or $\beta1=\pm\ang{180}$): no amount of tilt about the imposed axis can change the azimuth of the flow, so no tilt can be inferred from discordance (also illustrated in Figure~\ref{fig:discordance-concept}).
 
 To avoid error-prone results captured by this phenomenon, I introduce an ``offset'' boolean criterion to complement the tiltable criterion. This criterion is simply a minimum cutoff value of \acs{beta1} of \ang{7}, chosen to capture most of the unstable behavior for typical attitude data in this thesis. More precisely, an ``offset'' sample relative to a particular center candidate is one where the absolute value of \acs{beta1} is greater than \ang{7} and less than $\ang{180} - \ang{7}=\ang{173}$. The tiltable and offset criteria are illustrated in Figure~\ref{fig:tiltable-offset}.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{methods/tiltable-offset.png}%
-    \caption[Sample criteria: tiltable/offset]{Two boolean criteria---tiltable and offset---used to assess how well a particular center describes a particular sample. For this sample, tiltable centers are those with a colorful rim (not the blank regions), where a tilt calculation can occur. Offset centers are those which are not within \ang{7} of colinear with the flow orientation; this region is bounded with red lines. Note that only direction-to-center matters for these criteria (not distance-to-center), since direction imposes the particular tilt axis (Figure~\ref{fig:tilt-example}). Note that center-sample pair can be tiltable, offset, both, or neither, all of which are illustrated here.}
+    \caption[Sample criteria: tiltable/offset]{Two boolean criteria---tiltable and offset---used to assess how well a particular center describes a particular sample. For this sample, tiltable centers are those with a colorful rim (not the blank regions), where a tilt calculation can occur. Offset centers are those which are not within \ang{7} of colinear with the flow orientation; this region is bounded with red lines. Note that only direction-to-center matters for these criteria (not distance-to-center), since direction imposes the particular tilt axis (Figure~\ref{fig:tilt-example}). Note that a center-sample pair can be tiltable, offset, both, or neither, all of which are illustrated here.}
     \label{fig:tiltable-offset}
 \end{figure}

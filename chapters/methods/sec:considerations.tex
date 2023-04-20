@@ -10,7 +10,7 @@ Figure~\ref{fig:discordance-concept} illustrates that under certain circumstance
 
 \begin{figure}
     \input{figures/methods/discordance-concept.tex}%
-    \caption[Discordance \& attitude change]{Schematic illustration of topographic discordance resulting from two stages of surface deformation. First, a lava flow (symbolized by an arrow) is emplaced downhill on a surface. Notice it is perpendicular to the blue contour lines; the feature is not discordant. The middle (grey) surface represents the result of displacement which causes the slope to increase but does not change the downhill azimuth direction. Notice the flow is still perpendicular to the grey contour lines; it is not discordant. Solely on the basis of the lava flow on grey surface (with no knowledge of the original blue surface) it would be impossible to infer surface attitude change. Notice also that the surface deformation responsible is symmetrical across the vertical plane containing the flow. The green surface represents the result of asymmetric deformation which changes the downhill azimuth of the surface. Notice now the flow arrow is now \emph{parallel} to the contour lines; it is discordant and deformation can be inferred solely by observing the green surface.}%
+    \caption[Discordance \& attitude change]{Schematic illustration of topographic discordance resulting from two stages of surface deformation. First, a lava flow (symbolized by an arrow) is emplaced downhill on a blue surface. Notice it is perpendicular to the blue contour lines; the feature is not discordant. The middle (grey) surface represents the result of displacement which causes the slope to increase but does not change the downhill azimuth direction. Notice the flow is still perpendicular to the grey contour lines; it is not discordant. Solely on the basis of the lava flow on grey surface (with no knowledge of the original blue surface) it would be impossible to infer surface attitude change. Notice also that the surface deformation responsible is symmetrical across the vertical plane containing the flow. The green surface represents the result of asymmetric deformation which changes the downhill azimuth of the surface. Notice now the flow arrow is now \emph{parallel} to the contour lines; it is discordant and deformation can be inferred solely by observing the green surface.}%
     \label{fig:discordance-concept}
 \end{figure}
 
@@ -24,7 +24,7 @@ I instead use an orthographic\footnote{from directly above; orthogonal to the pl
 
 \begin{figure}
     \input{figures/methods/surface.tex}%
-    \caption[Orthographic pole to plane]{Pole to plane in an upper hemisphere orthographic projection. \textbf{Left:} A sloped green surface compared to a flat grey surface. The line normal to the plane (green) intersects the upper hemisphere at unit length (green dot, full hemisphere not shown for clarity). \textbf{Right:} The orthographic projection of this intersection is the ``pole'' (black dot) at a distance $\sin\varphi$ from the origin with the same azimuth $\theta$ as the downhill direction as the green surface.}%
+    \caption[Orthographic pole to plane]{Pole to plane in an upper hemisphere orthographic projection. \textbf{Left:} A sloped green surface compared to a flat grey surface. The line normal to the green plane intersects the upper hemisphere at unit length (green dot, full hemisphere not shown for clarity). \textbf{Right:} The orthographic projection of this intersection is the ``pole'' (black dot) at a distance $\sin\varphi$ from the origin with the same azimuth $\theta$ as the downhill direction as the green surface.}%
     \label{fig:surface}%
 \end{figure}
 
@@ -35,6 +35,8 @@ While I observe discordant features via satellite-derived imagery and topography
 \subsection{Physical Properties}
 
 I model the Olympus Mons edifice material as a single homogeneous basalt. The low profile of Olympus Mons (like most martian volcanoes) is analogous to terrestrial basaltic shield volcano such as Hawai'i. In the absence of geochemical or geophysical data pertaining to the internal edifice structure, I assume uniform basaltic flow material. I use a linear elastic rheology which allows for computationally inexpensive modeling and analytical surface deformation solutions \parencite{mogi_relations_1958} without sacrificing accuracy for a wide range of volcanic processes \parencite{grosfils_elastic_2015}. I treat the magma reservoir as an ellipsoidal body exerting a uniform pressure on the surrounding edifice for similar reasons. Terrestrial pluton contacts with surrounding country rock are often smoothly curving at spatial scales of tens to hundreds of meters, consistent with the tendency for complex thermal distributions to evolve toward simpler ellipsoidal geometries. Thus, an ellipsoidal reservoir within an elastic edifice is consistent to first order with a wide range of plausible and relevant circumstances (Figure~\ref{fig:reservoir-configs}).
+
+% TODO: purpose of bottom example
 
 \begin{figure}
     \includegraphics[width=\textwidth]{methods/caldera-collapse.pdf}\\

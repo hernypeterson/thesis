@@ -33,24 +33,20 @@ The \ac{FEM} is widely used to model phenomena ranging from fluid flow, heat tra
 
 From this point, an elevation transect due south from the study area center point to the base of the edifice \qty{\sim240}{\km} away represents the paleo-surface topography. This particular center point is derived from the summit of a topographic spline: an interpolation of a hypothetical paleo-topography based on the existing topography outside the \qty{19}{\km} contour (Figure~\ref{fig:paleo-topo}; compare with Figure~\ref{fig:summit}). This point is effectively identical to the center point of the outer \qty{19}{\km} contour, providing additional evidence for approximate axisymmetry outside this region. The topography of this outer region is assumed to be relatively unaffected by recent caldera and reservoir activity. % Why? 
 
-% TODO: include comparison between modern topo transect and paleo-spline transect
-
-% also note center of paleo-topo spline; both are offset to the south from caldera complex center
-
 \begin{figure}
     \includegraphics[width=\textwidth]{methods/paleo-topo.pdf}
-    \caption[Spline-derived paleo-topography]{Paleo-topography estimated to have existed prior to caldera formation; interpolated from topography outside the \qty{19}{\km} contour.}%
+    \caption[Spline-derived paleo-topography]{Paleo-topography estimated to have existed prior to caldera formation; interpolated from topography outside the \qty{19}{\km} contour. Note that both centers---one defined by the \qty{19}{\km} contour (labeled), and one interpolated from the surrounding topography (inner red contour)---are close to one another but south of the caldera complex center.}%
     \label{fig:paleo-topo}
 \end{figure}
 
 \begin{figure}
     \includegraphics[width=\textwidth]{methods/model-section.pdf}\\
     \includegraphics[width=\textwidth]{methods/model-section-zoom.pdf}%
-    \caption[Axisymmetric numerical model section]{Axisymmetric cross-section (i.e., white surface in Figure~\ref{fig:axisymmetry}) of Olympus Mons edifice with example ellipsoidal reservoirs (only one modeled at a time) and sufficient surrounding lithosphere to eliminate edge effects.}%
+    \caption[Axisymmetric numerical model section]{Axisymmetric numerical model cross-section (i.e., white surface in Figure~\ref{fig:axisymmetry}) of Olympus Mons edifice with example ellipsoidal reservoir and surrounding lithosphere. \textbf{Top:} Full model section. \textbf{Bottom:} Top left corner of top image enlarged to show ellipsoidal reservoir.}%
     \label{fig:model-section}
 \end{figure}
 
-I use the \hlss{Parametric Sweep} tool to perform a sequence of analyses which are identical except for specifically controlled parameters: depth to center $d$, reservoir radius $R$ (in plan view), aspect ratio (height divided by width) and a \ac{mult}:
+I use the \hlss{Parametric Sweep} tool to perform a sequence of analyses which are identical except for specifically controlled parameters: depth to center $d$, reservoir radius $R$ (in plan view), aspect ratio (height divided by width) and a \acf{mult}:
 \begin{equation}
     \acs{dP}=\acs{mult}\times\acs{rhor}\times\acs{g}\times d,
 \end{equation}
@@ -86,8 +82,6 @@ Additionally, \textcite{grosfils_magma_2007} showed that incorporating gravitati
     \item gravitational loading with reservoir overpressure \label{g1p1}
 \end{enumerate}
 If gravitational loading is insignificant, displacement in case~\ref{g0p1} should match the component remaining in case~\ref{g1p1} after the gravitational component from case~\ref{g1p0} is subtracted out. The reason I need to subtract out this component is that the modeled edifice is not perfectly flat. Therefore, vertical loading is not initially in equilibrium under the reservoir and some ``slumping'' occurs to accommodate this imbalance. Preliminary test results are shown in Figure~\ref{fig:grav-topo-test}.
-
-% todo: add inset box to larger fig
 
 \begin{figure}
     \includegraphics[width=\textwidth]{methods/grav-topo-test.pdf}
@@ -134,7 +128,7 @@ This key equation relates the independently calculated variables \acs{tilt} and 
 
 % \subsubsection{Physical Considerations}
 
-The physical conditions assumed in this analytical model (deep, point-like reservoir in an elastic half-sapce) are not necessarily met even within numerical models, much less the physical edifice of Olympus Mons. However, this solution serves two important roles in the subsequent analysis. 
+The physical conditions assumed in this analytical model (deep, point-like reservoir in an elastic half-space) are not necessarily met even within numerical models, much less the physical edifice of Olympus Mons. However, this solution serves two important roles in the subsequent analysis. 
 
 First, when the assumptions \emph{are} upheld\footnote{to the greatest extent possible; a reservoir of finite width and depth can never completely eliminate edge effects from the free surface above} in the numerical model, the analytical solution confirms that the model is working correctly. I show a representative example confirming this in Figure~\ref{fig:mogi-test}.
 

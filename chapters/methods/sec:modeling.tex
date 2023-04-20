@@ -1,12 +1,12 @@
 \section{Modeling Reservoir Pressure Change}\label{sec:modeling}
 
-In this section, I explore \emph{how} exactly the axisymmetric reservoir pressure change model introduced in Section~\ref{sec:considerations} would deform (change the attitude of) the surface. I pay particular attention to the effect of varying key parameters like reservoir depth, size, shape, and magnitude of pressure change. I ultimately express surface deformation in terms of attitude change for direct comparison with discordant features.
+In this section, I explore \emph{how} exactly the axisymmetric reservoir pressure change model introduced in Section~\ref{sec:considerations} would deform (change the attitude of) the surface. I pay particular attention to the effect of varying key parameters like reservoir depth, size, shape, and magnitude of pressure change. Surface deformation is expressed in terms of attitude change for direct comparison with discordant features.
 
 My first approach to quantifying surface attitude change is a numerical, which computes of \emph{displacement} for a large array of discrete positions along an axisymmetric model surface. This approach has the benefit of incorporating nearly the full array of geometric considerations (Section~\ref{sec:considerations}), including reservoir size, aspect ratio, pressure change, and depth within/below the Olympus Mons edifice. The surface displacement solution derived from this model is easily converted to a tilt solution, i.e., angular change in surface attitude.
 
-However, this numerical solution is really a family of solutions---each one corresponding to some combination of the aforementioned reservoir parameters. Ultimately, my goal is to find the best match between one model solution and one comparable map-derived dataset. The full implications of this problem are described in Section~\ref{sec:mapping}, but the short version is this: there are far too many map-datasets and model-derived solutions to manually search for matches.
+However, this numerical solution is really a family of solutions---each one corresponding to some combination of the aforementioned reservoir parameters. The primary goal is to find the best match between one model solution and one comparable map-derived dataset. The full implications of this problem are described in Section~\ref{sec:mapping}, but the short version is this: there are far too many map-datasets and model-derived solutions to manually search for matches.
 
-To solve this problem, I introduce an analytical tilt solution to complement the numerical one, derived analogously from differential displacement. to complement the numerical one. This approach necessarily reduces the geometric complexity. It assumes, for example, a spherical reservoir under a flat surface rather than a more general ellipsoid under an Olympus Mons-shaped edifice. Ultimately, it reduces to a single equation with only two parameters: depth and what I call ``inflation energy'' (\acs{epv}), the product of reservoir volume and pressure change. In other words, this solution cannot distinguish between reservoir $A$ and $B$ if reservoir $A$ is ten times bigger but the pressure change in reservoir $B$ is ten times bigger.
+To solve this problem, I introduce an analytical tilt solution to complement the numerical one, derived analogously from differential displacement. to complement the numerical one. This approach necessarily reduces the geometric complexity. It assumes, for example, a spherical reservoir under a flat surface rather than a more general ellipsoid under an Olympus Mons-shaped edifice. It reduces to a single equation with only two parameters: depth (to center) and inflation energy (\acs{epv}), the product of reservoir volume and pressure change. In other words, this solution cannot distinguish between reservoir $A$ and $B$ if reservoir $A$ is ten times bigger but the pressure change in reservoir $B$ is ten times bigger.
 
 Despite these drawbacks, the equation form of this analytical solution can be fit via a least-squares regression to an arbitrary dataset (Section~\ref{sec:evaluation}). Just as a linear least-squares regression determines the slope and intercept of a linear equation which best fits an arbitrary dataset, this non-linear regression using the determines the depth and inflation energy of the analytical tilt equation which best fits an arbitrary dataset. This regression method is an efficient and mathematically robust method for evaluating a large array of map-derived tilt datasets.
 
@@ -27,11 +27,13 @@ Despite these drawbacks, the equation form of this analytical solution can be fi
 
 % REORDER - HAS NOT BEEN MENTIONED YET
 
-I use the numerical modeling software COMSOL Multiphysics 6.1 (COMSOL) to construct a numerical representation of Olympus Mons. The axis of symmetry for this model is the vertical line through the center point discussed previously as the center of the \qty{19}{\km} contour.
+I use the numerical modeling software COMSOL Multiphysics 6.1 (COMSOL) to construct a numerical finite element representation of Olympus Mons. The axis of symmetry for this model is the vertical line through the center point discussed previously as the center of the \qty{19}{\km} contour.
 
 The \ac{FEM} is widely used to model phenomena ranging from fluid flow, heat transfer, and mechanical stress in engineering and geology. This method involves discretizing a continuous medium by constructing a \emph{mesh:} a network of nodes connected to their neighbors by edges. Polygons enclosed by these edges are called elements. Software then solves the chosen equations to compute the variables of interest only for the nodes, whose values can then be interpolated within each element to determine the solution for any point within the continuum. Relevant to this inquiry, the solution to an elastic model is a set of \emph{displacement} vectors by which to translate each node such that all forces are balanced and mechanical equilibrium is reached.
 
-From this point, elevation transect due south from the study area center point to the base of the edifice \qty{\sim240}{\km} away. This particular center point is derived from the summit of a topographic spline: an interpolation of a hypothetical paleo-topography based on the existing topography outside the \qty{19}{\km} contour (Figure~\ref{fig:paleo-topo}; compare with Figure~\ref{fig:summit}). The topography of this outer region \emph{is} roughly axisymmetric and assumed to be relatively unaffected by subsequent caldera and reservoir activity.
+From this point, an elevation transect due south from the study area center point to the base of the edifice \qty{\sim240}{\km} away represents the paleo-surface topography. This particular center point is derived from the summit of a topographic spline: an interpolation of a hypothetical paleo-topography based on the existing topography outside the \qty{19}{\km} contour (Figure~\ref{fig:paleo-topo}; compare with Figure~\ref{fig:summit}). This point is effectively identical to the center point of the outer \qty{19}{\km} contour, providing additional evidence for approximate axisymmetry outside this region. The topography of this outer region is assumed to be relatively unaffected by recent caldera and reservoir activity. % Why? 
+
+% include comparison between modern topo transect and paleo-spline transect
 
 \begin{figure}
     \includegraphics[width=\textwidth]{methods/paleo-topo.pdf}
@@ -50,14 +52,14 @@ I use the \hlss{Parametric Sweep} tool to perform a sequence of analyses which a
 \begin{equation}
     \acs{dP}=\acs{mult}\times\acs{rhor}\times\acs{g}\times d,
 \end{equation}
-where \acs{dP} is the simulated over- (positive) or under-pressure in the reservoir. For each numerical model, I output surface displacement in the radial and vertical direction as a function of distance from the inflation center.
+where \acs{dP} is the simulated over- (positive) or under-pressure in the reservoir. For each numerical model, I calculate surface displacement in the radial and vertical direction as a function of distance from the inflation center.
 
 COMSOL produces displacement data corresponding to individual model nodes. Figure~\ref{fig:tilt-from-model} shows how to derive tilt from the surface edge of an element before (initial) and after (displaced) modeled pressure change. The corresponding tilt equation is:
 \begin{equation}
     \acs{tilt} = \arctan\left({\acs{dz1}}/{\acs{dr1}}\right) - \arctan\left(\dfrac{\acs{dz1}+\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right).\label{eq:tilt-from-model}
 \end{equation}
 
-I define the distance value associated with this calculated tilt as the midpoint of the displaced edge. In practice, the horizontal scale for this edge (both before and after displacement) is negligible compared to the scale of the edifice, so another choice of distance within the edge (e.g., the midpoint of the initial surface) would produce indistinguishable results.
+I define the distance value associated with this calculated tilt as the midpoint of the displaced edge. In practice, the horizontal scale for this edge (both before and after displacement) is negligible compared to the scale of the edifice, so another choice of distance within the edge (e.g., the midpoint of the initial surface) would effectively produce identical results.
 
 \begin{figure}
     \input{figures/methods/tilt-from-model.tex}%
@@ -81,12 +83,12 @@ Additionally, \textcite{grosfils_magma_2007} showed that incorporating gravitati
     \item gravitational loading (lithostatic pre-stress) with no reservoir overpressure\label{g1p0}
     \item gravitational loading with reservoir overpressure \label{g1p1}
 \end{enumerate}
-If gravitational loading is in fact insignificant, displacement in case~\ref{g0p1} should match the component of remaining in case~\ref{g1p1} after the gravitational component from case~\ref{g1p0} is subtracted out. The reason I need to subtract out this component is that the modeled edifice is not perfectly flat. Therefore, vertical loading is not initially in equilibrium under the reservoir and some ``slumping'' occurs to accommodate this imbalance. I present preliminary test results in Figure~\ref{fig:grav-topo-test}.
+If gravitational loading is insignificant, displacement in case~\ref{g0p1} should match the component remaining in case~\ref{g1p1} after the gravitational component from case~\ref{g1p0} is subtracted out. The reason I need to subtract out this component is that the modeled edifice is not perfectly flat. Therefore, vertical loading is not initially in equilibrium under the reservoir and some ``slumping'' occurs to accommodate this imbalance. Preliminary test results are shown in Figure~\ref{fig:grav-topo-test}.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{methods/grav-topo-test.pdf}
     \includegraphics[width=\textwidth]{methods/grav-topo-test-zoom.pdf}%
-    \caption[Numerical model sensitivity to topography and gravity]{Comparison between topographic and flat model with and without gravitational loading. Patterns are consistent across a range of model parameters tested; a single representative case is plotted above, with the peak shown in more detail below. Gravitational loadings makes essentially no difference, while the flat model (topo = False) tends to underestimate tilt by a few percent.}%
+    \caption[Numerical model sensitivity to topography and gravity]{Comparison between topographic and flat model with and without gravitational loading. Patterns are consistent across a range of model parameters tested; a single representative case is plotted above, with the peak shown in more detail below. Gravitational loading makes essentially no difference, and the flat model (topo = False) tends to underestimate tilt by at most a few percent.}%
     \label{fig:grav-topo-test}%
 \end{figure}
 
@@ -94,7 +96,9 @@ As expected for the flat model, gravitational loading has no effect on surface d
 
 \subsection{Analytical Tilt-Distance Solution}\label{sec:analytical-tilt-solution}
 
-In this section, I draw on the widely cited analytical \emph{displacement} solution developed by \textcite{mogi_relations_1958} to derive an analytical \emph{tilt} solution as a counterpart to the numerical method described by Equation~\eqref{eq:tilt-from-model}. This so-called Mogi model assumes a deep spherical reservoir within a flat (``topo = False'') elastic half-space. Equation~\eqref{eq:tilt-from-model} in such a half-space ($\acs{dz1} = 0$) reduces to:
+The numerical solutions of Section~\ref{sec:numerical-tilt-solution} each predict a particular signature of surface attitude change resulting from a particular set of subsurface reservoir conditions. More convenient for this thesis would be to invert this process---estimating subsurface conditions from surface attitude change derived from observations at the surface. A simplified analytical solution helps to efficiently narrow down a large empirical tilt dataset (introduced in Section~\ref{sec:mapping}); subsequent refinements and interpretations can be made with the help of numerical solutions.
+
+I derive this analytical tilt solution from the widely cited \emph{displacement} solution of \textcite{mogi_relations_1958}. This so-called Mogi model assumes a deep spherical reservoir within a flat (``topo = False'') elastic half-space. Equation~\eqref{eq:tilt-from-model} in such a half-space ($\acs{dz1} = 0$) reduces to:
 \begin{equation}
     \acs{tilt} = 
     -\arctan\left(\dfrac{\acs{ddisp_z}}{\acs{dr1}+\acs{ddisp_r}}\right).\label{eq:tilt-from-flat-model}
@@ -126,7 +130,7 @@ This key equation relates the independently calculated variables \acs{tilt} and 
 
 % \subsubsection{Physical Considerations}
 
-The conditions assumed in this analytical model are not necessarily met even within numerical models, much less the physical edifice of Olympus Mons. However, this solution serves two important roles in the subsequent analysis. 
+The physical conditions assumed in this analytical model (deep, point-like reservoir in an elastic half-sapce) are not necessarily met even within numerical models, much less the physical edifice of Olympus Mons. However, this solution serves two important roles in the subsequent analysis. 
 
 First, when the assumptions \emph{are} upheld\footnote{to the greatest extent possible; a reservoir of finite width and depth can never completely eliminate edge effects from the free surface above} in the numerical model, the analytical solution confirms that the model is working correctly. I show a representative example confirming this in Figure~\ref{fig:mogi-test}.
 
@@ -140,6 +144,6 @@ More importantly, I show in Figure~\ref{fig:mogi-test-shallow-oblate} that even 
 
 \begin{figure}
     \includegraphics[width=\textwidth]{methods/mogi-test-shallow-oblate.pdf}%
-    \caption[Analytical model sensitivity to reservoir geometry]{Illustration of the error introduced by violating analytical assumption of a deep, point-like reservoir in a flat half-space. Specifically, this numerically modeled reservoir is oblate and close to the surface relative to its size; it also lies within a model of the Olympus Mons edifice rather than a flat half-space. Despite these factors, an analytical solution can fit the shape of this numerical data well, albeit by overestimating the depth and inflation energy responsible.}%
+    \caption[Analytical model sensitivity to reservoir geometry]{Illustration of the error introduced by violating the analytical assumption of a deep, point-like reservoir in a flat half-space. Specifically, this numerically modeled reservoir is oblate and close to the surface relative to its size; it also lies within a model of the Olympus Mons edifice rather than a flat half-space. Despite these factors, an analytical solution can fit the shape of this numerical data well, albeit by overestimating the depth and inflation energy responsible.}%
     \label{fig:mogi-test-shallow-oblate}
 \end{figure}

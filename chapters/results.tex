@@ -1,8 +1,6 @@
 \chapter{Results}\label{cha:results}
 
-\section{Mapping Coverage}
-
-Figure~\ref{fig:features} depicts mapped polygonal flows and linear channels; Figure~\ref{fig:samples} shows the samples derived from these features symbolized by discordance (\acs{disc}). Polygonal appear throughout the study area but are concentrated immediately to the west and southeast of the caldera complex. Linear flow channels are distributed more evenly around the study area, particularly in the southern half. Figure~\ref{fig:samples} shows the spatial distribution of sampled points by discordance; Figure~\ref{fig:discordance} illustrates the statistical distribution of computed discordance values. 
+Figure~\ref{fig:features} depicts mapped polygonal flows and linear channels; Figure~\ref{fig:samples} shows the samples derived from these features symbolized by the magnitude of their discordance ($|\acs{disc}|$). Polygonal flows are concentration immediately to the west and southeast of the caldera complex. Linear channels are distributed more evenly around the study area, particularly in the southern half. Figure~\ref{fig:samples} shows the spatial distribution of sampled points by discordance; Figure~\ref{fig:discordance} illustrates the statistical distribution of computed discordance values. 
 
 \begin{figure}
     \includegraphics[width=\textwidth]{results/features.pdf}%
@@ -18,15 +16,15 @@ Figure~\ref{fig:features} depicts mapped polygonal flows and linear channels; Fi
 
 \begin{figure}
     \includegraphics[width=\textwidth]{results/discordance.pdf}%
-    \caption[Statistical distribution of discordance]{Most of the 565 sampled points correspond to lava features whose azimuths diverge from the topographic downhill direction by a few tens of degrees.}%
+    \caption[Statistical distribution of discordance]{Most of the 565 sampled points correspond to lava features whose azimuths diverge from the topographic downhill direction by at most a few tens of degrees.}%
     \label{fig:discordance}
 \end{figure}
 
-The goal of this thesis is to assess elastic deformation recorded in discordant lava features. Just as important as identifying suitable regions of discordance for analysis is removing regions for which the inherent attitude data incompleteness inhibits analysis. To see this, consider Figure~\ref{fig:full-tiltable-offset}, which illustrates the paradox of the discordance method. After all the discussion of axisymmetric geometry in this thesis, one might expect the center of the (roughly) axisymmetric volcanic edifice to play a central role in assessing subsurface reservoir pressure change. Instead, this is precisely the region where the discordance method is least robust, since most of the flow and channel samples are not offset enough that pressure change would produce significant or predictable discordance. Instead, it is only the \emph{asymmetry} of the magmatic system that can be assessed here. 
+The central goal of this thesis is to assess how elastic surface deformation recorded in discordant lava features at the summit of Olympus Mons. Just as important as identifying suitable regions of discordance for analysis is removing regions for which the inherent attitude data incompleteness inhibits analysis. To see this, consider Figure~\ref{fig:full-tiltable-offset}, which illustrates the paradox of the discordance method. After all the discussion of axisymmetric geometry in this thesis, one might expect the center of the (roughly) axisymmetric volcanic edifice to play a central role in assessing subsurface reservoir pressure change. Instead, this focal center region is precisely the where the discordance method is least robust, since most of the flow and channel samples are not offset enough that pressure change would produce significant or predictable discordance. Instead, it is only the \emph{asymmetry} of the magmatic system that can be assessed here. 
 
 \begin{figure}
     \includegraphics[width=\textwidth]{results/full-tiltable-offset.pdf}%
-    \caption[Tiltable/Offset Fraction (Full Dataset) REPLACE]{REPLACE. The lava features in the study area are largely radial to the caldera center, as expected in a shield volcano. The caldera center is also the most plausible pressure change center; however, this is precisely the region which cannot be explained using the discordance method because resulting inflation does not cause lava features to change their downhill azimuth. Note here that the candidates within the caldera are the least plausible because very few of the samples in the full dataset are offset with respect to those centers.}
+    \caption[Centers by tiltable/offset fraction (all samples)]{The lava features in the study area are largely radial to the caldera center, as expected in a shield volcano. The caldera center is also the most plausible pressure change center; however, this is precisely the region which cannot be explained using the discordance method because resulting inflation does not cause lava features to change their downhill azimuth. Note here that the candidates within the caldera are the least plausible because very few of the samples in the full dataset are offset with respect to those centers.}
     \label{fig:full-tiltable-offset}
 \end{figure}
 
@@ -34,7 +32,7 @@ To assess asymmetric elements of the magmatic system, I reduce the sample datase
 
 \begin{figure}
     \includegraphics[width=\textwidth]{results/populations.pdf}%
-    \caption[Sample populations for inflation center evaluation]{I use three nearby populations of lava features from which to evaluate axisymmetric inflation candidates. These are among the most discordant features in the summit which are not immediately adjacent to the immediate caldera rim. For reference, the flows shown in the center of Figure~\ref{fig:uphill-flows} are included in population B.}%
+    \caption[Sample populations for inflation center evaluation]{These three populations contain some of the most discordant features in the summit area which are not immediately adjacent to the caldera rim. For reference, the flows shown in the center of Figure~\ref{fig:uphill-flows} are included in population B.}%
     \label{fig:populations}
 \end{figure}
 
@@ -48,7 +46,6 @@ Figure~\ref{fig:tiltable-offset-abc} illustrates the tiltable/offset fraction of
     \label{fig:tiltable-offset-abc}
 \end{figure}
 
-
 Figure~\ref{fig:rmse-abc} illustrates the analytical least-squares regression results for the tiltable/offset fraction of each center's tilt-distance dataset. These results are consistent with, and provide additional context for, Figure~\ref{fig:tiltable-offset-abc}. In particular, much of the non-offset central red region either does not converge or converges to a physically meaningless result.\footnote{Specifically, regression results are excluded for two cases depending on the maximum estimated tilt. If the maximum (or most negative) tilt is within \ang{0.1}, the center is excluded as recording essentially no deformation. On the other hand, a few analytical regression results converge with a physically impossible tilt of \ang{180}, again failing to capture physical deformation.} The main exception to this trend is a few centers which converge poorly ($\acs{RMSE}\approx\ang{10}$) just at the southern rim of the largest caldera floor. Additionally, the only convergent centers in the southeast division occur near the modern summit east of Pangboche crater. These converge to positive \acs{epv} (inflation), while the rest of the centers converge to negative \acs{epv} (deflation).
 
 Nearly all the centers in the northeast division (within/outside the eastern caldera complex) converge. Note that while these centers have slightly higher \acs{RMSE} values than those in the southern summit region, they are not necessarily ``better'' fits because the tiltable/offset fraction (sample size for regression) is significantly less in the southern summit than it is in the eastern caldera rim.
@@ -56,7 +53,7 @@ Nearly all the centers in the northeast division (within/outside the eastern cal
 \begin{figure}
     % flatten pdf annotations: https://tools.pdf24.org/en/flatten-pdf#s=1681704380798
     \includegraphics[width=\textwidth]{results/rmse-abc.pdf}%
-    \caption[Centers by analytical convergence]{Centers for which an analytical tilt solution converges on the tiltable/offset subset (Figure~\ref{fig:tiltable-offset-abc}) of the southeast populations. Blank regions either do not converge at all or converge to a physically meaningless solution. Note that both inflation from the south (black circles) or deflation from the north (plain circles) are consistent with the same regional tilt pattern back toward the eastern caldera complex. Key regions numbered for further inspection of associated tilt-distance datasets. Regions 1-5 are promising with relatively low \acs{RMSE} and high tiltable/offset fraction; 6 \& 7 illustrate important limitations of the method.}%
+    \caption[Centers by analytical convergence]{Centers for which an analytical tilt solution converges on the tiltable/offset subset (Figure~\ref{fig:tiltable-offset-abc}) of the southeast populations. Blank regions either do not converge at all or converge to a physically meaningless solution. Note that either inflation from the south (black circles) or deflation from the north (plain circles) are consistent with the same regional tilt backwards toward the eastern caldera complex. Key regions numbered for further inspection.}%
     \label{fig:rmse-abc}
 \end{figure}
 
@@ -74,7 +71,7 @@ Figures contain specific representative tilt-distance datasets for centers withi
     \includegraphics[width=\textwidth]{results/428-analytical.pdf}\\
     \includegraphics[width=\textwidth]{results/486-analytical.pdf}\\
     \includegraphics[width=\textwidth]{results/544-analytical.pdf}%
-    \caption[Southeast Caldera Rim: analytical fit]{Representative datasets for centers in region 1 (southeast caldera rim). Vertical tick marks represent distances to all samples. Scatter points represent tilt computed for the tiltable/offset samples. The analytical fit for each dataset is labeled with its \acs{RMSE}, \ang{\sim2.7} for the best fits. Despite high error, note the tilt signature is consistently negative, i.e., represents deflation as expected.}
+    \caption[Southeast caldera rim: analytical fit]{Representative datasets for centers in region 1 (southeast caldera rim). Vertical tick marks represent distances to all samples. Scatter points represent tilt computed for the tiltable/offset samples. The analytical fit for each dataset is labeled with its \acs{RMSE}, \ang{\sim2.7} for the best fits. Note the tilt signature is consistently negative, i.e., represents deflation as expected.}
     \label{fig:region1-analytical}
 \end{figure}
 
@@ -83,23 +80,31 @@ Figures contain specific representative tilt-distance datasets for centers withi
     \includegraphics[width=\textwidth]{results/403-analytical.pdf}\\
     \includegraphics[width=\textwidth]{results/432-analytical.pdf}\\
     \includegraphics[width=\textwidth]{results/549-analytical.pdf}%
-    \caption[East of Caldera Rim: analytical fit]{Representative datasets for centers in region 2 (east of caldera rim).}
+    \caption[East of caldera rim: analytical fit]{Representative datasets for centers in region 2 (east of caldera rim). Note the smaller tiltable/offset fraction than region 1 (Figure~\ref{fig:region1-analytical}); these regressions are not necessarily better fitting despite lower \acs{RMSE}. Also note the generally negative tilt signal, also consistent with deflation as expected north of the samples.}
     \label{fig:region2-analytical}
 \end{figure}
 
 \begin{figure}
+    \vspace{-12pt}
     \includegraphics[width=\textwidth]{results/17-analytical.pdf}\\
     \includegraphics[width=\textwidth]{results/24-analytical.pdf}\\
     \includegraphics[width=\textwidth]{results/151-analytical.pdf}%
-    \caption[East of Caldera Rim: analytical fit]{Representative datasets for centers in region 3 (southern summit).}
+    \caption[Southern regions: analytical fit]{Representative datasets for centers in region 3 (southern summit) and region 4 (within discordant populations). Note the low \acs{RMSE} for center 17 comes at the cost of very low tiltable/offset fraction, especially for population B. Also note that all three centers lack consistency in  tilt sign (positive/negative) across all three populations; best fit tilt solutions are near \ang{0} for all distances captured in each dataset.}
     \label{fig:region34-analytical}
 \end{figure}
 
-\section{Depth, Radius, Aspect Ratio, \& Pressure Change}
+Of the four regions identified (Figure~\ref{fig:rmse-abc}), I reject regions 3 (southern summit) and 4 (within discordant populations) because their associated tilt-distance datasets lack consistent non-zero tilt signatures---either in analytical fit or upon inspection of the datasets themselves. Regions 1 (southeast caldera rim) and 2 (east of caldera rim) contain datasets of roughly comparable mathematical fit. However, the tiltable/offset fraction is slightly greater for region 1, and its position closer to the caldera center is more plausible as a deflation center. Therefore, I proceed to fit numerical results on centers from this region.
+
+% \section{Depth, Radius, Aspect Ratio, \& Pressure Change}
+Of the three candidate centers within region 1, I begin with \#486.\footnote{It is in the center of the region and its tilt-distance dataset has an \acs{RMSE} value slightly lower than the other two.} Figure~\ref{fig:486-numerical-fits} shows results from a non-exhaustive reservoir parameter space search. The analytical fit can be improved by an array of numerical tilt solutions, three of which illustrate important takeaways:
+\begin{enumerate}
+    \item For a given reservoir shape (map view radius, aspect ratio), it is difficult to disentangle the effects of depth and pressure change.\footnote{Pressure change is related to inflation energy \acs{epv} and reservoir volume by Equation~\eqref{eq:epv}.} For example, the deep and medium reservoirs shown in Figure~\ref{fig:486-numerical-fits} have nearly identical tilt solutions despite \qty{5}{km} of vertical separation and pressure changes nearly \qty{100}{\mega\Pa} apart. 
+    \item Despite the off-center position identified, each configuration converges to a similar radius and highly oblate aspect ratio consistent to first order with caldera collapse.
+\end{enumerate}
 
 \begin{figure}
     \includegraphics[width=\textwidth]{results/486-numerical-fits.pdf}\\
     \includegraphics[width=\textwidth]{results/486-cross-sections.pdf}%
-    \caption[486 Numerical Fits]{Numerical fits for center 486 (Region 1; southeast caldera rim). Several reservoir configurations fit the dataset better than the analytical solution. Note that numerical tilt solutions can improve this fit in multiple ways; the shallow tilt solution is qualitatively different from the medium and deep solutions. Note that the two deeper reservoirs of similar shape yield similar solutions by balancing depth with pressure change magnitude. Meanwhile, a smaller shallow reservoir yields a numerical tilt solution which improves the analytical fit in a different direction.}
+    \caption[Numerical parameter fits (center 486)]{Numerical fits for center 486 (Region 1; southeast caldera rim). Several reservoir configurations fit the dataset better than the analytical solution. Note that numerical tilt solutions can improve this fit in multiple ways; the shallow tilt solution is qualitatively different from the medium and deep solutions. Note that the two deeper reservoirs of similar shape yield similar solutions by balancing depth with pressure change magnitude. Meanwhile, a smaller shallow reservoir yields a numerical tilt solution which improves the analytical fit in a different direction.}
     \label{fig:486-numerical-fits}
 \end{figure}

@@ -599,7 +599,7 @@ def fit_mogi_function(df: pd.DataFrame, full_output: bool = False) -> tuple:
 
     return fit
 
-# criteria functions to return subset_sizes and analytical regression results. These ultimately need to be passed as functions df -> dict of scores. But since both criteria depend on a alignment threshold, each df -> dict function is wrapped in a float -> Callabe function
+# criteria functions to return subset_sizes and analytical regression results. These need to be passed as functions df -> dict of scores. But since both criteria depend on a alignment threshold, each df -> dict function is wrapped in a float -> Callabe function
 
 
 def prepend_dict_keys(dict, prefix):
@@ -782,6 +782,25 @@ def read_model_data(params: dict, topo: np.ndarray) -> dict[str, np.ndarray]:
     return {'disp': disp, 'pos1': pos1}
 
 
+def plot_ellipsoidal_reservoir(
+        depth_km: float,
+        max_elev_km: float,
+        radius_km: float,
+        aspect: float,
+        label: str,
+) -> None:
+
+    center_z_km = max_elev_km - depth_km
+    half_height_km = radius_km * aspect
+
+    t = np.linspace(-np.pi/2, np.pi/2, 100)
+    plt.plot(
+        radius_km * np.cos(t),
+        center_z_km + half_height_km * np.sin(t),
+        label=label
+    )
+
+
 @dataclass
 class NumericalModel:
     params: dict
@@ -820,19 +839,12 @@ class NumericalModel:
         sns.lineplot(data=self.data, x='dist_km', y='disp_r', label=r_label)
         sns.lineplot(data=self.data, x='dist_km', y='disp_z', label=z_label)
 
-    def plot_section(self, label: str, max_elev_m: float = 23_000) -> None:
-        depth_m = self.params['depth']
-        radius_m = self.params['radius']
-        aspect = self.params['aspect']
-
-        center_z_km = (max_elev_m - depth_m) / 1000
-        radius_km = radius_m / 1000
-        half_height_km = radius_m*aspect / 1000
-
-        t = np.linspace(-np.pi/2, np.pi/2, 100)
-        plt.plot(
-            radius_km * np.cos(t),
-            center_z_km + half_height_km * np.sin(t),
+    def plot_section(self, max_elev_km: float, label: str) -> None:
+        plot_ellipsoidal_reservoir(
+            depth_km=self.params['depth'] / 1000,
+            max_elev_km=max_elev_km,
+            radius_km=self.params['radius'] / 1000,
+            aspect=self.params['aspect'],
             label=label
         )
 
@@ -907,24 +919,21 @@ class ParamSweep:
         self.models.sort(key=lambda model: model.rmse)
 
 
+def plot_mogi_tilt(
+    epv_J: float,
+    depth_m: float,
+    dist_m_interval: tuple[float, float] = (0, 100_000),
+    label: str = '',
+    color: str = 'black'
+) -> None:
+    dist_m_array = np.linspace(*dist_m_interval, 1000)
+    tilt = mogi_tilt(dist_m_array, epv_J, depth_m)
+    dist_km = dist_m_array / 1000
+
+    sns.lineplot(x=dist_km, y=tilt, c=color, label=label)
+
+
 # DEPRECATED ---------- ---------- ---------- ---------- ----------
-
-def plot_envelope(max_dist_km: float = 100_000, has_label: bool = True, color: str = 'black'):
-    dist_m = np.arange(max_dist_km)
-    max_tilt = mogi_tilt(dist_m, MAX_EPV, TEST_D)
-    min_tilt = mogi_tilt(dist_m, -MAX_EPV, TEST_D)
-    dist_km = dist_m / 1000
-
-    if has_label:
-        label = 'log$|E_{PV}\ /\ J|: $' + \
-            f'{np.round(np.log10(MAX_EPV), 1)}, ' + \
-            '$d: $' + f'{TEST_D/1000} km'
-    else:
-        label = None
-
-    sns.lineplot(x=dist_km, y=max_tilt, c=color, label=label)
-    sns.lineplot(x=dist_km, y=min_tilt, c=color)
-
 
 def is_tiltable(tilt, dist_m):
     '''check whether a given tilt-distance pair is within the tilt envelope'''

@@ -18,34 +18,21 @@ from sklearn.metrics import mean_squared_error
 
 warnings.simplefilter("error", OptimizeWarning)
 
+# physical properties
+SHEAR_MODULUS_PA = 2.4e10
+ROCK_DENSITY_KG_M3 = 2700
+MARS_GRAVITY_M_S2 = 3.72
+MARS_EQ_RADIUS_M = 3_396_200
 
-SHEAR_MODULUS = 2.4e10  # Pa
-
-ROCK_DENSITY = 2700  # kg / m^3
-MAGMA_DENSITY = 2700  # kg / m^3
-MARS_GRAVITY = 3.72  # m / s^2
-MARS_EQ_RADIUS = 3_396_200  # m
-
-AZ1_UNCERTAINTY = 7  # degrees
-
-# scale length dimensions to prevent overflow
-LENGTH_SCALE_MULT = 1_000_000
-
-# for cutoff envelope and first guess in non-linear regression
-MAX_EPV = 7e22  # J
-TEST_D = 20_000  # m
+# for non-linear regression
+TEST_EPV_J = 7e19
+TEST_DEPTH_M = 20_000
 MAX_ITERATIONS = 500
 
-regression_initial_guess = {
-    'epv_J': 7e19,
-    'depth_m': 20_000
-}
-
-# parameter conversion factor
-EPV_OVER_K = 16 * np.pi * SHEAR_MODULUS / 9
-
-
-# FUNCTIONS ____________
+# parameter conversion factor in mogi_tilt
+EPV_OVER_K = 16 * np.pi * SHEAR_MODULUS_PA / 9
+# scale length dimensions to prevent overflow in mogi_tilt
+LENGTH_SCALE_MULT = 1_000_000
 
 
 def mogi_tilt(dist, epv, d, length_scale_mult=LENGTH_SCALE_MULT):
@@ -64,12 +51,11 @@ def mogi_tilt(dist, epv, d, length_scale_mult=LENGTH_SCALE_MULT):
 
 def epv_numerical_model(depth, radius, aspect, pmult) -> float:
     volume = (4/3) * np.pi * radius**3 * aspect
-    pressure = ROCK_DENSITY * MARS_GRAVITY * depth * pmult
+    pressure = ROCK_DENSITY_KG_M3 * MARS_GRAVITY_M_S2 * depth * pmult
     return volume * pressure
 
 
-def great_circle_distance(lat1_deg, lon1_deg, lat2_deg, lon2_deg, radius=MARS_EQ_RADIUS) -> float:
-    '''distance between pts 1 and 2'''
+def great_circle_distance(lat1_deg, lon1_deg, lat2_deg, lon2_deg, radius=MARS_EQ_RADIUS_M) -> float:
     lat1 = rad(lat1_deg)
     lon1 = rad(lon1_deg)
     lat2 = rad(lat2_deg)
@@ -86,7 +72,6 @@ def great_circle_distance(lat1_deg, lon1_deg, lat2_deg, lon2_deg, radius=MARS_EQ
 
 def great_circle_bearing(lat1_deg, lon1_deg, lat2_deg, lon2_deg) -> float:
     '''azimuth from pt 1 AWAY from pt 2'''
-
     lat1 = rad(lat1_deg)
     lon1 = rad(lon1_deg)
     lat2 = rad(lat2_deg)
@@ -101,7 +86,6 @@ def great_circle_bearing(lat1_deg, lon1_deg, lat2_deg, lon2_deg) -> float:
 
 def signed_angular_difference(ang2_deg, ang1_deg) -> float:
     '''angular difference expressed in range -180 to 180'''
-
     return ((ang2_deg - ang1_deg + 180) % 360) - 180
 
 
@@ -114,7 +98,7 @@ def paleo_slope(beta1_deg, beta2_deg, sl2_deg):
     beta2 = rad(beta2_deg)
     sl2 = rad(sl2_deg)
     argument = sin(beta2) * sin(sl2) / sin(beta1)
-    if argument < 0 or argument > 1:  # not possible
+    if argument < 0 or argument > 1:
         return np.nan
     else:
         return deg(arcsin(argument))
@@ -122,7 +106,6 @@ def paleo_slope(beta1_deg, beta2_deg, sl2_deg):
 
 def great_circle_projection(beta_deg, slope_deg):
     '''project point onto great circle'''
-
     beta = rad(beta_deg)
     slope = rad(slope_deg)
     proj = arctan(tan(slope) * cos(beta))
@@ -156,8 +139,9 @@ def best_beta1(
             )
             for beta1 in beta1_possible
         ])
-        possible_tilts = np.array([great_circle_projection(beta2_deg, slope_deg)
-                                   - great_circle_projection(*paleo_pair) for paleo_pair in zip(beta1_possible, possible_paleo_slopes)])
+        possible_tilts = np.array([
+            great_circle_projection(beta2_deg, slope_deg) - great_circle_projection(*paleo_pair) for paleo_pair in zip(beta1_possible, possible_paleo_slopes)
+        ])
 
         best_beta1 = beta1_possible[np.nanargmin(np.abs(possible_tilts))]
     except RuntimeWarning:  # raised if all NaNs
@@ -196,8 +180,9 @@ def minimum_tilt(
             )
             for beta1 in beta1_possible
         ])
-        possible_tilts = np.array([great_circle_projection(beta2_deg, slope_deg)
-                                   - great_circle_projection(*paleo_pair) for paleo_pair in zip(beta1_possible, possible_paleo_slopes)])
+        possible_tilts = np.array([
+            great_circle_projection(beta2_deg, slope_deg) - great_circle_projection(*paleo_pair) for paleo_pair in zip(beta1_possible, possible_paleo_slopes)
+        ])
 
         best_tilt = possible_tilts[np.nanargmin(np.abs(possible_tilts))]
     except RuntimeWarning:  # raised if all NaNs
@@ -206,8 +191,6 @@ def minimum_tilt(
         return np.nan
 
     return best_tilt
-
-# PRELIMINARY TESTS
 
 
 def tilt_check(
@@ -456,9 +439,6 @@ def plot_tilt_distance_dataset(df: pd.DataFrame, color=None, size=None, name: st
         label=name,
     )
 
-# MAP CLASSES ______________
-
-
 @dataclass
 class Population:
     name: str
@@ -583,9 +563,9 @@ def fit_mogi_function(df: pd.DataFrame, full_output: bool = False) -> tuple:
 
     # initial guess
     if np.mean(df['tilt']) < 0:
-        p0 = -MAX_EPV / 1000, TEST_D
+        p0 = -TEST_EPV_J, TEST_DEPTH_M
     else:
-        p0 = MAX_EPV / 1000, TEST_D
+        p0 = TEST_EPV_J, TEST_DEPTH_M
 
     fit = curve_fit(
         f=mogi_tilt,
@@ -821,7 +801,7 @@ class NumericalModel:
         self.half_height = self.radius * self.params['aspect']
 
         self.over_pressure = self.params['pmult'] * \
-            self.params['depth'] * ROCK_DENSITY * MARS_GRAVITY
+            self.params['depth'] * ROCK_DENSITY_KG_M3 * MARS_GRAVITY_M_S2
 
         self.res_vol = (4 / 3) * np.pi * self.radius**2 * self.half_height
 
@@ -931,30 +911,3 @@ def plot_mogi_tilt(
     dist_km = dist_m_array / 1000
 
     sns.lineplot(x=dist_km, y=tilt, c=color, label=label)
-
-
-# DEPRECATED ---------- ---------- ---------- ---------- ----------
-
-def is_tiltable(tilt, dist_m):
-    '''check whether a given tilt-distance pair is within the tilt envelope'''
-
-    if np.isnan(tilt):
-        return False
-
-    max_tilt = mogi_tilt(dist=dist_m, epv=MAX_EPV, d=TEST_D)
-    min_tilt = mogi_tilt(dist=dist_m, epv=-MAX_EPV, d=TEST_D)
-
-    if tilt > max_tilt:
-        return False
-    if tilt < min_tilt:
-        return False
-
-    return True
-
-
-def nan_if_untiltable(row):
-
-    if is_tiltable(row['tilt'], row['dist_m']):
-        return row['tilt']
-    else:
-        return np.nan

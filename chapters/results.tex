@@ -46,7 +46,7 @@ Figure~\ref{fig:tiltable-offset-abc} illustrates the tiltable/offset fraction of
     \label{fig:tiltable-offset-abc}
 \end{figure}
 
-Figure~\ref{fig:rmse-abc} illustrates the analytical least-squares regression results for the tiltable/offset fraction of each center's tilt-distance dataset. These results are consistent with, and provide additional context for, Figure~\ref{fig:tiltable-offset-abc}. In particular, much of the non-offset central red region either does not converge or converges to a physically meaningless result.\footnote{Specifically, regression results are excluded for two cases depending on the maximum estimated tilt. If the maximum (or most negative) tilt is within \ang{0.1}, the center is excluded as recording essentially no deformation. On the other hand, a few analytical regression results converge with a physically impossible tilt of \ang{180}, again failing to capture physical deformation.} The main exception to this trend is a few centers which converge poorly ($\acs{RMSE}\approx\ang{10}$) just at the southern rim of the largest caldera floor. Additionally, the only convergent centers in the southeast division occur near the modern summit east of Pangboche crater. These converge to positive \acs{epv} (inflation), while the rest of the centers converge to negative \acs{epv} (deflation).
+Figure~\ref{fig:rmse-abc} illustrates the analytical least-squares regression results for the tiltable/offset fraction of each center's tilt-distance dataset. These results are consistent with, and provide additional context for, Figure~\ref{fig:tiltable-offset-abc}. In particular, much of the non-offset central red region either does not converge or converges to a physically meaningless result.\footnote{Regression results are excluded if the maximum magnitude in the fitted analytical solution is less than \ang{0.1} (no deformation) or greater than \ang{100} (physically impossible).} The main exception to this trend is a few centers which converge poorly ($\acs{RMSE}\approx\ang{10}$) just at the southern rim of the largest caldera floor. Additionally, the only convergent centers in the southeast division occur near the modern summit east of Pangboche crater. These converge to positive \acs{epv} (inflation), while the rest of the centers converge to negative \acs{epv} (deflation).
 
 Nearly all the centers in the northeast division (within/outside the eastern caldera complex) converge. Note that while these centers have slightly higher \acs{RMSE} values than those in the southern summit region, they are not necessarily ``better'' fits because the tiltable/offset fraction (sample size for regression) is significantly less in the southern summit than it is in the eastern caldera rim.
 
@@ -57,7 +57,7 @@ Nearly all the centers in the northeast division (within/outside the eastern cal
     \label{fig:rmse-abc}
 \end{figure}
 
-The following figures contain specific representative tilt-distance datasets for centers within each of four regions of interest labeled in Figure~\ref{fig:rmse-abc}:
+The following figures contain specific representative tilt-distance datasets for centers\footnote{Exact locations of each center are included in Appendix~\ref{app:centers-index}.} within each of four regions of interest labeled in Figure~\ref{fig:rmse-abc}:
 
 \begin{enumerate}
     \item Southeast caldera rim (Figure~\ref{fig:region1-analytical})
@@ -65,7 +65,6 @@ The following figures contain specific representative tilt-distance datasets for
     \item Southern summit (Figure~\ref{fig:region34-analytical})
     \item Within discordant features (Figure~\ref{fig:region34-analytical})
 \end{enumerate}
-Exact locations of each center are included in Appendix~\ref{app:centers-index}.
 
 \begin{figure}
     \vspace{-15pt}

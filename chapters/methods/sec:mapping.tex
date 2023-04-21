@@ -71,7 +71,7 @@ To define this array of inflation center candidates, I use the \hlss{Generate Te
 
 \subsubsection{Spatial Description of Samples}
 
-In this section I express the position of a sample point by its distance (\acs{dist}) and azimuth angle (\acs{bearing}) \emph{away} from a center candidate. The former is used directly in constructing the tilt-distance dataset; the latter is necessary to define an axis for calculating tilt. These calculations quantify the key spatial relationships introduced in Figure~\ref{fig:center-significance}. To calculate distance (\acs{dist}), I use the spherical law of cosines (Appendix~\ref{app:gcd}) scaled by the martian equatorial radius:
+In this section I express the position of a sample point by its distance (\acs{dist}) and azimuth angle (\acs{bearing}) \emph{away} from a center candidate. The former is used directly in constructing the tilt-distance dataset; the latter is necessary to define an axis for calculating tilt. These calculations quantify the key spatial relationships introduced in Figure~\ref{fig:center-significance}. To calculate distance (\acs{dist}), I use the spherical law of cosines (Appendix~\ref{app:gcd}) scaled by the Martian equatorial radius:
 \begin{equation}
     \acs{dist}=\arccos(\cos\acs{latC}\cos\acs{lat}\cos(\acs{lonC}-\acs{lon}) + \sin\acs{latC}\sin\acs{lat})\cdot\qty{3396.2}{\km},\label{eq:dist}
 \end{equation}

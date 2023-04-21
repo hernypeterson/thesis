@@ -2,6 +2,8 @@
 
 Olympus Mons (Figure~\ref{fig:edifice}) is the largest volcano in the solar system, with a diameter of roughly \qty{600}{\km} and a summit height of over \qty{20}{\km} \parencite[e.g.,][]{plescia_morphometric_2004}. At its summit is a caldera complex, \qtyrange{65}{80}{\km} in diameter, comprised of six overlapping ``patera'' floors. It is closely related spatially and morphologically to the Tharsis Montes (Arsia, Pavonis, and Ascraeus) but considered distinct because it lies outside the Tharsis Plateau~\parencite[e.g.,][]{carr_volcanism_1973}.
 
+Recent work by \textcite{chadwick_late_2015} indicates that \qtyrange{1.33e5}{1.35e6}{\km\cubed} of volcanic material was added to Olympus Mons within the last \qty{200}{Myr}, but their study does not constrain the distribution of this magma within the edifice. \textcite{mouginis-mark_late-stage_2019} posit from geomorphological observations that some of the youngest magmatic activity involved inflation of a shallow body southeast of the prominent near-summit caldera complex. In this thesis, building upon these ideas, I develop new quantitative methods for identifying the locations and volumes of recent, shallow magma bodies near the summit of Olympus Mons.
+
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{intro/edifice.pdf}
@@ -32,6 +34,8 @@ At the Olympus Mons edifice scale, \textcite{mcgovern_state_1993} predict that f
 
 At the summit, \textcite{zuber_caldera_1992} use a numerical model to constrain the physical characteristics of a magma reservoir within the Olympus Mons edifice based on mapped summit topography and tectonic features. Unlike the Tharsis Montes, whose prominent caldera systems are thought to span several hundred million years in age, all patera floors of Olympus Mons' caldera have been crater-dated to within the \qtyrange{100}{200}{Ma} range \parencite{neukum_recent_2004}. The presence of several nested caldera floors dated to within such a narrow age range suggests a complex and dynamic magmatic system, the system of interest for this study.
 
+\textcite{zuber_caldera_1992} 
+
 Likely associated with this caldera formation, \textcite{basilevsky_geologically_2006} identified lava flows on the eastern flank with crater-based ages in the same \qty{<200}{Ma} interval. Finally, it is worth pointing out that \textcite[][and others]{black_eruptibility_2016} have estimated a higher intrusive/extrusive magmatism ratio on Mars than on Earth, suggesting that observed eruptive products are likely associated with significant subsurface activity. With all this evidence for dynamic magmatic systems in the relatively recent history of Olympus Mons, I introduce the key observation which sets the stage for the current inquiry.  
 
 \section{Topographic Discordance}\label{sec:discordance}
@@ -43,21 +47,9 @@ Under the assumption that lava flows record the downhill direction at the time o
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{intro/uphill-flows.pdf}
-    \caption[Discordant lava flows]{Discordant lava flows (white) in the southern flank region. Basemap is the \acf{CTX} mosaic produced by \textcite{Dickson2018AGB}. Contours in \unit{\km}. After Figure 3 in \textcite{mouginis-mark_late-stage_2019}. Note: for the caldera contact basemap here (inset) and several subsequent figures I use a subset of the feature class from \textcite{mouginis-mark_geologic_2021}.}%
+    \caption[Discordant lava flows]{Discordant lava flows (white) in the southern flank region. Note the downhill direction they record differs from the modern topographic downhill direction (red arrows). Basemap is the \acf{CTX} mosaic produced by \textcite{Dickson2018AGB}. Contours in \unit{\km}. After Figure 3 in \textcite{mouginis-mark_late-stage_2019}. Caldera contact basemap (within inset map) from \textcite{mouginis-mark_geologic_2021}.}%
     \label{fig:uphill-flows}
 \end{figure}
 
-\section{Research Questions}
-The following research questions guide this thesis:
-\begin{enumerate}
-    \item Are discordant lava features consistent with surface deformation resulting from magma reservoir pressure change?
-    \item What subsurface pressure change event(s) best explain(s) the discordant features?
-\end{enumerate}
-
-\section{Hypotheses}
-I test the following hypotheses:
-\begin{enumerate}
-    \item The most discordant features will record a coherent (possibly non-unique) regional tilt pattern. Broader datasets dominated by low-discordance features will be less coherent and more error-prone.
-    \item Regional tilt signatures will be possible to explain under a simplified model of reservoir pressure change.  
-    \item Following the suggestion of \textcite{mouginis-mark_late-stage_2019}, post-caldera-collapse inflation in the southern summit region will best account for the most discordant flows.
-\end{enumerate}
+\section{Research Questions}\label{sec:research-questions}
+The following two research questions guide this thesis: First, are discordant lava features consistent with surface deformation resulting from magma reservoir pressure change? I hypothesize that these features are consistent with at least one plausible reservoir configuration, but the limited spatial extent of these features and simplifying assumptions will limit the explanatory power of any configuration(s) identified. The complexity involved in answering this question dictates the sequence of methods in Chapter~\ref{cha:methods}. Second, what subsurface pressure change event(s) best explain(s) the discordant features? Following the suggestion of \textcite{mouginis-mark_late-stage_2019}, I hypothesize that post-caldera-collapse inflation in the southern summit region will best account for the discordant flows. Ultimately answering this second question is the goal of Chapters~\ref{cha:results} and~\ref{cha:discussion}. 

@@ -681,9 +681,6 @@ def evaluate_center(center: Center, crit: Criterion):
     pop_subset = center.data.loc[crit.pop.sIDs]
     return crit.func(pop_subset)
 
-
-# MODEL - RELATED CLASSES -------
-
 @dataclass
 class Node:
     pos1: tuple

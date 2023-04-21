@@ -1,14 +1,40 @@
 \chapter{Discussion}\label{cha:discussion}
 
-The central goal of this thesis is to determine the extent to which discordant features at the summit of Olympus Mons can provide insight into the magma system below the surface. Researchers have approached this problem at a larger scale 
+In this chapter, I return to the guiding questions presented in Chapter~\ref{cha:intro}.
 
-Under the assumption that lava flows record the downhill direction at the time of their emplacement, discordant lava features have long been used to infer surface deformation responsible for this discrepancy. This method has been applied at a regional scale to constrain flexural loading of the lithosphere from large volcanic edifices \parencite{mouginis-mark_ancient_1982,isherwood_volcanic_2013,chadwick_late_2015} and more recently to reservoir-scale processes at the summit of Olympus Mons \parencite{mouginis-mark_late-stage_2019}. In this thesis, I use topographic discordance as a starting point but acknowledge the fundamental limitation that downhill azimuth of a lava feature is insufficient for fully describing the attitude of the surface upon which it was emplaced. A full description of paleo-attitude is crucial because it can be directly compared with the modern attitude to determine the degree of deformation that has taken place at the location of a discordant feature. Thus the overarching problem I set out to solve in Chapter~\ref{cha:methods} is completing this dataset in a physically plausible and volcanologically useful way. After solving this problem, I can compare the tilt between mapped paleo- and modern attitudes to the tilt resulting from modeled reservoir pressure change at depth.
+\emph{Does the distribution of surface tilt implied by each discordant feature exhibit a coherent regional pattern?} The amount of surface tilt implied by a particular discordant feature depends on the \emph{axis} of tilt, which in turn depends on the relative position of the inflation/deflation center (Section~\ref{sec:tilt-from-map}, esp. Figure~\ref{fig:tilt-example}). If an individual tilt calculation depends on inflation center position, the spatial distribution of implied tilt certainly does as well. Thus to answer the posed question, one could simply assume an inflation center position based on independent measurements and calculate the implied tilt for all samples, yielding a particular distribution. However, such a distribution can only be as confident as the assumptions used to determine the relevant inflation center. However, with inflation center position itself being a crucial variable to assess, I instead choose to assess a large array of center candidates. The center I ultimately choose is informed by the degree to which its associated distribution of surface tilt exhibits a coherent regional question. In other words, I answer the posed question not with a particular ``yes'' or ``no'' but with a \emph{process} for reaching the most confident ``yes'' possible. 
 
-\section{Limitations}
+\emph{Can inferred tilt be explained in terms of underlying reservoir pressure change?} I answer the previous question with a process for reaching the most confident affirmative answer. The details of that process answer this question in a similar way. In particular, I define a ``coherent regional pattern'' of tilt as one which is most consistent with a simplified analytical tilt solution corresponding to reservoir pressure change (the \textcite{mogi_relations_1958} solution).
+
+\begin{enumerate}
+    \item Does the distribution of surface tilt implied by each discordant feature exhibit a coherent regional pattern?
+    \item Can inferred tilt be explained in terms of underlying reservoir pressure change?
+    \item What subsurface pressure change event(s) best explain(s) the discordant features?
+\end{enumerate}
+
+\emph{What subsurface pressure change event(s) best explain(s) the discordant features?} The answer to the previous question addresses the goodness of fit between a particular tilt-distance dataset (associated with a particular center) and \emph{any} model inflation tilt solution. I justify this analytical approach on the grounds that a wide range of numerical tilt solutions are similar to \emph{some} analytical solution. Crucially, this includes numerical solutions whose reservoir configurations violate the analytical assumption of a deep, point-like reservoir, with the tradeoff that the matching analytical solution is not necessarily the ``right'' one from a quantitative standpoint.
+
+The central goal of this thesis is to determine the extent to which discordant lava features at the surface can provide insight into surface deformation. Researchers have approached this problem before \parencite{mouginis-mark_ancient_1982,isherwood_volcanic_2013,chadwick_late_2015} at a larger spatial scale, investigating lithospheric flexure resulting from the gravitational load of entire volcanic edifices.
+
+Applying this method to the reservoir/summit scale requires consideration of two complicating factors. First, the deformation signature of plausible explanatory processes (e.g., caldera collapse, reservoir inflation) varies sharply over the spatial scale of the discordant features themselves. For example, consider the numerical tilt solution shown in Figure~\ref{fig:mogi-test-shallow-oblate}. For a caldera-scale reservoir, surface tilt varies from \ang{0} to nearly \ang{-3} nearly back to \ang{0} all within \qty{50}{\km} of the reservoir center. Many lava flows and linear channels are of comparable or even greater lengths (Figure~\ref{fig:features}). Therefore, in this thesis I sample points along each feature to perform tilt calculations at finer spatial resolution than those necessary for regional lithospheric flexure.
+
+Second, the symmetry of the summit region itself poses a significant conundrum. The nested caldera complex provides direct evidence for the central location of major subsurface pressure change events. Additionally, the overwhelming tendency of oriented lava features (lobate flows and linear channels) is to point directly away from this caldera complex. The conundrum is in the coincident positions of inflation/deflation center and.
+
+In other words, pressure change centered in the most obvious location (the caldera complex) cannot cause discordance for the vast majority of the summit lava features. The exception to this rule is that sufficient tilt from this center could reverse the downhill direction.
+
+This problem is what the ``offset'' criterion (Section~\ref{sec:offset}) is designed to address.
+
+More recently, \parencite{mouginis-mark_late-stage_2019} argues that inflation of the southern summit is the best explanation for the discordant features southeast of the caldera rim. In this thesis I show that this explanation is less consistent with the discordant flows than asymmetry in the caldera collapse event. 
+
+Could be because my model assumes axisymmetry, but not likely because in almost all cases (except region 4) the discordant features occupy a limited angular scope relative to the modeled center. Hard to imagine a reservoir which is asymmetric enough to affect the calculations. What CAN be plausible is multiple rounds of inflation. This would violate teh assumptions of my method because the superposition of two inflation events (even if they are both roughly axisymmetric/horizontal tilt axis) would not necessarily have a horizontal tilt axis if the two events have different centers.
+
+\section{Future Methods Refinements}
+
+\section{Fundamental Limitations}
 
 Only a fraction of the study area surface is covered in flows whose orientation can be reliably determined. These flows are of different ages. They record an incomplete picture of the topographic surface upon which they were emplaced. Only those which were subsequently deformed off-axis (i.e., by an offset center, or a more complex inflation system with the same net tilt axis) become discordant. In this case, the majority of pressure change appears to have been minimally offset, if at all.
 
-\section{Future Directions}
+\section{Complimentary Methods}
 
 \subsection{Crater Counting}
 Important progress has been made toward constraining the timeline of Late Amazonian volcanic activity using crater counting \parencite{kneissl_map-projection-independent_2011,robbins_volcanic_2011,
@@ -21,4 +47,4 @@ The fundamentally missing piece of attitude data (which the whole axisymmetric t
 
 \subsection{Evaluating Model Conditions}
 
-Finally, it will be important to bring the tilt analysis beyond analytical regression fit to more careful consideration of a range of reservoir parameters. After making these more specific estimates, numerical modeling can provide more sophisticated criteria for physical plausibility than the simple cutoff envelope used here. For example, it will be important to determine whether estimated parameters would cause reservoir wall failure before the estimated pressure needed to explain the tilt signature would physically be able to accumulate. 
+\subsection{More Complex Numerical Models}

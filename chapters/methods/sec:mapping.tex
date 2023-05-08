@@ -10,7 +10,7 @@ While I maintain a consistent ``sense'' in mapping channels (pointing \emph{away
 
 \newcommand{\samplinginterval}{\qty{3}{\km}}
 
-Along each feature, I use the \hlss{Generate Points Along Line} tool with sampling interval \samplinginterval\ to create a series of point features for further attitude data collection and analysis. Note that features shorter than $<\samplinginterval$ are not sampled at all on the grounds that they are unlikely to accurately record regional paleo-topographic downhill azimuth.
+Along each feature, I use the \hlss{Generate Points Along Line} tool with sampling interval \samplinginterval\ to create a series of point features for further attitude data collection and analysis. Note that features shorter than $\samplinginterval$ are not sampled at all on the grounds that they are unlikely to accurately record regional paleo-topographic downhill azimuth.
 
 I use a point-based sampling approach for a few reasons. First, modern topographic attitude can be measured to high precision using the \ac{MOLA} \ac{DEM} and may vary across the length of lava features, so a single value is not appropriate. More importantly, the analysis described later in Section~\ref{sec:tilt-from-map} is extremely sensitive to position---different locations even with identical paleo- and modern attitude can imply vastly different tilt and distance relative to an axisymmetric inflation center. Finally, discrete points are necessary for the tilt-distance regression analysis in Section~\ref{sec:evaluation}.
 
@@ -37,11 +37,10 @@ For the modern surface attitude, I use the \hlss{Surface Parameters} tool on the
 
 These measurements (\acf{az1}, \acf{az2}, and \acf{sl2}) for each sample point constitute the first intermediate product of this section. In particular, I calculate \acl{disc} as the difference between the modern and paleo- downhill azimuths. To express \ac{disc} in the range \ang{-180} to \ang{180}, I use the explicit equation:
 \begin{equation}
-    \acs{disc} = ([\acs{az2} - \acs{az1} + \ang{180}] \text{ mod } \ang{360}) - 180.
+    \acs{disc} = ([\acs{az2} - \acs{az1} + \ang{180}] \text{ modulo } \ang{360}) - \ang{180}.
 \end{equation}
 
-Using this calculation I identify regions of highly discordant flows to target for matching with tilt solutions from Section~\ref{sec:modeling}. From preliminary analysis I suspect many discordant features will cluster closely around the caldera rim, recording proximal collapse effects. % TODO: PUT STUFF HERE ABOUT WHAT THOSE EFFECTS ARE 
-For assessing elastic response, I thus focus on discordant regions away from the rim.
+Using this calculation I identify regions of highly discordant flows to target for matching with tilt solutions from Section~\ref{sec:modeling}. From preliminary analysis I suspect many discordant features will cluster closely around the caldera rim, recording proximal collapse effects. For assessing elastic response, I thus focus on discordant regions away from the rim.
 
 \subsection{Tilt-Distance Datasets from Attitude Data}\label{sec:tilt-from-map}
 
@@ -127,7 +126,7 @@ Figure~\ref{fig:tilt-example} illustrates a complete worked example for this cal
     \includegraphics[width=.5\textwidth]{methods/tilt-check-example.pdf}\\
     \includegraphics[width=.5\textwidth]{methods/tilt-check-example-rim.png}%
     \includegraphics[width=.5\textwidth]{methods/tilt-check-rim.png}%
-    \caption[Tilt calculation example]{Tilt calculation (Equation~\ref{eq:tilt-from-map}) example. \textbf{Top Left:} A discordant feature in an upper hemisphere orthographic projection, as in Figure~\ref{fig:attitude-data}. \textbf{Top Right:} A candidate inflation center to the SSW (North is \ang{0}) implies \ang{+3.9} degrees of tilt about the dashed tilt axis to sweep a paleo-attitude ($\times$) across the blue tilt-path to reach the modern attitude. Note the tilt path is perpendicular to the tilt axis and parallel to the center direction, as in Figure~\ref{fig:tilt-from-map}. \textbf{Bottom Left:} Tilt calculation repeated for all ``directions to center'' and assigned a color on the appropriate rim location. For example, the SSW center line intersects the light green color matching \ang{3.9} of tilt. Tilts exceeding \ang{10} excluded here to highlight variation. \textbf{Bottom Right:} Example removed for clarity. Tilts exceeding \ang{10} included. Note change in color ranges; all the centers shown in the lower left have the same values here.}
+    \caption[Tilt calculation example]{Tilt calculation (Equation~\ref{eq:tilt-from-map}) example. \textbf{Top Left:} Discordant feature in an orthographic projection (Figure~\ref{fig:attitude-data}). \textbf{Top Right:} A candidate inflation center to the SSW (solid grey line) implies \ang{3.9} of tilt (about the dashed tilt axis) to sweep a paleo-attitude ($\times$) across the blue tilt-path to reach the modern attitude ($\cdot$). Note the tilt path is perpendicular to the tilt axis and parallel to the ``to center'' direction, as in Figure~\ref{fig:tilt-from-map}. Zoomed $\times5$ for clarity. \textbf{Bottom Left:} Tilt calculation repeated for all ``to center'' directions and assigned a color on the appropriate rim location. For example, the SSW ``to center'' line intersects the light green color matching \ang{3.9}. Tilts exceeding \ang{10} excluded. Zoomed $\times5$. \textbf{Bottom Right:} Example removed for clarity. Tilts exceeding \ang{10} included. Note change in color ranges, but all ``to center'' directions shown in the lower left have the same values here.}
     \label{fig:tilt-example}
 \end{figure}
 

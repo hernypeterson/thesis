@@ -1,0 +1,215 @@
+\chapter{Jupyter Notebook Environment}\label{app:jupyter}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} custom module}
+\PY{k+kn}{import} \PY{n+nn}{topodisc} \PY{k}{as} \PY{n+nn}{td}
+
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{map-data}{%
+\section{Map Data}\label{map-data}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} on my machine}
+\PY{n}{map\PYZus{}path} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{../data/map/}\PY{l+s+s2}{\PYZdq{}}
+
+\PY{n}{centers} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{map\PYZus{}path}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{centers.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{set\PYZus{}index}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cID}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{samples} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{map\PYZus{}path}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{samples.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{set\PYZus{}index}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sID}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{samples}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DISC}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{samples}\PY{o}{.}\PY{n}{apply}\PY{p}{(}
+    \PY{k}{lambda} \PY{n}{row}\PY{p}{:} \PY{p}{(}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AZ2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AZ1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{180}\PY{p}{)} \PY{o}{\PYZpc{}} \PY{l+m+mi}{360}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{l+m+mi}{180}\PY{p}{,}
+    \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}
+\PY{p}{)}
+
+\PY{n}{cIDs} \PY{o}{=} \PY{n}{centers}\PY{o}{.}\PY{n}{index}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+\PY{n}{sIDs} \PY{o}{=} \PY{n}{samples}\PY{o}{.}\PY{n}{index}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{POP\PYZus{}A\PYZus{}sIDs} \PY{o}{=} \PY{p}{[}
+    \PY{l+m+mi}{198}\PY{p}{,} \PY{l+m+mi}{438}\PY{p}{,} \PY{l+m+mi}{439}\PY{p}{,} \PY{l+m+mi}{440}\PY{p}{,} \PY{l+m+mi}{441}\PY{p}{,} \PY{l+m+mi}{442}\PY{p}{,} \PY{l+m+mi}{443}\PY{p}{,} \PY{l+m+mi}{444}\PY{p}{,} \PY{l+m+mi}{445}\PY{p}{,} \PY{l+m+mi}{490}\PY{p}{,} \PY{l+m+mi}{491}\PY{p}{,} \PY{l+m+mi}{492}\PY{p}{,} \PY{l+m+mi}{493}
+\PY{p}{]}
+
+\PY{n}{POP\PYZus{}B\PYZus{}sIDs} \PY{o}{=} \PY{p}{[}
+    \PY{l+m+mi}{193}\PY{p}{,} \PY{l+m+mi}{194}\PY{p}{,} \PY{l+m+mi}{195}\PY{p}{,} \PY{l+m+mi}{196}\PY{p}{,} \PY{l+m+mi}{197}\PY{p}{,} \PY{l+m+mi}{477}\PY{p}{,} \PY{l+m+mi}{478}\PY{p}{,} \PY{l+m+mi}{479}\PY{p}{,} \PY{l+m+mi}{480}\PY{p}{,} \PY{l+m+mi}{481}\PY{p}{,} \PY{l+m+mi}{544}\PY{p}{,} \PY{l+m+mi}{545}\PY{p}{,} \PY{l+m+mi}{548}\PY{p}{,} \PY{l+m+mi}{549}
+\PY{p}{]}
+
+\PY{n}{POP\PYZus{}C\PYZus{}sIDs} \PY{o}{=} \PY{p}{[}
+    \PY{l+m+mi}{529}\PY{p}{,} \PY{l+m+mi}{530}\PY{p}{,} \PY{l+m+mi}{531}\PY{p}{,} \PY{l+m+mi}{532}\PY{p}{,} \PY{l+m+mi}{533}\PY{p}{,} \PY{l+m+mi}{537}\PY{p}{,} \PY{l+m+mi}{538}\PY{p}{,} \PY{l+m+mi}{539}\PY{p}{,} \PY{l+m+mi}{540}\PY{p}{,} \PY{l+m+mi}{541}\PY{p}{,} \PY{l+m+mi}{542}\PY{p}{,} \PY{l+m+mi}{543}
+\PY{p}{]}
+
+\PY{n}{POP\PYZus{}ABC\PYZus{}sIDs} \PY{o}{=} \PY{n}{POP\PYZus{}A\PYZus{}sIDs} \PY{o}{+} \PY{n}{POP\PYZus{}B\PYZus{}sIDs} \PY{o}{+} \PY{n}{POP\PYZus{}C\PYZus{}sIDs}
+
+\PY{n}{pop\PYZus{}all} \PY{o}{=} \PY{n}{td}\PY{o}{.}\PY{n}{Population}\PY{p}{(}\PY{n}{name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{all}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{sIDs}\PY{o}{=}\PY{n}{sIDs}\PY{p}{)}
+\PY{n}{pop\PYZus{}abc} \PY{o}{=} \PY{n}{td}\PY{o}{.}\PY{n}{Population}\PY{p}{(}\PY{n}{name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ABC}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{sIDs}\PY{o}{=}\PY{n}{POP\PYZus{}ABC\PYZus{}sIDs}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Calculate tilt (etc.) for each sample, for each center.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{paleo\PYZus{}azimuth\PYZus{}uncertainty} \PY{o}{=} \PY{l+m+mi}{0}
+
+\PY{n}{centers\PYZus{}calc} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{n}{cID}\PY{p}{:} \PY{n}{td}\PY{o}{.}\PY{n}{make\PYZus{}center}\PY{p}{(}\PY{n}{cID}\PY{p}{,} \PY{n}{centers}\PY{p}{,} \PY{n}{samples}\PY{p}{,} \PY{n}{paleo\PYZus{}azimuth\PYZus{}uncertainty}\PY{p}{)}
+    \PY{k}{for} \PY{n}{cID} \PY{o+ow}{in} \PY{n}{cIDs}
+\PY{p}{\PYZcb{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Define criteria and perform evaluation. This takes less than two minutes
+on my machine.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{min\PYZus{}offset} \PY{o}{=} \PY{l+m+mi}{7}
+
+\PY{n}{criteria} \PY{o}{=} \PY{p}{[}
+    \PY{n}{td}\PY{o}{.}\PY{n}{Criterion}\PY{p}{(}\PY{n}{td}\PY{o}{.}\PY{n}{subset\PYZus{}sizes}\PY{p}{(}\PY{n}{min\PYZus{}offset}\PY{p}{)}\PY{p}{,} \PY{n}{pop\PYZus{}abc}\PY{p}{)}\PY{p}{,}
+    \PY{n}{td}\PY{o}{.}\PY{n}{Criterion}\PY{p}{(}\PY{n}{td}\PY{o}{.}\PY{n}{inflation\PYZus{}score}\PY{p}{(}\PY{n}{min\PYZus{}offset}\PY{p}{)}\PY{p}{,} \PY{n}{pop\PYZus{}abc}\PY{p}{)}\PY{p}{,}
+    \PY{n}{td}\PY{o}{.}\PY{n}{Criterion}\PY{p}{(}\PY{n}{td}\PY{o}{.}\PY{n}{subset\PYZus{}sizes}\PY{p}{(}\PY{n}{min\PYZus{}offset}\PY{p}{)}\PY{p}{,} \PY{n}{pop\PYZus{}all}\PY{p}{)}\PY{p}{,}
+    \PY{n}{td}\PY{o}{.}\PY{n}{Criterion}\PY{p}{(}\PY{n}{td}\PY{o}{.}\PY{n}{inflation\PYZus{}score}\PY{p}{(}\PY{n}{min\PYZus{}offset}\PY{p}{)}\PY{p}{,} \PY{n}{pop\PYZus{}all}\PY{p}{)}\PY{p}{,}
+\PY{p}{]}
+
+\PY{n}{scores} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+\PY{n}{score\PYZus{}names} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+\PY{k}{for} \PY{n}{best\PYZus{}cID}\PY{p}{,} \PY{n}{center} \PY{o+ow}{in} \PY{n}{centers\PYZus{}calc}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{scores\PYZus{}for\PYZus{}this\PYZus{}center} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{k}{for} \PY{n}{crit} \PY{o+ow}{in} \PY{n}{criteria}\PY{p}{:}
+        \PY{n}{scores\PYZus{}for\PYZus{}this\PYZus{}criterion} \PY{o}{=} \PY{n}{td}\PY{o}{.}\PY{n}{evaluate\PYZus{}center}\PY{p}{(}\PY{n}{center}\PY{p}{,} \PY{n}{crit}\PY{p}{)}
+        \PY{k}{for} \PY{n}{key}\PY{p}{,} \PY{n}{val} \PY{o+ow}{in} \PY{n}{scores\PYZus{}for\PYZus{}this\PYZus{}criterion}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{n}{scores\PYZus{}for\PYZus{}this\PYZus{}center}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{val}\PY{p}{)}
+            \PY{n}{full\PYZus{}score\PYZus{}name} \PY{o}{=} \PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{crit}\PY{o}{.}\PY{n}{pop}\PY{o}{.}\PY{n}{name}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZus{}}\PY{l+s+si}{\PYZob{}}\PY{n}{key}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}
+            \PY{k}{if} \PY{n}{full\PYZus{}score\PYZus{}name} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{score\PYZus{}names}\PY{p}{:}
+                \PY{n}{score\PYZus{}names}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{full\PYZus{}score\PYZus{}name}\PY{p}{)}
+    \PY{n}{scores}\PY{p}{[}\PY{n}{best\PYZus{}cID}\PY{p}{]} \PY{o}{=} \PY{n}{scores\PYZus{}for\PYZus{}this\PYZus{}center}
+
+\PY{n}{centers\PYZus{}eval} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{scores}\PY{p}{)}\PY{o}{.}\PY{n}{transpose}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{set\PYZus{}axis}\PY{p}{(}\PY{n}{score\PYZus{}names}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{centers\PYZus{}eval\PYZus{}no\PYZus{}infs} \PY{o}{=} \PY{n}{centers\PYZus{}eval}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{inf}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{n}{np}\PY{o}{.}\PY{n}{inf}\PY{p}{]}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{nan}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Write evaluation to disk.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{centers\PYZus{}eval\PYZus{}no\PYZus{}infs}\PY{o}{.}\PY{n}{to\PYZus{}csv}\PY{p}{(}
+    \PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{map\PYZus{}path}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{centers\PYZus{}eval.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{index\PYZus{}label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cID}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{model-data}{%
+\section{Model data}\label{model-data}}
+
+    A non-exhaustive set of parametric sweeps previously implemented in
+COMSOL. I arrived at the combinations shown here after several
+iterations of searching through increasingly fine resolution sweeps.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{shallow\PYZus{}params} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{depth}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{6000}\PY{p}{,} \PY{l+m+mi}{7000}\PY{p}{,} \PY{l+m+mi}{8000}\PY{p}{,} \PY{l+m+mi}{9000}\PY{p}{,} \PY{l+m+mi}{10\PYZus{}000}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{radius}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{25\PYZus{}000}\PY{p}{,} \PY{l+m+mi}{30\PYZus{}000}\PY{p}{,} \PY{l+m+mi}{35\PYZus{}000}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{aspect}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{0.04}\PY{p}{,} \PY{l+m+mf}{0.06}\PY{p}{,} \PY{l+m+mf}{0.08}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{0.12}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pmult}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{.2}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{.4}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{.6}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{.8}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{grav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{k+kc}{False}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{topo}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{k+kc}{True}\PY{p}{]}\PY{p}{,}
+\PY{p}{\PYZcb{}}
+
+\PY{n}{medium\PYZus{}params} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{depth}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{10\PYZus{}000}\PY{p}{,} \PY{l+m+mi}{12\PYZus{}000}\PY{p}{,} \PY{l+m+mi}{14\PYZus{}000}\PY{p}{,} \PY{l+m+mi}{16\PYZus{}000}\PY{p}{,} \PY{l+m+mi}{18\PYZus{}000}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{radius}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{35\PYZus{}000}\PY{p}{,} \PY{l+m+mi}{40\PYZus{}000}\PY{p}{,} \PY{l+m+mi}{45\PYZus{}000}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{aspect}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{0.04}\PY{p}{,} \PY{l+m+mf}{0.06}\PY{p}{,} \PY{l+m+mf}{0.08}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{0.12}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pmult}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{.2}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{.4}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{.6}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{.8}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{grav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{k+kc}{False}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{topo}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{k+kc}{True}\PY{p}{]}\PY{p}{,}
+\PY{p}{\PYZcb{}}
+
+\PY{n}{deep\PYZus{}params} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{depth}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{20\PYZus{}000}\PY{p}{,} \PY{l+m+mi}{21\PYZus{}000}\PY{p}{,} \PY{l+m+mi}{22\PYZus{}000}\PY{p}{,} \PY{l+m+mi}{23\PYZus{}000}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{radius}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mi}{44\PYZus{}000}\PY{p}{,} \PY{l+m+mi}{45\PYZus{}000}\PY{p}{,} \PY{l+m+mi}{46\PYZus{}000}\PY{p}{,} \PY{l+m+mi}{47\PYZus{}000}\PY{p}{,} \PY{l+m+mi}{48\PYZus{}000}\PY{p}{,} \PY{l+m+mi}{49\PYZus{}000}\PY{p}{,} \PY{l+m+mi}{50\PYZus{}000}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{aspect}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{l+m+mf}{0.04}\PY{p}{,} \PY{l+m+mf}{0.06}\PY{p}{,} \PY{l+m+mf}{0.08}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{0.12}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pmult}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{grav}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{k+kc}{False}\PY{p}{]}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{topo}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{k+kc}{True}\PY{p}{]}\PY{p}{,}
+\PY{p}{\PYZcb{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Calculate numerical tilt solution for every combination (from numerical
+displacement results).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} on my machine}
+\PY{n}{model\PYZus{}path} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{../data/model/}\PY{l+s+s2}{\PYZdq{}}
+
+\PY{c+c1}{\PYZsh{} paleo\PYZhy{}edifice spline data}
+\PY{n}{model\PYZus{}topo} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{genfromtxt}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{model\PYZus{}path}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{z1.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{delimiter}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{,}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{T}
+
+\PY{n}{shallow\PYZus{}sweep} \PY{o}{=} \PY{n}{td}\PY{o}{.}\PY{n}{ParamSweep}\PY{p}{(}
+    \PY{n}{td}\PY{o}{.}\PY{n}{unpack\PYZus{}param\PYZus{}combinations}\PY{p}{(}\PY{n}{shallow\PYZus{}params}\PY{p}{)}\PY{p}{,} \PY{n}{model\PYZus{}topo}
+\PY{p}{)}
+
+\PY{n}{medium\PYZus{}sweep} \PY{o}{=} \PY{n}{td}\PY{o}{.}\PY{n}{ParamSweep}\PY{p}{(}
+    \PY{n}{td}\PY{o}{.}\PY{n}{unpack\PYZus{}param\PYZus{}combinations}\PY{p}{(}\PY{n}{medium\PYZus{}params}\PY{p}{)}\PY{p}{,} \PY{n}{model\PYZus{}topo}
+\PY{p}{)}
+
+\PY{n}{deep\PYZus{}sweep} \PY{o}{=} \PY{n}{td}\PY{o}{.}\PY{n}{ParamSweep}\PY{p}{(}
+    \PY{n}{td}\PY{o}{.}\PY{n}{unpack\PYZus{}param\PYZus{}combinations}\PY{p}{(}\PY{n}{deep\PYZus{}params}\PY{p}{)}\PY{p}{,}
+    \PY{n}{model\PYZus{}topo}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    For each parametric sweep, sort the associated numerical solutions by
+RMSE fit to the tilt-distance dataset associated with the best inflation
+center candidate.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{best\PYZus{}cID} \PY{o}{=} \PY{l+m+mi}{486}
+
+\PY{n}{shallow\PYZus{}sweep}\PY{o}{.}\PY{n}{sort\PYZus{}models\PYZus{}by\PYZus{}rmse}\PY{p}{(}
+    \PY{n}{center}\PY{o}{=}\PY{n}{centers\PYZus{}calc}\PY{p}{[}\PY{n}{best\PYZus{}cID}\PY{p}{]}\PY{p}{,}
+    \PY{n}{sIDs}\PY{o}{=}\PY{n}{pop\PYZus{}abc}\PY{o}{.}\PY{n}{sIDs}
+    \PY{p}{)}
+
+\PY{n}{medium\PYZus{}sweep}\PY{o}{.}\PY{n}{sort\PYZus{}models\PYZus{}by\PYZus{}rmse}\PY{p}{(}
+    \PY{n}{center}\PY{o}{=}\PY{n}{centers\PYZus{}calc}\PY{p}{[}\PY{n}{best\PYZus{}cID}\PY{p}{]}\PY{p}{,}
+    \PY{n}{sIDs}\PY{o}{=}\PY{n}{pop\PYZus{}abc}\PY{o}{.}\PY{n}{sIDs}
+    \PY{p}{)}
+
+\PY{n}{deep\PYZus{}sweep}\PY{o}{.}\PY{n}{sort\PYZus{}models\PYZus{}by\PYZus{}rmse}\PY{p}{(}
+    \PY{n}{center}\PY{o}{=}\PY{n}{centers\PYZus{}calc}\PY{p}{[}\PY{n}{best\PYZus{}cID}\PY{p}{]}\PY{p}{,}
+    \PY{n}{sIDs}\PY{o}{=}\PY{n}{pop\PYZus{}abc}\PY{o}{.}\PY{n}{sIDs}
+    \PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Print the best fit from each sweep, which is first after being sorted by
+RMSE.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{shallow\PYZus{}sweep}\PY{o}{.}\PY{n}{models}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{medium\PYZus{}sweep}\PY{o}{.}\PY{n}{models}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{deep\PYZus{}sweep}\PY{o}{.}\PY{n}{models}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
